@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd	
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- Will be executed once at application startup -->
+	<bean id="storageManager" class="org.businessmanager.startup.StorageManager">
+		<!-- Determines if the startup script will be executed -->
+		<property name="startupScriptEnabled" value="true"></property>
+		<property name="storageMap">
+			<map>
+				<entry key-ref="userProvider" value-ref="userStrategy"></entry>
+				<entry key-ref="permissionProvider" value-ref="permissionStrategy"></entry>
+				<entry key-ref="roleProvider" value-ref="roleStrategy"></entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="userProvider" class="org.businessmanager.startup.provider.DefaultProvider">
+		<property name="objectList">
+			<list>
+				<ref bean="userAdmin" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAdmin" class="org.businessmanager.domain.security.User">
+		<property name="username" value="admin"></property>
+		<property name="password" value="admin"></property>
+		<property name="enabled" value="true"></property>
+		<property name="email" value="admin@localhost"></property>
+		<property name="mustChangePassword" value="false"></property>
+	</bean>
+
+	<bean id="userStrategy" class="org.businessmanager.startup.strategy.UserStrategy" />
+
+	<bean id="permissionProvider" class="org.businessmanager.startup.provider.DefaultProvider">
+		<property name="objectList">
+			<list>
+				<ref bean="permissionAdmin" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="permissionAdmin" class="org.businessmanager.domain.security.Permission">
+		<property name="name" value="Adminrights"></property>
+	</bean>
+
+	<bean id="permissionStrategy" class="org.businessmanager.startup.strategy.PermissionStrategy" />
+
+	<bean id="roleProvider" class="org.businessmanager.startup.provider.DefaultProvider">
+		<property name="objectList">
+			<list>
+				<ref bean="roleAdmin" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="roleAdmin" class="org.businessmanager.domain.security.Role">
+		<property name="name" value="Admin"></property>
+		<property name="members">
+			<list>
+				<ref bean="userAdmin" />
+			</list>
+		</property>
+		<property name="permissions">
+			<list>
+				<ref bean="permissionAdmin"></ref>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="roleStrategy" class="org.businessmanager.startup.strategy.RoleStrategy" />
+</beans>

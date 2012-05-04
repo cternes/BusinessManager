@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<context:component-scan base-package="springjsf" />
+	
+	<!-- Perf4J -->
+    <aop:aspectj-autoproxy/>
+
+    <bean id="timingAspect" class="org.perf4j.log4j.aop.TimingAspect"/>
+	
+	<!-- Apache Orchestra -->
+	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+      <property name="scopes">
+        <map>
+          <entry key="conversation.manual">
+            <bean class="org.apache.myfaces.orchestra.conversation.spring.SpringConversationScope">
+              <property name="timeout" value="30" />
+              <property name="advices">
+                <list>
+                  <ref bean="persistentContextConversationInterceptor"/>
+                </list>
+              </property>
+            </bean>
+          </entry>
+
+          <entry key="conversation.access">
+            <bean class="org.apache.myfaces.orchestra.conversation.spring.SpringConversationScope">
+              <property name="timeout" value="30" />
+              <property name="advices">
+                <list>
+                  <ref bean="persistentContextConversationInterceptor"/>
+                </list>
+              </property>
+              <property name="lifetime" value="access"/>
+            </bean>
+          </entry>
+        </map>
+      </property>
+    </bean>
+    <bean id="persistentContextConversationInterceptor"
+        class="org.apache.myfaces.orchestra.conversation.spring.PersistenceContextConversationInterceptor">
+      <property name="persistenceContextFactory" ref="persistentContextFactory"/>
+    </bean>
+    <bean id="persistentContextFactory"
+        class="org.apache.myfaces.orchestra.conversation.spring.JpaPersistenceContextFactory">
+      <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	
+	<!-- Define all property files here. Values will be available in all other spring config files. -->
+	<bean id="placeholderConfig"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:db.properties</value>
+				<value>classpath:placeholder.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Import beans, must be the first entry!! -->
+	<import resource="app/controllers.xml" />
+	<import resource="app/security-environment.xml" />
+	<import resource="app/startup.xml" />
+	<import resource="app/configuration.xml" />
+	<import resource="db.xml" />
+	
+	<!-- Import Apache Orchestra Spring Configuration -->
+	<import resource="classpath*:/META-INF/spring-orchestra-init.xml" />
+
+</beans>

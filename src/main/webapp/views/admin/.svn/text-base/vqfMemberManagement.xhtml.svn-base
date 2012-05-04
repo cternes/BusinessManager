@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags" 
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:param name="pageHeading" value="#{messages.vqfmembermanagement_title}" />
+	
+	<ui:define name="content">
+		<h:body>
+				<h:form id="formPanel">
+					<p:messages />
+					<p/>
+					
+					<p:dataTable id="memberList" var="member" value="#{memberListController.memberTableModel}" paginator="true" rows="10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="10" paginatorAlwaysVisible="false" emptyMessage="#{messages.empty_table_message}"
+					selection="#{memberListController.model.selectedMember}" selectionMode="single" 
+					rowKey="#{member.membershipNumber}"	paginatorPosition="top">
+						<p:ajax event="rowSelect" update=":formPanel" />
+			        	<p:column sortBy="#{member.membershipNumber}" filterBy="#{member.membershipNumber}">
+				            <f:facet name="header">
+				                    #{messages.vqfmembermanagement_member_membernumber}
+				            </f:facet>
+				            <h:outputText value="#{member.membershipNumber}"/>
+				        </p:column>
+				        
+				        <p:column sortBy="#{member.membershipName}" filterBy="#{member.membershipName}" filterMatchMode="contains">
+				            <f:facet name="header">
+				                    #{messages.vqfmembermanagement_member_membername}
+				            </f:facet>
+				            <h:outputText value="#{member.membershipName}"/>
+				        </p:column>
+					</p:dataTable>
+
+				<div class="verticalSpacing" />
+
+				<div class="stickAtRightBorder">	
+					<p:commandButton value="#{messages.vqfmembermanagement_member_update}" action="#{memberListController.navigateToMemberUpdate}" update="formPanel" disabled="#{empty memberListController.model.selectedMember}" styleClass="marginButton" />
+				    <p:commandButton value="#{messages.vqfmemberauditormanagement_wishlist_title}" action="#{memberListController.navigateToMemberWishlist}" update="formPanel" disabled="#{empty memberListController.model.selectedMember}" styleClass="marginButton" />
+				    <p:commandButton value="#{messages.vqfmemberauditormanagement_eliminationlist_title}" action="#{memberListController.navigateToMemberEliminationlist}" update="formPanel" disabled="#{empty memberListController.model.selectedMember}" styleClass="marginButton" />
+				</div>
+				</h:form>
+		</h:body>
+	</ui:define>
+</ui:composition>

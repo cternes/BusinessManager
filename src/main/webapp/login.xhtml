@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/logintemplate.xhtml">
+	<ui:define name="content">
+    <h:body>
+    	<div class="spacer"></div>
+    	<div id="center">
+    		<h2 class="contentheading">#{messages.login_title}</h2>
+			<h:form id="loginForm" prependId="false" styleClass="inputForm">
+					<p:focus context="loginForm"/>
+					<!-- Messages must be global here, to show bad credentials -->
+					<p:messages globalOnly="true"/>
+					
+					<p:panel header="#{messages.login_panel_header}">
+						<!-- Id's must not be changed to support spring security check -->
+						<h:panelGrid columns="3">
+							<h:outputLabel for="j_username" value="#{messages.login_user}:* " />  
+							<h:inputText id="j_username" required="true" label="#{messages.login_user}"/>  
+					    	<h:message for="j_username" display="text" style="color:red"/>
+					    	
+					    	<h:outputLabel for="j_password" value="#{messages.login_password}:* " />  
+							<h:inputSecret id="j_password" required="true" label="#{messages.login_password}"/>  
+					    	<h:message for="j_password" display="text" style="color:red"/>
+					    	
+					    	<p:spacer height="10" />
+					    	<p:spacer />
+					    	<p:spacer />
+					    	
+					    	<h:outputLabel for="_spring_security_remember_me" value="#{messages.login_remember}: " />
+							<h:selectBooleanCheckbox id="_spring_security_remember_me" />
+							
+							<p:commandButton type="submit" id="login" value="#{messages.login_login}" action="#{loginController.doLogin}" ajax="false" />
+						</h:panelGrid>
+					</p:panel>
+					
+			</h:form>
+		</div>
+    </h:body>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/main/java/ch/vqf/cp/web/jsf/helper
+END
+SecurityContextHelper.java
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/main/java/ch/vqf/cp/web/jsf/helper/SecurityContextHelper.java
+END
+SecurityContextHelperImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/main/java/ch/vqf/cp/web/jsf/helper/SecurityContextHelperImpl.java
+END
+FacesContextHelper.java
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/main/java/ch/vqf/cp/web/jsf/helper/FacesContextHelper.java
+END
+FacesContextHelperImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/main/java/ch/vqf/cp/web/jsf/helper/FacesContextHelperImpl.java
+END
+NavigationHelper.java
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/main/java/ch/vqf/cp/web/jsf/helper/NavigationHelper.java
+END
+BreadCrumbHelper.java
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/main/java/ch/vqf/cp/web/jsf/helper/BreadCrumbHelper.java
+END

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+      http://java.sun.com/xml/ns/javaee
+      http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+
+	<application>
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+		<locale-config>
+			<default-locale>de</default-locale>
+             <supported-locale>de</supported-locale>
+             <supported-locale>en</supported-locale>
+		</locale-config>
+		<resource-bundle>
+			<base-name>ch.vqf.cp.resource.VQFTexts</base-name>
+			<var>messages</var>
+		</resource-bundle>
+	</application>
+	
+	<!-- Inject a phase listener to interfere before rendering phase -->
+	<lifecycle>
+		<phase-listener>ch.vqf.cp.web.controller.LoginController</phase-listener>
+		<phase-listener>ch.vqf.cp.web.jsf.listener.MultiPageMessagesSupport</phase-listener>
+	</lifecycle>
+	
+	<render-kit>
+		<render-kit-id>HTML_BASIC</render-kit-id>
+			<renderer>
+				<component-family>org.primefaces.component</component-family>
+				<renderer-type>org.primefaces.component.PanelGridRenderer</renderer-type>
+				<renderer-class>ch.vqf.cp.web.jsf.renderer.ZebraPanelGridRenderer</renderer-class>
+			</renderer>
+	</render-kit>
+</faces-config>

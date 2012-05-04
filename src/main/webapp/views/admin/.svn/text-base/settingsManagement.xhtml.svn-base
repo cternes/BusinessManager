@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:param name="pageHeading" value="#{messages.globalsettings_title}" />
+	
+	<ui:define name="content">
+		<h:body>
+				<h:form id="formPanel">
+					<p:messages />
+				    <p:panel header="#{messages.globalsettings_fileupload_title}">
+						<h:panelGrid columns="3">
+							<h:outputLabel for="storageFolder" value="#{messages.globalsettings_fileupload_storage_folder}:" />
+							<p:inputText id="storageFolder" value="#{globalSettingsController.settingsMap['fileupload.storageFolder']}" styleClass="largeInput"/>
+							<h:message for="storageFolder" />
+							<!-- 
+							<h:outputLabel for="maxFileSize" value="#{messages.globalsettings_fileupload_max_file_size}:" />
+							<p:inputText id="maxFileSize" value="#{globalSettingsController.bean.maxFileSize}" />
+							<h:message for="maxFileSize" />
+							
+							<h:outputLabel for="fileTypes" value="#{messages.globalsettings_fileupload_file_types}:" />
+							<p:inputText id="fileTypes" value="#{globalSettingsController.bean.allowedFileTypes}" />
+							<h:message for="fileTypes" />
+							 -->
+						</h:panelGrid>	
+				    </p:panel>
+				    
+				    <div class="verticalSpacingSmall" />
+				    
+				    <p:panel header="#{messages.globalsettings_mail_title}">
+						<h:panelGrid columns="3">
+							<h:outputLabel for="mailHost" value="#{messages.globalsettings_mail_host}:" />
+							<p:inputText id="mailHost" value="#{globalSettingsController.settingsMap['general.mailhost']}" styleClass="largeInput"/>
+							<h:message for="mailHost" />
+							
+							<h:outputLabel for="mailSenderSeminar" value="#{messages.globalsettings_mail_sender_seminar}:" />
+							<p:inputText id="mailSenderSeminar" value="#{globalSettingsController.settingsMap['seminar.sendingEmailAddress']}" styleClass="largeInput" />
+							<h:message for="mailSenderSeminar" />
+							
+							<h:outputLabel for="mailSenderPwd" value="#{messages.globalsettings_mail_sender_password}:" />
+							<p:inputText id="mailSenderPwd" value="#{globalSettingsController.settingsMap['lostpassword.sendingEmailAddress']}" styleClass="largeInput" />
+							<h:message for="mailSenderPwd" />
+						</h:panelGrid>
+					</p:panel>
+				    <div class="verticalSpacing" />
+				    
+					<div class="stickAtRightBorder">
+						<p:commandButton value="#{messages.globalsettings_fileupload_save}" action="#{globalSettingsController.save}" update="formPanel"/>
+					</div>
+				    
+				</h:form>
+		</h:body>
+	</ui:define>
+</ui:composition>

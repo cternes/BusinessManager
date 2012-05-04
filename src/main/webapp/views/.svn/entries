@@ -1,0 +1,89 @@
+10
+
+dir
+864
+http://scmserver/svn/vqf_swa/tags/Snapshot-ConstructionIteration1/src/main/webapp/views
+http://scmserver/svn/vqf_swa
+
+
+
+2012-02-23T14:35:41.186744Z
+855
+tec
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+6fc19dcd-e403-7d47-9e43-e43896c1703b
+
+add
+dir
+
+admin
+dir
+
+assessments
+dir
+
+audit
+dir
+
+footer
+dir
+
+home.xhtml
+file
+
+
+
+
+2012-02-24T09:32:35.825000Z
+a03eee485baa5de9657c9f4ebdb28267
+2011-12-08T14:27:52.214684Z
+187
+tec
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+646
+
+mutation
+dir
+
+selfdeclaration
+dir
+
+seminar
+dir
+
+user
+dir
+

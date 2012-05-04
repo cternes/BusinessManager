@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<facelet-taglib xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd"
+	version="2.0">
+
+	<namespace>http://www.vqf.ch/tags</namespace>
+	<tag>
+		<tag-name>outputDate</tag-name>
+		<source>components/outputDate.xhtml</source>
+	</tag>
+	<tag>
+		<tag-name>address</tag-name>
+		<source>components/address.xhtml</source>
+	</tag>
+	<tag>
+		<tag-name>languageSelection</tag-name>
+		<source>components/languageSelection.xhtml</source>
+	</tag>
+	<tag>
+		<tag-name>addressManagement</tag-name>
+		<source>components/addressManagement.xhtml</source>
+	</tag>
+	<tag>
+		<tag-name>checkboxList</tag-name>
+		<source>components/checkboxList.xhtml</source>
+	</tag>
+	
+</facelet-taglib>

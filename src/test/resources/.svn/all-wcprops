@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/test/resources
+END
+test-db.xml
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/test/resources/test-db.xml
+END
+db.properties
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/test/resources/db.properties
+END
+log4j.xml
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/test/resources/log4j.xml
+END
+test-security-context.xml
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/test/resources/test-security-context.xml
+END
+version.properties
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/test/resources/version.properties
+END
+create_vqf_access_HSQL.sql
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/test/resources/create_vqf_access_HSQL.sql
+END
+test-context.xml
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/test/resources/test-context.xml
+END

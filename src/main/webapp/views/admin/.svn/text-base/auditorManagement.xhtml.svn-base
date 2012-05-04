@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags" 
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:param name="pageHeading" value="#{messages.pruefermanagement_title}" />
+	
+	<ui:define name="content">
+		<h:body>
+				<h:form id="formPanel">
+					<p:messages />
+					<p/>
+					
+					<p:dataTable id="auditorList" var="auditor" value="#{auditorListController.model.auditorList}" 
+					selection="#{auditorListController.model.selectedAuditor}" selectionMode="single" rowKey="#{auditor.id}">
+						<p:ajax event="rowSelect" update=":formPanel" />
+			        	<p:column sortBy="#{auditor.firstname}">
+				            <f:facet name="header">
+				                    #{messages.pruefermanagement_pruefer_firstname}
+				            </f:facet>
+				            <h:outputText value="#{auditor.firstname}"/>
+				        </p:column> 
+				        
+				        <p:column sortBy="#{auditor.surname}">
+				            <f:facet name="header">
+				                    #{messages.pruefermanagement_pruefer_surname}
+				            </f:facet>
+				            <h:outputText value="#{auditor.surname}"/>
+				        </p:column> 
+					</p:dataTable>
+					
+					<div class="verticalSpacing"/>
+					
+					<div class="stickAtRightBorder">
+						<p:commandButton value="#{messages.pruefermanagement_pruefer_update}" action="#{auditorListController.navigateToAuditorUpdate}" update="formPanel" disabled="#{empty auditorListController.model.selectedAuditor}" styleClass="marginButton"/>
+						<p:commandButton title="#{messages.pruefermanagement_pruefer_delete}" value="#{messages.pruefermanagement_pruefer_delete}" onclick="confirmation.show()" icon="ui-icon-closethick" rendered="#{sec:ifAnyGranted('Prüfer löschen, Administratorrecht')}" disabled="#{empty auditorListController.model.selectedAuditor}" styleClass="marginButton"/>
+					</div>
+					
+					<p:confirmDialog message="#{messages.pruefermanagement_confirmation_title}"  header="#{messages.pruefermanagement_pruefer_delete}" severity="alert" widgetVar="confirmation" width="300">  
+				        <p:commandButton value="#{messages.yes}" update="formPanel" oncomplete="confirmation.hide()"  
+				                    actionListener="#{auditorListController.deleteAuditor}" />  
+				        <p:commandButton value="#{messages.no}" onclick="confirmation.hide()" type="button" />   
+				    </p:confirmDialog>  
+				</h:form>
+		</h:body>
+	</ui:define>
+</ui:composition>

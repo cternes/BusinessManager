@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags" 
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:param name="pageHeading" value="#{messages.vqfcommunitymanagement_title}" />
+	
+	<ui:define name="content">
+		<h:body>
+				<h:form id="formPanel">
+					<p:messages />
+					<p:dataTable id="communityList" var="community" value="#{communityListController.model.communityList}" 
+					selection="#{communityListController.model.selectedCommunity}" selectionMode="single" 
+					rowKey="#{community.id}" emptyMessage="#{messages.empty_table_message}">
+						<p:ajax event="rowSelect" update=":formPanel" />
+			        	<p:column sortBy="#{community.name}">
+				            <f:facet name="header">
+				                    #{messages.vqfcommunitymanagement_name}
+				            </f:facet>
+				            <h:outputText value="#{community.name}"/>
+				        </p:column> 
+					</p:dataTable>
+					
+					<div class="verticalSpacing"/>
+				    
+					<div class="stickAtRightBorder">
+						<p:commandButton value="#{messages.vqfcommunitymanagement_update}" action="#{communityListController.navigateToCommunityUpdate}" update="formPanel" disabled="#{empty communityListController.model.selectedCommunity}" styleClass="marginButton" />
+					    <p:commandButton value="#{messages.vqfcommunitymanagement_assign_members}" action="#{communityListController.navigateToMemberAssignment}" update="formPanel" disabled="#{empty communityListController.model.selectedCommunity}" styleClass="marginButton" />
+						<p:commandButton title="#{messages.vqfcommunitymanagement_delete}" value="#{messages.vqfcommunitymanagement_delete}" onclick="confirmation.show()" icon="ui-icon-closethick" disabled="#{empty communityListController.model.selectedCommunity}" styleClass="marginButton" />
+					</div>
+					
+					<p:confirmDialog message="#{messages.are_you_sure}"  header="#{messages.vqfcommunitymanagement_delete}" severity="alert" widgetVar="confirmation" width="300">  
+				        <p:commandButton value="#{messages.yes}" update="formPanel" oncomplete="confirmation.hide()"  
+				                    actionListener="#{communityListController.deleteCommunity}" />  
+				        <p:commandButton value="#{messages.no}" onclick="confirmation.hide()" type="button" />   
+				    </p:confirmDialog>  
+				</h:form>
+		</h:body>
+	</ui:define>
+</ui:composition>

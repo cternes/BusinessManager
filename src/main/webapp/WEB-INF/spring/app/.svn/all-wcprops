@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/main/webapp/WEB-INF/spring/app
+END
+controllers.xml
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/main/webapp/WEB-INF/spring/app/controllers.xml
+END
+servlet-context.xml
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/main/webapp/WEB-INF/spring/app/servlet-context.xml
+END
+startup.xml
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/main/webapp/WEB-INF/spring/app/startup.xml
+END
+configuration.xml
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/main/webapp/WEB-INF/spring/app/configuration.xml
+END
+security-environment.xml
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/main/webapp/WEB-INF/spring/app/security-environment.xml
+END

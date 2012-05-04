@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:param name="pageHeading" value="#{messages.vqfcommunitymemberassignment_title}" />
+
+	<ui:define name="content">
+		<h:body>
+				<h:form id="formPanel">
+					<p:messages />
+					<p:focus context="formPanel"/>
+				
+					<p:panel header="Mitglieder zuweisen">
+						<h:panelGrid columns="5">
+							<h:outputLabel value="Mitgliedername/-nummer:" />
+							<p:spacer width="5"/>
+							<p:autoComplete size="35" value="#{communityMemberAssignmentController.memberSelection}" completeMethod="#{communityMemberAssignmentController.completeMembershipNumber}" minQueryLength="3">
+								<p:ajax event="itemSelect" listener="#{communityMemberAssignmentController.handleSelectedNumber}" update=":formPanel"/>
+							</p:autoComplete> 
+							<p:spacer width="15"/>
+							<p:commandButton value="#{messages.vqfcommunitymemberassignment_submit}" action="#{communityMemberAssignmentController.assignMembers}" update=":formPanel"/>	
+						</h:panelGrid>
+						<p/>
+						
+						<p:dataTable id="assignedMembers" var="member" value="#{communityMemberAssignmentController.assignedMembers}"
+							selection="#{communityMemberAssignmentController.selectedMember}" selectionMode="single"
+							rowKey="#{member.id}" emptyMessage="#{messages.empty_table_message}">
+							<p:ajax event="rowSelect" update=":formPanel" />
+						 	<p:column sortBy="#{member.membershipNumber}">
+					            <f:facet name="header">
+					                    #{messages.usermanagement_mitglied_nummer}
+					            </f:facet>
+					            <h:outputText value="#{member.membershipNumber}"></h:outputText>
+					        </p:column>
+						
+				        	<p:column sortBy="#{member.membershipName}">
+					            <f:facet name="header">
+					                    #{messages.usermanagement_mitglied_name}
+					            </f:facet>
+					            <h:outputText value="#{member.membershipName}"></h:outputText>
+					        </p:column> 
+					        
+					        <f:facet name="footer">
+					        	<div class="stickAtRightBorder">
+						        	<p:commandButton value="Entfernen" action="#{communityMemberAssignmentController.removeMember}" disabled="#{empty communityMemberAssignmentController.selectedMember}" update=":formPanel"/>
+						        	<p:commandButton value="Verantwortlichen festlegen" action="#{communityMemberAssignmentController.markResponsibleMember}" disabled="#{empty communityMemberAssignmentController.selectedMember}" update=":formPanel" styleClass="marginButton" />
+					        	</div>
+					        </f:facet>
+						</p:dataTable>
+					</p:panel>
+					
+					<p:spacer height="40" />
+				
+					<p:panel header="#{messages.vqfcommunitymemberassignment_responsible_member}">
+						<h:outputText value="#{communityMemberAssignmentController.headOfCommunity.membershipName}" />
+					</p:panel>
+					
+					<div class="verticalSpacing"/>
+						
+					<div class="stickAtRightBorder">
+						<p:commandButton value="#{messages.cancel}" action="#{communityMemberAssignmentController.navigateCancel}" immediate="true" update=":formPanel" styleClass="marginButton"/>
+						<p:commandButton value="#{messages.save_all}" action="#{communityMemberAssignmentController.saveAndProceed}" update=":formPanel" styleClass="marginButton"/>
+					</div>
+				</h:form>
+		</h:body>
+	</ui:define>
+</ui:composition>

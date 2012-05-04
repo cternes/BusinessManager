@@ -1,0 +1,101 @@
+package ch.vqf.cp.web.jsf.helper;
+
+import java.util.Locale;
+
+import javax.faces.application.FacesMessage.Severity;
+import javax.faces.context.FacesContext;
+
+/**
+ * A helper class to encapsulate the {@link FacesContext} class. This is only needed to enable unit testing with mock objects.
+ *
+ * @author Christian Ternes
+ * 
+ */
+public interface FacesContextHelper {
+	
+	/**
+	 * Retrieves the current {@link FacesContext}.
+	 * 
+	 * @return the current {@link FacesContext}
+	 */
+	public FacesContext getCurrentFacesContext();
+	
+	/**
+	 * Retrieves a parameter from the current session map.
+	 * 
+	 * @param theKey the parameter key to search for
+	 * @return the value of the parameter if found, null otherwise
+	 */
+	public String getSessionParam(String theKey);
+	
+	/**
+	 * Sets a parameter value in the current session map.
+	 * If there is already a parameter with the same key, it will be overridden.  
+	 * 
+	 * @param theKey the key of the parameter to set
+	 * @param theValue the value of the parameter
+	 */
+	public void setSessionParam(String theKey, String theValue);
+	
+	/**
+	 * Retrieves a parameter from the current request map.
+	 * 
+	 * @param theKey the parameter key to search for
+	 * @return the value of the parameter if found, null otherwise
+	 */
+	public String getRequestParam(String theKey);
+	
+	/**
+	 * Sets a parameter value in the current request map.
+	 * If there is already a parameter with the same key, it will be overridden.  
+	 * 
+	 * @param theKey theKey the key of the parameter to set
+	 * @param theValue the value of the parameter
+	 */
+	public void setRequestParam(String theKey, String theValue);
+	
+	/**
+	 * Retrieves the locale from the current session. 
+	 * 
+	 * @return the current locale from the session
+	 */
+	public Locale getLocale();
+	
+	/**
+	 * Passes a global facesMessage to the ui. The given message key will be translated into the users
+	 * locale. 
+	 * 
+	 * @param theSeverity the severity of the message
+	 * @param theMsgKey the untranslated message key of the message
+	 */
+	public void addMessage(Severity theSeverity, String theMsgKey);
+	
+	/**
+	 * Passes a non-global facesMessage to the ui. 
+	 * The message will only be shown if there is a <pre>h:message</pre> or <pre>p:message</pre> tag for the given client id. 
+	 * 
+	 * @param theClientId the client id of a component
+	 * @param theSeverity the severity of the message.
+	 * @param theMsgKey the untranslated message key of the message
+	 */
+	public void addMessage(String theClientId, Severity theSeverity, String theMsgKey);
+	
+	/**
+	 * Passes a global facesMessage to the ui. The given message key will be translated into the users
+	 * locale. 
+	 * The severity will be Error.
+	 * 
+	 * @param theMsgKey the untranslated message key of the message
+	 */
+	public void addErrorMessage(String theMsgKey);
+
+	/**
+	 * Passes a non-global facesMessage to the ui. 
+	 * The message will only be shown if there is a <pre>h:message</pre> or <pre>p:message</pre> tag for the given client id. 
+	 * The severity will be Error.
+	 * 
+	 * @param theClientId the client id of a component
+	 * @param theMsgKey the untranslated message key of the message
+	 */
+	public void addErrorMessage(String theClientId, String theMsgKey);
+}

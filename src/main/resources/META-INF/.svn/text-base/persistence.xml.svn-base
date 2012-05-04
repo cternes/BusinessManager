@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+      http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+
+	<!-- PersistenceUnit for CP datastore -->
+	<persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
+		<properties>
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.transaction.flush_before_completion"
+				value="true" />
+			<property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider" />
+			
+			<!-- Used for javamelody monitoring -->
+			<property name="hibernate.jdbc.factory_class" value="net.bull.javamelody.HibernateBatcherFactory" />
+		</properties>
+	</persistence-unit>
+	
+	<!-- PersistenceUnit for VQF-DB exchange db -->
+	<persistence-unit name="exchangeDB" transaction-type="RESOURCE_LOCAL">
+		<!-- We have to list classes explicitly, since we disabled auto-discovery -->
+		<class>ch.vqf.cp.domain.exchange.SeminarBooking</class>
+		<class>ch.vqf.cp.domain.exchange.InterfaceVqfDb</class> 
+		<exclude-unlisted-classes>true</exclude-unlisted-classes> <!-- Exclude auto-discovery of @Entity classes -->
+		<properties>
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.transaction.flush_before_completion"
+				value="true" />
+			<property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider" />
+			
+			<!-- Used for javamelody monitoring -->
+			<property name="hibernate.jdbc.factory_class" value="net.bull.javamelody.HibernateBatcherFactory" />
+		</properties>
+	</persistence-unit>
+
+</persistence>

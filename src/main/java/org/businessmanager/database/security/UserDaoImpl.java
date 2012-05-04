@@ -1,0 +1,57 @@
+package org.businessmanager.database.security;
+
+import java.util.List;
+
+import javax.persistence.NoResultException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.businessmanager.database.GenericDaoImpl;
+import org.businessmanager.domain.security.User;
+import org.businessmanager.domain.security.User_;
+import org.springframework.stereotype.Repository;
+
+/**
+ * @author Christian Ternes
+ *
+ */
+@Repository
+public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
+
+	@Override
+	public List<User> findAll() {
+		return findAll(User_.username, true);
+	}
+	
+	@Override
+	public User findUserByName(String username) {
+		CriteriaBuilder queryBuilder = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<User> query = queryBuilder.createQuery(User.class);
+		Root<User> userQuery = query.from(User.class);
+		query.select(userQuery).where(queryBuilder.equal(userQuery.get(User_.username), username));
+		
+		try {
+			return getEntityManager().createQuery(query).getSingleResult();	
+		}
+		catch(NoResultException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public User findUserByEmail(String email) {
+		List<User> list = findByAttribute(User_.email, email);
+		if(list.size() > 0) {
+			return list.get(0);
+		}
+		
+		return null;
+	}
+
+	@Override
+	public Class<User> getPersistenceClass() {
+		return User.class;
+	}
+	
+}

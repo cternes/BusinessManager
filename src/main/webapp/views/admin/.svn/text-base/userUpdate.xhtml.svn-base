@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:param name="pageHeading" value="#{userAddController.pageHeading}" />
+
+	<ui:define name="content">
+		<h:body>
+				<h:form id="formPanel" styleClass="inputForm">
+					<p:focus context="formPanel"/>
+					<p:messages id="msg" globalOnly="true"/>
+					<p:panel header="#{messages.usermanagement_title}">
+						<h:panelGrid columns="3">
+							<h:outputLabel for="txtName" value="#{messages.usermanagement_user_name}:" />
+							<p:inputText id="txtName" value="#{userAddController.userBean.name}" required="true" requiredMessage="#{messages.required_message}"/>
+							<h:message for="txtName" display="text" style="color:red"/>
+							
+							<h:outputLabel for="txtEmail" value="#{messages.usermanagement_user_email}:" />
+							<p:inputText id="txtEmail" value="#{userAddController.userBean.email}" required="true" requiredMessage="#{messages.required_message}"/>
+							<h:message for="txtEmail" display="text" style="color:red"/>
+							
+							<h:outputLabel for="txtPassword" value="#{messages.userupdate_user_password}" />
+							<p:password id="txtPassword" value="#{userAddController.userBean.password}" required="#{userAddController.isAddModus}" requiredMessage="#{messages.required_message}" feedback="false" redisplay="true"/>
+							<h:message for="txtPassword" display="text" style="color:red"/>
+							
+							<h:outputLabel for="txtConfirmPassword" value="#{messages.userupdate_user_confirmPassword}" />
+							<p:password id="txtConfirmPassword" value="#{userAddController.userBean.confirmPassword}" required="#{userAddController.isAddModus}" requiredMessage="#{messages.required_message}" feedback="false" redisplay="true"/>
+							<h:message for="txtConfirmPassword" display="text" style="color:red"/>
+							
+							<p:spacer height="10" />
+					    	<p:spacer />
+					    	<p:spacer />
+							
+							<h:outputLabel for="txtEnabled" value="#{messages.usermanagement_user_enabled}:" />
+							<h:selectBooleanCheckbox id="txtEnabled" value="#{userAddController.userBean.isEnabled}"/>
+							<h:message for="txtEnabled" display="text" style="color:red"/>
+						</h:panelGrid>
+					</p:panel>
+					<!-- 
+						<p:panel header="#{messages.usermanagement_mitgliedzuweisen}" toggleable="true" toggleSpeed="500" collapsed="#{userAddController.isMemberPanelVisible}">
+							<p:ajax event="toggle" listener="#{userAddController.handleToggleMemberPanel}" />
+							<h:panelGrid columns="3">
+								<h:outputLabel value="#{messages.usermanagement_mitgliedzugewiesen}:"></h:outputLabel>
+								<h:outputText value="#{userAddController.userBean.assignedMember.membershipName}"></h:outputText>
+								<p:commandButton value="#{messages.usermanagement_zuweisungloeschen}" action="#{userAddController.deleteMemberAssignment}" rendered="#{not empty userAddController.userBean.assignedMember}" update="formPanel" process="@this, memberList"></p:commandButton>
+							</h:panelGrid> 
+							<p:dataTable id="memberList" var="member" value="#{userAddController.memberList}" selection="#{userAddController.model.selectedMember}" 
+							rows="10" paginator="true" rowKey="#{member.id}" emptyMessage="${messages.empty_table_message}" paginatorAlwaysVisible="false">
+								<p:column selectionMode="single" />
+			        	
+					        	<p:column sortBy="#{member.membershipName}" filterBy="#{member.membershipName}" filterMatchMode="contains">
+						            <f:facet name="header">
+						                    #{messages.usermanagement_mitglied_name}
+						            </f:facet>
+						            <h:outputText value="#{member.membershipName}"></h:outputText>
+						        </p:column> 
+					        
+					        	<p:column sortBy="#{member.membershipNumber}" filterBy="#{member.membershipNumber}" filterMatchMode="contains">
+						            <f:facet name="header">
+						                    #{messages.usermanagement_mitglied_nummer}
+						            </f:facet>
+						            <h:outputText value="#{member.membershipNumber}"></h:outputText>
+						        </p:column>
+							</p:dataTable>
+					        <p:commandButton value="#{messages.usermanagement_mitgliedzuweisen}" action="#{userAddController.assignMember}" update="formPanel" process="@this, memberList"></p:commandButton>
+						</p:panel>
+						
+						<p:panel header="#{messages.usermanagement_prueferzuweisen}" toggleable="true" toggleSpeed="500" collapsed="#{userAddController.isAuditorPanelVisible}">
+							<p:ajax event="toggle" listener="#{userAddController.handleToggleAuditorPanel}" /> 
+							<h:panelGrid columns="3">
+								<h:outputLabel value="#{messages.usermanagement_prueferzugewiesen}:"></h:outputLabel>
+								<h:outputText value="#{userAddController.userBean.assignedAuditor.firstname} #{userAddController.userBean.assignedAuditor.surname}"></h:outputText>
+								<p:commandButton value="#{messages.usermanagement_zuweisungloeschen}" action="#{userAddController.deleteAuditorAssignment}" rendered="#{not empty userAddController.userBean.assignedAuditor}" update="formPanel" process="@this, auditorList"></p:commandButton>
+							</h:panelGrid>
+							<p:dataTable id="auditorList" var="auditor" value="#{userAddController.auditorList}" selection="#{userAddController.model.selectedAuditor}" 
+							rows="10" paginator="true" rowKey="#{auditor.id}" emptyMessage="${messages.empty_table_message}" paginatorAlwaysVisible="false">
+								<p:column selectionMode="single" />
+			        	
+					        	<p:column sortBy="#{auditor.firstname}" filterBy="#{auditor.firstname}" filterMatchMode="contains">
+						            <f:facet name="header">
+						                    #{messages.usermanagement_pruefer_vorname}
+						            </f:facet>
+						            <h:outputText value="#{auditor.firstname}"></h:outputText>
+						        </p:column> 
+					        
+					        	<p:column sortBy="#{auditor.surname}" filterBy="#{auditor.surname}" filterMatchMode="contains">
+						            <f:facet name="header">
+						                    #{messages.usermanagement_pruefer_nachname}
+						            </f:facet>
+						            <h:outputText value="#{auditor.surname}"></h:outputText>
+						        </p:column>
+							</p:dataTable>
+					        <p:commandButton value="#{messages.usermanagement_prueferzuweisen}" action="#{userAddController.assignAuditor}" update="formPanel" process="@this, auditorList" ></p:commandButton>
+						</p:panel>
+						 -->
+						
+						<!-- Needed to keep conversation alive -->
+						<h:inputHidden value="#{addWizardController.wizardModel.wizardMode}"></h:inputHidden>
+						
+						<div class="verticalSpacing"/>
+						
+						<div class="stickAtRightBorder">
+							<p:commandButton title="#{messages.usermanagement_cancel}" value="#{messages.usermanagement_cancel}" action="#{userAddController.navigateCancel}" immediate="true" styleClass="marginButton" />
+							<p:commandButton title="#{messages.usermanagement_user_add}" value="#{messages.usermanagement_user_add}" action="#{userAddController.addUser}" rendered="#{userAddController.isAddModus and not addWizardController.isWizardActive}" update="formPanel">
+								<f:setPropertyActionListener target="#{userAddController.model.isInitialPasswordChange}" value="false"></f:setPropertyActionListener>
+							</p:commandButton>
+							<p:commandButton title="#{messages.usermanagement_user_update}" value="#{messages.usermanagement_user_update}" action="#{userAddController.updateUser}" rendered="#{not userAddController.isAddModus}" update="formPanel" styleClass="marginButton">
+								<f:setPropertyActionListener target="#{userAddController.model.isInitialPasswordChange}" value="false"></f:setPropertyActionListener>
+							</p:commandButton>
+							
+							<p:commandButton value="#{messages.continue}" action="#{userAddController.addUser}" rendered="#{addWizardController.isWizardActive}" update="formPanel" styleClass="marginButton" icon="ui-icon-arrowthick-1-e">
+								<f:setPropertyActionListener target="#{userAddController.model.isInitialPasswordChange}" value="false"></f:setPropertyActionListener>
+							</p:commandButton>
+						</div>
+				</h:form>
+		</h:body>
+	</ui:define>
+</ui:composition>

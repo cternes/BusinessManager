@@ -1,0 +1,37 @@
+10
+
+dir
+864
+http://scmserver/svn/vqf_swa/tags/Snapshot-ConstructionIteration1/src/main/java/ch/vqf/cp/web/jsf
+http://scmserver/svn/vqf_swa
+
+
+
+2012-02-21T10:50:03.915568Z
+807
+tec
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+6fc19dcd-e403-7d47-9e43-e43896c1703b
+
+helper
+dir
+
+listener
+dir
+
+renderer
+dir
+

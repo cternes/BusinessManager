@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:param name="pageHeading" value="#{messages.roleadd_title}" />
+
+	<ui:define name="content">
+		<h:body>
+				<h:form id="formPanel">
+					<p:focus />
+					<p:messages globalOnly="true"/>
+					
+					<p:panel header="#{messages.rolemanagement_title}">
+						<h:panelGrid columns="3">
+							<h:outputLabel for="txtName" value="#{messages.roleadd_role_name}" />
+							<p:inputText id="txtName" value="#{roleAddController.roleBean.name}" required="true" requiredMessage="#{messages.required_message}"/>
+							<h:message for="txtName" display="text" style="color:red"/>
+						</h:panelGrid>
+					</p:panel>
+
+					<div class="verticalSpacing"/>
+					
+					<div class="stickAtRightBorder">
+						<p:commandButton title="#{messages.rolemanagement_cancel}" value="#{messages.rolemanagement_cancel}" ajax="false" action="#{navigationHelper.getAdminRoleManagement}" immediate="true" styleClass="marginButton"/>					
+						<p:commandButton title="#{messages.rolemanagement_role_add}" value="#{messages.rolemanagement_role_add}" action="#{roleAddController.addRole}" update="formPanel" styleClass="marginButton"/>
+					</div>
+				</h:form>
+		</h:body>
+	</ui:define>
+</ui:composition>

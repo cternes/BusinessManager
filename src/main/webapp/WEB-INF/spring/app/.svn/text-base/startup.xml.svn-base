@@ -1,0 +1,1561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd	
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- Will be executed once at application startup -->
+	<bean id="storageManager" class="ch.vqf.cp.startup.StorageManager">
+		<property name="storageMap">
+			<map>
+				<entry key-ref="participationProvider" value-ref="participationStrategy"></entry>
+				<entry key-ref="memberProvider" value-ref="memberStrategy"></entry>
+				<entry key-ref="auditorProvider" value-ref="auditorStrategy"></entry>
+				<entry key-ref="userProvider" value-ref="userStrategy"></entry>
+				<entry key-ref="permissionProvider" value-ref="permissionStrategy"></entry>
+				<entry key-ref="roleProvider" value-ref="roleStrategy"></entry>
+				<entry key-ref="assessmentProvider" value-ref="assessmentStrategy"></entry>
+				<entry key-ref="settingsProvider" value-ref="settingsStrategy"></entry>
+				<entry key-ref="selfdeclarationuielementProvider" value-ref="selfdeclarationuielementStrategy"></entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="participationProvider" class="ch.vqf.cp.startup.provider.DefaultProvider">
+		<property name="objectList">
+			<list>
+				<ref bean="participationSRO" />
+				<ref bean="participationBOVV" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="participationSRO" class="ch.vqf.cp.domain.Participation">
+    	<property name="name" value="GWG" />
+    </bean>
+    
+    <bean id="participationBOVV" class="ch.vqf.cp.domain.Participation">
+    	<property name="name" value="BOVV" />
+    </bean>
+	
+	<bean id="participationStrategy" class="ch.vqf.cp.startup.strategy.ParticipationStrategy" />
+	
+	<bean id="memberProvider" class="ch.vqf.cp.startup.provider.DefaultProvider">
+		<property name="objectList">
+			<list>
+				<ref bean="member1" />
+				<ref bean="member2" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="member1" class="ch.vqf.cp.domain.VqfMember">
+    	<property name="membershipNumber" value="11409"></property>
+    	<property name="membershipName" value="XY AG"></property>
+    	<property name="addressList">
+			<list>
+				<ref bean="address1"></ref>
+				<ref bean="address3"></ref>
+			</list>    		
+    	</property>
+    </bean>
+    
+    <bean id="member2" class="ch.vqf.cp.domain.VqfMember">
+    	<property name="membershipNumber" value="12579"></property>
+    	<property name="membershipName" value="YZ AG"></property>
+    	<property name="addressList">
+			<list>
+				<ref bean="address2"></ref>
+				<ref bean="address4"></ref>
+			</list>    		
+    	</property>
+    </bean>
+    
+    <bean id="memberStrategy" class="ch.vqf.cp.startup.strategy.VqfMemberStrategy" />
+    
+    <bean id="auditorProvider" class="ch.vqf.cp.startup.provider.DefaultProvider">
+		<property name="objectList">
+			<list>
+				<ref bean="auditor1" />
+				<ref bean="auditor2" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="auditor1" class="ch.vqf.cp.domain.Auditor">
+    	<property name="firstname" value="Felix"></property>
+    	<property name="surname" value="Freitag"></property>
+    	<property name="isAttorney" value="false"></property>
+    	<property name="isInternal" value="true"></property>
+    </bean>
+    
+    <bean id="auditor2" class="ch.vqf.cp.domain.Auditor">
+    	<property name="firstname" value="Martin"></property>
+    	<property name="surname" value="Maier"></property>
+    	<property name="isAttorney" value="false"></property>
+    	<property name="isInternal" value="true"></property>
+    </bean>
+    
+    <bean id="auditorStrategy" class="ch.vqf.cp.startup.strategy.AuditorStrategy" />
+    
+     <bean id="userProvider" class="ch.vqf.cp.startup.provider.DefaultProvider">
+		<property name="objectList">
+			<list>
+				<ref bean="user1" />
+				<ref bean="user2" />
+				<ref bean="user3" />
+				<ref bean="user4" />
+				<ref bean="user5" />
+				<ref bean="userAdmin" />
+				<ref bean="userTec" />
+				<ref bean="userSrm" />
+				<ref bean="userDaj" />
+			</list>
+		</property>
+	</bean>
+    
+    <bean id="user1" class="ch.vqf.cp.domain.security.User">
+    	<property name="username" value="felixfreitag"></property>
+    	<property name="password" value="felixfreitag"></property>
+    	<property name="enabled" value="true"></property>
+		<property name="email" value="user1@helbling.ch"></property>
+		<property name="mustChangePassword" value="false"></property>
+		<property name="auditor" ref="auditor1"></property>
+    </bean>
+    
+    <bean id="user2" class="ch.vqf.cp.domain.security.User">
+    	<property name="username" value="martinmaier"></property>
+    	<property name="password" value="martinmaier"></property>
+    	<property name="enabled" value="true"></property>
+		<property name="email" value="user2@helbling.ch"></property>
+		<property name="mustChangePassword" value="false"></property>
+		<property name="auditor" ref="auditor2"></property>
+    </bean>
+    
+    <bean id="user3" class="ch.vqf.cp.domain.security.User">
+    	<property name="username" value="11409"></property>
+    	<property name="password" value="11409"></property>
+    	<property name="enabled" value="true"></property>
+		<property name="email" value="user3@helbling.ch"></property>
+		<property name="mustChangePassword" value="false"></property>
+		<property name="vqfMember" ref="member1"></property>
+    </bean>
+    
+    <bean id="user4" class="ch.vqf.cp.domain.security.User">
+    	<property name="username" value="12579"></property>
+    	<property name="password" value="12579"></property>
+    	<property name="enabled" value="true"></property>
+		<property name="email" value="user4@helbling.ch"></property>
+		<property name="mustChangePassword" value="false"></property>
+		<property name="vqfMember" ref="member2"></property>
+    </bean>
+    
+    <bean id="user5" class="ch.vqf.cp.domain.security.User">
+    	<property name="username" value="revisorat"></property>
+    	<property name="password" value="revisorat"></property>
+    	<property name="enabled" value="true"></property>
+		<property name="email" value="user5@helbling.ch"></property>
+		<property name="mustChangePassword" value="false"></property>
+    </bean>
+     
+    <bean id="userAdmin" class="ch.vqf.cp.domain.security.User">
+    	<property name="username" value="admin"></property>
+    	<property name="password" value="admin"></property>
+    	<property name="enabled" value="true"></property>
+		<property name="email" value="user6@helbling.ch"></property>
+		<property name="mustChangePassword" value="false"></property>
+    </bean>
+    
+    <bean id="userTec" class="ch.vqf.cp.domain.security.User">
+    	<property name="username" value="tec"></property>
+    	<property name="password" value="tec"></property>
+    	<property name="enabled" value="true"></property>
+		<property name="email" value="christian.ternes@helbling.ch"></property>
+		<property name="mustChangePassword" value="false"></property>
+    </bean>
+    
+    <bean id="userSrm" class="ch.vqf.cp.domain.security.User">
+    	<property name="username" value="srm"></property>
+    	<property name="password" value="srm"></property>
+    	<property name="enabled" value="true"></property>
+		<property name="email" value="markus.sauter@helbling.ch"></property>
+		<property name="mustChangePassword" value="false"></property>
+    </bean>
+    
+    <bean id="userDaj" class="ch.vqf.cp.domain.security.User">
+    	<property name="username" value="daj"></property>
+    	<property name="password" value="daj"></property>
+    	<property name="enabled" value="true"></property>
+		<property name="email" value="daniel.jutzi@helbling.ch"></property>
+		<property name="mustChangePassword" value="false"></property>
+    </bean>
+    
+    <bean id="userStrategy" class="ch.vqf.cp.startup.strategy.UserStrategy" />
+
+	<bean id="permissionProvider" class="ch.vqf.cp.startup.provider.DefaultProvider">
+		<property name="objectList">
+			<list>
+				<ref bean="perm1" />
+				<ref bean="perm2" />
+				<ref bean="perm3" />
+				<ref bean="perm4" />
+				<ref bean="perm5" />
+				<ref bean="perm6" />
+				<ref bean="perm7" />
+				<ref bean="perm8" />
+				<ref bean="perm9" />
+				<ref bean="perm10" />
+				<ref bean="perm11" />
+				<ref bean="perm12" />
+				<ref bean="perm13" />
+				<ref bean="perm14" />
+				<ref bean="perm15" />
+				<ref bean="perm16" />
+				<ref bean="perm17" />
+				<ref bean="perm18" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="perm1" class="ch.vqf.cp.domain.security.Permission">
+    	<property name="name" value="Administratorrecht"></property>
+    </bean>
+    
+    <bean id="perm2" class="ch.vqf.cp.domain.security.Permission">
+    	<property name="name" value="Rollen hinzufügen"></property>
+    </bean>
+    
+    <bean id="perm3" class="ch.vqf.cp.domain.security.Permission">
+    	<property name="name" value="Rollen löschen"></property>
+    </bean>
+    
+    <bean id="perm4" class="ch.vqf.cp.domain.security.Permission">
+    	<property name="name" value="Navigation Selbstdeklaration"></property>
+    </bean>
+    
+    <bean id="perm5" class="ch.vqf.cp.domain.security.Permission">
+    	<property name="name" value="Navigation Stammdatenmutation"></property>
+    </bean>
+    
+    <bean id="perm6" class="ch.vqf.cp.domain.security.Permission">
+    	<property name="name" value="Navigation Prüfungen"></property>
+    </bean>
+    
+    <bean id="perm7" class="ch.vqf.cp.domain.security.Permission">
+    	<property name="name" value="Navigation Aktuelle Prüfung"></property>
+    </bean>
+    
+    <bean id="perm8" class="ch.vqf.cp.domain.security.Permission">
+    	<property name="name" value="Navigation Vereinbarte Prüfungen"></property>
+    </bean>
+    
+    <bean id="perm9" class="ch.vqf.cp.domain.security.Permission">
+    	<property name="name" value="Navigation Terminkalender"></property>
+    </bean>
+    
+    <bean id="perm10" class="ch.vqf.cp.domain.security.Permission">
+    	<property name="name" value="Navigation Prüfer"></property>
+    </bean>
+    
+    <bean id="perm11" class="ch.vqf.cp.domain.security.Permission">
+    	<property name="name" value="Navigation Grundausbildung"></property>
+    </bean>
+    
+    <bean id="perm12" class="ch.vqf.cp.domain.security.Permission">
+    	<property name="name" value="Navigation Weiterbildung"></property>
+    </bean>
+    
+    <bean id="perm13" class="ch.vqf.cp.domain.security.Permission">
+    	<property name="name" value="Navigation Aus-Weiterbildung"></property>
+    </bean>
+    
+    <bean id="perm14" class="ch.vqf.cp.domain.security.Permission">
+    	<property name="name" value="Navigation Mutation-Erstellen"></property>
+    </bean>
+    
+    <bean id="perm15" class="ch.vqf.cp.domain.security.Permission">
+    	<property name="name" value="Navigation ListeOffenerMutationen"></property>
+    </bean>
+    
+    <bean id="perm16" class="ch.vqf.cp.domain.security.Permission">
+    	<property name="name" value="Navigation Controlling"></property>
+    </bean>
+    
+    <bean id="perm17" class="ch.vqf.cp.domain.security.Permission">
+    	<property name="name" value="Navigation Budgetierung"></property>
+    </bean>
+    
+    <bean id="perm18" class="ch.vqf.cp.domain.security.Permission">
+    	<property name="name" value="Navigation Administration"></property>
+    </bean>
+    
+    <bean id="permissionStrategy" class="ch.vqf.cp.startup.strategy.PermissionStrategy" />
+    
+    <bean id="roleProvider" class="ch.vqf.cp.startup.provider.DefaultProvider">
+		<property name="objectList">
+			<list>
+				<ref bean="roleAdmin" />
+				<ref bean="roleMember" />
+				<ref bean="roleAuditor" />
+				<ref bean="roleHeadAuditor" />
+			</list>
+		</property>
+	</bean>
+    
+    <bean id="roleAdmin" class="ch.vqf.cp.domain.security.Role">
+    	<property name="name" value="Administrator"></property>
+    	<property name="members">
+    		<list>
+				<ref bean="userAdmin" />
+				<ref bean="userTec" />
+				<ref bean="userDaj" />
+				<ref bean="userSrm" />
+    		</list>
+    	</property>
+    	<property name="permissions">
+    		<list>
+    			<ref bean="perm1"></ref>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="roleMember" class="ch.vqf.cp.domain.security.Role">
+    	<property name="name" value="VqfMitglied"></property>
+    	<property name="members">
+    		<list>
+				<ref bean="user3"></ref>
+				<ref bean="user4"></ref>    		
+    		</list>
+    	</property>
+    	<property name="permissions">
+    		<list>
+    			<ref bean="perm4"></ref>
+    			<ref bean="perm5"></ref>
+    			<ref bean="perm6"></ref>
+    			<ref bean="perm7"></ref>
+    			<ref bean="perm11"></ref>
+    			<ref bean="perm12"></ref>
+    			<ref bean="perm13"></ref>
+    			<ref bean="perm14"></ref>
+    			<ref bean="perm15"></ref>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="roleAuditor" class="ch.vqf.cp.domain.security.Role">
+    	<property name="name" value="Prüfer"></property>
+    	<property name="members">
+    		<list>
+				<ref bean="user1"></ref>
+				<ref bean="user2"></ref>    		
+    		</list>
+    	</property>
+    	<property name="permissions">
+    		<list>
+    			<ref bean="perm6"></ref>
+    			<ref bean="perm8"></ref>
+    			<ref bean="perm9"></ref>
+    			<ref bean="perm10"></ref>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="roleHeadAuditor" class="ch.vqf.cp.domain.security.Role">
+    	<property name="name" value="Leiter Revisorat"></property>
+    	<property name="members">
+    		<list>
+				<ref bean="user5"></ref>
+    		</list>
+    	</property>
+    	<property name="permissions">
+    		<list>
+    			<ref bean="perm6"></ref>
+    			<ref bean="perm8"></ref>
+    			<ref bean="perm9"></ref>
+    			<ref bean="perm10"></ref>
+    			<ref bean="perm16"></ref>
+    			<ref bean="perm17"></ref>
+    			<ref bean="perm18"></ref>
+    			<ref bean="perm10"></ref>
+    		</list>
+    	</property>
+    </bean>
+    
+     <bean id="roleStrategy" class="ch.vqf.cp.startup.strategy.RoleStrategy" />
+     
+     <bean id="assessmentProvider" class="ch.vqf.cp.startup.provider.DefaultProvider">
+		<property name="objectList">
+			<list>
+				<ref bean="assessment1" />
+				<ref bean="assessment2" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="assessment1" class="ch.vqf.cp.domain.Assessment">
+		<property name="vqfMember" ref="member1"></property>
+		<property name="auditor" ref="auditor1"></property>
+	</bean>
+	
+	<bean id="assessment2" class="ch.vqf.cp.domain.Assessment">
+		<property name="vqfMember" ref="member2"></property>
+		<property name="auditor" ref="auditor2"></property>
+	</bean>
+	
+	<bean id="assessmentStrategy" class="ch.vqf.cp.startup.strategy.AssessmentStrategy" />
+	
+	 <bean id="addressProvider" class="ch.vqf.cp.startup.provider.DefaultProvider">
+		<property name="objectList">
+			<list>
+				<ref bean="address1" />
+				<ref bean="address2" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="address1" class="ch.vqf.cp.domain.Address">
+		<property name="addressType" value="ASSESSMENTADDRESS"></property>
+    	<property name="street" value="Schachenallee"></property>
+    	<property name="houseNumber" value="123"></property>
+    	<property name="zipCode" value="5000"></property>
+    	<property name="city" value="Aarau"></property>
+    	<property name="addressDisplayType" value="STREET_FIRST"></property>
+    </bean>
+    
+    <bean id="address2" class="ch.vqf.cp.domain.Address">
+    	<property name="addressType" value="ASSESSMENTADDRESS"></property>
+    	<property name="street" value="Baarerstrasse"></property>
+    	<property name="houseNumber" value="111"></property>
+    	<property name="zipCode" value="8000"></property>
+    	<property name="city" value="Zug"></property>
+    	<property name="addressDisplayType" value="STREET_FIRST"></property>
+    </bean>
+    
+    <bean id="address3" class="ch.vqf.cp.domain.Address">
+		<property name="addressType" value="CORRESPONDENCEADDRESS"></property>
+    	<property name="street" value="Schachenallee"></property>
+    	<property name="houseNumber" value="123"></property>
+    	<property name="zipCode" value="5000"></property>
+    	<property name="city" value="Aarau"></property>
+    	<property name="addressDisplayType" value="STREET_FIRST"></property>
+    </bean>
+    
+    <bean id="address4" class="ch.vqf.cp.domain.Address">
+    	<property name="addressType" value="CORRESPONDENCEADDRESS"></property>
+    	<property name="street" value="Baarerstrasse"></property>
+    	<property name="houseNumber" value="111"></property>
+    	<property name="zipCode" value="8000"></property>
+    	<property name="city" value="Zug"></property>
+    	<property name="addressDisplayType" value="STREET_FIRST"></property>
+    </bean>
+    
+    <bean id="addressStrategy" class="ch.vqf.cp.startup.strategy.AddressStrategy" />
+    
+     <bean id="settingsProvider" class="ch.vqf.cp.startup.provider.DefaultProvider">
+		<property name="objectList">
+			<list>
+				<ref bean="languageSetting" />
+				<ref bean="storageDirectorySetting" />
+				<ref bean="seminarFromEmail" />
+				<ref bean="lostPasswordFromEmail" />
+				<ref bean="mailHost" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="languageSetting" class="ch.vqf.cp.domain.ApplicationSetting">
+		<property name="paramKey" value="general.available.languages"></property>
+		<property name="paramValue" value="de, en"></property>
+	</bean>
+	
+	<bean id="storageDirectorySetting" class="ch.vqf.cp.domain.ApplicationSetting">
+		<property name="paramKey" value="fileupload.storageFolder"></property>
+		<property name="paramValue" value="c:\temp\vqf"></property>
+	</bean>
+	
+	<bean id="seminarFromEmail" class="ch.vqf.cp.domain.ApplicationSetting">
+		<property name="paramKey" value="seminar.sendingEmailAddress"></property>
+		<property name="paramValue" value="seminar@vqf.ch"></property>
+	</bean>
+	
+	<bean id="lostPasswordFromEmail" class="ch.vqf.cp.domain.ApplicationSetting">
+		<property name="paramKey" value="lostpassword.sendingEmailAddress"></property>
+		<property name="paramValue" value="info@vqf.ch"></property>
+	</bean>
+	
+	<bean id="mailHost" class="ch.vqf.cp.domain.ApplicationSetting">
+		<property name="paramKey" value="general.mailhost"></property>
+		<property name="paramValue" value="${application.mailhost}"></property>
+	</bean>
+	
+	<bean id="settingsStrategy" class="ch.vqf.cp.startup.strategy.ApplicationSettingStrategy" />
+	
+	
+	<bean id="selfdeclarationuielementProvider" class="ch.vqf.cp.startup.provider.DefaultProvider">
+		<property name="objectList">
+			<list>
+				<ref bean="sd1_header" />
+				<ref bean="sd1_1" />
+				<ref bean="sd1_2" />
+				<ref bean="sd1_3_1" />
+				<ref bean="sd1_3_2" />
+				<ref bean="sd1_4" />
+				<ref bean="sd1_5" />
+				<ref bean="sd1_6" />
+				<ref bean="sd2_header" />
+				<ref bean="sd2_1" />
+				<ref bean="sd2_2_subheader" />
+				<ref bean="sd2_2_1" />
+				<ref bean="sd2_2_2" />
+				<ref bean="sd2_2_3" />
+				<ref bean="sd2_3_subheader" />
+				<ref bean="sd2_3_A_subheader" />
+				<ref bean="sd2_3_A_1" />
+				<ref bean="sd2_3_A_2" />
+				<ref bean="sd2_3_A_3" />
+				<ref bean="sd2_3_A_4" />
+				<ref bean="sd2_3_B_subheader" />
+				<ref bean="sd2_3_B1_subheader" />
+				<ref bean="sd2_3_B1_1" />
+				<ref bean="sd2_3_B1_2" />
+				<ref bean="sd2_3_B1_3" />
+				<ref bean="sd2_3_B1_4" />
+				<ref bean="sd2_3_B1_5" />
+				<ref bean="sd2_3_B1_6" />
+				<ref bean="sd2_3_B2_subheader" />
+				<ref bean="sd2_3_B2_1" />
+				<ref bean="sd2_3_B2_2" />
+				<ref bean="sd2_3_B2_3" />
+				<ref bean="sd2_3_C_subheader" />
+				<ref bean="sd2_3_C_1" />
+				<ref bean="sd2_3_C_2" />
+				<ref bean="sd2_3_C_3" />
+				<ref bean="sd2_3_C_4" />
+				<ref bean="sd2_3_C_5" />
+				<ref bean="sd2_3_C_6" />
+				<ref bean="sd2_3_C_7" />
+				<ref bean="sd2_3_D_subheader" />
+				<ref bean="sd2_3_D_1" />
+				<ref bean="sd2_3_D_2" />
+				<ref bean="sd2_3_D_3" />
+				<ref bean="sd2_3_D_4" />
+				<ref bean="sd2_3_D_5" />
+				<ref bean="sd2_3_D_6" />
+				<ref bean="sd2_3_D_7" />
+				<ref bean="sd2_3_D_8" />
+				<ref bean="sd2_3_E_subheader" />
+				<ref bean="sd2_3_E_1" />
+				<ref bean="sd2_3_E_2" />
+				<ref bean="sd2_3_E_3" />
+				<ref bean="sd2_3_E_4" />
+				<ref bean="sd2_3_F_subheader" />
+				<ref bean="sd2_3_F_1" />
+				<ref bean="sd2_3_F_2" />
+				<ref bean="sd2_3_G_1" />
+				<ref bean="sd2_3_G_2" />
+				<ref bean="sd3_header" />
+				<ref bean="sd3_1_subheader"/>
+				<ref bean="sd3_1_1"/>
+				<ref bean="sd3_1_2"/>
+				<ref bean="sd3_1_3"/>
+				<ref bean="sd3_1_4"/>
+				<ref bean="sd3_2_subheader"/>
+				<ref bean="sd3_2_1"/>
+				<ref bean="sd3_2_2"/>
+				<ref bean="sd3_2_footer"/>
+				<ref bean="sd4_header" />
+				<ref bean="sd4_1_1" />
+				<ref bean="sd4_1_2" />
+				<ref bean="sd5_header" />
+				<ref bean="sd5_1_1" />
+				<ref bean="sd5_1_2" />
+				<ref bean="sd5_1_3" />
+				<ref bean="sd6_header" />
+				<ref bean="sd6_x" />
+				<ref bean="sd6_1" />
+				<ref bean="sd6_2" />
+				<ref bean="sd6_3" />
+				<ref bean="sd6_4" />
+				<ref bean="sd6_5" />
+				<ref bean="sd6_6" />
+				<ref bean="sd6_7" />
+				<ref bean="sd6_7_1" />
+				<ref bean="sd6_8" />
+				<ref bean="sd6_8_1" />
+				<ref bean="sd6_9" />
+				<ref bean="sd6_11" />
+				<ref bean="sd6_12" />
+				<ref bean="sd6_13" />
+				<ref bean="sd6_14" />
+				<ref bean="sd6_15" />
+				<ref bean="sd6_16" />
+				<ref bean="sd6_17_1" />
+				<ref bean="sd6_17_2" />
+				<ref bean="sd7_header" />
+				<ref bean="sd7_1" />
+				<ref bean="sd8_header" />
+				<ref bean="sd8_1" />
+				<ref bean="sd8_2" />
+				<ref bean="sd9_header" />
+				<ref bean="sd9_1" />
+				<ref bean="sd9_2" />
+				<ref bean="sd9_3" />
+				<ref bean="sd9_footer" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="sd1_header" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="100"></property>
+    	<property name="internalName" value="SD1_HEADER"></property>
+    	<property name="section" value="1"></property>
+    	<property name="textKey" value="selfdeclaration_sd1_header"></property>
+    	<property name="uiElementType" value="SECTION_HEADER"></property>
+    </bean>
+    
+    <bean id="sd1_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="200"></property>
+    	<property name="internalName" value="SD1_1"></property>
+    	<property name="section" value="1"></property>
+    	<property name="textKey" value="selfdeclaration_sd1_1"></property>
+    	<property name="uiElementType" value="LABEL"></property>
+    </bean>
+    
+    <bean id="sd1_2" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="300"></property>
+    	<property name="internalName" value="SD1_2"></property>
+    	<property name="section" value="1"></property>
+    	<property name="textKey" value="selfdeclaration_sd1_2"></property>
+    	<property name="uiElementType" value="LABEL"></property>
+    </bean>
+    
+    <bean id="sd1_3_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="400"></property>
+    	<property name="internalName" value="SD1_3_1"></property>
+    	<property name="section" value="1"></property>
+    	<property name="textKey" value="selfdeclaration_sd1_3_1"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="true"></property>
+    </bean>
+    
+    <bean id="sd1_3_2" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="500"></property>
+    	<property name="internalName" value="SD1_3_2"></property>
+    	<property name="section" value="1"></property>
+    	<property name="textKey" value="selfdeclaration_sd1_3_2"></property>
+    	<property name="uiElementType" value="TEXT_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd1_4" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="600"></property>
+    	<property name="internalName" value="SD1_4"></property>
+    	<property name="section" value="1"></property>
+    	<property name="textKey" value="selfdeclaration_sd1_4"></property>
+    	<property name="uiElementType" value="NUMBER_INPUT"></property>
+    	<property name="mandatory" value="true"></property>
+    </bean>
+    
+    <bean id="sd1_5" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="700"></property>
+    	<property name="internalName" value="SD1_5"></property>
+    	<property name="section" value="1"></property>
+    	<property name="textKey" value="selfdeclaration_sd1_5"></property>
+    	<property name="uiElementType" value="COMPONENT"></property>
+    	<property name="mandatory" value="true"></property>
+    	<property name="dependant" value="ch.vqf.cp.web.controller.page.selfdeclaration.ui.DynamicInternalPersonUISubcomponent"></property>
+    </bean>
+    
+    <bean id="sd1_6" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="800"></property>
+    	<property name="internalName" value="SD1_6"></property>
+    	<property name="section" value="1"></property>
+    	<property name="textKey" value="selfdeclaration_sd1_6"></property>
+    	<property name="uiElementType" value="COMPONENT"></property>
+    	<property name="mandatory" value="true"></property>
+    	<property name="dependant" value="ch.vqf.cp.web.controller.page.selfdeclaration.ui.DynamicExternalPersonUISubcomponent"></property>
+    </bean>
+    
+    <bean id="sd2_header" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="1000"></property>
+    	<property name="internalName" value="SD2_HEADER"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_header"></property>
+    	<property name="uiElementType" value="SECTION_HEADER"></property>
+    </bean>
+    
+    <bean id="sd2_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="1100"></property>
+    	<property name="internalName" value="SD2_1"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_1"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="true"></property>
+    </bean>
+    
+    <bean id="sd2_2_subheader" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="1200"></property>
+    	<property name="internalName" value="SD2_2_SUBHEADER"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_2_subheader"></property>
+    	<property name="uiElementType" value="SUBHEADER"></property>
+    </bean>
+    
+    <bean id="sd2_2_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="1300"></property>
+    	<property name="internalName" value="SD2_2_1"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_2_1"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_2_2" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="1400"></property>
+    	<property name="internalName" value="SD2_2_2"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_2_2"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_2_3" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="1500"></property>
+    	<property name="internalName" value="SD2_2_3"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_2_3"></property>
+    	<property name="uiElementType" value="TEXT_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_subheader" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="1600"></property>
+    	<property name="internalName" value="SD2_3_SUBHEADER"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_subheader"></property>
+    	<property name="uiElementType" value="SUBHEADER"></property>
+    </bean>
+    
+    <bean id="sd2_3_A_subheader" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="1700"></property>
+    	<property name="internalName" value="SD2_3_A_SUBHEADER"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_A_subheader"></property>
+    	<property name="uiElementType" value="SUBHEADER"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_A_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="1800"></property>
+    	<property name="internalName" value="SD2_3_A_1"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_A_1"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_A_2" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="1900"></property>
+    	<property name="internalName" value="SD2_3_A_2"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_A_2"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_A_3" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="2000"></property>
+    	<property name="internalName" value="SD2_3_A_3"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_A_3"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_A_4" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="2100"></property>
+    	<property name="internalName" value="SD2_3_A_4"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_A_4"></property>
+    	<property name="uiElementType" value="TEXTAREA_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_B_subheader" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="2200"></property>
+    	<property name="internalName" value="SD2_3_B_SUBHEADER"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_B_subheader"></property>
+    	<property name="uiElementType" value="SUBHEADER"></property>
+    </bean>
+    
+    <bean id="sd2_3_B1_subheader" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="2300"></property>
+    	<property name="internalName" value="SD2_3_B1_SUBHEADER"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_B1_subheader"></property>
+    	<property name="uiElementType" value="SUBHEADER"></property>
+    </bean>
+    
+    <bean id="sd2_3_B1_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="2400"></property>
+    	<property name="internalName" value="SD2_3_B1_1"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_B1_1"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_B1_2" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="2500"></property>
+    	<property name="internalName" value="SD2_3_B1_2"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_B1_2"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_B1_3" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="2600"></property>
+    	<property name="internalName" value="SD2_3_B1_3"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_B1_3"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_B1_4" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="2700"></property>
+    	<property name="internalName" value="SD2_3_B1_4"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_B1_4"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_B1_5" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="2800"></property>
+    	<property name="internalName" value="SD2_3_B1_5"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_B1_5"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_B1_6" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="2900"></property>
+    	<property name="internalName" value="SD2_3_B1_6"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_B1_6"></property>
+    	<property name="uiElementType" value="TEXTAREA_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_B2_subheader" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="3000"></property>
+    	<property name="internalName" value="SD2_3_B2_SUBHEADER"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_B2_subheader"></property>
+    	<property name="uiElementType" value="SUBHEADER"></property>
+    </bean>
+    
+    <bean id="sd2_3_B2_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="3100"></property>
+    	<property name="internalName" value="SD2_3_B2_1"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_B2_1"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_B2_2" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="3200"></property>
+    	<property name="internalName" value="SD2_3_B2_2"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_B2_2"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_B2_3" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="3300"></property>
+    	<property name="internalName" value="SD2_3_B2_3"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_B2_3"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_C_subheader" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="3400"></property>
+    	<property name="internalName" value="SD2_3_C_SUBHEADER"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_C_subheader"></property>
+    	<property name="uiElementType" value="SUBHEADER"></property>
+    </bean>
+    
+    <bean id="sd2_3_C_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="3500"></property>
+    	<property name="internalName" value="SD2_3_C_1"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_C_1"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_C_2" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="3600"></property>
+    	<property name="internalName" value="SD2_3_C_2"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_C_2"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_C_3" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="3700"></property>
+    	<property name="internalName" value="SD2_3_C_3"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_C_3"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_C_4" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="3800"></property>
+    	<property name="internalName" value="SD2_3_C_4"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_C_4"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_C_5" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="3900"></property>
+    	<property name="internalName" value="SD2_3_C_5"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_C_5"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_C_6" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="4000"></property>
+    	<property name="internalName" value="SD2_3_C_6"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_C_6"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_C_7" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="4100"></property>
+    	<property name="internalName" value="SD2_3_C_7"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_C_7"></property>
+    	<property name="uiElementType" value="TEXTAREA_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_D_subheader" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="4200"></property>
+    	<property name="internalName" value="SD2_3_D_SUBHEADER"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_D_subheader"></property>
+    	<property name="uiElementType" value="SUBHEADER"></property>
+    </bean>
+    
+    <bean id="sd2_3_D_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="4300"></property>
+    	<property name="internalName" value="SD2_3_D_1"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_D_1"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_D_2" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="4400"></property>
+    	<property name="internalName" value="SD2_3_D_2"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_D_2"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_D_3" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="4500"></property>
+    	<property name="internalName" value="SD2_3_D_3"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_D_3"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_D_4" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="4600"></property>
+    	<property name="internalName" value="SD2_3_D_4"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_D_4"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_D_5" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="4700"></property>
+    	<property name="internalName" value="SD2_3_D_5"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_D_5"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_D_6" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="4800"></property>
+    	<property name="internalName" value="SD2_3_D_6"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_D_6"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_D_7" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="4900"></property>
+    	<property name="internalName" value="SD2_3_D_7"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_D_7"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_D_8" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="5000"></property>
+    	<property name="internalName" value="SD2_3_D_8"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_D_8"></property>
+    	<property name="uiElementType" value="TEXTAREA_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_E_subheader" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="5100"></property>
+    	<property name="internalName" value="SD2_3_E_SUBHEADER"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_E_subheader"></property>
+    	<property name="uiElementType" value="SUBHEADER"></property>
+    </bean>
+    
+    <bean id="sd2_3_E_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="5200"></property>
+    	<property name="internalName" value="SD2_3_E_1"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_E_1"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_E_2" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="5300"></property>
+    	<property name="internalName" value="SD2_3_E_2"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_E_2"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_E_3" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="5400"></property>
+    	<property name="internalName" value="SD2_3_E_3"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_E_3"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_E_4" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="5500"></property>
+    	<property name="internalName" value="SD2_3_E_4"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_E_4"></property>
+    	<property name="uiElementType" value="TEXTAREA_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_F_subheader" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="5600"></property>
+    	<property name="internalName" value="SD2_3_F_SUBHEADER"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_F_subheader"></property>
+    	<property name="uiElementType" value="SUBHEADER"></property>
+    </bean>
+    
+    <bean id="sd2_3_F_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="5700"></property>
+    	<property name="internalName" value="SD2_3_F_1"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_F_1"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_F_2" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="5800"></property>
+    	<property name="internalName" value="SD2_3_F_2"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_F_2"></property>
+    	<property name="uiElementType" value="TEXTAREA_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_G_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="5900"></property>
+    	<property name="internalName" value="SD2_3_G_1"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_G_1"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd2_3_G_2" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="6000"></property>
+    	<property name="internalName" value="SD2_3_G_2"></property>
+    	<property name="section" value="2"></property>
+    	<property name="textKey" value="selfdeclaration_sd2_3_G_2"></property>
+    	<property name="uiElementType" value="TEXTAREA_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd3_header" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="6100"></property>
+    	<property name="internalName" value="SD3_HEADER"></property>
+    	<property name="section" value="3"></property>
+    	<property name="textKey" value="selfdeclaration_sd3_header"></property>
+    	<property name="uiElementType" value="SECTION_HEADER"></property>
+    </bean>
+    
+    <bean id="sd3_1_subheader" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="6200"></property>
+    	<property name="internalName" value="SD3_1_SUBHEADER"></property>
+    	<property name="section" value="3"></property>
+    	<property name="textKey" value="selfdeclaration_sd3_1_subheader"></property>
+    	<property name="uiElementType" value="SUBHEADER"></property>
+    </bean>
+    
+    <bean id="sd3_1_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="6200"></property>
+    	<property name="internalName" value="SD3_1_1"></property>
+    	<property name="section" value="3"></property>
+    	<property name="textKey" value="selfdeclaration_sd3_1_1"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="true"></property>
+    </bean>
+    
+    <bean id="sd3_1_2" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="6300"></property>
+    	<property name="internalName" value="SD3_1_2"></property>
+    	<property name="section" value="3"></property>
+    	<property name="textKey" value="selfdeclaration_sd3_1_2"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="true"></property>
+    </bean>
+    
+    <bean id="sd3_1_3" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="6400"></property>
+    	<property name="internalName" value="SD3_1_3"></property>
+    	<property name="section" value="3"></property>
+    	<property name="textKey" value="selfdeclaration_sd3_1_3"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="true"></property>
+    </bean>
+    
+    <bean id="sd3_1_4" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="6500"></property>
+    	<property name="internalName" value="SD3_1_4"></property>
+    	<property name="section" value="3"></property>
+    	<property name="textKey" value="selfdeclaration_sd3_1_4"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="true"></property>
+    </bean>
+    
+    <bean id="sd3_2_subheader" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="6600"></property>
+    	<property name="internalName" value="SD3_2_SUBHEADER"></property>
+    	<property name="section" value="3"></property>
+    	<property name="textKey" value="selfdeclaration_sd3_2_subheader"></property>
+    	<property name="uiElementType" value="SUBHEADER"></property>
+    </bean>
+    
+    <bean id="sd3_2_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="6700"></property>
+    	<property name="internalName" value="SD3_2_1"></property>
+    	<property name="section" value="3"></property>
+    	<property name="textKey" value="selfdeclaration_sd3_2_1"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd3_2_2" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="6800"></property>
+    	<property name="internalName" value="SD3_2_2"></property>
+    	<property name="section" value="3"></property>
+    	<property name="textKey" value="selfdeclaration_sd3_2_2"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd3_2_footer" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="6900"></property>
+    	<property name="internalName" value="SD3_2_FOOTER"></property>
+    	<property name="section" value="3"></property>
+    	<property name="textKey" value="selfdeclaration_sd3_2_footer"></property>
+    	<property name="uiElementType" value="FOOTER"></property>
+    </bean>
+    
+    <bean id="sd4_header" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="7100"></property>
+    	<property name="internalName" value="SD4_HEADER"></property>
+    	<property name="section" value="4"></property>
+    	<property name="textKey" value="selfdeclaration_sd4_header"></property>
+    	<property name="uiElementType" value="SECTION_HEADER"></property>
+    </bean>
+    
+    <bean id="sd4_1_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="7200"></property>
+    	<property name="internalName" value="SD4_1_1"></property>
+    	<property name="section" value="4"></property>
+    	<property name="textKey" value="selfdeclaration_sd4_1_1"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="true"></property>
+    </bean>
+    
+    <bean id="sd4_1_2" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="7300"></property>
+    	<property name="internalName" value="SD4_1_2"></property>
+    	<property name="section" value="4"></property>
+    	<property name="textKey" value="selfdeclaration_sd4_1_2"></property>
+    	<property name="uiElementType" value="NUMBER_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd5_header" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="7400"></property>
+    	<property name="internalName" value="SD5_HEADER"></property>
+    	<property name="section" value="5"></property>
+    	<property name="textKey" value="selfdeclaration_sd5_header"></property>
+    	<property name="uiElementType" value="SECTION_HEADER"></property>
+    </bean>
+    
+    <bean id="sd5_1_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="7500"></property>
+    	<property name="internalName" value="SD5_1_1"></property>
+    	<property name="section" value="5"></property>
+    	<property name="textKey" value="selfdeclaration_sd5_1_1"></property>
+    	<property name="uiElementType" value="NUMBER_INPUT"></property>
+    	<property name="mandatory" value="true"></property>
+    </bean>
+    
+    <bean id="sd5_1_2" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="7600"></property>
+    	<property name="internalName" value="SD5_1_2"></property>
+    	<property name="section" value="5"></property>
+    	<property name="textKey" value="selfdeclaration_sd5_1_2"></property>
+    	<property name="uiElementType" value="NUMBER_INPUT"></property>
+    	<property name="mandatory" value="true"></property>
+    </bean>
+    
+    <bean id="sd5_1_3" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="7700"></property>
+    	<property name="internalName" value="SD5_1_3"></property>
+    	<property name="section" value="5"></property>
+    	<property name="textKey" value="selfdeclaration_sd5_1_3"></property>
+    	<property name="uiElementType" value="NUMBER_INPUT"></property>
+    	<property name="mandatory" value="true"></property>
+    </bean>
+    
+    <bean id="sd6_header" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="7800"></property>
+    	<property name="internalName" value="SD6_HEADER"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_header"></property>
+    	<property name="uiElementType" value="SECTION_HEADER"></property>
+    </bean>
+    
+    <bean id="sd6_subheader" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="7900"></property>
+    	<property name="internalName" value="SD6_SUBHEADER"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_subheader"></property>
+    	<property name="uiElementType" value="SUBHEADER"></property>
+    </bean>
+    
+    <bean id="sd6_x" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="8000"></property>
+    	<property name="internalName" value="SD6_x"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_x"></property>
+    	<property name="uiElementType" value="COMPONENT"></property>
+    </bean>
+    
+    <bean id="sd6_2" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="8100"></property>
+    	<property name="internalName" value="SD6_2"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_2"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd6_3" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="8200"></property>
+    	<property name="internalName" value="SD6_3"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_3"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd6_4" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="8300"></property>
+    	<property name="internalName" value="SD6_4"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_4"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd6_5" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="8400"></property>
+    	<property name="internalName" value="SD6_5"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_5"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd6_6" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="8500"></property>
+    	<property name="internalName" value="SD6_6"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_6"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd6_7" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="8600"></property>
+    	<property name="internalName" value="SD6_7"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_7"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd6_7_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="8700"></property>
+    	<property name="internalName" value="SD6_7_1"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_7_1"></property>
+    	<property name="uiElementType" value="TEXT_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd6_8" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="8800"></property>
+    	<property name="internalName" value="SD6_8"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_8"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd6_8_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="8900"></property>
+    	<property name="internalName" value="SD6_8_1"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_8_1"></property>
+    	<property name="uiElementType" value="TEXT_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd6_9" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="9000"></property>
+    	<property name="internalName" value="SD6_9"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_9"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd6_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="9100"></property>
+    	<property name="internalName" value="SD6_1"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_1"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd6_11" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="9200"></property>
+    	<property name="internalName" value="SD6_11"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_11"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd6_12" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="9300"></property>
+    	<property name="internalName" value="SD6_12"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_12"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd6_13" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="9400"></property>
+    	<property name="internalName" value="SD6_13"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_13"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd6_14" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="9500"></property>
+    	<property name="internalName" value="SD6_14"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_14"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd6_15" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="9600"></property>
+    	<property name="internalName" value="SD6_15"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_15"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd6_16" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="9700"></property>
+    	<property name="internalName" value="SD6_16"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_16"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd6_17_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="9800"></property>
+    	<property name="internalName" value="SD6_17_1"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_17_1"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd6_17_2" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="9900"></property>
+    	<property name="internalName" value="SD6_17_2"></property>
+    	<property name="section" value="6"></property>
+    	<property name="textKey" value="selfdeclaration_sd6_17_2"></property>
+    	<property name="uiElementType" value="TEXTAREA_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd7_header" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="10000"></property>
+    	<property name="internalName" value="SD7_HEADER"></property>
+    	<property name="section" value="7"></property>
+    	<property name="textKey" value="selfdeclaration_sd7_header"></property>
+    	<property name="uiElementType" value="SECTION_HEADER"></property>
+    </bean>
+    
+    <bean id="sd7_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="10100"></property>
+    	<property name="internalName" value="SD7_1"></property>
+    	<property name="section" value="7"></property>
+    	<property name="textKey" value="selfdeclaration_sd7_1"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="true"></property>
+    </bean>
+    
+    <bean id="sd8_header" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="10200"></property>
+    	<property name="internalName" value="SD8_HEADER"></property>
+    	<property name="section" value="8"></property>
+    	<property name="textKey" value="selfdeclaration_sd8_header"></property>
+    	<property name="uiElementType" value="SECTION_HEADER"></property>
+    </bean>
+    
+    <bean id="sd8_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="10300"></property>
+    	<property name="internalName" value="SD8_1"></property>
+    	<property name="section" value="8"></property>
+    	<property name="textKey" value="selfdeclaration_sd8_1"></property>
+    	<property name="uiElementType" value="BOOLEAN_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd8_2" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="10400"></property>
+    	<property name="internalName" value="SD8_2"></property>
+    	<property name="section" value="8"></property>
+    	<property name="textKey" value="selfdeclaration_sd8_2"></property>
+    	<property name="uiElementType" value="TEXTAREA_INPUT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd9_header" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="10500"></property>
+    	<property name="internalName" value="SD9_HEADER"></property>
+    	<property name="section" value="9"></property>
+    	<property name="textKey" value="selfdeclaration_sd9_header"></property>
+    	<property name="uiElementType" value="SECTION_HEADER"></property>
+    </bean>
+    
+    <bean id="sd9_1" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="10600"></property>
+    	<property name="internalName" value="SD9_1"></property>
+    	<property name="section" value="9"></property>
+    	<property name="textKey" value="selfdeclaration_sd9_1"></property>
+    	<property name="uiElementType" value="LABEL"></property>
+    	<property name="mandatory" value="true"></property>
+    </bean>
+    
+    <bean id="sd9_2" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="10700"></property>
+    	<property name="internalName" value="SD9_2"></property>
+    	<property name="section" value="9"></property>
+    	<property name="textKey" value="selfdeclaration_sd9_2"></property>
+    	<property name="uiElementType" value="LABEL"></property>
+    	<property name="mandatory" value="true"></property>
+    </bean>
+    
+    <bean id="sd9_3" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="10800"></property>
+    	<property name="internalName" value="SD9_3"></property>
+    	<property name="section" value="9"></property>
+    	<property name="textKey" value="selfdeclaration_sd9_3"></property>
+    	<property name="uiElementType" value="COMPONENT"></property>
+    	<property name="mandatory" value="false"></property>
+    </bean>
+    
+    <bean id="sd9_footer" class="ch.vqf.cp.domain.SelfDeclarationUIElement">
+    	<property name="uiOrdering" value="10900"></property>
+    	<property name="internalName" value="SD9_FOOTER"></property>
+    	<property name="section" value="9"></property>
+    	<property name="textKey" value="selfdeclaration_sd9_footer"></property>
+    	<property name="uiElementType" value="FOOTER"></property>
+    </bean>
+
+    
+    <bean id="selfdeclarationuielementStrategy" class="ch.vqf.cp.startup.strategy.SelfDeclarationUIElementStrategy" />	
+</beans>

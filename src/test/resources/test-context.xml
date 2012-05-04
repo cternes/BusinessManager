@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd	
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+	>
+	
+	<tx:annotation-driven />
+	<context:component-scan base-package="org.businessmanager" />
+
+	<aop:aspectj-autoproxy proxy-target-class="true" /> 
+	
+	<!-- Needed to test session scoped beans -->
+	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+		<property name="scopes">
+			<map>
+				<entry key="session">
+					<bean class="org.businessmanager.test.SimpleMapScope" />
+				</entry>
+				<entry key="request">
+					<bean class="org.businessmanager.test.SimpleMapScope" />
+				</entry>
+				<entry key="view">
+					<bean class="org.businessmanager.test.SimpleMapScope" />
+				</entry>
+				<entry key="conversation.access">
+					<bean class="org.businessmanager.test.SimpleMapScope" />
+				</entry>
+			</map>
+		</property>
+    </bean>
+
+	<!-- Scans within the base package of the application for @Components to 
+		configure as beans -->
+	<import resource="test-db.xml" />
+
+	
+    <!-- Primary property is needed here, to let spring wire the mocked helper over the real one when available-->
+    <bean id="mockFacesContext" class="org.businessmanager.web.jsf.helper.MockFacesContextHelper" primary="true"></bean>
+    <bean id="mockSecurityContext" class="org.businessmanager.web.jsf.helper.MockSecurityContextHelper" primary="true"></bean>
+
+</beans>

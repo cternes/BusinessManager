@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/main/webapp/WEB-INF/spring
+END
+db.xml
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/main/webapp/WEB-INF/spring/db.xml
+END
+security.xml
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/main/webapp/WEB-INF/spring/security.xml
+END
+root-context.xml
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/vqf_swa/!svn/ver/859/tags/Snapshot-ConstructionIteration1/src/main/webapp/WEB-INF/spring/root-context.xml
+END

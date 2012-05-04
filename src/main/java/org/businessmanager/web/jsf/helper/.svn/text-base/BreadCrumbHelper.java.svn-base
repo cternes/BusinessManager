@@ -1,0 +1,80 @@
+package ch.vqf.cp.web.jsf.helper;
+
+import java.util.Stack;
+
+import org.primefaces.model.DefaultMenuModel;
+import org.primefaces.model.MenuModel;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import ch.vqf.cp.web.bean.BreadCrumbItem;
+
+/**
+ * @author Christian Ternes
+ *
+ */
+@Component("breadCrumbHelper")
+@Scope("session")
+public class BreadCrumbHelper {
+
+	private Stack<BreadCrumbItem> trail = new Stack<BreadCrumbItem>();
+	
+	public Stack<BreadCrumbItem> getTrail() {
+		return trail;
+	}
+	
+	public void forward(BreadCrumbItem item) {
+		if(!existsAlready(item)) {
+			trail.push(item);
+		}
+	}
+	
+	public BreadCrumbItem getLastItem() {
+		if(trail.size() == 0) {
+			return null;
+		}
+		return trail.get(trail.size()-1);
+	}
+	
+	public BreadCrumbItem backward() {
+		trail.pop();
+		return getLastItem();
+	}
+	
+	public void reset() {
+		trail = new Stack<BreadCrumbItem>();
+	}
+	
+	public MenuModel generateBreadCrumb() {
+		DefaultMenuModel model = new DefaultMenuModel();
+		for (BreadCrumbItem item : trail) {
+			BreadCrumbItem menuItem = new BreadCrumbItem(item.getValue(), item.getUrl());
+//			enhanceItems(menuItem);
+			model.addMenuItem(menuItem);
+		}
+		return model;
+	}
+	
+	public boolean existsAlready(BreadCrumbItem newItem) {
+		for (BreadCrumbItem item : trail) {
+			if(item.getUrl().equalsIgnoreCase(newItem.getUrl()) 
+					&& item.getValue().equalsIgnoreCase(newItem.getValue())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+//	private void enhanceItems(BreadCrumbItem item) {
+//		MethodExpression methodExpression = facesContext.getCurrentFacesContext().getApplication().getExpressionFactory().createMethodExpression(
+//				facesContext.getCurrentFacesContext().getELContext(), "#{breadCrumbHelper.actionListener}", null, new Class[] { ActionEvent.class });
+//
+//		item.addActionListener(new MethodExpressionActionListener(methodExpression));
+//		item.setActionExpression(methodExpression);
+//	}
+//	
+//	public void actionListener(ActionEvent event) {
+//		logger.debug("------------------->Fire Action"+event);
+//	}
+	
+}

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+    <global-method-security pre-post-annotations="enabled">
+        <!-- AspectJ pointcut expression that locates our "post" method and applies security that way
+        <protect-pointcut expression="execution(* bigbank.*Service.post*(..))" access="ROLE_TELLER"/>
+        -->
+    </global-method-security>
+
+
+    <http use-expressions="true">
+    	<!-- Limit access to all sites in folder restricted, order matters!!! List most specific rule on top! -->
+    	
+        <intercept-url pattern="/views/**" access="isAuthenticated()" />
+        <intercept-url pattern="/**" access="permitAll()" />
+	
+		<!-- Custom login page -->
+        <form-login login-page="/login.jsf" />
+        
+        <!-- Custom logout page is the same as timeout page -->
+        <logout />
+        <remember-me />
+        
+        <!-- We redirect to a servlet here. See org.businessmanager.web.servlet.RedirectLoginPageServlet for details -->
+        <session-management invalid-session-url="/logmein/">
+        </session-management>
+
+    </http>
+    
+    <!-- Use database as authentication provider. -->
+    <authentication-manager>
+         <authentication-provider user-service-ref="jdbcUserService">
+         	<!-- Hash passwords with MD5 -->
+         	<password-encoder hash="md5">
+				<salt-source ref="saltSource" />
+         	</password-encoder>
+         </authentication-provider>
+    </authentication-manager>
+    
+     <!-- Spring-Security JDBC Service. This must NOT be changed. -->
+	<beans:bean id="jdbcUserService" class="org.businessmanager.database.security.SpringSecurityDaoImpl">
+		<beans:property name="dataSource" ref="dataSource"/>
+		<beans:property name="enableGroups" value="true" />
+		<beans:property name="enableAuthorities" value="false" />
+		<beans:property name="groupAuthoritiesByUsernameQuery">
+			<beans:value>SELECT R.ID, R.NAME, P.NAME
+			FROM ROLES R 
+			JOIN ROLE_MEMBERS RM on R.id = RM.roles_id
+			JOIN USERS U on U.id = RM.members_id
+			JOIN ROLE_PERMISSIONS RP ON RP.roles_id = R.id
+			JOIN PERMISSIONS P ON P.id = RP.permissions_id
+			WHERE U.username=?
+			</beans:value>
+		</beans:property>
+	</beans:bean>
+	
+	<!-- Spring-Security Salt. This must NOT be changed. -->
+	<beans:bean class="org.springframework.security.authentication.dao.ReflectionSaltSource" id="saltSource">
+		<beans:property name="userPropertyToUse" value="username"/>
+	</beans:bean>
+	
+</beans:beans>

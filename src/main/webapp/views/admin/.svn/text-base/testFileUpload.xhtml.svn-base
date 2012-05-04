@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/template.xhtml">
+	<ui:param name="adminSelected" value="true" />
+	
+	<ui:define name="head">
+    </ui:define>
+	
+	<ui:define name="content">
+		<h:body>
+			<div id="center">
+				<h2 class="contentheading">Test FileUpload</h2>
+
+				<h:form enctype="multipart/form-data">
+					<p:fileUpload fileUploadListener="#{fileUploadController.handleFileUpload}" 
+			            mode="advanced"   
+			            update="messages"  
+			            sizeLimit="75000"
+			            uploadLabel="Hochladen"
+			            cancelLabel="Abbrechen"
+			            label="Auswählen"
+			            />
+				</h:form>
+			</div>
+		</h:body>
+	</ui:define>
+</ui:composition>

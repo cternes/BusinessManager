@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd	
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+	>
+
+	<aop:aspectj-autoproxy proxy-target-class="true" /> 
+	
+	<!-- For security tests -->
+	<sec:global-method-security pre-post-annotations="enabled" secured-annotations="enabled" />
+	<sec:authentication-manager>
+		<sec:authentication-provider user-service-ref="userDetailsService" />
+	</sec:authentication-manager>
+	<bean id="userDetailsService" class="ch.vqf.cp.test.MockUserDetailsService" />
+
+	<!-- Needed to test session scoped beans -->
+	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+		<property name="scopes">
+			<map>
+				<entry key="session">
+					<bean class="ch.vqf.cp.test.SimpleMapScope" />
+				</entry>
+				<entry key="request">
+					<bean class="ch.vqf.cp.test.SimpleMapScope" />
+				</entry>
+				<entry key="view">
+					<bean class="ch.vqf.cp.test.SimpleMapScope" />
+				</entry>
+				<entry key="conversation.access">
+					<bean class="ch.vqf.cp.test.SimpleMapScope" />
+				</entry>
+			</map>
+		</property>
+    </bean>
+
+	<!-- Scans within the base package of the application for @Components to 
+		configure as beans -->
+	<import resource="test-db.xml" />
+
+	<tx:annotation-driven />
+	<context:component-scan base-package="ch.vqf.cp" />
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+  		<property name="host" value="localhost" />
+  		<property name="port" value="25" />
+	</bean>
+	
+    <!-- Primary property is needed here, to let spring wire the mocked helper over the real one when available-->
+    <bean id="mockFacesContext" class="ch.vqf.cp.web.jsf.helper.MockFacesContextHelper" primary="true"></bean>
+    <bean id="mockSecurityContext" class="ch.vqf.cp.web.jsf.helper.MockSecurityContextHelper" primary="true"></bean>
+
+	<bean id="applicationConfiguration" class="ch.vqf.cp.configuration.ApplicationConfiguration">
+		<property name="version" value="${application.version}" />
+		<property name="environment" value="${application.environment}" />
+		<property name="buildNumber" value="${application.buildnumber}" />
+	</bean>
+	
+	<!-- Scheduled Tasks -->
+	<bean id="seminarRejectionTask" class="ch.vqf.cp.scheduled.SeminarRejectionTask">
+		<property name="daysUntilStart" value="2" />
+	</bean>
+	
+	<bean id="seminarAttendeeSyncTask" class="ch.vqf.cp.scheduled.SeminarAttendeeSyncTask">
+	</bean>
+	
+	<!-- Setup -->
+	<bean id="storageManager" class="ch.vqf.cp.startup.StorageManager">
+		<property name="storageMap">
+			<map>
+				<entry key-ref="settingsProvider" value-ref="settingsStrategy"></entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="settingsProvider" class="ch.vqf.cp.startup.provider.DefaultProvider">
+		<property name="objectList">
+			<list>
+				<ref bean="languageSetting" />
+				<ref bean="seminarFromEmail" />
+				<ref bean="lostPasswordFromEmail" />
+				<ref bean="mailHost" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="languageSetting" class="ch.vqf.cp.domain.ApplicationSetting">
+		<property name="paramKey" value="general.available.languages"></property>
+		<property name="paramValue" value="de, en"></property>
+	</bean>
+	
+	<bean id="seminarFromEmail" class="ch.vqf.cp.domain.ApplicationSetting">
+		<property name="paramKey" value="seminar.sendingEmailAddress"></property>
+		<property name="paramValue" value="seminar@vqf.ch"></property>
+	</bean>
+	
+	<bean id="lostPasswordFromEmail" class="ch.vqf.cp.domain.ApplicationSetting">
+		<property name="paramKey" value="lostpassword.sendingEmailAddress"></property>
+		<property name="paramValue" value="info@vqf.ch"></property>
+	</bean>
+	
+	<bean id="mailHost" class="ch.vqf.cp.domain.ApplicationSetting">
+		<property name="paramKey" value="general.mailhost"></property>
+		<property name="paramValue" value="localhost"></property>
+	</bean>
+	
+	<bean id="settingsStrategy" class="ch.vqf.cp.startup.strategy.ApplicationSettingStrategy" />
+</beans>

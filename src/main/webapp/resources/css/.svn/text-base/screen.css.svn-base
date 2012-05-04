@@ -1,0 +1,458 @@
+/*************GENERAL*************/
+* {
+	margin: 0;
+	padding: 0;
+}
+
+p {
+	margin: 5px 0 10px 0;
+}
+
+body,html {
+	font-family: Verdana, Arial, Helvetica;
+	font-size: 11px;
+	color: #00467f;
+	height: 100%;
+}
+
+body {
+	background: url("#{resource['images:bg-content.jpg']}") repeat-y scroll
+		center top #FFFFFF;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-weight: normal;
+}
+
+h2 {
+	font-size: 15px;
+}
+
+h3 {
+	font-size: 12px;
+	font-weight: bold;
+	padding-top: 25px;
+	padding-bottom: 15px;
+}
+
+h4 {
+	font-size: 12px;
+}
+
+.contentheading,.componentheading {
+	font-size: 15px;
+	padding-bottom: 20px;
+}
+
+.spacer {
+	width: 100%;
+	height: 30px;
+}
+
+.inner {
+	padding: 0 35px;
+}
+
+a {
+	color: #00467f;
+	text-decoration: none;
+}
+
+#main a,#text a {
+	color: #666;
+}
+
+.stickAtRightBorder { /* Sticks at the right border */
+	text-align: right;
+}
+
+/*
+input.button,.button,a.button,button {
+	padding: 3px 25px;
+	background: url("#{resource['images:button.jpg']}") no-repeat scroll
+		right 50% transparent;
+	cursor: pointer;
+}
+
+input.button:hover,.button:hover,a.button:hover,button:hover {
+	background: url("#{resource['images:button-hover.jpg']}") no-repeat
+		scroll right 50% transparent;
+}
+
+#center .button {
+	color: #00467f;
+	display: block;
+	background: url("#{resource['images:button.jpg']}") no-repeat scroll right 50%
+		transparent;
+	border: 1px solid #baccdc;
+	height: 21px;
+	width: 120px;
+	line-height: 21px;
+	font-size: 11px;
+	text-indent: 6px;
+	padding: 0;
+}
+
+#center .button:hover {
+	background: url("#{resource['images:button-hover.jpg']}") no-repeat scroll right 50%
+		transparent;
+}
+*/
+
+/*************HEADER*************/
+#header {
+	width: 100%;
+	height: 50px;
+	font-size: 11px;
+}
+
+#slogan {
+	padding: 20px 0 20px 0;
+	font-size: 11px;
+}
+
+#topmenu {
+	float: right;
+	padding-right: 10px;
+	margin-top: 3px;
+}
+
+#topmenu ul.menu li {
+	display: inline;
+	padding-right: 12px;
+}
+
+#topmenu ul.menu li a {
+	
+}
+
+.noLinkColor {
+	color: #ffffff;
+}
+
+
+/*************MAIN***************/
+#wrapper {
+	width: 980px;
+	margin: 0 auto;
+	border-top: 8px solid #00457d;
+}
+
+#page-body {
+	min-height: 100%;
+	position: relative;
+}
+
+#center a:hover {
+	text-decoration: underline;
+}
+
+#left {
+	width: 200px;
+	float: left;
+}
+
+#main {
+	padding-bottom: 60px; /* since footer has position:absolute, we need to push the footer down here, to avoid overlapping*/
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -142px;
+	/* the bottom margin is the negative value of the footer's height */
+}
+
+#center {
+	padding-left: 15px;
+	/*float: left;*/
+}
+
+/*************MAIN TABS***************/
+#mainmenu {
+	background: url("#{resource['images:mainmenu-bg.png']}") no-repeat
+		scroll left top transparent;
+	height: 30px;
+}
+
+#mainmenu ul.menu {
+	border-left: 1px solid #baccdc;
+	border-bottom: 1px solid #baccdc;
+	height: 29px;
+}
+
+#mainmenu ul.menu li {
+	float: left;
+	height: 28px;
+	list-style: none;
+	border-top: 1px solid #baccdc;
+	border-right: 1px solid #baccdc;
+	background: url("#{resource['images:mainmenu-item.jpg']}") repeat-x
+		scroll left top #FFFFFF;
+	text-align: center;
+	/*width: 100px;*/
+}
+
+#mainmenu ul.menu li:hover,#mainmenu ul.menu li.current,#mainmenu ul.menu li.active
+	{
+	border-right: 1px solid #baccdc;
+	border-bottom: 1px solid #ffffff;
+	background: url("#{resource['images:mainmenu-item-hover.jpg']}")
+		repeat-x scroll left top #FFFFFF;
+}
+
+#mainmenu ul.menu li a {
+	line-height: 29px;
+	padding: 5px;
+}
+
+/*************LEFT NAVIGATION***************/
+#left ul.menu li {
+	list-style: none;
+	text-indent: 10px;
+	overflow: hidden;
+}
+
+#left ul.menu li:hover,#left ul.menu li.current,#left ul.menu li.active
+	{
+	background: url("#{resource['images:leftmenu-item-hover.jpg']}")
+		repeat-y scroll left top #FFFFFF;
+}
+
+#left ul.menu li a {
+	display: block;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #fff;
+	height: 28px;
+	line-height: 28px;
+}
+
+#left ul.menu li a:hover,#left ul.menu li.current a,#left ul.menu li.active a
+	{
+	border-top: 1px solid #baccdc;
+	border-bottom: 1px solid #baccdc;
+}
+
+#left ul.menu ul {
+	padding-left: 10px;
+	background-color: #fff;
+}
+
+#left ul.menu>li>ul {
+	border-bottom: 1px solid #baccdc;
+}
+
+#left ul.menu ul li a {
+	line-height: 20px;
+	height: 20px;
+	background: none;
+	background-color: #fff;
+	border-top: 1px solid #fff !important;
+	border-bottom: 1px solid #fff !important;
+}
+
+#left ul.menu ul li a:hover,#left ul.menu ul li.current>a {
+	background: url("#{resource['images:leftsubmenu-indent.jpg']}")
+		no-repeat scroll left 50% #FFFFFF;
+}
+
+#left ul.menu ul li.active>a {
+	background: url("#{resource['images:leftsubmenu-indent.jpg']}")
+		no-repeat scroll left 50% #FFFFFF;
+}
+
+/*************FOOTER***************/
+.push {
+	/*clear: both; */
+	/*height: 130px;  .push must be the same height as #footer */
+}
+
+#footer {
+	clear: both;
+	position: absolute;
+	bottom: 0;
+	width: 980px;
+	background: url("#{resource['images:footer-bg.png']}") repeat-x left
+		bottom;
+	/*height: 30px;*/
+	color: #fff;
+	margin-top: 20px;
+	overflow: hidden;
+	font-size: 9px;
+	line-height: 14px;
+}
+
+#footer .moduletable {
+	float: left;
+	padding-right: 20px;
+}
+
+#footer .footer-spacer {
+	padding: 10px 0;
+}
+
+#footer #logosro {
+	height: 70px;
+}
+
+#footer a {
+	color: #fff;
+	text-decoration: none;
+}
+
+#footer a:hover {
+	text-decoration: underline;
+}
+
+#footer .version {
+	text-align:right;
+	font-size:0.9em;
+}
+
+/*************TABLE***************/
+.ui-datatable th {
+	width: 10px; /*allow header wrapping*/
+	white-space: normal !important;
+}
+
+.ui-datatable td {
+	padding: 2px 5px 2px 5px !important;
+}
+
+.panelgrid td {
+	padding-right: 4em;
+	padding-bottom: 1.5em;
+}
+
+.smallTextInput {
+	width: 3em;
+}
+
+.customtable td {
+	padding-right: 1em;
+	padding-bottom: 0.5em;
+}
+
+.centerTdContent {
+	text-align: center;
+}
+
+/************PANEL GRID *********/
+
+.ui-widget-content-odd {
+	background-color: #F2F6F8 !important;
+}
+
+.ui-panelgrid tr, .ui-panelgrid td {
+	border:0 !important;
+}
+
+/************CALENDAR************/
+.fullCalendar {
+	width: 58em;
+}
+
+.fixedevent div {
+	color: white !important;
+	background-color: #5B9678 !important;
+}
+
+.proposalevent div {
+	color: white !important;
+	background-color: #984646 !important;
+}
+
+/***********BUTTON**************/
+.defaultButtonSize {
+	width: 8em;
+	margin-left: 3em;
+}
+
+.largeButton {
+	width: 15em;
+	margin-right: 3em !important;
+}
+
+.marginButton {
+	margin-left: 3em !important;
+}
+
+.rightButton { /*Aligned with right border */
+	margin-left: 69em;
+}
+
+.smallIconButton {
+	width: 1.6em; 
+	height: 1.6em;
+}
+
+/**********INPUTTEXT************************/
+.smallInput {
+	width: 3em;
+}
+
+.smallInput input {
+	width: 3em;
+}
+
+.mediumInput {
+	width: 6em;
+}
+
+.largeInput {
+	width: 17em;
+}
+
+.veryLargeInput {
+	width: 20em;
+}
+
+.inputForm {
+	line-height: 1.5em;
+}
+
+.fullSizeInput {
+	width: 100%;
+}
+
+.fullSizeInput input {
+	width: 100%;
+}
+
+/******************PICKLIST***********************/
+.customPickList .pf-picklist-source, .pf-picklist-target { 
+   width: 305px;
+   height: 300px;
+}
+
+/******************FIELDSET***********************/
+.customFieldSet .ui-fieldset, .ui-fieldset .ui-fieldset-legend {
+	background-color: transparent !important;
+	border-color: transparent !important;
+} 
+		
+/***********WIZARD SELECTION SCREEN***************/
+.ui-selectoneradio .ui-radiobutton {
+	padding-right: 1em;
+	padding-bottom: 1.5em;
+}
+
+.ui-wizard-navbar {
+	text-align:left !important;
+}
+
+.ui-wizard-navbar .ui-button:first-child {
+	margin-right: 58em;
+}
+
+/****************SPACER**************************/
+.verticalSpacing { /* Size of 3 button heights, button height = 2.5em */
+	height: 4.0em;
+}
+
+.verticalSpacingSmall { 
+	height: 3.0em;
+}
+
+.horizontalSpacing {
+	padding-left: 17em;
+}
+
