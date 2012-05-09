@@ -26,11 +26,15 @@ public class ContactServiceTest {
 	
 	@Test
 	public void testAddContact() {
-		Contact contact = createContact("firstname", "lastname", "mail@localhost", "555-22-666");
+		String email = "mail@localhost";
+		Contact contact = createContact("firstname", "lastname", email, "555-22-666");
 		contactService.addContact(contact);
 		
 		List<Contact> contactList = contactService.getContacts();
 		Assert.assertEquals(1, contactList.size());
+		
+		Assert.assertEquals(1, contactList.get(0).getEmailList().size());
+		Assert.assertEquals(email, contactList.get(0).getEmailList().get(0).getEmail());
 	}
 	
 	private Contact createContact(String firstname, String lastname, String email, String phone) {

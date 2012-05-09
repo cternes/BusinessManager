@@ -3,6 +3,7 @@ package org.businessmanager.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,12 +40,18 @@ public class Contact extends AbstractEntity {
 	@Column
 	private String company;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Email> emailList = new ArrayList<Email>();
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Phone> phoneList = new ArrayList<Phone>();
-
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Fax> faxList = new ArrayList<Fax>();
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Website> websiteList = new ArrayList<Website>();
+	
 	Contact() {
 	}
 	
@@ -183,4 +190,20 @@ public class Contact extends AbstractEntity {
 		this.phoneList = phoneList;
 	}
 
+	public List<Fax> getFaxList() {
+		return faxList;
+	}
+
+	public void setFaxList(List<Fax> faxList) {
+		this.faxList = faxList;
+	}
+
+	public List<Website> getWebsiteList() {
+		return websiteList;
+	}
+
+	public void setWebsiteList(List<Website> websiteList) {
+		this.websiteList = websiteList;
+	}
+	
 }
