@@ -11,7 +11,7 @@ p {
 body,html {
 	font-family: Verdana, Arial, Helvetica;
 	font-size: 11px;
-	color: #00467f;
+	color: #555;
 	height: 100%;
 }
 
@@ -47,12 +47,8 @@ h4 {
 	height: 30px;
 }
 
-.inner {
-	padding: 0 35px;
-}
-
 a {
-	color: #00467f;
+	color: #555;
 	text-decoration: none;
 }
 
@@ -93,18 +89,13 @@ a {
 
 /*************MAIN***************/
 #wrapper {
-	width: 980px;
+	width: 1236px;
 	margin: 0 auto;
-	border-top: 8px solid #00457d;
 }
 
 #page-body {
 	min-height: 100%;
 	position: relative;
-}
-
-#center a:hover {
-	text-decoration: underline;
 }
 
 #left {
@@ -119,9 +110,4 @@ a {
 	height: 100%;
 	margin: 0 auto -142px;
 	/* the bottom margin is the negative value of the footer's height */
-}
-
-#center {
-	padding-left: 15px;
-	/*float: left;*/
 }
