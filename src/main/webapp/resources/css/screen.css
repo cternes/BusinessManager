@@ -47,13 +47,22 @@ h4 {
 	height: 30px;
 }
 
-a {
-	color: #555;
+a:link,
+a:visited,
+#main a:link,
+#main a:visited {
+	color: #948C75;
 	text-decoration: none;
 }
 
-#main a,#text a {
-	color: #666;
+a:focus,
+a:hover,
+a:active,
+#main a:focus,
+#main a:hover,
+#main a:active {
+	color: #7A6A53;
+	text-decoration: none;
 }
 
 /*************HEADER*************/
@@ -98,6 +107,17 @@ a {
 	position: relative;
 }
 
+#left-col {
+	float: left;
+	width: 180px;
+	background-color: red;	
+}
+
+#right-col {
+	float: right;
+	width: 1036px;
+}
+
 #left {
 	width: 200px;
 	float: left;
@@ -110,4 +130,19 @@ a {
 	height: 100%;
 	margin: 0 auto -142px;
 	/* the bottom margin is the negative value of the footer's height */
+}
+
+/************BUTTONS*********/
+.marginButton {
+	margin-left: 3em !important;
+}
+
+/************PANEL GRID *********/
+.ui-panelgrid tr, .ui-panelgrid td {
+	border:0 !important;
+}
+
+/****************SPACER**************************/
+.verticalSpacingSmall { 
+	height: 3.0em;
 }

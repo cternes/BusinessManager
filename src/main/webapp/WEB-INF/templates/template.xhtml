@@ -91,7 +91,9 @@
 						<p:menubar autoSubmenuDisplay="true" effect="fade" effectDuration="1">
 							<p:submenu label="#{messages.menu_admin}">
 								<p:menuitem value="#{messages.menu_admin_usermanagement}" action="#{navigationHelper.getAdminHome}"/>
-								<p:menuitem value="DummyPage" action="#{navigationHelper.getDummy}" />
+							</p:submenu>
+							<p:submenu label="#{messages.menu_contact}">
+								<p:menuitem value="#{messages.menu_contact_contactmanagement}" action="#{navigationHelper.getContactmanagement}"/>
 							</p:submenu>
 						</p:menubar>
 					</h:form>

@@ -22,7 +22,8 @@ public class NavigationHelper {
 	private boolean isWithoutContext = true;
 	
 	private static final String ADMIN_HOME 						= "/views/admin/admin.jsf";
-	private static final String DUMMY							= "/views/admin/dummy1.jsf";
+	private static final String CONTACTMANAGEMENT 				= "/views/contact/contactManagement.jsf";
+	private static final String CONTACT_EDIT					= "/views/contact/editContact.jsf";
 
 	public String getContextPath() {
 		contextPath = facesContext.getCurrentFacesContext().getExternalContext().getRequestContextPath();
@@ -80,8 +81,12 @@ public class NavigationHelper {
 		return getNavigation(ADMIN_HOME);
 	}
 
-	public String getDummy() {
-		return getNavigation(DUMMY);
+	public String getEditContact() {
+		return getNavigation(CONTACT_EDIT);
+	}
+
+	public String getContactmanagement() {
+		return getNavigation(CONTACTMANAGEMENT);
 	}
 	
 }

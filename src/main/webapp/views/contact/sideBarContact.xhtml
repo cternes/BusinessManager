@@ -5,17 +5,11 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	template="/WEB-INF/templates/template.xhtml">
+	xmlns:p="http://primefaces.org/ui">
 	
-	<ui:define name="head">
-    </ui:define>
-	
-	<ui:define name="content">
-		<h:body>
-			<div id="center">
-				<h2 class="contentheading">DUMMY</h2>
-			</div>
-		</h:body>
-	</ui:define>
+	<p:panel header="#{messages.contactmanagement_sidebar_title}">
+		<h:form id="sideBarForm">
+			<p:commandLink value="#{messages.contactmanagement_sidebar_add_contact}" action="#{contactSidebarController.navigateToEditContact}"></p:commandLink>
+		</h:form>
+	</p:panel>
 </ui:composition>

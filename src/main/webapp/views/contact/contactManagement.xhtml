@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/template.xhtml">
+	
+	<ui:define name="content">
+		<h:body>
+			<h2 class="contentheading">#{messages.contactmanagement_title}</h2>
+			
+			<div id="left-col">
+				<ui:include src="sideBarContact.xhtml" />
+			</div>
+			
+			<div id="right-col">
+				<h:form id="formPanel">
+					<p:messages />
+					
+					<p:dataTable id="contactList" var="contact" value="#{contactManagementController.model.entityList}" paginator="true" rows="10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+					rowsPerPageTemplate="5,10,15" paginatorAlwaysVisible="true" emptyMessage="#{messages.empty_table_message}" 
+					selection="#{contactManagementController.model.selectedEntity}" selectionMode="single" 
+					rowKey="#{contact.id}" paginatorPosition="top">
+						<p:ajax event="rowSelect" update=":formPanel" />
+			        	<p:column sortBy="#{contact.firstname}" filterBy="#{contact.firstname}" filterMatchMode="contains">
+				            <f:facet name="header">
+				                    #{messages.contactmanagement_contact_firstname}
+				            </f:facet>
+				            <h:outputText value="#{contact.firstname}"/>
+				        </p:column> 
+				        <p:column sortBy="#{contact.lastname}" filterBy="#{contact.lastname}" filterMatchMode="contains">
+				            <f:facet name="header">
+				                    #{messages.contactmanagement_contact_lastname}
+				            </f:facet>
+				            <h:outputText value="#{contact.lastname}"/>
+				        </p:column>
+				        <p:column>
+				            <f:facet name="header">
+				                    #{messages.contactmanagement_contact_street}
+				            </f:facet>
+				            <h:outputText value="##TODO"/>
+				        </p:column>
+				        <p:column>
+				            <f:facet name="header">
+				                    #{messages.contactmanagement_contact_zipcode}
+				            </f:facet>
+				            <h:outputText value="##TODO"/>
+				        </p:column>
+				        <p:column>
+				            <f:facet name="header">
+				                    #{messages.contactmanagement_contact_city}
+				            </f:facet>
+				            <h:outputText value="##TODO"/>
+				        </p:column>
+				        <p:column>
+				            <f:facet name="header">
+				                    #{messages.contactmanagement_contact_email}
+				            </f:facet>
+				            <h:outputText value="##TODO"/>
+				        </p:column>  
+				        <p:column>
+				            <f:facet name="header">
+				                    #{messages.contactmanagement_contact_phone}
+				            </f:facet>
+				            <h:outputText value="##TODO"/>
+				        </p:column>  
+					</p:dataTable>
+				</h:form>
+			</div>
+		</h:body>
+	</ui:define>
+</ui:composition>
