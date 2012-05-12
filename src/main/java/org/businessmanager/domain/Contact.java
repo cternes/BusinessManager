@@ -12,7 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.apache.commons.collections.Predicate;
 import org.businessmanager.util.CollectionUtil;
+import org.businessmanager.util.DefaultItemPredicate;
 
 /**
  * @author Christian Ternes
@@ -46,12 +48,15 @@ public class Contact extends AbstractEntity {
 	@Column
 	private Integer salutation;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "contact")
 	private List<ContactItem> contactItems = new ArrayList<ContactItem>();
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contact")
+	private List<Address> addresses = new ArrayList<Address>();
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contact")
 	private List<Invoice> invoices = new ArrayList<Invoice>();
-	
+
 	Contact() {
 	}
 
@@ -123,13 +128,21 @@ public class Contact extends AbstractEntity {
 	public void setSalutation(Integer salutation) {
 		this.salutation = salutation;
 	}
-	
+
 	public List<Invoice> getInvoices() {
 		return invoices;
 	}
 
 	public void setInvoices(List<Invoice> invoices) {
 		this.invoices = invoices;
+	}
+
+	public List<Address> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
 	}
 
 	@Override
@@ -236,7 +249,7 @@ public class Contact extends AbstractEntity {
 		return CollectionUtil.typedUnmodifiableSubList(getContactItemList(),
 				Fax.class);
 	}
-	
+
 	/**
 	 * Returns list of fax numbers of contact. List is read-only! Please use
 	 * {@link #setContactItems(List)} to modify contact items.
@@ -246,5 +259,89 @@ public class Contact extends AbstractEntity {
 	public List<Website> getWebsiteList() {
 		return CollectionUtil.typedUnmodifiableSubList(getContactItemList(),
 				Website.class);
+	}
+
+	public Email getDefaultEmail() {
+		List<ContactItem> result = CollectionUtil.predicateUnmodifiableSubList(
+				getContactItemList(), new DefaultItemPredicate(Email.class));
+
+		if (result.size() > 0) {
+			return (Email) result.get(0);
+		}
+		return null;
+	}
+
+	public Phone getDefaultPhone() {
+		List<ContactItem> result = CollectionUtil.predicateUnmodifiableSubList(
+				getContactItemList(), new DefaultItemPredicate(Phone.class));
+
+		if (result.size() > 0) {
+			return (Phone) result.get(0);
+		}
+		return null;
+	}
+
+	public Fax getDefaultFax() {
+		List<ContactItem> result = CollectionUtil.predicateUnmodifiableSubList(
+				getContactItemList(), new DefaultItemPredicate(Fax.class));
+
+		if (result.size() > 0) {
+			return (Fax) result.get(0);
+		}
+		return null;
+	}
+
+	public Website getDefaultWebsite() {
+		List<ContactItem> result = CollectionUtil.predicateUnmodifiableSubList(
+				getContactItemList(), new DefaultItemPredicate(Website.class));
+
+		if (result.size() > 0) {
+			return (Website) result.get(0);
+		}
+		return null;
+	}
+
+	public Address getDefaultBillingAddress() {
+		List<Address> result = CollectionUtil.predicateUnmodifiableSubList(
+				getAddresses(), new DefaultItemPredicate(Address.class,
+						new Predicate() {
+
+							@Override
+							public boolean evaluate(Object paramObject) {
+								if (paramObject instanceof Address) {
+									Address address = (Address) paramObject;
+									return Address.SCOPE_BILLING.equals(address
+											.getScope());
+								}
+								return false;
+							}
+						}));
+
+		if (result.size() > 0) {
+			return result.get(0);
+		}
+		return null;
+	}
+
+	public Address getDefaultShippingAddress() {
+		List<Address> result = CollectionUtil.predicateUnmodifiableSubList(
+				getAddresses(), new DefaultItemPredicate(Address.class,
+						new Predicate() {
+
+							@Override
+							public boolean evaluate(Object paramObject) {
+								if (paramObject instanceof Address) {
+									Address address = (Address) paramObject;
+									return Address.SCOPE_SHIPPING
+											.equals(address.getScope());
+								}
+								return false;
+							}
+						}));
+
+		if (result.size() > 0) {
+			return result.get(0);
+		}
+		return null;
 	}
 }
