@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,9 +46,12 @@ public class Contact extends AbstractEntity {
 	@Column
 	private Integer salutation;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<ContactItem> contactItems = new ArrayList<ContactItem>();
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contact")
+	private List<Invoice> invoices = new ArrayList<Invoice>();
+	
 	Contact() {
 	}
 
@@ -118,6 +122,14 @@ public class Contact extends AbstractEntity {
 
 	public void setSalutation(Integer salutation) {
 		this.salutation = salutation;
+	}
+	
+	public List<Invoice> getInvoices() {
+		return invoices;
+	}
+
+	public void setInvoices(List<Invoice> invoices) {
+		this.invoices = invoices;
 	}
 
 	@Override
