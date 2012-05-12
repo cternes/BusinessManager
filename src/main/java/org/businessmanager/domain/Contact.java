@@ -11,9 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.businessmanager.util.CollectionUtil;
+
 /**
  * @author Christian Ternes
- *
+ * 
  */
 @Entity
 public class Contact extends AbstractEntity {
@@ -21,45 +23,39 @@ public class Contact extends AbstractEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@Column
 	private String firstname;
-	
+
 	@Column
 	private String lastname;
-	
+
 	@Column
 	private String title;
-	
+
 	@Column
 	private String jobTitle;
-	
+
 	@Column
 	private String image;
-	
+
 	@Column
 	private String company;
-	
+
+	@Column
+	private Integer salutation;
+
 	@OneToMany(cascade = CascadeType.ALL)
-	private List<Email> emailList = new ArrayList<Email>();
-	
-	@OneToMany(cascade = CascadeType.ALL)
-	private List<Phone> phoneList = new ArrayList<Phone>();
-	
-	@OneToMany(cascade = CascadeType.ALL)
-	private List<Fax> faxList = new ArrayList<Fax>();
-	
-	@OneToMany(cascade = CascadeType.ALL)
-	private List<Website> websiteList = new ArrayList<Website>();
-	
+	private List<ContactItem> contactItems = new ArrayList<ContactItem>();
+
 	Contact() {
 	}
-	
+
 	public Contact(String firstname, String lastname) {
 		this.firstname = firstname;
 		this.lastname = lastname;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -116,6 +112,14 @@ public class Contact extends AbstractEntity {
 		this.company = company;
 	}
 
+	public Integer getSalutation() {
+		return salutation;
+	}
+
+	public void setSalutation(Integer salutation) {
+		this.salutation = salutation;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -123,11 +127,12 @@ public class Contact extends AbstractEntity {
 		result = prime * result + ((company == null) ? 0 : company.hashCode());
 		result = prime * result
 				+ ((firstname == null) ? 0 : firstname.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((image == null) ? 0 : image.hashCode());
 		result = prime * result
-				+ ((jobTitle == null) ? 0 : jobTitle.hashCode());
-		result = prime * result
 				+ ((lastname == null) ? 0 : lastname.hashCode());
+		result = prime * result
+				+ ((salutation == null) ? 0 : salutation.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
@@ -151,20 +156,25 @@ public class Contact extends AbstractEntity {
 				return false;
 		} else if (!firstname.equals(other.firstname))
 			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
 		if (image == null) {
 			if (other.image != null)
 				return false;
 		} else if (!image.equals(other.image))
 			return false;
-		if (jobTitle == null) {
-			if (other.jobTitle != null)
-				return false;
-		} else if (!jobTitle.equals(other.jobTitle))
-			return false;
 		if (lastname == null) {
 			if (other.lastname != null)
 				return false;
 		} else if (!lastname.equals(other.lastname))
+			return false;
+		if (salutation == null) {
+			if (other.salutation != null)
+				return false;
+		} else if (!salutation.equals(other.salutation))
 			return false;
 		if (title == null) {
 			if (other.title != null)
@@ -174,36 +184,55 @@ public class Contact extends AbstractEntity {
 		return true;
 	}
 
+	public List<ContactItem> getContactItemList() {
+		return contactItems;
+	}
+
+	public void setContactItemList(List<ContactItem> contactItems) {
+		this.contactItems = contactItems;
+	}
+
+	/**
+	 * Returns list of e-mail addresses of contact. List is read-only! Please
+	 * use {@link #setContactItems(List)} to modify contact items.
+	 * 
+	 * @return list of e-mail addresses
+	 */
 	public List<Email> getEmailList() {
-		return emailList;
+		return CollectionUtil.typedUnmodifiableSubList(getContactItemList(),
+				Email.class);
 	}
 
-	public void setEmailList(List<Email> emailList) {
-		this.emailList = emailList;
-	}
-
+	/**
+	 * Returns list of phone numbers of contact. List is read-only! Please use
+	 * {@link #setContactItems(List)} to modify contact items.
+	 * 
+	 * @return list of phone numbers
+	 */
 	public List<Phone> getPhoneList() {
-		return phoneList;
+		return CollectionUtil.typedUnmodifiableSubList(getContactItemList(),
+				Phone.class);
 	}
 
-	public void setPhoneList(List<Phone> phoneList) {
-		this.phoneList = phoneList;
-	}
-
+	/**
+	 * Returns list of fax numbers of contact. List is read-only! Please use
+	 * {@link #setContactItems(List)} to modify contact items.
+	 * 
+	 * @return list of fax numbers
+	 */
 	public List<Fax> getFaxList() {
-		return faxList;
-	}
-
-	public void setFaxList(List<Fax> faxList) {
-		this.faxList = faxList;
-	}
-
-	public List<Website> getWebsiteList() {
-		return websiteList;
-	}
-
-	public void setWebsiteList(List<Website> websiteList) {
-		this.websiteList = websiteList;
+		return CollectionUtil.typedUnmodifiableSubList(getContactItemList(),
+				Fax.class);
 	}
 	
+	/**
+	 * Returns list of fax numbers of contact. List is read-only! Please use
+	 * {@link #setContactItems(List)} to modify contact items.
+	 * 
+	 * @return list of website urls
+	 */
+	public List<Website> getWebsiteList() {
+		return CollectionUtil.typedUnmodifiableSubList(getContactItemList(),
+				Website.class);
+	}
 }

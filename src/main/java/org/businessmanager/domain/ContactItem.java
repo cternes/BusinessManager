@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -31,6 +32,9 @@ public abstract class ContactItem {
 	@Column
 	private String value;
 
+	@ManyToOne(targetEntity=Contact.class)
+	private Contact contact;
+	
 	public Long getId() {
 		return id;
 	}
@@ -55,4 +59,11 @@ public abstract class ContactItem {
 		this.value = value;
 	}
 
+	public Contact getContact() {
+		return contact;
+	}
+
+	public void setContact(Contact contact) {
+		this.contact = contact;
+	}
 }

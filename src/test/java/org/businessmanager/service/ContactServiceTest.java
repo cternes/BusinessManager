@@ -43,12 +43,12 @@ public class ContactServiceTest {
 		Email emailObj = new Email();
 		emailObj.setScope("private");
 		emailObj.setValue(email);
-		contact.getEmailList().add(emailObj);
+		contact.getContactItemList().add(emailObj);
 		
 		Phone phoneObj = new Phone();
 		phoneObj.setScope("private");
 		phoneObj.setValue(phone);
-		contact.getPhoneList().add(phoneObj);
+		contact.getContactItemList().add(phoneObj);
 		
 		return contact;
 	}
