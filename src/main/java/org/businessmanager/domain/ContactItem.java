@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @Table(name = "CONTACT_ITEM")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "TYPE", discriminatorType = DiscriminatorType.STRING, length = 20)
-public abstract class ContactItem {
+public abstract class ContactItem implements HasDefault {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,10 +31,13 @@ public abstract class ContactItem {
 
 	@Column
 	private String value;
+	
+	@Column
+	private Boolean isDefault;
 
 	@ManyToOne(targetEntity=Contact.class)
 	private Contact contact;
-	
+		
 	public Long getId() {
 		return id;
 	}
@@ -65,5 +68,13 @@ public abstract class ContactItem {
 
 	public void setContact(Contact contact) {
 		this.contact = contact;
+	}
+
+	public Boolean getIsDefault() {
+		return isDefault;
+	}
+
+	public void setIsDefault(Boolean isDefault) {
+		this.isDefault = isDefault;
 	}
 }
