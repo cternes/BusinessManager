@@ -1,6 +1,7 @@
 package org.businessmanager.web.controller.page.contact;
 
 import org.businessmanager.service.ContactService;
+import org.businessmanager.web.controller.AbstractPageController;
 import org.businessmanager.web.controller.state.ContactModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
  */
 @Component("contactManagementController")
 @Scope("request")
-public class ContactManagementController {
+public class ContactManagementController extends AbstractPageController {
 
 	@Autowired
 	private ContactService contactService;
@@ -29,5 +30,9 @@ public class ContactManagementController {
 			fetchContacts();
 		}
 		return model;
+	}
+	
+	public String navigateToContactView() {
+		return navigationHelper.getContactView();
 	}
 }

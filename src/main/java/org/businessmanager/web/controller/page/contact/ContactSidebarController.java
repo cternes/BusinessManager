@@ -15,4 +15,8 @@ public class ContactSidebarController extends AbstractPageController {
 	public String navigateToEditContact() {
 		return navigationHelper.getEditContact();
 	}
+	
+	public String navigateToAllContacts() {
+		return navigationHelper.getContactmanagement();
+	}
 }

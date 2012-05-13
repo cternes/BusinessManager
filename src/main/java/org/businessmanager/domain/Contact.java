@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import org.apache.commons.collections.Predicate;
+import org.apache.commons.lang3.StringUtils;
 import org.businessmanager.util.CollectionUtil;
 import org.businessmanager.util.DefaultItemPredicate;
 
@@ -343,5 +344,21 @@ public class Contact extends AbstractEntity {
 			return result.get(0);
 		}
 		return null;
+	}
+	
+	public String getDisplayName() {
+		StringBuilder sb = new StringBuilder();
+		appendToString(sb, title);
+		appendToString(sb, firstname);
+		appendToString(sb, lastname);
+		
+		return sb.toString();
+	}
+
+	private void appendToString(StringBuilder sb, String value) {
+		if(!StringUtils.isEmpty(value)) {
+			sb.append(value);
+			sb.append(" ");
+		}
 	}
 }

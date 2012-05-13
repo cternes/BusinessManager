@@ -7,7 +7,11 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 
 import org.apache.commons.lang3.StringUtils;
+import org.businessmanager.aop.annotation.ErrorHandled;
 import org.businessmanager.domain.Contact;
+import org.businessmanager.domain.ContactItem;
+import org.businessmanager.domain.Email;
+import org.businessmanager.domain.Phone;
 import org.businessmanager.service.ContactService;
 import org.businessmanager.web.bean.ContactBean;
 import org.businessmanager.web.bean.ContactItemBean;
@@ -27,17 +31,21 @@ public class ContactEditController extends AbstractPageController {
 	private ContactBean bean = new ContactBean();
 	private List<ContactItemBean> emailList = new ArrayList<ContactItemBean>();
 	private ContactItemBean selectedEmail;
+	private List<ContactItemBean> phoneList = new ArrayList<ContactItemBean>();
+	private ContactItemBean selectedPhone;
 	private List<String> availableScopes = new ArrayList<String>();
 
 	@PostConstruct
 	public void init() {
 		emailList.add(new ContactItemBean());
+		phoneList.add(new ContactItemBean());
 		
 		availableScopes.add(ResourceBundleProducer.getString("scope_private"));
 		availableScopes.add(ResourceBundleProducer.getString("scope_commercial"));
 		availableScopes.add(ResourceBundleProducer.getString("scope_misc"));
 	}
 	
+	@ErrorHandled
 	public String saveContact() {
 		if(validateInput()) {
 			Contact contact = createContact();
@@ -60,8 +68,24 @@ public class ContactEditController extends AbstractPageController {
 		if(!StringUtils.isEmpty(bean.getJobTitle())) {
 			contact.setJobTitle(bean.getJobTitle());
 		}
+		
+		for (ContactItemBean contactItem : emailList) {
+			Email email = new Email();
+			addItemToContact(contact, contactItem, email);
+		}
+		
+		for (ContactItemBean contactItem : phoneList) {
+			Phone phone = new Phone();
+			addItemToContact(contact, contactItem, phone);
+		}
 	}
 
+	private void addItemToContact(Contact contact, ContactItemBean contactItem,	ContactItem item) {
+		item.setScope(contactItem.getScope());
+		item.setValue(contactItem.getValue());
+		contact.getContactItemList().add(item);
+	}
+	
 	private boolean validateInput() {
 		boolean isValid = true;
 		
@@ -71,6 +95,7 @@ public class ContactEditController extends AbstractPageController {
 		}
 		
 		//TODO: validate emails
+		
 		
 		return isValid;
 	}
@@ -125,6 +150,35 @@ public class ContactEditController extends AbstractPageController {
 	
 	public List<String> getAvailableScopes() {
 		return availableScopes;
+	}
+
+	public List<ContactItemBean> getPhoneList() {
+		return phoneList;
+	}
+	
+	public void addPhone() {
+		phoneList.add(new ContactItemBean());
+	}
+	
+	public void removePhone() {
+		if(selectedPhone != null) {
+			phoneList.remove(selectedPhone);
+		}
+	}
+
+	public void setSelectedPhone(ContactItemBean selectedPhone) {
+		this.selectedPhone = selectedPhone;
+	}
+
+	public ContactItemBean getSelectedPhone() {
+		return selectedPhone;
+	}
+	
+	public boolean getShowRemovePhoneButton() {
+		if(phoneList.size() > 1) {
+			return true;
+		}
+		return false;
 	}
 
 }

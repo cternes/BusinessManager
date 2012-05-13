@@ -1,5 +1,9 @@
 package org.businessmanager.web.bean;
 
+/**
+ * @author Christian Ternes
+ *
+ */
 public class ContactBean {
 
 	private String name;

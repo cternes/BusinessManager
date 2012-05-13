@@ -30,7 +30,9 @@
 				            <f:facet name="header">
 				                    #{messages.contactmanagement_contact_firstname}
 				            </f:facet>
-				            <h:outputText value="#{contact.firstname}"/>
+				            <p:commandLink value="#{contact.firstname}" action="#{contactManagementController.navigateToContactView}">
+				            	<f:setPropertyActionListener target="#{contactManagementController.model.selectedEntity}" value="#{contact}" />
+				            </p:commandLink>
 				        </p:column> 
 				        <p:column sortBy="#{contact.lastname}" filterBy="#{contact.lastname}" filterMatchMode="contains">
 				            <f:facet name="header">

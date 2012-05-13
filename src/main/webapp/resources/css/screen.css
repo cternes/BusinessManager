@@ -22,8 +22,13 @@ h1,h2,h3,h4,h5,h6 {
 	font-weight: normal;
 }
 
+h1 {
+	padding-bottom: 10px;
+}
+
 h2 {
 	font-size: 15px;
+	padding-bottom: 5px;
 }
 
 h3 {
@@ -94,6 +99,11 @@ a:active,
 
 .noLinkColor {
 	color: #ffffff;
+}
+
+/*************SIDEBAR***************/
+.navigationList {
+	list-style:none;	
 }
 
 /*************MAIN***************/

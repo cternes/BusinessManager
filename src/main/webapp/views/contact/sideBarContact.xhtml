@@ -9,7 +9,14 @@
 	
 	<p:panel header="#{messages.contactmanagement_sidebar_title}">
 		<h:form id="sideBarForm">
-			<p:commandLink value="#{messages.contactmanagement_sidebar_add_contact}" action="#{contactSidebarController.navigateToEditContact}"></p:commandLink>
+			<ul class="navigationList">
+				<li>
+					<p:commandLink value="#{messages.contactmanagement_sidebar_add_contact}" action="#{contactSidebarController.navigateToEditContact}" />
+				</li>
+				<li>
+					<p:commandLink value="#{messages.contactmanagement_sidebar_all_contacts}" action="#{contactSidebarController.navigateToAllContacts}" />
+				</li>
+			</ul>
 		</h:form>
 	</p:panel>
 </ui:composition>

@@ -24,4 +24,5 @@ public interface ContactService {
 	 * @return a list of {@link Contact}s
 	 */
 	public List<Contact> getContacts();
+
 }
