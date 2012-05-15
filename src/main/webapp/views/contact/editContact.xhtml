@@ -9,7 +9,21 @@
 	template="/WEB-INF/templates/template.xhtml">
 
 	<ui:define name="head">
-	</ui:define>
+        <script type="text/javascript">
+      //<![CDATA[
+        function uncheckOtherBoxes(chkBox) {
+			    var id = chkBox.name.substring(chkBox.name.lastIndexOf(':'));
+			    var emailPanel = $(chkBox).parent().parent().parent().parent().parent().parent().parent(); 
+			    var checkboxes = $(emailPanel).find(':checkbox');
+			    
+			    for (var i = 0; i < checkboxes.length; i++) {
+			    	checkboxes[i].checked = false;
+			    }
+			    chkBox.checked = true;
+		}
+	//]]>
+        </script>
+    </ui:define>
 
 	<ui:define name="content">
 		<h:body>
@@ -46,70 +60,78 @@
 							value="#{contactEditController.bean.company}" />
 					</p:panelGrid>
 
-					<p:panelGrid columns="2">
-						<p:panel id="emailPanel"
-							header="#{messages.editcontact_contact_email}">
-							<p:commandLink value="#{messages.editcontact_add_email}"
-								action="#{contactEditController.addEmail}"
-								update=":formPanel:emailPanel" />
-							<h:dataTable var="email"
-								value="#{contactEditController.emailList}">
-								<h:column>
-									<p:selectOneMenu value="#{email.scope}">
-										<f:selectItems
-											value="#{contactEditController.availableScopes}"
-											itemLabel="#{scope}" itemValue="#{scope}" />
-									</p:selectOneMenu>
-								</h:column>
-								<h:column>
-									<p:inputText value="#{email.value}" />
-								</h:column>
-								<h:column>
-									<p:commandButton title="#{messages.editcontact_remove_email}"
-										action="#{contactEditController.removeEmail}"
-										icon="ui-icon-minusthick" update=":formPanel:emailPanel"
-										rendered="#{contactEditController.showRemoveEmailButton}">
-										<f:setPropertyActionListener
-											target="#{contactEditController.selectedEmail}"
-											value="#{email}" />
-									</p:commandButton>
-								</h:column>
-							</h:dataTable>
-						</p:panel>
-
-						<p:panel id="phonePanel"
-							header="#{messages.editcontact_contact_phone}">
-							<p:commandLink value="#{messages.editcontact_add_phone}"
-								action="#{contactEditController.addPhone}"
-								update=":formPanel:phonePanel" />
-							<h:dataTable var="phone"
-								value="#{contactEditController.phoneList}">
-								<h:column>
-									<p:selectOneMenu value="#{phone.scope}">
-										<f:selectItems
-											value="#{contactEditController.availableScopes}"
-											itemLabel="#{scope}" itemValue="#{scope}" />
-									</p:selectOneMenu>
-								</h:column>
-								<h:column>
-									<p:inputText value="#{phone.value}" />
-								</h:column>
-								<h:column>
-									<p:commandButton title="#{messages.editcontact_remove_phone}"
-										action="#{contactEditController.removePhone}"
-										icon="ui-icon-minusthick" update=":formPanel:phonePanel"
-										rendered="#{contactEditController.showRemovePhoneButton}">
-										<f:setPropertyActionListener
-											target="#{contactEditController.selectedPhone}"
-											value="#{phone}" />
-									</p:commandButton>
-								</h:column>
-							</h:dataTable>
-						</p:panel>
-					</p:panelGrid>
-
-					<p:panelGrid columns="2">
-
+					<p:panelGrid>
+						<p:row>
+							<p:column styleClass="topAlign">
+								<p:panel id="emailPanel"
+									header="#{messages.editcontact_contact_email}">
+									<p:commandLink value="#{messages.editcontact_add_email}"
+										action="#{contactEditController.addEmail}"
+										update=":formPanel:emailPanel" />
+									<h:dataTable var="email"
+										value="#{contactEditController.emailList}">
+										<h:column>
+											<p:selectOneMenu value="#{email.scope}">
+												<f:selectItems
+													value="#{contactEditController.availableScopes}"
+													itemLabel="#{scope}" itemValue="#{scope}" />
+											</p:selectOneMenu>
+										</h:column>
+										<h:column>
+											<p:inputText value="#{email.value}" />
+										</h:column>
+										<h:column>
+											<p:commandButton title="#{messages.editcontact_remove_email}"
+												action="#{contactEditController.removeEmail}"
+												icon="ui-icon-minusthick" update=":formPanel:emailPanel"
+												rendered="#{contactEditController.showRemoveEmailButton}">
+												<f:setPropertyActionListener
+													target="#{contactEditController.selectedEmail}"
+													value="#{email}" />
+											</p:commandButton>
+										</h:column>
+										<h:column>
+											<h:selectBooleanCheckbox title="#{messages.mark_as_default}" value="#{email.isDefault}" onchange="uncheckOtherBoxes(this);" />
+										</h:column>
+									</h:dataTable>
+								</p:panel>
+							</p:column>
+							
+							<p:column styleClass="topAlign">
+								<p:panel id="phonePanel"
+									header="#{messages.editcontact_contact_phone}">
+									<p:commandLink value="#{messages.editcontact_add_phone}"
+										action="#{contactEditController.addPhone}"
+										update=":formPanel:phonePanel" />
+									<h:dataTable var="phone"
+										value="#{contactEditController.phoneList}">
+										<h:column>
+											<p:selectOneMenu value="#{phone.scope}">
+												<f:selectItems
+													value="#{contactEditController.availableScopes}"
+													itemLabel="#{scope}" itemValue="#{scope}" />
+											</p:selectOneMenu>
+										</h:column>
+										<h:column>
+											<p:inputText value="#{phone.value}" />
+										</h:column>
+										<h:column>
+											<p:commandButton title="#{messages.editcontact_remove_phone}"
+												action="#{contactEditController.removePhone}"
+												icon="ui-icon-minusthick" update=":formPanel:phonePanel"
+												rendered="#{contactEditController.showRemovePhoneButton}">
+												<f:setPropertyActionListener
+													target="#{contactEditController.selectedPhone}"
+													value="#{phone}" />
+											</p:commandButton>
+										</h:column>
+										<h:column>
+											<h:selectBooleanCheckbox title="#{messages.mark_as_default}" value="#{phone.isDefault}" onchange="uncheckOtherBoxes(this);" />
+										</h:column>	
+									</h:dataTable>
+								</p:panel>
+							</p:column>
+						</p:row>
 					</p:panelGrid>
 
 					<div class="verticalSpacingSmall" />

@@ -152,6 +152,10 @@ a:active,
 	border:0 !important;
 }
 
+.topAlign {
+	vertical-align: top !important;
+}
+
 /****************SPACER**************************/
 .verticalSpacingSmall { 
 	height: 3.0em;

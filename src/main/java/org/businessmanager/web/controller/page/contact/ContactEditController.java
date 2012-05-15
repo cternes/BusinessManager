@@ -39,8 +39,8 @@ public class ContactEditController extends AbstractPageController {
 
 	@PostConstruct
 	public void init() {
-		emailList.add(new ContactItemBean());
-		phoneList.add(new ContactItemBean());
+		emailList.add(new ContactItemBean(true));
+		phoneList.add(new ContactItemBean(true));
 
 		availableScopes.add(ResourceBundleProducer.getString("scope_private"));
 		availableScopes.add(ResourceBundleProducer

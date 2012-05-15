@@ -84,4 +84,10 @@ public class MockFacesContextHelper implements FacesContextHelper {
 		messages.add(msgKey);		
 	}
 
+	@Override
+	public void addExtendedMessage(Severity severity, String msgKey,
+			String additionalInfo) {
+		messages.add(msgKey);		
+	}
+
 }

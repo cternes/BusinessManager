@@ -12,6 +12,13 @@ public class ContactItemBean {
 	
 	private boolean isDefault;
 
+	public ContactItemBean() {
+	}
+	
+	public ContactItemBean(boolean isDefault) {
+		this.isDefault = isDefault;
+	}
+	
 	public String getScope() {
 		return scope;
 	}
@@ -28,11 +35,11 @@ public class ContactItemBean {
 		this.value = value;
 	}
 
-	public boolean isDefault() {
+	public boolean getIsDefault() {
 		return isDefault;
 	}
 
-	public void setDefault(boolean isDefault) {
+	public void setIsDefault(boolean isDefault) {
 		this.isDefault = isDefault;
 	}
 
