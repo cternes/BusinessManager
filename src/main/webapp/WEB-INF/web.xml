@@ -15,15 +15,15 @@
 			/WEB-INF/spring/security.xml
 		</param-value>
 	</context-param>
-	
+
 	<!-- JSF params -->
 	<context-param>
-		 <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-		 <param-value>server</param-value>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>server</param-value>
 	</context-param>
 	<context-param>
 		<param-name>javax.faces.FACELETS_DEVELOPMENT</param-name>
-		<param-value>TRUE</param-value> 
+		<param-value>TRUE</param-value>
 	</context-param>
 	<context-param>
 		<param-name>javax.faces.FACELETS_REFRESH_PERIOD</param-name>
@@ -33,37 +33,35 @@
 		<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
 		<param-value>true</param-value>
 	</context-param>
-	<!-- 
+	<!-- <context-param> <param-name>javax.faces.FACELETS_LIBRARIES</param-name> 
+		<param-value>/WEB-INF/security.taglib.xml; /WEB-INF/taglib/components.taglib.xml</param-value> 
+		</context-param> -->
+
+	<!-- Enable PrimeFaces Custom Theme -->
 	<context-param>
-    	<param-name>javax.faces.FACELETS_LIBRARIES</param-name>
-    	<param-value>/WEB-INF/security.taglib.xml; /WEB-INF/taglib/components.taglib.xml</param-value>
- 	</context-param>
- 	 -->
- 	
- 	<!-- Enable PrimeFaces Custom Theme -->
-	<context-param>  
-    	<param-name>primefaces.THEME</param-name>  
-    	<param-value>none</param-value>
-	</context-param> 
-	
+		<param-name>primefaces.THEME</param-name>
+		<param-value>none</param-value>
+	</context-param>
+
 	<!-- Enable Spring Security -->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
-	<!-- Allow login pages with JSF which redirects to security check, therefore we have to add the forward entry here -->
+	<!-- Allow login pages with JSF which redirects to security check, therefore 
+		we have to add the forward entry here -->
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
-	
+
 	<error-page>
-    	<exception-type>javax.faces.application.ViewExpiredException</exception-type>
-    	<location>/index.jsf</location>
+		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
+		<location>/index.jsf</location>
 	</error-page>
-	
+
 	<!-- Enable PrimeFaces Upload -->
 	<filter>
 		<filter-name>PrimeFaces FileUpload Filter</filter-name>
@@ -78,29 +76,41 @@
 		</init-param>
 	</filter>
 	<filter-mapping>
-        <filter-name>PrimeFaces FileUpload Filter</filter-name>
-        <servlet-name>Faces Servlet</servlet-name>
-    </filter-mapping>
-    
-    <!-- Enable UTF-8 encoding --> 
-    <filter>
-        <filter-name>Character Encoding Filter</filter-name>
-        <filter-class>org.businessmanager.web.filter.CharacterEncodingFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>Character Encoding Filter</filter-name>
-        <servlet-name>Faces Servlet</servlet-name>
-    </filter-mapping>
-	
+		<filter-name>PrimeFaces FileUpload Filter</filter-name>
+		<servlet-name>Faces Servlet</servlet-name>
+	</filter-mapping>
+
+	<!-- Enable UTF-8 encoding -->
+	<filter>
+		<filter-name>Character Encoding Filter</filter-name>
+		<filter-class>org.businessmanager.web.filter.CharacterEncodingFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>Character Encoding Filter</filter-name>
+		<servlet-name>Faces Servlet</servlet-name>
+	</filter-mapping>
+
+	<!-- Enable JPA session in view -->
+	<filter>
+		<filter-name>oemInViewFilter</filter-name>
+		<filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>oemInViewFilter</filter-name>
+		<url-pattern>*.jsf</url-pattern>
+	</filter-mapping>
+
+
 	<!-- Apache Orchestra -->
 	<listener>
 		<listener-class>org.apache.myfaces.orchestra.conversation.servlet.ConversationManagerSessionListener</listener-class>
 	</listener>
-	
+
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
+
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
@@ -113,7 +123,7 @@
 		<servlet-name>redirectLoginPageServlet</servlet-name>
 		<url-pattern>/logmein/</url-pattern>
 	</servlet-mapping>
-	
+
 	<!-- Spring startup servlet -->
 	<servlet>
 		<servlet-name>appServlet</servlet-name>
@@ -128,7 +138,7 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/spring/</url-pattern>
 	</servlet-mapping>
-	
+
 	<!-- JSF servlet -->
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
@@ -140,7 +150,7 @@
 		<url-pattern>*.jsf</url-pattern>
 		<url-pattern>/faces/*</url-pattern>
 	</servlet-mapping>
-	
+
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>

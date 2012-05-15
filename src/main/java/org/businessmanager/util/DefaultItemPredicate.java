@@ -21,12 +21,15 @@ public class DefaultItemPredicate implements Predicate {
 	@Override
 	public boolean evaluate(Object obj) {
 
-		if (obj instanceof HasDefault && clazz.equals(obj.getClass())) {
+		if (obj != null && obj instanceof HasDefault && clazz.equals(obj.getClass())) {
+			Boolean isDefault = ((HasDefault) obj).getIsDefault();
+			if(isDefault == null) isDefault = false;
+			
 			if (predicate != null) {
-				return ((HasDefault) obj).getIsDefault()
+				return isDefault
 						&& predicate.evaluate(obj);
 			} else {
-				return ((HasDefault) obj).getIsDefault();
+				return isDefault;
 			}
 		}
 		return false;

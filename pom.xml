@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.businessmanager</groupId>
 	<artifactId>BusinessManager</artifactId>
@@ -18,7 +19,7 @@
 		<java.version>1.6</java.version>
 		<junit.version>4.10</junit.version>
 	</properties>
-	
+
 	<profiles>
 		<profile>
 			<id>profile-development</id>
@@ -59,29 +60,29 @@
 	<dependencies>
 		<!-- Apache Commons -->
 		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-lang3</artifactId>
-		    <version>3.1</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.1</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>commons-logging</groupId>
-		    <artifactId>commons-logging</artifactId>
-		    <version>1.1.1</version>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
 		</dependency>
-		
-		<dependency> 
-			<groupId>commons-el</groupId> 
-			<artifactId>commons-el</artifactId> 
-			<version>1.0</version> 
+
+		<dependency>
+			<groupId>commons-el</groupId>
+			<artifactId>commons-el</artifactId>
+			<version>1.0</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-jexl</artifactId>
@@ -92,20 +93,26 @@
 			<artifactId>bsf-api</artifactId>
 			<version>3.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
 			<version>3.2.1</version>
 		</dependency>
-	
+
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+
 		<!-- PrimeFaces FileUpload Dependencies -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.2.1</version>
 		</dependency>
-		
+
 		<!-- JSF Dependencies -->
 		<dependency>
 			<groupId>com.sun.faces</groupId>
@@ -120,35 +127,35 @@
 			<version>${jsf.version}</version>
 			<scope>compile</scope>
 		</dependency>
-		
-		<dependency>  
-    		<groupId>org.primefaces</groupId>  
-    		<artifactId>primefaces</artifactId>  
-    		<version>${primefaces.version}</version>
-		</dependency>  
-		
-		<!--  Apache Orchestra -->
+
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>${primefaces.version}</version>
+		</dependency>
+
+		<!-- Apache Orchestra -->
 		<dependency>
 			<groupId>org.apache.myfaces.orchestra</groupId>
 			<artifactId>myfaces-orchestra-core</artifactId>
 			<version>1.4</version>
 		</dependency>
-		
+
 		<!-- Apache POI -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
 			<version>3.7</version>
 		</dependency>
-		
+
 		<!-- iText -->
 		<dependency>
 			<groupId>com.lowagie</groupId>
 			<artifactId>itext</artifactId>
 			<version>2.1.7</version>
 		</dependency>
-            
-		
+
+
 		<!-- Spring-Security JSF TagLib -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -180,12 +187,12 @@
 		</dependency>
 
 		<dependency>
-		    <groupId>mysql</groupId>
-		    <artifactId>mysql-connector-java</artifactId>
-		    <version>5.1.18</version>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.18</version>
 		</dependency>
 
-		<!-- HSQLDB Dependencies - Needed for tests --> 
+		<!-- HSQLDB Dependencies - Needed for tests -->
 		<dependency>
 			<groupId>hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
@@ -198,14 +205,15 @@
 			<version>1.0.0.Final</version>
 			<scope>compile</scope>
 		</dependency>
-		
-		<!-- JPA Metamodel generator, will generate metamodel for all @Entity annotated classes -->
+
+		<!-- JPA Metamodel generator, will generate metamodel for all @Entity annotated 
+			classes -->
 		<dependency>
-		     <groupId>org.hibernate</groupId>
-		     <artifactId>hibernate-jpamodelgen</artifactId>
-		     <version>1.0.0.Final</version>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-jpamodelgen</artifactId>
+			<version>1.0.0.Final</version>
 		</dependency>
-		
+
 		<!-- Spring Dependencies -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -226,9 +234,9 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-aop</artifactId>
-		    <version>${spring.version}</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -237,34 +245,34 @@
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
-		
-		<dependency>
-	        <groupId>org.springframework.security</groupId>
-	        <artifactId>spring-security-core</artifactId>
-	        <version>${spring-security.version}</version>
-	    </dependency>
-	    <dependency>
-	        <groupId>org.springframework.security</groupId>
-	        <artifactId>spring-security-config</artifactId>
-	        <version>${spring-security.version}</version>
-	    </dependency>
-	    <dependency>
-	        <groupId>org.springframework.security</groupId>
-	        <artifactId>spring-security-acl</artifactId>
-	        <version>${spring-security.version}</version>
-	    </dependency>
-	    <dependency>
-	        <groupId>org.springframework.security</groupId>
-	        <artifactId>spring-security-web</artifactId>
-	        <version>${spring-security.version}</version>
-	    </dependency>
-	    <dependency>
-	        <groupId>org.springframework.security</groupId>
-	        <artifactId>spring-security-taglibs</artifactId>
-	        <version>${spring-security.version}</version>
-	    </dependency>
 
-		<!-- DB Dependencies --> 
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring-security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring-security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-acl</artifactId>
+			<version>${spring-security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring-security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${spring-security.version}</version>
+		</dependency>
+
+		<!-- DB Dependencies -->
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
@@ -279,7 +287,7 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<!-- View Dependencies -->
 		<dependency>
 			<groupId>taglibs</groupId>
@@ -288,68 +296,68 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>javax.servlet</groupId>
-		    <artifactId>jstl</artifactId>
-		    <version>1.1.2</version>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.1.2</version>
 		</dependency>
 
 		<!-- Servlet API -->
 		<dependency>
-		    <groupId>javax.servlet</groupId>
-		    <artifactId>servlet-api</artifactId>
-		    <version>2.5</version>
-		    <scope>provided</scope>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>javax.el</groupId>
-		    <artifactId>el-api</artifactId>
-		    <version>1.0</version>
-			<scope>provided</scope>		    
+			<groupId>javax.el</groupId>
+			<artifactId>el-api</artifactId>
+			<version>1.0</version>
+			<scope>provided</scope>
 		</dependency>
-		
+
 		<!-- Mail API -->
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4.4</version>
 		</dependency>
-		
+
 		<!-- Perf4j -->
 		<dependency>
-	        <groupId>org.perf4j</groupId>
-	        <artifactId>perf4j</artifactId>
-	        <version>0.9.16</version>
-	        <scope>compile</scope>
-	    </dependency>
-	    
-	    <dependency>
+			<groupId>org.perf4j</groupId>
+			<artifactId>perf4j</artifactId>
+			<version>0.9.16</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>commons-jexl</groupId>
 			<artifactId>commons-jexl</artifactId>
 			<version>1.1</version>
 		</dependency>
-	    
-	    <dependency>
+
+		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
 			<version>1.6.12</version>
 		</dependency>
-	
-	    <dependency>
+
+		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib-nodep</artifactId>
 			<version>2.2</version>
 			<scope>runtime</scope>
 		</dependency>
-		
+
 		<!-- Javamelody-core -->
-        <dependency>
-        	<groupId>net.bull.javamelody</groupId>
-            <artifactId>javamelody-core</artifactId>
-            <version>1.33.0</version>
-        </dependency>
+		<dependency>
+			<groupId>net.bull.javamelody</groupId>
+			<artifactId>javamelody-core</artifactId>
+			<version>1.33.0</version>
+		</dependency>
 
 		<!-- Fake Mail Server for Testing -->
 		<dependency>
@@ -357,36 +365,36 @@
 			<artifactId>dumbster</artifactId>
 			<version>1.6</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>org.easymock</groupId>
-		    <artifactId>easymock</artifactId>
-		    <version>3.0</version>
-		    <scope>test</scope>
-	    </dependency>
-	    
-	    <dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>el-api</artifactId>
-		    <version>6.0.32</version>
-		    <scope>test</scope>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>3.0</version>
+			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>nl.jqno.equalsverifier</groupId>
-		    <artifactId>equalsverifier</artifactId>
-		    <version>1.0.2</version>
-		    <scope>test</scope>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>el-api</artifactId>
+			<version>6.0.32</version>
+			<scope>test</scope>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>nl.jqno.equalsverifier</groupId>
+			<artifactId>equalsverifier</artifactId>
+			<version>1.0.2</version>
+			<scope>test</scope>
+		</dependency>
+
 		<!-- iCal4j -->
 		<dependency>
-	      	<groupId>net.fortuna.ical4j</groupId>
-	      	<artifactId>ical4j</artifactId>
-	      	<version>1.0</version>
-	    </dependency>
-	    
-	    <!-- logging -->
+			<groupId>net.fortuna.ical4j</groupId>
+			<artifactId>ical4j</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<!-- logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -435,55 +443,55 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
-		
+
 		<repository>
 			<id>central</id>
 			<name>Apache Repo</name>
 			<url>http://repo1.maven.org/maven2</url>
 		</repository>
-		
+
 		<repository>
-		    <id>prime-repo</id>  
-		    <name>Prime Technology Maven Repository</name>  
-		    <url>http://repository.primefaces.org</url>  
-    		<layout>default</layout>  
-		</repository>  
-		
+			<id>prime-repo</id>
+			<name>Prime Technology Maven Repository</name>
+			<url>http://repository.primefaces.org</url>
+			<layout>default</layout>
+		</repository>
+
 		<repository>
 			<id>maven2-repository.dev.java.net</id>
 			<name>Java.net Repository for Maven</name>
 			<url>http://download.java.net/maven/2</url>
 		</repository>
-		
+
 		<repository>
 			<id>org.springframework.security.taglibs.facelets</id>
 			<url>http://spring-security-facelets-taglib.googlecode.com/svn/repo/</url>
 		</repository>
-		
+
 		<repository>
-	      	<id>modularity-releases</id>
-	      	<name>Modularity Releases Repository</name>
-	      	<url>http://m2.modularity.net.au/releases</url>
-	      	<releases>
-		        <enabled>true</enabled>
-		    </releases>
-	    	<snapshots>
-	        	<enabled>false</enabled>
-	      	</snapshots>
-	    </repository>
+			<id>modularity-releases</id>
+			<name>Modularity Releases Repository</name>
+			<url>http://m2.modularity.net.au/releases</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
-	
+
 	<build>
 		<finalName>${project.name}</finalName>
-		<!-- We specify a filter list here, which contains variables that should be replaced during compile.
-			 Variables must be in form of ${varname} and have to be specified in this pom.xml	 
-		-->
+		<!-- We specify a filter list here, which contains variables that should 
+			be replaced during compile. Variables must be in form of ${varname} and have 
+			to be specified in this pom.xml -->
 		<resources>
 			<resource>
-		        <directory>src/main/resources</directory>
-		        <filtering>true</filtering>
-	      	</resource>
-      	</resources>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 
 			<!-- Facilitates downloading source and javadoc in Eclipse -->
@@ -499,7 +507,8 @@
 			</plugin>
 
 			<!-- Plugin to run and test through maven -->
-			<!-- Use with MAVEN_OPTS=-Xmx1024M -Xms512M -XX:PermSize=256M -XX:MaxPermSize=2048M -XX:+CMSClassUnloadingEnabled -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n  -->
+			<!-- Use with MAVEN_OPTS=-Xmx1024M -Xms512M -XX:PermSize=256M -XX:MaxPermSize=2048M 
+				-XX:+CMSClassUnloadingEnabled -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n -->
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>maven-jetty-plugin</artifactId>
@@ -521,68 +530,69 @@
 				</configuration>
 			</plugin>
 
-			<!-- Enable annotation processing  -->
+			<!-- Enable annotation processing -->
 			<plugin>
-			    <groupId>org.bsc.maven</groupId>
-			    <artifactId>maven-processor-plugin</artifactId>
-			    <version>2.0.2</version>
-			    <executions>
-			        <execution>
-			            <id>process</id>
-			            <goals>
-			                <goal>process</goal>
-			            </goals>
-			            <phase>generate-sources</phase>
-			            <configuration>
-			                <!-- source output directory -->
-			                <outputDirectory>target/metamodel</outputDirectory>
-			            </configuration>
-			        </execution>
-			    </executions>
+				<groupId>org.bsc.maven</groupId>
+				<artifactId>maven-processor-plugin</artifactId>
+				<version>2.0.2</version>
+				<executions>
+					<execution>
+						<id>process</id>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<phase>generate-sources</phase>
+						<configuration>
+							<!-- source output directory -->
+							<outputDirectory>target/metamodel</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
-			    <groupId>org.codehaus.mojo</groupId>
-			    <artifactId>build-helper-maven-plugin</artifactId>
-			    <version>1.3</version>
-			    <executions>
-			        <execution>
-			            <id>add-source</id>
-			            <phase>generate-sources</phase>
-			            <goals>
-			                <goal>add-source</goal>
-			            </goals>
-			            <configuration>
-			                <sources>
-			                    <source>target/classes</source>
-			                </sources>
-			            </configuration>
-			        </execution>
-			    </executions>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.3</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>target/classes</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<!-- War packaging plugin, we can filter web resources like web.xml here -->
 			<plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-war-plugin</artifactId>
-		        <version>2.1.1</version>
-		        <configuration>
-	       			<webResources>
-			            <resource>
-			              <directory>src/main/webapp</directory>
-			              <filtering>true</filtering>
-			            </resource>
-		          	</webResources>
-		        </configuration>
-		      </plugin>
-		    <!-- Resources plugin to filter resources, we have to specify here because we want to filter with UTF-8 encoding -->
-		    <plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-resources-plugin</artifactId>
-		        <version>2.5</version>
-		        <configuration>
-		          <encoding>UTF-8</encoding> 
-		        </configuration>
-		    </plugin>
-		    
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<webResources>
+						<resource>
+							<directory>src/main/webapp</directory>
+							<filtering>true</filtering>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+			<!-- Resources plugin to filter resources, we have to specify here because 
+				we want to filter with UTF-8 encoding -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 </project>

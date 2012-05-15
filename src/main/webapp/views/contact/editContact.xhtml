@@ -7,81 +7,118 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	template="/WEB-INF/templates/template.xhtml">
-	
+
 	<ui:define name="head">
-    </ui:define>
-	
+	</ui:define>
+
 	<ui:define name="content">
 		<h:body>
 			<h2 class="contentheading">#{messages.editcontact_title}</h2>
-			
+
 			<div id="left-col">
 				<ui:include src="sideBarContact.xhtml" />
 			</div>
-			
+
 			<div id="right-col">
 				<h:form id="formPanel">
 					<p:messages />
 					<p:focus for="formPanel" />
 					<p:panelGrid columns="2">
-						<h:outputLabel for="name" value="#{messages.editcontact_contact_name}:"/>
+						<h:outputLabel for="salutation"
+							value="#{messages.editcontact_contact_salutation}:" />
+						<p:selectOneMenu id="salutation" value="#{contactEditController.bean.salutation}">
+							<f:selectItems value="#{contactEditController.availableSalutations}"
+								itemLabel="#{salutation}" itemValue="#{salutation}" />
+						</p:selectOneMenu>
+
+						<h:outputLabel for="name"
+							value="#{messages.editcontact_contact_name}:" />
 						<p:inputText id="name" value="#{contactEditController.bean.name}" />
-						
-						<h:outputLabel for="jobTitle" value="#{messages.editcontact_contact_jobtitle}:"/>
-						<p:inputText id="jobTitle" value="#{contactEditController.bean.jobTitle}" />
-						
-						<h:outputLabel for="company" value="#{messages.editcontact_contact_company}:"/>
-						<p:inputText id="company" value="#{contactEditController.bean.company}" />
+
+						<h:outputLabel for="jobTitle"
+							value="#{messages.editcontact_contact_jobtitle}:" />
+						<p:inputText id="jobTitle"
+							value="#{contactEditController.bean.jobTitle}" />
+
+						<h:outputLabel for="company"
+							value="#{messages.editcontact_contact_company}:" />
+						<p:inputText id="company"
+							value="#{contactEditController.bean.company}" />
 					</p:panelGrid>
-					
+
 					<p:panelGrid columns="2">
-						<p:panel id="emailPanel" header="#{messages.editcontact_contact_email}">
-							<p:commandLink value="#{messages.editcontact_add_email}" action="#{contactEditController.addEmail}" update=":formPanel:emailPanel"/>
-							<h:dataTable var="email" value="#{contactEditController.emailList}">
+						<p:panel id="emailPanel"
+							header="#{messages.editcontact_contact_email}">
+							<p:commandLink value="#{messages.editcontact_add_email}"
+								action="#{contactEditController.addEmail}"
+								update=":formPanel:emailPanel" />
+							<h:dataTable var="email"
+								value="#{contactEditController.emailList}">
 								<h:column>
-									<p:selectOneMenu value="#{email.scope}">  
-									    <f:selectItems value="#{contactEditController.availableScopes}" itemLabel="#{scope}" itemValue="#{scope}"/>
-								    </p:selectOneMenu>  
+									<p:selectOneMenu value="#{email.scope}">
+										<f:selectItems
+											value="#{contactEditController.availableScopes}"
+											itemLabel="#{scope}" itemValue="#{scope}" />
+									</p:selectOneMenu>
 								</h:column>
 								<h:column>
-									<p:inputText value="#{email.value}" />									
+									<p:inputText value="#{email.value}" />
 								</h:column>
 								<h:column>
-									<p:commandButton title="#{messages.editcontact_remove_email}" action="#{contactEditController.removeEmail}" icon="ui-icon-minusthick" update=":formPanel:emailPanel" rendered="#{contactEditController.showRemoveEmailButton}">
-										<f:setPropertyActionListener target="#{contactEditController.selectedEmail}" value="#{email}" />
+									<p:commandButton title="#{messages.editcontact_remove_email}"
+										action="#{contactEditController.removeEmail}"
+										icon="ui-icon-minusthick" update=":formPanel:emailPanel"
+										rendered="#{contactEditController.showRemoveEmailButton}">
+										<f:setPropertyActionListener
+											target="#{contactEditController.selectedEmail}"
+											value="#{email}" />
 									</p:commandButton>
-								</h:column>				
+								</h:column>
 							</h:dataTable>
 						</p:panel>
-						
-						<p:panel id="phonePanel" header="#{messages.editcontact_contact_phone}">
-							<p:commandLink value="#{messages.editcontact_add_phone}" action="#{contactEditController.addPhone}" update=":formPanel:phonePanel"/>
-							<h:dataTable var="phone" value="#{contactEditController.phoneList}">
+
+						<p:panel id="phonePanel"
+							header="#{messages.editcontact_contact_phone}">
+							<p:commandLink value="#{messages.editcontact_add_phone}"
+								action="#{contactEditController.addPhone}"
+								update=":formPanel:phonePanel" />
+							<h:dataTable var="phone"
+								value="#{contactEditController.phoneList}">
 								<h:column>
-									<p:selectOneMenu value="#{phone.scope}">  
-									    <f:selectItems value="#{contactEditController.availableScopes}" itemLabel="#{scope}" itemValue="#{scope}"/>
-								    </p:selectOneMenu>  
+									<p:selectOneMenu value="#{phone.scope}">
+										<f:selectItems
+											value="#{contactEditController.availableScopes}"
+											itemLabel="#{scope}" itemValue="#{scope}" />
+									</p:selectOneMenu>
 								</h:column>
 								<h:column>
-									<p:inputText value="#{phone.value}" />									
+									<p:inputText value="#{phone.value}" />
 								</h:column>
 								<h:column>
-									<p:commandButton title="#{messages.editcontact_remove_phone}" action="#{contactEditController.removePhone}" icon="ui-icon-minusthick" update=":formPanel:phonePanel" rendered="#{contactEditController.showRemovePhoneButton}">
-										<f:setPropertyActionListener target="#{contactEditController.selectedPhone}" value="#{phone}" />
+									<p:commandButton title="#{messages.editcontact_remove_phone}"
+										action="#{contactEditController.removePhone}"
+										icon="ui-icon-minusthick" update=":formPanel:phonePanel"
+										rendered="#{contactEditController.showRemovePhoneButton}">
+										<f:setPropertyActionListener
+											target="#{contactEditController.selectedPhone}"
+											value="#{phone}" />
 									</p:commandButton>
-								</h:column>				
+								</h:column>
 							</h:dataTable>
 						</p:panel>
 					</p:panelGrid>
-					
+
 					<p:panelGrid columns="2">
-						
+
 					</p:panelGrid>
-					
-					<div class="verticalSpacingSmall"/>
-					
-					<p:commandButton value="#{messages.save}" action="#{contactEditController.saveContact}" update=":formPanel"/>
-					<p:commandLink value="#{messages.cancel}" action="#{navigationHelper.getContactmanagement}" styleClass="marginButton"/>
+
+					<div class="verticalSpacingSmall" />
+
+					<p:commandButton value="#{messages.save}"
+						action="#{contactEditController.saveContact}" update=":formPanel" />
+					<p:commandLink value="#{messages.cancel}"
+						action="#{navigationHelper.getContactmanagement}"
+						styleClass="marginButton" />
 				</h:form>
 			</div>
 		</h:body>

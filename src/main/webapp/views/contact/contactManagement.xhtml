@@ -40,35 +40,35 @@
 				            </f:facet>
 				            <h:outputText value="#{contact.lastname}"/>
 				        </p:column>
-				        <p:column>
+				        <p:column sortBy="#{contact.defaultBillingAddress.street}" filterBy="#{contact.defaultBillingAddress.street}" filterMatchMode="contains">
 				            <f:facet name="header">
 				                    #{messages.contactmanagement_contact_street}
 				            </f:facet>
-				            <h:outputText value="##TODO"/>
+				            <h:outputText value="#{contact.defaultBillingAddress.street} #{contact.defaultBillingAddress.housenumber}"/>
 				        </p:column>
-				        <p:column>
+				        <p:column sortBy="#{contact.defaultBillingAddress.zipCode}" filterBy="#{contact.defaultBillingAddress.zipCode}" filterMatchMode="contains">
 				            <f:facet name="header">
 				                    #{messages.contactmanagement_contact_zipcode}
 				            </f:facet>
-				            <h:outputText value="##TODO"/>
+				            <h:outputText value="#{contact.defaultBillingAddress.zipCode}"/>
 				        </p:column>
-				        <p:column>
+				        <p:column sortBy="#{contact.defaultBillingAddress.city}" filterBy="#{contact.defaultBillingAddress.city}" filterMatchMode="contains">
 				            <f:facet name="header">
 				                    #{messages.contactmanagement_contact_city}
 				            </f:facet>
-				            <h:outputText value="##TODO"/>
+				            <h:outputText value="#{contact.defaultBillingAddress.city}"/>
 				        </p:column>
-				        <p:column>
+				        <p:column sortBy="#{contact.defaultEmail.value}" filterBy="#{contact.defaultEmail.value}" filterMatchMode="contains">
 				            <f:facet name="header">
 				                    #{messages.contactmanagement_contact_email}
 				            </f:facet>
-				            <h:outputText value="##TODO"/>
+				            <h:outputText value="#{contact.defaultEmail.value}"/>
 				        </p:column>  
-				        <p:column>
+				        <p:column sortBy="#{contact.defaultPhone.value}" filterBy="#{contact.defaultPhone.value}" filterMatchMode="contains">
 				            <f:facet name="header">
 				                    #{messages.contactmanagement_contact_phone}
 				            </f:facet>
-				            <h:outputText value="##TODO"/>
+				            <h:outputText value="#{contact.defaultPhone.value}"/>
 				        </p:column>  
 					</p:dataTable>
 				</h:form>

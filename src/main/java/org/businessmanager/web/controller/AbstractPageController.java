@@ -18,6 +18,10 @@ public abstract class AbstractPageController {
 		facesContext.addMessage(theSeverity, theMsgKey);
 	}
 	
+	public void addExtendedMessage(Severity theSeverity, String theMsgKey, String additionalText) {
+		facesContext.addExtendedMessage(theSeverity, theMsgKey, additionalText);
+	}
+	
 	public void addErrorMessage(String theMsgKey) {
 		facesContext.addErrorMessage(null, theMsgKey);
 	}

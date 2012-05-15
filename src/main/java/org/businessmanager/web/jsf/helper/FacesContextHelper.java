@@ -71,6 +71,17 @@ public interface FacesContextHelper {
 	public void addMessage(Severity severity, String msgKey);
 	
 	/**
+	 * Passes a global facesMessage to the ui. The given message key will be translated into the users
+	 * locale.
+	 * 
+	 * @param severity the severity of the message
+	 * @param msgKey the untranslated message key of the message
+	 * @param additionalInfo untranslated message containing additional info (e.g. user inputs)
+	 */
+	public void addExtendedMessage(Severity severity, String msgKey, String additionalInfo);
+	
+	
+	/**
 	 * Passes a non-global facesMessage to the ui. 
 	 * The message will only be shown if there is a <pre>h:message</pre> or <pre>p:message</pre> tag for the given client id. 
 	 * 

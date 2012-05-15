@@ -34,10 +34,10 @@ public class Contact extends AbstractEntity {
 	@Column
 	private String lastname;
 
-	@Column
+	@Column(length=100)
 	private String title;
 
-	@Column
+	@Column(length=100)
 	private String jobTitle;
 
 	@Column
@@ -46,8 +46,8 @@ public class Contact extends AbstractEntity {
 	@Column
 	private String company;
 
-	@Column
-	private Integer salutation;
+	@Column(length=20)
+	private String salutation;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "contact")
 	private List<ContactItem> contactItems = new ArrayList<ContactItem>();
@@ -122,11 +122,11 @@ public class Contact extends AbstractEntity {
 		this.company = company;
 	}
 
-	public Integer getSalutation() {
+	public String getSalutation() {
 		return salutation;
 	}
 
-	public void setSalutation(Integer salutation) {
+	public void setSalutation(String salutation) {
 		this.salutation = salutation;
 	}
 

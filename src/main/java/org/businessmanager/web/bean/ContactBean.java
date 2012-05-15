@@ -6,9 +6,18 @@ package org.businessmanager.web.bean;
  */
 public class ContactBean {
 
+	private String salutation;
 	private String name;
 	private String jobTitle;
 	private String company;
+
+	public String getSalutation() {
+		return salutation;
+	}
+
+	public void setSalutation(String salutation) {
+		this.salutation = salutation;
+	}
 
 	public String getName() {
 		return name;
