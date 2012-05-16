@@ -24,46 +24,72 @@
 			<div id="right-col">
 				<h:form id="formPanel" prependId="false">
 					<p:messages />
-					<p:focus for="formPanel" />
+					<p:focus for="contacttitle" />
 
 					<p:panel id="contactPanel"
 						header="#{messages.editcontact_contact_general}"
 						>
 
-						<p:panelGrid columns="2">
-							<h:outputLabel for="salutation"
-								value="#{messages.editcontact_contact_salutation}:" />
-							<p:selectOneMenu id="salutation"
-								value="#{contactEditController.bean.salutation}">
-								<f:selectItems
-									value="#{contactEditController.availableSalutations}"
-									itemLabel="#{salutation}" itemValue="#{salutation}" />
-							</p:selectOneMenu>
-
-							<h:outputLabel for="contacttitle"
-								value="#{messages.editcontact_contact_title}:" />
-							<p:inputText id="contacttitle"
-								value="#{contactEditController.bean.title}" />
-
-							<h:outputLabel for="firstname"
-								value="#{messages.editcontact_contact_firstname}:" />
-							<p:inputText id="firstname"
-								value="#{contactEditController.bean.firstname}" />
-
-							<h:outputLabel for="lastname"
-								value="#{messages.editcontact_contact_lastname}:" />
-							<p:inputText id="lastname"
-								value="#{contactEditController.bean.lastname}" />
-
-							<h:outputLabel for="jobTitle"
-								value="#{messages.editcontact_contact_jobtitle}:" />
-							<p:inputText id="jobTitle"
-								value="#{contactEditController.bean.jobTitle}" />
-
-							<h:outputLabel for="company"
-								value="#{messages.editcontact_contact_company}:" />
-							<p:inputText id="company"
-								value="#{contactEditController.bean.company}" />
+						<p:panelGrid>
+							<p:row>
+								<p:column>
+									<h:outputLabel for="salutation"
+										value="#{messages.editcontact_contact_salutation}:" />
+								</p:column>
+								<p:column>
+									<p:selectOneMenu id="salutation"
+										value="#{contactEditController.bean.salutation}">
+										<f:selectItems
+											value="#{contactEditController.availableSalutations}"
+											itemLabel="#{salutation}" itemValue="#{salutation}" />
+									</p:selectOneMenu>
+								</p:column>
+							</p:row>
+							
+							<p:row>
+								<p:column>
+									<h:outputLabel for="contacttitle"
+										value="#{messages.editcontact_contact_title}:" />
+								</p:column>
+								<p:column>
+									<p:inputText id="contacttitle"
+										value="#{contactEditController.bean.title}" maxlength="50" styleClass="mediumInput"/>
+								</p:column>
+								<p:column>
+									<h:outputLabel for="firstname"
+										value="#{messages.editcontact_contact_firstname}:" />
+								</p:column>
+								<p:column>
+									<p:inputText id="firstname"
+										value="#{contactEditController.bean.firstname}" maxlength="255"/>
+								</p:column>
+								<p:column>
+									<h:outputLabel for="lastname"
+										value="#{messages.editcontact_contact_lastname}:" />
+								</p:column>
+								<p:column>
+									<p:inputText id="lastname"
+										value="#{contactEditController.bean.lastname}" maxlength="255"/>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<h:outputLabel for="jobTitle"
+										value="#{messages.editcontact_contact_jobtitle}:" />	
+								</p:column>
+								<p:column>
+									<p:inputText id="jobTitle"
+										value="#{contactEditController.bean.jobTitle}" maxlength="255"/>	
+								</p:column>
+								<p:column>
+									<h:outputLabel for="company"
+										value="#{messages.editcontact_contact_company}:" />
+								</p:column>
+								<p:column colspan="2">
+									<p:inputText id="company"
+										value="#{contactEditController.bean.company}" maxlength="255" styleClass="fullSizeInput"/>
+								</p:column>
+							</p:row>
 						</p:panelGrid>
 					</p:panel>
 
@@ -87,7 +113,7 @@
 											</p:selectOneMenu>
 										</h:column>
 										<h:column>
-											<p:inputText value="#{email.value}" />
+											<p:inputText value="#{email.value}" maxlength="255"/>
 										</h:column>
 										<h:column>
 											<p:commandButton title="#{messages.editcontact_remove_email}"
@@ -124,7 +150,7 @@
 											</p:selectOneMenu>
 										</h:column>
 										<h:column>
-											<p:inputText value="#{phone.value}" />
+											<p:inputText value="#{phone.value}" maxlength="255"/>
 										</h:column>
 										<h:column>
 											<p:commandButton title="#{messages.editcontact_remove_phone}"

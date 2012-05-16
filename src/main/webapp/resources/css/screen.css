@@ -178,3 +178,7 @@ a:active,
 .smallInput, .smallInput input {
 	width: 3em;
 }
+
+.mediumInput, .mediumInput input {
+	width: 5em;
+}
