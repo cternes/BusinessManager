@@ -18,6 +18,7 @@ import org.businessmanager.service.ContactService;
 import org.businessmanager.web.bean.ContactBean;
 import org.businessmanager.web.bean.ContactItemBean;
 import org.businessmanager.web.controller.AbstractPageController;
+import org.businessmanager.web.controller.AddressManagementController;
 import org.businessmanager.web.controller.state.AddressModel;
 import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,19 +31,29 @@ public class ContactEditController extends AbstractPageController {
 
 	@Autowired
 	private ContactService contactService;
+	
+	@Autowired
+	private AddressModel addressModel;
+	
+	@Autowired
+	AddressManagementController addressController;
 
 	private ContactBean bean = new ContactBean();
 	private List<ContactItemBean> emailList = new ArrayList<ContactItemBean>();
 	private ContactItemBean selectedEmail;
 	private List<ContactItemBean> phoneList = new ArrayList<ContactItemBean>();
 	private ContactItemBean selectedPhone;
-	@Autowired
-	private AddressModel addressModel;
+	
 	private List<String> availableScopes = new ArrayList<String>();
 	private List<String> avaliableSalutations = new ArrayList<String>();
-
+	
 	@PostConstruct
 	public void init() {
+		List<String> aAvailableAddressTypeList = new ArrayList<String>();
+		aAvailableAddressTypeList.add("Rechnungsadresse");
+		aAvailableAddressTypeList.add("Lieferadresse");
+		addressController.setAvailableAddressTypes(aAvailableAddressTypeList);
+		
 		emailList.add(new ContactItemBean(true));
 		phoneList.add(new ContactItemBean(true));
 
@@ -62,6 +73,7 @@ public class ContactEditController extends AbstractPageController {
 		if (validateInput()) {
 			Contact contact = createContact();
 			fillContact(contact);
+			saveAddressList(contact);
 			contactService.addContact(contact);
 
 			addMessage(FacesMessage.SEVERITY_INFO,
@@ -71,6 +83,21 @@ public class ContactEditController extends AbstractPageController {
 		}
 
 		return "#";
+	}
+
+	private void saveAddressList(Contact contact) {
+		List<Address> assignedAddressList = addressController.getAssignedAddressList();
+		
+		//TODO: just for demo, fix this as soon as possible
+		boolean isFirst = true;
+		for (Address address : assignedAddressList) {
+			if(isFirst) {
+				address.setIsDefault(true);
+				isFirst = false;
+			}
+			address.setContact(contact);
+		}
+		contact.setAddresses(assignedAddressList);
 	}
 
 	private void fillContact(Contact contact) {

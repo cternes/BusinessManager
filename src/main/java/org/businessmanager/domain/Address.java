@@ -37,6 +37,9 @@ public class Address extends AbstractEntity implements HasDefault {
 
 	@Column
 	private String scope;
+	
+	@Column
+	private String country;
 
 	@Column
 	private Boolean isDefault;
@@ -208,5 +211,13 @@ public class Address extends AbstractEntity implements HasDefault {
 				+ ", forAttentionOf=" + forAttentionOf + ", postOfficeBox="
 				+ postOfficeBox + ", scope=" + scope + ", isDefault="
 				+ isDefault + ", contact=" + contact + "]";
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getCountry() {
+		return country;
 	}
 }

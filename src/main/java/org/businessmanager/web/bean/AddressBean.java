@@ -1,5 +1,7 @@
 package org.businessmanager.web.bean;
 
+import org.businessmanager.domain.Address;
+
 public class AddressBean {
 	private Long id;
 	private String street;
@@ -9,6 +11,7 @@ public class AddressBean {
 	private String forAttentionOf;
 	private String postOfficeBox;
 	private String scope;
+	private String country;
 	private Boolean isDefault;
 
 	public Long getId() {
@@ -81,5 +84,55 @@ public class AddressBean {
 
 	public void setIsDefault(Boolean isDefault) {
 		this.isDefault = isDefault;
+	}
+	
+	public AddressBean getMappedAddressBean(Address theAddress) {
+		setId(theAddress.getId());
+		setStreet(theAddress.getStreet());
+		setHousenumber(theAddress.getHousenumber());
+		setZipCode(theAddress.getZipCode());
+		setCity(theAddress.getCity());
+		setScope(theAddress.getScope());
+		setForAttentionOf(theAddress.getForAttentionOf());
+		setPostOfficeBox(theAddress.getPostOfficeBox());
+		setCountry(theAddress.getCountry());
+		return this;
+	}
+
+	public Address getAddress(boolean isIDExisting) {
+		Address anAddress = new Address();
+		
+		if(isIDExisting) {
+			anAddress.setId(getId());
+		}
+		anAddress.setStreet(getStreet());
+		anAddress.setHousenumber(getHousenumber());
+		anAddress.setZipCode(getZipCode());
+		anAddress.setCity(getCity());
+		anAddress.setScope(getScope());
+		anAddress.setForAttentionOf(getForAttentionOf());
+		anAddress.setPostOfficeBox(getPostOfficeBox());
+		anAddress.setCountry(getCountry());
+		return anAddress;
+	}
+
+	public void copyDataFromAddressBean(AddressBean theFromBean) {
+		setHousenumber(theFromBean.getHousenumber());
+		setCity(theFromBean.getCity());
+		setZipCode(theFromBean.getZipCode());
+		setStreet(theFromBean.getStreet());
+		setScope(theFromBean.getScope());
+		setId(theFromBean.getId());
+		setForAttentionOf(theFromBean.getForAttentionOf());
+		setPostOfficeBox(theFromBean.getPostOfficeBox());
+		setCountry(theFromBean.getCountry());
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getCountry() {
+		return country;
 	}
 }

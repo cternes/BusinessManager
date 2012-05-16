@@ -5,5 +5,9 @@
 	version="2.0">
 
 	<namespace>http://www.businessmanager.org/tags</namespace>
+	<tag>
+		<tag-name>addressManagement</tag-name>
+		<source>components/addressManagement.xhtml</source>
+	</tag>
 	
 </facelet-taglib>

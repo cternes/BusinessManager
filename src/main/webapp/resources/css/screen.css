@@ -160,3 +160,12 @@ a:active,
 .verticalSpacingSmall { 
 	height: 3.0em;
 }
+
+/****************INPUT**************************/
+.fullSizeInput, .fullSizeInput input  {
+	width: 100%;
+}
+
+.smallInput, .smallInput input {
+	width: 3em;
+}

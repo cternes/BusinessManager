@@ -6,6 +6,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:bm="http://www.businessmanager.org/tags"
 	template="/WEB-INF/templates/template.xhtml">
 
 	<ui:define name="head">
@@ -21,7 +22,7 @@
 			</div>
 
 			<div id="right-col">
-				<h:form id="formPanel">
+				<h:form id="formPanel" prependId="false">
 					<p:messages />
 					<p:focus for="formPanel" />
 
@@ -146,6 +147,7 @@
 
 					<div class="verticalSpacingSmall" />
 
+<!--  
 					<p:panel id="addressesPanel"
 						header="#{messages.editcontact_contact_addresses}"
 						style="margin: 0px 10px;">
@@ -183,7 +185,9 @@
 							</p:column>
 						</p:dataTable>
 					</p:panel>
-
+					-->
+					
+					<bm:addressManagement id=":formPanel" />
 
 					<p:commandButton value="#{messages.save}"
 						action="#{contactEditController.saveContact}" update=":formPanel" />
