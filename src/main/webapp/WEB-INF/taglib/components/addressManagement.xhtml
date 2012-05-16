@@ -9,13 +9,108 @@
 				-In the parent form always use prependId="false"
 				-Pass the parent form id as parameter into this component with id=":<parentFormId>" 
 	-->
-
+	
 	<p:panel header="#{messages.addressmanagement_title}" toggleable="true" toggleSpeed="500" collapsed="false" id="addressManagementForm">
-		<p:messages globalOnly="true" />
-		
-		<p:commandButton value="#{messages.addressmanagement_add_address}" update="addressManagementForm" process="@this, addressManagementForm" rendered="#{not addressManagementController.isMaximumReached}" icon="ui-icon-plusthick">
+		<p:dialog header="#{addressManagementController.panelTitle}" visible="#{addressManagementController.showAddressAddDialog or addressManagementController.showAddressUpdateDialog}" modal="true">
+			<p:messages globalOnly="true" />
+			<p:panel id="addAddress" rendered="#{addressManagementController.showAddressAddDialog or addressManagementController.showAddressUpdateDialog}">
+				<p:panelGrid>
+					<p:row>
+						<p:column>
+							<h:outputLabel value="#{messages.addressmanagement_address_type}:"/>
+						</p:column>
+	
+						<p:column colspan="2">
+							<p:selectOneMenu id="addType" value="#{addressManagementController.addressToUpdate.scope}" style="width: 210px;">
+								<f:selectItems value="#{addressManagementController.availableAddressTypeValues}" var="type" itemValue="#{type}" itemLabel="#{type.label}"/>
+							</p:selectOneMenu>
+						</p:column>
+						<p:column>
+							<p:message for="addType" display="icon"/>
+						</p:column>
+					</p:row>
+					
+					<p:row>
+						<p:column>
+							<h:outputLabel value="#{messages.addressmanagement_address_street}/#{messages.addressmanagement_address_housenumber}:" />
+						</p:column>
+						<p:column colspan="2">
+							<p:inputText id="addStreet"	value="#{addressManagementController.addressToUpdate.street}" styleClass="fullSizeInput" />	
+						</p:column>
+						<p:column>
+							<p:message for="addStreet" display="icon"/>
+						</p:column>
+						
+						<p:column>
+							<p:inputText id="addNumber"	value="#{addressManagementController.addressToUpdate.housenumber}" maxlength="5" styleClass="smallInput"/>
+						</p:column>
+						
+						<p:column>
+						<!-- 
+							<p:selectOneMenu id="addAddressDisplayType" value="#{addressManagementController.addressToUpdate.addressDisplayType}">
+								<f:selectItems value="#{addressManagementController.addressToUpdate.availableAddressTypes}" var="type" itemValue="#{type}" itemLabel="#{type}"/>
+							</p:selectOneMenu>
+						 -->
+						</p:column>
+						<p:column>
+							<p:message for="addNumber" display="icon"/>
+						</p:column>
+					</p:row>
+					
+					<p:row>
+						<p:column>
+							<h:outputLabel for="addPob" value="#{messages.addressmanagement_address_post_office_box}:"></h:outputLabel>
+						</p:column>
+						<p:column colspan="2">
+							<p:inputText id="addPob" value="#{addressManagementController.addressToUpdate.postOfficeBox}" styleClass="fullSizeInput" />	
+						</p:column>
+						<p:column>
+							<p:message for="addPob" display="icon"/>
+						</p:column>
+					</p:row>
+					
+					<p:row>
+						<p:column>
+							<h:outputLabel value="#{messages.addressmanagement_address_zipcode}/#{messages.addressmanagement_address_city}:"></h:outputLabel>
+						</p:column>
+						<p:column>
+							<p:inputText id="addZip" value="#{addressManagementController.addressToUpdate.zipCode}" styleClass="smallInput" />
+						</p:column>
+						<p:column>
+							<p:inputText id="addCity"  value="#{addressManagementController.addressToUpdate.city}"  styleClass="fullSizeInput" />
+						</p:column>
+						<p:column>
+							<p:message for="addZip" display="icon"/>
+							<p:message for="addCity" display="icon"/>
+						</p:column>
+					</p:row>
+					
+					<p:row>
+						<p:column>
+							<h:outputLabel value="#{messages.addressmanagement_address_country}:"></h:outputLabel>
+						</p:column>
+						<p:column colspan="2">
+	        				<p:inputText id="addCountry" value="#{addressManagementController.addressToUpdate.country}" />  
+						</p:column>
+						<p:column>
+							<p:message for="addCountry" display="icon"/>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			
+				<p:spacer height="20"/>
+			
+				<div>
+					<p:commandButton value="#{messages.save}" action="#{addressManagementController.addAddress}" process="@this, addAddress" update="addressManagementForm" rendered="#{addressManagementController.showAddressAddDialog}" styleClass="marginButton, defaultButtonSize"/>
+					<p:commandButton value="#{messages.save}" action="#{addressManagementController.updateAddress}"	update="addressManagementForm" rendered="#{addressManagementController.showAddressUpdateDialog}" styleClass="marginButton, defaultButtonSize" />
+					<p:commandLink value="#{messages.cancel}" actionListener="#{addressManagementController.closePanel}" immediate="true" update="addressManagementForm" styleClass="marginButton"/>
+				</div>
+			</p:panel>
+		</p:dialog>
+	
+		<p:commandLink value="#{messages.addressmanagement_add_address}" update="addressManagementForm" process="@this, addressManagementForm" rendered="#{not addressManagementController.isMaximumReached}">
 			<f:setPropertyActionListener target="#{addressManagementController.showAddressAddDialog}" value="#{true}" />
-		</p:commandButton>
+		</p:commandLink>
 
 		<p/>
 		
@@ -51,99 +146,5 @@
 
 		<p:spacer height="20" />
 
-		<p:panel header="#{addressManagementController.panelTitle}" id="addAddress" rendered="#{addressManagementController.showAddressAddDialog or addressManagementController.showAddressUpdateDialog}">
-			<p:panelGrid>
-				<p:row>
-					<p:column>
-						<h:outputLabel value="#{messages.addressmanagement_address_type}:"/>
-					</p:column>
-
-					<p:column colspan="2">
-						<p:selectOneMenu id="addType" value="#{addressManagementController.addressToUpdate.scope}" style="width: 210px;">
-							<f:selectItems value="#{addressManagementController.availableAddressTypeValues}" var="type" itemValue="#{type}" itemLabel="#{type.label}"/>
-						</p:selectOneMenu>
-					</p:column>
-					<p:column>
-						<p:message for="addType" display="icon"/>
-					</p:column>
-				</p:row>
-				
-				<p:row>
-					<p:column>
-						<h:outputLabel value="#{messages.addressmanagement_address_street}/#{messages.addressmanagement_address_housenumber}:" />
-					</p:column>
-					<p:column colspan="2">
-						<p:inputText id="addStreet"	value="#{addressManagementController.addressToUpdate.street}" styleClass="fullSizeInput" />	
-					</p:column>
-					<p:column>
-						<p:message for="addStreet" display="icon"/>
-					</p:column>
-					
-					<p:column>
-						<p:inputText id="addNumber"	value="#{addressManagementController.addressToUpdate.housenumber}" maxlength="5" styleClass="smallInput"/>
-					</p:column>
-					
-					
-					<p:column>
-					<!-- 
-						<p:selectOneMenu id="addAddressDisplayType" value="#{addressManagementController.addressToUpdate.addressDisplayType}">
-							<f:selectItems value="#{addressManagementController.addressToUpdate.availableAddressTypes}" var="type" itemValue="#{type}" itemLabel="#{type}"/>
-						</p:selectOneMenu>
-					 -->
-					</p:column>
-					<p:column>
-						<p:message for="addNumber" display="icon"/>
-					</p:column>
-				</p:row>
-				
-				<p:row>
-					<p:column>
-						<h:outputLabel for="addPob" value="#{messages.addressmanagement_address_post_office_box}:"></h:outputLabel>
-					</p:column>
-					<p:column colspan="2">
-						<p:inputText id="addPob" value="#{addressManagementController.addressToUpdate.postOfficeBox}" styleClass="fullSizeInput" />	
-					</p:column>
-					<p:column>
-						<p:message for="addPob" display="icon"/>
-					</p:column>
-				</p:row>
-				
-				<p:row>
-					<p:column>
-						<h:outputLabel value="#{messages.addressmanagement_address_zipcode}/#{messages.addressmanagement_address_city}:"></h:outputLabel>
-					</p:column>
-					<p:column>
-						<p:inputText id="addZip" value="#{addressManagementController.addressToUpdate.zipCode}" styleClass="mediumInput" />
-					</p:column>
-					<p:column>
-						<p:inputText id="addCity"  value="#{addressManagementController.addressToUpdate.city}"  styleClass="fullSizeInput" />
-					</p:column>
-					<p:column>
-						<p:message for="addZip" display="icon"/>
-						<p:message for="addCity" display="icon"/>
-					</p:column>
-				</p:row>
-				
-				<p:row>
-					<p:column>
-						<h:outputLabel value="#{messages.addressmanagement_address_country}:"></h:outputLabel>
-					</p:column>
-					<p:column colspan="2">
-        				<p:inputText id="addCountry" value="#{addressManagementController.addressToUpdate.country}" />  
-					</p:column>
-					<p:column>
-						<p:message for="addCountry" display="icon"/>
-					</p:column>
-				</p:row>
-			</p:panelGrid>
-			
-			<p:spacer height="20"/>
-			
-			<div>
-				<p:commandButton value="#{messages.ok}" action="#{addressManagementController.addAddress}" process="@this, addAddress" update="addressManagementForm" rendered="#{addressManagementController.showAddressAddDialog}" styleClass="marginButton, defaultButtonSize"/>
-				<p:commandButton value="#{messages.ok}" action="#{addressManagementController.updateAddress}"	update="addressManagementForm" rendered="#{addressManagementController.showAddressUpdateDialog}" styleClass="marginButton, defaultButtonSize" />
-				<p:commandButton value="#{messages.cancel}" actionListener="#{addressManagementController.closePanel}" immediate="true" update="addressManagementForm" styleClass="marginButton"/>
-			</div>
-		</p:panel>
 	</p:panel>
 </ui:composition>
