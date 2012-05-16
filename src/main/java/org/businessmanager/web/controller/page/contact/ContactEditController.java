@@ -9,6 +9,7 @@ import javax.faces.application.FacesMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.businessmanager.aop.annotation.ErrorHandled;
+import org.businessmanager.domain.Address;
 import org.businessmanager.domain.Contact;
 import org.businessmanager.domain.ContactItem;
 import org.businessmanager.domain.Email;
@@ -17,6 +18,7 @@ import org.businessmanager.service.ContactService;
 import org.businessmanager.web.bean.ContactBean;
 import org.businessmanager.web.bean.ContactItemBean;
 import org.businessmanager.web.controller.AbstractPageController;
+import org.businessmanager.web.controller.state.AddressModel;
 import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -34,6 +36,8 @@ public class ContactEditController extends AbstractPageController {
 	private ContactItemBean selectedEmail;
 	private List<ContactItemBean> phoneList = new ArrayList<ContactItemBean>();
 	private ContactItemBean selectedPhone;
+	@Autowired
+	private AddressModel addressModel;
 	private List<String> availableScopes = new ArrayList<String>();
 	private List<String> avaliableSalutations = new ArrayList<String>();
 
@@ -91,23 +95,39 @@ public class ContactEditController extends AbstractPageController {
 
 	private void addItemToContact(Contact contact, ContactItemBean contactItem,
 			ContactItem item) {
+
+		// only add contact item if value is given
+		if (contactItem == null || "".equals(contactItem.getValue())) {
+			return;
+		}
+
+		item.setIsDefault(contactItem.getIsDefault());
 		item.setScope(contactItem.getScope());
 		item.setValue(contactItem.getValue());
+		item.setContact(contact);
 		contact.getContactItemList().add(item);
 	}
 
 	private boolean validateInput() {
 		boolean isValid = true;
 
-		if (bean.getName() == null || bean.getName().isEmpty()) {
-			addMessage(FacesMessage.SEVERITY_WARN, "editcontact_warn_no_name");
+		if (bean.getFirstname() == null || bean.getFirstname().isEmpty()) {
+			addMessage(FacesMessage.SEVERITY_WARN,
+					"editcontact_warn_no_firstname");
+			isValid = false;
+		}
+
+		if (bean.getLastname() == null || bean.getLastname().isEmpty()) {
+			addMessage(FacesMessage.SEVERITY_WARN,
+					"editcontact_warn_no_lastname");
 			isValid = false;
 		}
 
 		for (ContactItemBean item : getEmailList()) {
 			if (!EmailValidator.getInstance().isValid(item.getValue())) {
 				addExtendedMessage(FacesMessage.SEVERITY_WARN,
-						"editcontact_warn_invalid_mail", "(" + item.getValue() + ")");
+						"editcontact_warn_invalid_mail", "(" + item.getValue()
+								+ ")");
 				isValid = false;
 			}
 		}
@@ -120,34 +140,10 @@ public class ContactEditController extends AbstractPageController {
 	}
 
 	private Contact createContact() {
-		String name = bean.getName();
-
-		String[] splittedName = splitName(name);
-
-		Contact contact = null;
-		if (splittedName.length == 1) {
-			contact = new Contact(splittedName[0], "");
-		} else {
-			contact = new Contact(splittedName[0], splittedName[1]);
-			contact.setSalutation(bean.getSalutation());
-		}
-
+		Contact contact = new Contact(bean.getFirstname(), bean.getLastname());
+		contact.setSalutation(bean.getSalutation());
+		contact.setTitle(bean.getTitle());
 		return contact;
-	}
-
-	private String[] splitName(String name) {
-		String[] result = new String[2];
-		if (name != null && name.contains(",")) {
-			String[] splittedNameComma = name.split(",");
-
-			if (splittedNameComma.length == 2) {
-				result[0] = splittedNameComma[1].trim();
-				result[1] = splittedNameComma[0].trim();
-			}
-		} else if (name != null) {
-			result = name.split(" ");
-		}
-		return result;
 	}
 
 	public List<ContactItemBean> getEmailList() {
@@ -161,6 +157,13 @@ public class ContactEditController extends AbstractPageController {
 	public void removeEmail() {
 		if (selectedEmail != null) {
 			emailList.remove(selectedEmail);
+
+			if (selectedEmail.getIsDefault()) {
+				ContactItemBean contactItemBean = emailList.get(0);
+				if (contactItemBean != null) {
+					contactItemBean.setIsDefault(true);
+				}
+			}
 		}
 	}
 
@@ -215,4 +218,16 @@ public class ContactEditController extends AbstractPageController {
 	public List<String> getAvailableSalutations() {
 		return avaliableSalutations;
 	}
+
+	public AddressModel getAddressModel() {
+		if (addressModel.getEntityList() == null) {
+			addressModel.setEntityList(new ArrayList<Address>());
+		}
+		return addressModel;
+	}
+	
+	public void addAddress() {
+		addressModel.getEntityList().add(new Address());
+	}
+	
 }

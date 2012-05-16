@@ -9,21 +9,8 @@
 	template="/WEB-INF/templates/template.xhtml">
 
 	<ui:define name="head">
-        <script type="text/javascript">
-      //<![CDATA[
-        function uncheckOtherBoxes(chkBox) {
-			    var id = chkBox.name.substring(chkBox.name.lastIndexOf(':'));
-			    var emailPanel = $(chkBox).parent().parent().parent().parent().parent().parent().parent(); 
-			    var checkboxes = $(emailPanel).find(':checkbox');
-			    
-			    for (var i = 0; i < checkboxes.length; i++) {
-			    	checkboxes[i].checked = false;
-			    }
-			    chkBox.checked = true;
-		}
-	//]]>
-        </script>
-    </ui:define>
+		<h:outputScript library="js" name="editcontact.js" />
+	</ui:define>
 
 	<ui:define name="content">
 		<h:body>
@@ -37,30 +24,49 @@
 				<h:form id="formPanel">
 					<p:messages />
 					<p:focus for="formPanel" />
-					<p:panelGrid columns="2">
-						<h:outputLabel for="salutation"
-							value="#{messages.editcontact_contact_salutation}:" />
-						<p:selectOneMenu id="salutation" value="#{contactEditController.bean.salutation}">
-							<f:selectItems value="#{contactEditController.availableSalutations}"
-								itemLabel="#{salutation}" itemValue="#{salutation}" />
-						</p:selectOneMenu>
 
-						<h:outputLabel for="name"
-							value="#{messages.editcontact_contact_name}:" />
-						<p:inputText id="name" value="#{contactEditController.bean.name}" />
+					<p:panel id="contactPanel"
+						header="#{messages.editcontact_contact_general}"
+						style="margin: 0px 10px;">
 
-						<h:outputLabel for="jobTitle"
-							value="#{messages.editcontact_contact_jobtitle}:" />
-						<p:inputText id="jobTitle"
-							value="#{contactEditController.bean.jobTitle}" />
+						<p:panelGrid columns="2">
+							<h:outputLabel for="salutation"
+								value="#{messages.editcontact_contact_salutation}:" />
+							<p:selectOneMenu id="salutation"
+								value="#{contactEditController.bean.salutation}">
+								<f:selectItems
+									value="#{contactEditController.availableSalutations}"
+									itemLabel="#{salutation}" itemValue="#{salutation}" />
+							</p:selectOneMenu>
 
-						<h:outputLabel for="company"
-							value="#{messages.editcontact_contact_company}:" />
-						<p:inputText id="company"
-							value="#{contactEditController.bean.company}" />
-					</p:panelGrid>
+							<h:outputLabel for="contacttitle"
+								value="#{messages.editcontact_contact_title}:" />
+							<p:inputText id="contacttitle"
+								value="#{contactEditController.bean.title}" />
 
-					<p:panelGrid>
+							<h:outputLabel for="firstname"
+								value="#{messages.editcontact_contact_firstname}:" />
+							<p:inputText id="firstname"
+								value="#{contactEditController.bean.firstname}" />
+
+							<h:outputLabel for="lastname"
+								value="#{messages.editcontact_contact_lastname}:" />
+							<p:inputText id="lastname"
+								value="#{contactEditController.bean.lastname}" />
+
+							<h:outputLabel for="jobTitle"
+								value="#{messages.editcontact_contact_jobtitle}:" />
+							<p:inputText id="jobTitle"
+								value="#{contactEditController.bean.jobTitle}" />
+
+							<h:outputLabel for="company"
+								value="#{messages.editcontact_contact_company}:" />
+							<p:inputText id="company"
+								value="#{contactEditController.bean.company}" />
+						</p:panelGrid>
+					</p:panel>
+
+					<p:panelGrid style="width: 100%; margin-top: 15px;">
 						<p:row>
 							<p:column styleClass="topAlign">
 								<p:panel id="emailPanel"
@@ -91,12 +97,14 @@
 											</p:commandButton>
 										</h:column>
 										<h:column>
-											<h:selectBooleanCheckbox title="#{messages.mark_as_default}" value="#{email.isDefault}" onchange="uncheckOtherBoxes(this);" />
+											<h:selectBooleanCheckbox title="#{messages.mark_as_default}"
+												value="#{email.isDefault}"
+												onchange="uncheckOtherBoxes(this);" />
 										</h:column>
 									</h:dataTable>
 								</p:panel>
 							</p:column>
-							
+
 							<p:column styleClass="topAlign">
 								<p:panel id="phonePanel"
 									header="#{messages.editcontact_contact_phone}">
@@ -126,8 +134,10 @@
 											</p:commandButton>
 										</h:column>
 										<h:column>
-											<h:selectBooleanCheckbox title="#{messages.mark_as_default}" value="#{phone.isDefault}" onchange="uncheckOtherBoxes(this);" />
-										</h:column>	
+											<h:selectBooleanCheckbox title="#{messages.mark_as_default}"
+												value="#{phone.isDefault}"
+												onchange="uncheckOtherBoxes(this);" />
+										</h:column>
 									</h:dataTable>
 								</p:panel>
 							</p:column>
@@ -136,11 +146,51 @@
 
 					<div class="verticalSpacingSmall" />
 
+					<p:panel id="addressesPanel"
+						header="#{messages.editcontact_contact_addresses}"
+						style="margin: 0px 10px;">
+
+						<p:commandLink value="#{messages.editcontact_add_address}"
+							action="#{contactEditController.addAddress}"
+							update=":formPanel:addressesPanel" oncomplete="editLastDatatableRow();" />
+
+						<p:dataTable id="addressList" var="address"
+							value="#{contactEditController.addressModel.entityList}" paginator="true"
+							rows="10"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+							rowsPerPageTemplate="5,10,15" paginatorAlwaysVisible="true"
+							emptyMessage="#{messages.empty_table_message}"
+							selection="#{contactEditController.addressModel.selectedEntity}"
+							selectionMode="single" rowKey="#{address.id}"
+							paginatorPosition="top" editable="true">
+							<p:ajax event="rowSelect" update=":formPanel" />
+							<p:column sortBy="#{address.street}" filterBy="#{address.street}"
+								filterMatchMode="contains">
+								<f:facet name="header">
+				                    #{messages.editcontact_address_street}
+				            	</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{address.street}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{address.street}" style="width:100%" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column headerText="Options" style="width:50px">
+								<p:rowEditor />
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+
+
 					<p:commandButton value="#{messages.save}"
 						action="#{contactEditController.saveContact}" update=":formPanel" />
 					<p:commandLink value="#{messages.cancel}"
 						action="#{navigationHelper.getContactmanagement}"
 						styleClass="marginButton" />
+
 				</h:form>
 			</div>
 		</h:body>

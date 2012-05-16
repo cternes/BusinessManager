@@ -7,7 +7,9 @@ package org.businessmanager.web.bean;
 public class ContactBean {
 
 	private String salutation;
-	private String name;
+	private String title;
+	private String firstname;
+	private String lastname;
 	private String jobTitle;
 	private String company;
 
@@ -18,13 +20,29 @@ public class ContactBean {
 	public void setSalutation(String salutation) {
 		this.salutation = salutation;
 	}
-
-	public String getName() {
-		return name;
+	
+	public String getTitle() {
+		return title;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 
 	public String getJobTitle() {
