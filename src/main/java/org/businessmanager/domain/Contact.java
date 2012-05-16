@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang3.StringUtils;
+import org.businessmanager.domain.Address.AddressType;
 import org.businessmanager.util.CollectionUtil;
 import org.businessmanager.util.DefaultItemPredicate;
 
@@ -52,7 +53,7 @@ public class Contact extends AbstractEntity {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "contact")
 	private List<ContactItem> contactItems = new ArrayList<ContactItem>();
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contact")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "contact")
 	private List<Address> addresses = new ArrayList<Address>();
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contact")
@@ -311,7 +312,7 @@ public class Contact extends AbstractEntity {
 							public boolean evaluate(Object paramObject) {
 								if (paramObject instanceof Address) {
 									Address address = (Address) paramObject;
-									return Address.SCOPE_BILLING.equals(address
+									return AddressType.SCOPE_BILLING.equals(address
 											.getScope());
 								}
 								return false;
@@ -333,7 +334,7 @@ public class Contact extends AbstractEntity {
 							public boolean evaluate(Object paramObject) {
 								if (paramObject instanceof Address) {
 									Address address = (Address) paramObject;
-									return Address.SCOPE_SHIPPING
+									return AddressType.SCOPE_SHIPPING
 											.equals(address.getScope());
 								}
 								return false;

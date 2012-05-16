@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.businessmanager.aop.annotation.ErrorHandled;
 import org.businessmanager.domain.Address;
+import org.businessmanager.domain.Address.AddressType;
 import org.businessmanager.domain.Contact;
 import org.businessmanager.domain.ContactItem;
 import org.businessmanager.domain.Email;
@@ -49,9 +50,9 @@ public class ContactEditController extends AbstractPageController {
 	
 	@PostConstruct
 	public void init() {
-		List<String> aAvailableAddressTypeList = new ArrayList<String>();
-		aAvailableAddressTypeList.add("Rechnungsadresse");
-		aAvailableAddressTypeList.add("Lieferadresse");
+		List<AddressType> aAvailableAddressTypeList = new ArrayList<AddressType>();
+		aAvailableAddressTypeList.add(AddressType.SCOPE_BILLING);
+		aAvailableAddressTypeList.add(AddressType.SCOPE_SHIPPING);
 		addressController.setAvailableAddressTypes(aAvailableAddressTypeList);
 		
 		emailList.add(new ContactItemBean(true));
@@ -96,8 +97,8 @@ public class ContactEditController extends AbstractPageController {
 				isFirst = false;
 			}
 			address.setContact(contact);
+			contact.getAddresses().add(address);
 		}
-		contact.setAddresses(assignedAddressList);
 	}
 
 	private void fillContact(Contact contact) {

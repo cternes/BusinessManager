@@ -1,6 +1,7 @@
 package org.businessmanager.web.bean;
 
 import org.businessmanager.domain.Address;
+import org.businessmanager.domain.Address.AddressType;
 
 public class AddressBean {
 	private Long id;
@@ -10,7 +11,7 @@ public class AddressBean {
 	private String zipCode;
 	private String forAttentionOf;
 	private String postOfficeBox;
-	private String scope;
+	private AddressType scope;
 	private String country;
 	private Boolean isDefault;
 
@@ -70,11 +71,11 @@ public class AddressBean {
 		this.postOfficeBox = postOfficeBox;
 	}
 
-	public String getScope() {
+	public AddressType getScope() {
 		return scope;
 	}
 
-	public void setScope(String scope) {
+	public void setScope(AddressType scope) {
 		this.scope = scope;
 	}
 

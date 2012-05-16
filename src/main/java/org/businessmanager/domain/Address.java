@@ -2,16 +2,32 @@ package org.businessmanager.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
+
 @Entity
 public class Address extends AbstractEntity implements HasDefault {
 
-	public static final String SCOPE_SHIPPING = "SHIPPING";
-	public static final String SCOPE_BILLING = "BILLING";
+	public enum AddressType {
+		SCOPE_SHIPPING("addresstype_shipping")
+		, SCOPE_BILLING("addresstype_billing");
+		
+		private final String label;
+		
+		private AddressType(String label) {
+			this.label = label;
+		}
+
+		public String getLabel() {
+			return ResourceBundleProducer.getString(label);
+		}
+	}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,7 +52,8 @@ public class Address extends AbstractEntity implements HasDefault {
 	private String postOfficeBox;
 
 	@Column
-	private String scope;
+	@Enumerated(EnumType.STRING)
+	private AddressType scope = AddressType.SCOPE_BILLING;
 	
 	@Column
 	private String country;
@@ -103,11 +120,11 @@ public class Address extends AbstractEntity implements HasDefault {
 		this.postOfficeBox = postOfficeBox;
 	}
 
-	public String getScope() {
+	public AddressType getScope() {
 		return scope;
 	}
 
-	public void setScope(String scope) {
+	public void setScope(AddressType scope) {
 		this.scope = scope;
 	}
 

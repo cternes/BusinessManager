@@ -24,7 +24,7 @@
 			selection="#{addressManagementController.selectedAddress}"
 			selectionMode="single" emptyMessage="#{messages.empty_table_message}">
 			<p:column headerText="#{messages.addressmanagement_address_type}">
-				<h:outputText value="#{address.scope}"></h:outputText>
+				<h:outputText value="#{address.scope.label}"></h:outputText>
 			</p:column>
 			<p:column headerText="#{messages.addressmanagement_address_street}">
 				<h:outputText value="#{address.street}"></h:outputText>
@@ -40,7 +40,7 @@
 			</p:column>
 
 			<f:facet name="footer">
-				<div class="stickAtRightBorder">
+				<div>
 					<p:commandButton value="#{messages.addressmanagement_update_address}" icon="ui-icon-pencil"	action="#{addressManagementController.viewSelected}" update="#{id}:addressManagementForm">
 						<f:setPropertyActionListener target="#{addressManagementController.showAddressUpdateDialog}" value="#{true}" />
 					</p:commandButton>
@@ -60,7 +60,7 @@
 
 					<p:column colspan="2">
 						<p:selectOneMenu id="addType" value="#{addressManagementController.addressToUpdate.scope}" style="width: 210px;">
-							<f:selectItems value="#{addressManagementController.availableAddressTypeValues}" var="type" itemValue="#{type}" itemLabel="#{type}"/>
+							<f:selectItems value="#{addressManagementController.availableAddressTypeValues}" var="type" itemValue="#{type}" itemLabel="#{type.label}"/>
 						</p:selectOneMenu>
 					</p:column>
 					<p:column>
@@ -139,7 +139,7 @@
 			
 			<p:spacer height="20"/>
 			
-			<div class="stickAtRightBorder">
+			<div>
 				<p:commandButton value="#{messages.ok}" action="#{addressManagementController.addAddress}" process="@this, addAddress" update="addressManagementForm" rendered="#{addressManagementController.showAddressAddDialog}" styleClass="marginButton, defaultButtonSize"/>
 				<p:commandButton value="#{messages.ok}" action="#{addressManagementController.updateAddress}"	update="addressManagementForm" rendered="#{addressManagementController.showAddressUpdateDialog}" styleClass="marginButton, defaultButtonSize" />
 				<p:commandButton value="#{messages.cancel}" actionListener="#{addressManagementController.closePanel}" immediate="true" update="addressManagementForm" styleClass="marginButton"/>
