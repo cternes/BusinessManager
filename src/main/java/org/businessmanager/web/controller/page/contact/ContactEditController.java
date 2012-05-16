@@ -89,13 +89,7 @@ public class ContactEditController extends AbstractPageController {
 	private void saveAddressList(Contact contact) {
 		List<Address> assignedAddressList = addressController.getAssignedAddressList();
 		
-		//TODO: just for demo, fix this as soon as possible
-		boolean isFirst = true;
 		for (Address address : assignedAddressList) {
-			if(isFirst) {
-				address.setIsDefault(true);
-				isFirst = false;
-			}
 			address.setContact(contact);
 			contact.getAddresses().add(address);
 		}
@@ -152,7 +146,7 @@ public class ContactEditController extends AbstractPageController {
 		}
 
 		for (ContactItemBean item : getEmailList()) {
-			if (!EmailValidator.getInstance().isValid(item.getValue())) {
+			if (!item.getValue().isEmpty() && !EmailValidator.getInstance().isValid(item.getValue())) {
 				addExtendedMessage(FacesMessage.SEVERITY_WARN,
 						"editcontact_warn_invalid_mail", "(" + item.getValue()
 								+ ")");

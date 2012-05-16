@@ -10,8 +10,9 @@
 				-Pass the parent form id as parameter into this component with id=":<parentFormId>" 
 	-->
 	
-	<p:panel header="#{messages.addressmanagement_title}" toggleable="true" toggleSpeed="500" collapsed="false" id="addressManagementForm">
+	<p:panel header="#{messages.addressmanagement_title}" toggleable="false" toggleSpeed="500" collapsed="false" id="addressManagementForm">
 		<p:dialog header="#{addressManagementController.panelTitle}" visible="#{addressManagementController.showAddressAddDialog or addressManagementController.showAddressUpdateDialog}" modal="true">
+			<p:focus for="addStreet" />
 			<p:messages globalOnly="true" />
 			<p:panel id="addAddress" rendered="#{addressManagementController.showAddressAddDialog or addressManagementController.showAddressUpdateDialog}">
 				<p:panelGrid>
@@ -96,6 +97,15 @@
 							<p:message for="addCountry" display="icon"/>
 						</p:column>
 					</p:row>
+					
+					<p:row>
+						<p:column>
+							<h:outputLabel value="#{messages.addressmanagement_address_default}" />						
+						</p:column>
+						<p:column>
+							<h:selectBooleanCheckbox value="#{addressManagementController.addressToUpdate.isDefault}" />
+						</p:column>
+					</p:row>
 				</p:panelGrid>
 			
 				<p:spacer height="20"/>
@@ -115,9 +125,7 @@
 		<p/>
 		
 		<p:dataTable id="datatable" value="#{addressManagementController.addressList}"
-			var="address" rowKey="#{address.id}"
-			selection="#{addressManagementController.selectedAddress}"
-			selectionMode="single" emptyMessage="#{messages.empty_table_message}">
+			var="address" rowKey="#{address.id}" emptyMessage="#{messages.empty_table_message}">
 			<p:column headerText="#{messages.addressmanagement_address_type}">
 				<h:outputText value="#{address.scope.label}"></h:outputText>
 			</p:column>
@@ -133,15 +141,18 @@
 			<p:column headerText="#{messages.addressmanagement_address_city}">
 				<h:outputText value="#{address.city}"></h:outputText>
 			</p:column>
-
-			<f:facet name="footer">
-				<div>
-					<p:commandButton value="#{messages.addressmanagement_update_address}" icon="ui-icon-pencil"	action="#{addressManagementController.viewSelected}" update="#{id}:addressManagementForm">
+			<p:column>
+				<div class="center">
+					<p:commandButton title="#{messages.addressmanagement_update_address}" icon="ui-icon-pencil"	action="#{addressManagementController.viewSelected}" update="#{id}:addressManagementForm">
+						<f:setPropertyActionListener target="#{addressManagementController.selectedAddress}" value="#{address}" />
 						<f:setPropertyActionListener target="#{addressManagementController.showAddressUpdateDialog}" value="#{true}" />
 					</p:commandButton>
-					<p:commandButton value="#{messages.addressmanagement_delete_address}" action="#{addressManagementController.deleteSelected}" update="#{id}:addressManagementForm" icon="ui-icon-closethick" styleClass="marginButton" />
+					
+					<p:commandButton title="#{messages.addressmanagement_delete_address}" action="#{addressManagementController.deleteSelected}" update="#{id}:addressManagementForm" icon="ui-icon-closethick" styleClass="marginButton">
+						<f:setPropertyActionListener target="#{addressManagementController.selectedAddress}" value="#{address}" />
+					</p:commandButton>
 				</div>
-			</f:facet>
+			</p:column>
 		</p:dataTable>
 
 		<p:spacer height="20" />

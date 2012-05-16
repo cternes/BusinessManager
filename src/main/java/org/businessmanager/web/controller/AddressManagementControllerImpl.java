@@ -76,10 +76,21 @@ public class AddressManagementControllerImpl extends AbstractPageController impl
 			//create unique id and add address
 			if(validateInput(addressToUpdate)) {
 				addressToUpdate.setId(createUniqueId(addressToUpdate));
+				removeDefaultFlag(addressToUpdate);
 				addressList.add(addressToUpdate);
 				addressToUpdate = new AddressBean();
 				//hide add dialog
 				showAddressAddDialog = false;
+			}
+		}
+	}
+	
+	private void removeDefaultFlag(AddressBean addressBean) {
+		if(addressBean.getIsDefault()) {
+			for (AddressBean bean : addressList) {
+				if(!bean.equals(addressBean)) {
+					bean.setIsDefault(false);
+				}
 			}
 		}
 	}
@@ -110,6 +121,7 @@ public class AddressManagementControllerImpl extends AbstractPageController impl
 			AddressBean anAddress = findAddressInList(addressToUpdate.getId());
 			
 			if(anAddress != null) {
+				removeDefaultFlag(anAddress);
 				anAddress.copyDataFromAddressBean(addressToUpdate);
 				showAddressUpdateDialog = false;
 			}

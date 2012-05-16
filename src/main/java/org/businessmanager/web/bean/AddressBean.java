@@ -13,7 +13,7 @@ public class AddressBean {
 	private String postOfficeBox;
 	private AddressType scope;
 	private String country;
-	private Boolean isDefault;
+	private Boolean isDefault = true;
 
 	public Long getId() {
 		return id;
@@ -97,6 +97,7 @@ public class AddressBean {
 		setForAttentionOf(theAddress.getForAttentionOf());
 		setPostOfficeBox(theAddress.getPostOfficeBox());
 		setCountry(theAddress.getCountry());
+		setIsDefault(theAddress.getIsDefault());
 		return this;
 	}
 
@@ -114,6 +115,7 @@ public class AddressBean {
 		anAddress.setForAttentionOf(getForAttentionOf());
 		anAddress.setPostOfficeBox(getPostOfficeBox());
 		anAddress.setCountry(getCountry());
+		anAddress.setIsDefault(getIsDefault());
 		return anAddress;
 	}
 
@@ -127,6 +129,7 @@ public class AddressBean {
 		setForAttentionOf(theFromBean.getForAttentionOf());
 		setPostOfficeBox(theFromBean.getPostOfficeBox());
 		setCountry(theFromBean.getCountry());
+		setIsDefault(theFromBean.getIsDefault());
 	}
 
 	public void setCountry(String country) {

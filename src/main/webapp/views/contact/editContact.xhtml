@@ -28,7 +28,7 @@
 
 					<p:panel id="contactPanel"
 						header="#{messages.editcontact_contact_general}"
-						style="margin: 0px 10px;">
+						>
 
 						<p:panelGrid columns="2">
 							<h:outputLabel for="salutation"
@@ -67,7 +67,9 @@
 						</p:panelGrid>
 					</p:panel>
 
-					<p:panelGrid style="width: 100%; margin-top: 15px;">
+					<div class="verticalSpacingSmall" />
+
+					<p:panelGrid styleClass="centerMainPanelGrid">
 						<p:row>
 							<p:column styleClass="topAlign">
 								<p:panel id="emailPanel"
@@ -188,6 +190,8 @@
 					-->
 					
 					<bm:addressManagement id=":formPanel" />
+
+					<div class="verticalSpacingSmall" />
 
 					<p:commandButton value="#{messages.save}"
 						action="#{contactEditController.saveContact}" update=":formPanel" />
