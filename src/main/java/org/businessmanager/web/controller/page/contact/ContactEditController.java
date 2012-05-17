@@ -1,6 +1,7 @@
 package org.businessmanager.web.controller.page.contact;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -118,6 +119,11 @@ public class ContactEditController extends AbstractPageController {
 
 		if (!StringUtils.isEmpty(bean.getJobTitle())) {
 			contact.setJobTitle(bean.getJobTitle());
+		}
+		if (bean.getBirthday() != null) {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(bean.getBirthday());
+			contact.setBirthday(cal);
 		}
 
 		for (ContactItemBean contactItem : emailList) {

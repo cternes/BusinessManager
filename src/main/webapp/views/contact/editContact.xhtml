@@ -297,6 +297,21 @@
 					<bm:addressManagement id=":formPanel" />
 
 					<div class="verticalSpacingSmall" />
+					
+					<p:panel header="#{messages.editcontact_contact_misc}">
+						<p:panelGrid>
+							<p:row>
+								<p:column>
+									<h:outputLabel value="#{messages.editcontact_contact_birthday}"/>
+								</p:column>
+								<p:column>
+									<p:calendar label="#{messages.editcontact_contact_birthday}" value="#{contactEditController.bean.birthday}" showOn="button" pattern="#{messages.date_pattern}" timeZone="#{messages.timezone}" locale="de" navigator="true" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+					</p:panel>
+					
+					<div class="verticalSpacingSmall" />
 
 					<p:commandButton value="#{messages.save}"
 						action="#{contactEditController.saveContact}" update=":formPanel" />

@@ -1,6 +1,7 @@
 package org.businessmanager.domain;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -49,6 +50,9 @@ public class Contact extends AbstractEntity {
 
 	@Column(length=20)
 	private String salutation;
+	
+	@Column
+	private Calendar birthday;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "contact")
 	private List<ContactItem> contactItems = new ArrayList<ContactItem>();
@@ -361,5 +365,13 @@ public class Contact extends AbstractEntity {
 			sb.append(value);
 			sb.append(" ");
 		}
+	}
+
+	public void setBirthday(Calendar birthday) {
+		this.birthday = birthday;
+	}
+
+	public Calendar getBirthday() {
+		return birthday;
 	}
 }
