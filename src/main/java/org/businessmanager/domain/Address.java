@@ -15,11 +15,11 @@ import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
 public class Address extends AbstractEntity implements HasDefault {
 
 	public enum AddressType {
-		SCOPE_SHIPPING("addresstype_shipping")
-		, SCOPE_BILLING("addresstype_billing");
-		
+		SHIPPING("addresstype_shipping")
+		, BILLING("addresstype_billing");
+
 		private final String label;
-		
+
 		private AddressType(String label) {
 			this.label = label;
 		}
@@ -53,7 +53,7 @@ public class Address extends AbstractEntity implements HasDefault {
 
 	@Column
 	@Enumerated(EnumType.STRING)
-	private AddressType scope = AddressType.SCOPE_BILLING;
+	private AddressType scope = AddressType.BILLING;
 	
 	@Column
 	private String country;

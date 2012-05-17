@@ -316,7 +316,7 @@ public class Contact extends AbstractEntity {
 							public boolean evaluate(Object paramObject) {
 								if (paramObject instanceof Address) {
 									Address address = (Address) paramObject;
-									return AddressType.SCOPE_BILLING.equals(address
+									return AddressType.BILLING.equals(address
 											.getScope());
 								}
 								return false;
@@ -338,7 +338,7 @@ public class Contact extends AbstractEntity {
 							public boolean evaluate(Object paramObject) {
 								if (paramObject instanceof Address) {
 									Address address = (Address) paramObject;
-									return AddressType.SCOPE_SHIPPING
+									return AddressType.SHIPPING
 											.equals(address.getScope());
 								}
 								return false;

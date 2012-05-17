@@ -86,8 +86,8 @@ public class ContactEditController extends AbstractPageController {
 	private void initAddressManagement() {
 		//init address management
 		List<AddressType> aAvailableAddressTypeList = new ArrayList<AddressType>();
-		aAvailableAddressTypeList.add(AddressType.SCOPE_BILLING);
-		aAvailableAddressTypeList.add(AddressType.SCOPE_SHIPPING);
+		aAvailableAddressTypeList.add(AddressType.BILLING);
+		aAvailableAddressTypeList.add(AddressType.SHIPPING);
 		addressController.setAvailableAddressTypes(aAvailableAddressTypeList);
 	}
 
