@@ -1,5 +1,8 @@
 package org.businessmanager.web.bean;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * @author Christian Ternes
  *
@@ -12,6 +15,7 @@ public class ContactBean {
 	private String lastname;
 	private String jobTitle;
 	private String company;
+	private Date birthday;
 
 	public String getSalutation() {
 		return salutation;
@@ -59,6 +63,14 @@ public class ContactBean {
 
 	public void setCompany(String company) {
 		this.company = company;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	public Date getBirthday() {
+		return birthday;
 	}
 	
 }

@@ -1,6 +1,7 @@
 package org.businessmanager.web.controller.page.contact;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,12 +11,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.businessmanager.aop.annotation.ErrorHandled;
 import org.businessmanager.domain.Address;
+import org.businessmanager.domain.Address.AddressType;
 import org.businessmanager.domain.Contact;
 import org.businessmanager.domain.ContactItem;
 import org.businessmanager.domain.Email;
+import org.businessmanager.domain.Fax;
 import org.businessmanager.domain.Phone;
 import org.businessmanager.geodb.OpenGeoDB;
 import org.businessmanager.geodb.OpenGeoEntry;
+import org.businessmanager.domain.Website;
 import org.businessmanager.service.ContactService;
 import org.businessmanager.web.bean.ContactBean;
 import org.businessmanager.web.bean.ContactItemBean;
@@ -48,19 +52,18 @@ public class ContactEditController extends AbstractPageController {
 	private ContactItemBean selectedEmail;
 	private List<ContactItemBean> phoneList = new ArrayList<ContactItemBean>();
 	private ContactItemBean selectedPhone;
+	private List<ContactItemBean> faxList = new ArrayList<ContactItemBean>();
+	private ContactItemBean selectedFax;
+	private List<ContactItemBean> websiteList = new ArrayList<ContactItemBean>();
+	private ContactItemBean selectedWebsite;
 	
 	private List<String> availableScopes = new ArrayList<String>();
 	private List<String> avaliableSalutations = new ArrayList<String>();
 	
 	@PostConstruct
 	public void init() {
-		List<String> aAvailableAddressTypeList = new ArrayList<String>();
-		aAvailableAddressTypeList.add("Rechnungsadresse");
-		aAvailableAddressTypeList.add("Lieferadresse");
-		addressController.setAvailableAddressTypes(aAvailableAddressTypeList);
-		
-		emailList.add(new ContactItemBean(true));
-		phoneList.add(new ContactItemBean(true));
+		initAddressManagement();
+		initContactItems();
 
 		availableScopes.add(ResourceBundleProducer.getString("scope_private"));
 		availableScopes.add(ResourceBundleProducer
@@ -71,6 +74,21 @@ public class ContactEditController extends AbstractPageController {
 				.getString("salutation_mr"));
 		avaliableSalutations.add(ResourceBundleProducer
 				.getString("salutation_mrs"));
+	}
+
+	private void initContactItems() {
+		emailList.add(new ContactItemBean(true));
+		phoneList.add(new ContactItemBean(true));
+		faxList.add(new ContactItemBean(true));
+		websiteList.add(new ContactItemBean(true));
+	}
+
+	private void initAddressManagement() {
+		//init address management
+		List<AddressType> aAvailableAddressTypeList = new ArrayList<AddressType>();
+		aAvailableAddressTypeList.add(AddressType.SCOPE_BILLING);
+		aAvailableAddressTypeList.add(AddressType.SCOPE_SHIPPING);
+		addressController.setAvailableAddressTypes(aAvailableAddressTypeList);
 	}
 
 	@ErrorHandled
@@ -93,16 +111,10 @@ public class ContactEditController extends AbstractPageController {
 	private void saveAddressList(Contact contact) {
 		List<Address> assignedAddressList = addressController.getAssignedAddressList();
 		
-		//TODO: just for demo, fix this as soon as possible
-		boolean isFirst = true;
 		for (Address address : assignedAddressList) {
-			if(isFirst) {
-				address.setIsDefault(true);
-				isFirst = false;
-			}
 			address.setContact(contact);
+			contact.getAddresses().add(address);
 		}
-		contact.setAddresses(assignedAddressList);
 	}
 
 	private void fillContact(Contact contact) {
@@ -113,12 +125,27 @@ public class ContactEditController extends AbstractPageController {
 		if (!StringUtils.isEmpty(bean.getJobTitle())) {
 			contact.setJobTitle(bean.getJobTitle());
 		}
+		if (bean.getBirthday() != null) {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(bean.getBirthday());
+			contact.setBirthday(cal);
+		}
 
 		for (ContactItemBean contactItem : emailList) {
 			Email email = new Email();
 			addItemToContact(contact, contactItem, email);
 		}
 
+		for (ContactItemBean contactItem : websiteList) {
+			Website website = new Website();
+			addItemToContact(contact, contactItem, website);
+		}
+		
+		for (ContactItemBean contactItem : faxList) {
+			Fax fax = new Fax();
+			addItemToContact(contact, contactItem, fax);
+		}
+		
 		for (ContactItemBean contactItem : phoneList) {
 			Phone phone = new Phone();
 			addItemToContact(contact, contactItem, phone);
@@ -156,7 +183,7 @@ public class ContactEditController extends AbstractPageController {
 		}
 
 		for (ContactItemBean item : getEmailList()) {
-			if (!EmailValidator.getInstance().isValid(item.getValue())) {
+			if (!item.getValue().isEmpty() && !EmailValidator.getInstance().isValid(item.getValue())) {
 				addExtendedMessage(FacesMessage.SEVERITY_WARN,
 						"editcontact_warn_invalid_mail", "(" + item.getValue()
 								+ ")");
@@ -174,7 +201,11 @@ public class ContactEditController extends AbstractPageController {
 	private Contact createContact() {
 		Contact contact = new Contact(bean.getFirstname(), bean.getLastname());
 		contact.setSalutation(bean.getSalutation());
-		contact.setTitle(bean.getTitle());
+		
+		if (!StringUtils.isEmpty(bean.getTitle())) {
+			contact.setTitle(bean.getTitle());
+		}
+		
 		return contact;
 	}
 
@@ -261,15 +292,62 @@ public class ContactEditController extends AbstractPageController {
 	public void addAddress() {
 		addressModel.getEntityList().add(new Address());
 	}
+
+	public List<ContactItemBean> getFaxList() {
+		return faxList;
+	}
+
+	public void setSelectedFax(ContactItemBean selectedFax) {
+		this.selectedFax = selectedFax;
+	}
+
+	public ContactItemBean getSelectedFax() {
+		return selectedFax;
+	}
+
+	public List<ContactItemBean> getWebsiteList() {
+		return websiteList;
+	}
+
+	public void setSelectedWebsite(ContactItemBean selectedWebsite) {
+		this.selectedWebsite = selectedWebsite;
+	}
+
+	public ContactItemBean getSelectedWebsite() {
+		return selectedWebsite;
+	}
 	
-	public void updateCity() {
-		if(bean.getJobTitle().length() < 3) return;
-		
-		List<OpenGeoEntry> findByZipCode = openGeoDB.findByZipCode("de", bean.getJobTitle());
-		
-		if(findByZipCode != null && findByZipCode.size() > 0) {
-			bean.setCompany(findByZipCode.get(0).getName());
+	public void addFax() {
+		faxList.add(new ContactItemBean());
+	}
+
+	public void removeFax() {
+		if (selectedFax != null) {
+			faxList.remove(selectedFax);
 		}
 	}
 	
+	public boolean getShowRemoveFaxButton() {
+		if (faxList.size() > 1) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void addWebsite() {
+		websiteList.add(new ContactItemBean());
+	}
+
+	public void removeWebsite() {
+		if (selectedWebsite != null) {
+			websiteList.remove(selectedWebsite);
+		}
+	}
+	
+	public boolean getShowRemoveWebsiteButton() {
+		if (websiteList.size() > 1) {
+			return true;
+		}
+		return false;
+	}	
 }

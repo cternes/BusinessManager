@@ -1,6 +1,7 @@
 package org.businessmanager.web.bean;
 
 import org.businessmanager.domain.Address;
+import org.businessmanager.domain.Address.AddressType;
 
 public class AddressBean {
 	private Long id;
@@ -10,9 +11,9 @@ public class AddressBean {
 	private String zipCode;
 	private String forAttentionOf;
 	private String postOfficeBox;
-	private String scope;
+	private AddressType scope;
 	private String country;
-	private Boolean isDefault;
+	private Boolean isDefault = true;
 
 	public Long getId() {
 		return id;
@@ -70,11 +71,11 @@ public class AddressBean {
 		this.postOfficeBox = postOfficeBox;
 	}
 
-	public String getScope() {
+	public AddressType getScope() {
 		return scope;
 	}
 
-	public void setScope(String scope) {
+	public void setScope(AddressType scope) {
 		this.scope = scope;
 	}
 
@@ -96,6 +97,7 @@ public class AddressBean {
 		setForAttentionOf(theAddress.getForAttentionOf());
 		setPostOfficeBox(theAddress.getPostOfficeBox());
 		setCountry(theAddress.getCountry());
+		setIsDefault(theAddress.getIsDefault());
 		return this;
 	}
 
@@ -113,6 +115,7 @@ public class AddressBean {
 		anAddress.setForAttentionOf(getForAttentionOf());
 		anAddress.setPostOfficeBox(getPostOfficeBox());
 		anAddress.setCountry(getCountry());
+		anAddress.setIsDefault(getIsDefault());
 		return anAddress;
 	}
 
@@ -126,6 +129,7 @@ public class AddressBean {
 		setForAttentionOf(theFromBean.getForAttentionOf());
 		setPostOfficeBox(theFromBean.getPostOfficeBox());
 		setCountry(theFromBean.getCountry());
+		setIsDefault(theFromBean.getIsDefault());
 	}
 
 	public void setCountry(String country) {

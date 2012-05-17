@@ -3,6 +3,7 @@ package org.businessmanager.web.controller;
 import java.util.List;
 
 import org.businessmanager.domain.Address;
+import org.businessmanager.domain.Address.AddressType;
 
 /**
  * This interface should be used to programmatically interact with the addressManagement component.
@@ -45,7 +46,7 @@ public interface AddressManagementController {
 	 * 
 	 * @param theAvailableAddressTypes the available address types
 	 */
-	public void setAvailableAddressTypes(List<String> theAvailableAddressTypes);
+	public void setAvailableAddressTypes(List<AddressType> theAvailableAddressTypes);
 	
 	public boolean isEditMode();
 }

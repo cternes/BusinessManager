@@ -142,6 +142,11 @@ a:active,
 	/* the bottom margin is the negative value of the footer's height */
 }
 
+.centerMainPanelGrid {
+	width: 102%; 
+	margin: 0px -10px;
+}
+
 /************BUTTONS*********/
 .marginButton {
 	margin-left: 3em !important;
@@ -156,6 +161,10 @@ a:active,
 	vertical-align: top !important;
 }
 
+.center {
+	text-align: center;
+}
+
 /****************SPACER**************************/
 .verticalSpacingSmall { 
 	height: 3.0em;
@@ -168,4 +177,8 @@ a:active,
 
 .smallInput, .smallInput input {
 	width: 3em;
+}
+
+.mediumInput, .mediumInput input {
+	width: 5em;
 }

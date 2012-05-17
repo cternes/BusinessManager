@@ -35,6 +35,13 @@ public class ContactServiceTest {
 		
 		Assert.assertEquals(1, contactList.get(0).getEmailList().size());
 		Assert.assertEquals(email, contactList.get(0).getEmailList().get(0).getEmail());
+		
+		
+		Contact contact3 = contactList.get(0);
+		List<Email> emailList = contact3.getEmailList();
+		Email email2 = emailList.get(0);
+		
+//		contactService.deleteContactItemFromContact(email2);
 	}
 	
 	private Contact createContact(String firstname, String lastname, String email, String phone) {

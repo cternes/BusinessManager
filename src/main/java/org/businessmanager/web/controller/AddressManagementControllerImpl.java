@@ -6,6 +6,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 
 import org.businessmanager.domain.Address;
+import org.businessmanager.domain.Address.AddressType;
 import org.businessmanager.service.AddressService;
 import org.businessmanager.web.bean.AddressBean;
 import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
@@ -32,7 +33,7 @@ public class AddressManagementControllerImpl extends AbstractPageController impl
 	private AddressService addressService;
 	
 	private List<AddressBean> addressList = new ArrayList<AddressBean>();
-	private List<String> availableAddressTypes = new ArrayList<String>();
+	private List<AddressType> availableAddressTypes = new ArrayList<AddressType>();
 	private AddressBean selectedAddress;
 	private AddressBean addressToUpdate;
 	private boolean showAddressAddDialog = false;
@@ -75,10 +76,21 @@ public class AddressManagementControllerImpl extends AbstractPageController impl
 			//create unique id and add address
 			if(validateInput(addressToUpdate)) {
 				addressToUpdate.setId(createUniqueId(addressToUpdate));
+				removeDefaultFlag(addressToUpdate);
 				addressList.add(addressToUpdate);
 				addressToUpdate = new AddressBean();
 				//hide add dialog
 				showAddressAddDialog = false;
+			}
+		}
+	}
+	
+	private void removeDefaultFlag(AddressBean addressBean) {
+		if(addressBean.getIsDefault()) {
+			for (AddressBean bean : addressList) {
+				if(!bean.equals(addressBean)) {
+					bean.setIsDefault(false);
+				}
 			}
 		}
 	}
@@ -109,6 +121,7 @@ public class AddressManagementControllerImpl extends AbstractPageController impl
 			AddressBean anAddress = findAddressInList(addressToUpdate.getId());
 			
 			if(anAddress != null) {
+				removeDefaultFlag(anAddress);
 				anAddress.copyDataFromAddressBean(addressToUpdate);
 				showAddressUpdateDialog = false;
 			}
@@ -249,7 +262,7 @@ public class AddressManagementControllerImpl extends AbstractPageController impl
 		return false;
 	}
 	
-	public List<String> getAvailableAddressTypeValues() {
+	public List<AddressType> getAvailableAddressTypeValues() {
 //		List<String> aRemoveList = getUsedAddressTypes();
 //		if(availableAddressTypes == null || availableAddressTypes.size() == 0) {
 //			String[] aFilteredArray = ListHelper.filterArray(AddressType.values(), aRemoveList, AddressType.class);
@@ -260,10 +273,10 @@ public class AddressManagementControllerImpl extends AbstractPageController impl
 		return availableAddressTypes;
 	}
 	
-	private String[] getCurrentAddressType(String[] theAvailableTypes) {
+	private AddressType[] getCurrentAddressType(AddressType[] theAvailableTypes) {
 		if(theAvailableTypes.length == 0) {
 			if(addressToUpdate != null) {
-				String[] addressTypes = new String[1];
+				AddressType[] addressTypes = new AddressType[1];
 				addressTypes[0] = addressToUpdate.getScope();
 				return addressTypes; 
 			}
@@ -271,10 +284,10 @@ public class AddressManagementControllerImpl extends AbstractPageController impl
 		return theAvailableTypes;
 	}
 
-	private List<String> getUsedAddressTypes() {
-		List<String> aRemoveList = new ArrayList<String>();
+	private List<AddressType> getUsedAddressTypes() {
+		List<AddressType> aRemoveList = new ArrayList<AddressType>();
 		for (AddressBean aBean : addressList) {
-			String aType = aBean.getScope();
+			AddressType aType = aBean.getScope();
 			aRemoveList.add(aType);
 		}
 		return aRemoveList;
@@ -284,7 +297,7 @@ public class AddressManagementControllerImpl extends AbstractPageController impl
 	 * @see ch.vqf.cp.web.controller.IAddressManagementController#setAvailableAddressTypes(java.util.List)
 	 */
 	@Override
-	public void setAvailableAddressTypes(List<String> theAvailableAddressTypes) {
+	public void setAvailableAddressTypes(List<AddressType> theAvailableAddressTypes) {
 		this.availableAddressTypes = theAvailableAddressTypes;
 	}
 

@@ -24,52 +24,78 @@
 			<div id="right-col">
 				<h:form id="formPanel" prependId="false">
 					<p:messages />
-					<p:focus for="formPanel" />
+					<p:focus for="contacttitle" />
 
 					<p:panel id="contactPanel"
 						header="#{messages.editcontact_contact_general}"
-						style="margin: 0px 10px;">
+						>
 
-						<p:panelGrid columns="2">
-							<h:outputLabel for="salutation"
-								value="#{messages.editcontact_contact_salutation}:" />
-							<p:selectOneMenu id="salutation"
-								value="#{contactEditController.bean.salutation}">
-								<f:selectItems
-									value="#{contactEditController.availableSalutations}"
-									itemLabel="#{salutation}" itemValue="#{salutation}" />
-							</p:selectOneMenu>
-
-							<h:outputLabel for="contacttitle"
-								value="#{messages.editcontact_contact_title}:" />
-							<p:inputText id="contacttitle"
-								value="#{contactEditController.bean.title}" />
-
-							<h:outputLabel for="firstname"
-								value="#{messages.editcontact_contact_firstname}:" />
-							<p:inputText id="firstname"
-								value="#{contactEditController.bean.firstname}" />
-
-							<h:outputLabel for="lastname"
-								value="#{messages.editcontact_contact_lastname}:" />
-							<p:inputText id="lastname"
-								value="#{contactEditController.bean.lastname}" />
-
-							<h:outputLabel for="jobTitle"
-								value="#{messages.editcontact_contact_jobtitle}:" />
-							<p:inputText id="jobTitle"
-								value="#{contactEditController.bean.jobTitle}">
-								<p:ajax event="keyup" listener="#{contactEditController.updateCity}" update="company" />
-							</p:inputText>
-
-							<h:outputLabel for="company"
-								value="#{messages.editcontact_contact_company}:" />
-							<p:inputText id="company"
-								value="#{contactEditController.bean.company}" />
+						<p:panelGrid>
+							<p:row>
+								<p:column>
+									<h:outputLabel for="salutation"
+										value="#{messages.editcontact_contact_salutation}:" />
+								</p:column>
+								<p:column>
+									<p:selectOneMenu id="salutation"
+										value="#{contactEditController.bean.salutation}">
+										<f:selectItems
+											value="#{contactEditController.availableSalutations}"
+											itemLabel="#{salutation}" itemValue="#{salutation}" />
+									</p:selectOneMenu>
+								</p:column>
+							</p:row>
+							
+							<p:row>
+								<p:column>
+									<h:outputLabel for="contacttitle"
+										value="#{messages.editcontact_contact_title}:" />
+								</p:column>
+								<p:column>
+									<p:inputText id="contacttitle"
+										value="#{contactEditController.bean.title}" maxlength="50" styleClass="mediumInput"/>
+								</p:column>
+								<p:column>
+									<h:outputLabel for="firstname"
+										value="#{messages.editcontact_contact_firstname}:" />
+								</p:column>
+								<p:column>
+									<p:inputText id="firstname"
+										value="#{contactEditController.bean.firstname}" maxlength="255"/>
+								</p:column>
+								<p:column>
+									<h:outputLabel for="lastname"
+										value="#{messages.editcontact_contact_lastname}:" />
+								</p:column>
+								<p:column>
+									<p:inputText id="lastname"
+										value="#{contactEditController.bean.lastname}" maxlength="255"/>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<h:outputLabel for="jobTitle"
+										value="#{messages.editcontact_contact_jobtitle}:" />	
+								</p:column>
+								<p:column>
+									<p:inputText id="jobTitle"
+										value="#{contactEditController.bean.jobTitle}" maxlength="255"/>	
+								</p:column>
+								<p:column>
+									<h:outputLabel for="company"
+										value="#{messages.editcontact_contact_company}:" />
+								</p:column>
+								<p:column colspan="2">
+									<p:inputText id="company"
+										value="#{contactEditController.bean.company}" maxlength="255" styleClass="fullSizeInput"/>
+								</p:column>
+							</p:row>
 						</p:panelGrid>
 					</p:panel>
 
-					<p:panelGrid style="width: 100%; margin-top: 15px;">
+					<div class="verticalSpacingSmall" />
+
+					<p:panelGrid styleClass="centerMainPanelGrid">
 						<p:row>
 							<p:column styleClass="topAlign">
 								<p:panel id="emailPanel"
@@ -87,7 +113,7 @@
 											</p:selectOneMenu>
 										</h:column>
 										<h:column>
-											<p:inputText value="#{email.value}" />
+											<p:inputText value="#{email.value}" maxlength="255"/>
 										</h:column>
 										<h:column>
 											<p:commandButton title="#{messages.editcontact_remove_email}"
@@ -109,6 +135,50 @@
 							</p:column>
 
 							<p:column styleClass="topAlign">
+								<p:panel id="websitePanel"
+									header="#{messages.editcontact_contact_website}">
+									<p:commandLink value="#{messages.editcontact_add_website}"
+										action="#{contactEditController.addWebsite}"
+										update=":formPanel:websitePanel" />
+									<h:dataTable var="website"
+										value="#{contactEditController.websiteList}">
+										<h:column>
+											<p:selectOneMenu value="#{website.scope}">
+												<f:selectItems
+													value="#{contactEditController.availableScopes}"
+													itemLabel="#{scope}" itemValue="#{scope}" />
+											</p:selectOneMenu>
+										</h:column>
+										<h:column>
+											<p:inputText value="#{website.value}" maxlength="255" />
+										</h:column>
+										<h:column>
+											<p:commandButton
+												title="#{messages.editcontact_remove_website}"
+												action="#{contactEditController.removeWebsite}"
+												icon="ui-icon-minusthick" update=":formPanel:websitePanel"
+												rendered="#{contactEditController.showRemoveWebsiteButton}">
+												<f:setPropertyActionListener
+													target="#{contactEditController.selectedWebsite}"
+													value="#{website}" />
+											</p:commandButton>
+										</h:column>
+										<h:column>
+											<h:selectBooleanCheckbox title="#{messages.mark_as_default}"
+												value="#{website.isDefault}"
+												onchange="uncheckOtherBoxes(this);" />
+										</h:column>
+									</h:dataTable>
+								</p:panel>
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+
+					<div class="verticalSpacingSmall" />
+
+					<p:panelGrid styleClass="centerMainPanelGrid">
+						<p:row>
+							<p:column styleClass="topAlign">
 								<p:panel id="phonePanel"
 									header="#{messages.editcontact_contact_phone}">
 									<p:commandLink value="#{messages.editcontact_add_phone}"
@@ -124,7 +194,7 @@
 											</p:selectOneMenu>
 										</h:column>
 										<h:column>
-											<p:inputText value="#{phone.value}" />
+											<p:inputText value="#{phone.value}" maxlength="255" />
 										</h:column>
 										<h:column>
 											<p:commandButton title="#{messages.editcontact_remove_phone}"
@@ -140,6 +210,41 @@
 											<h:selectBooleanCheckbox title="#{messages.mark_as_default}"
 												value="#{phone.isDefault}"
 												onchange="uncheckOtherBoxes(this);" />
+										</h:column>
+									</h:dataTable>
+								</p:panel>
+							</p:column>
+
+							<p:column styleClass="topAlign">
+								<p:panel id="faxPanel"
+									header="#{messages.editcontact_contact_fax}">
+									<p:commandLink value="#{messages.editcontact_add_fax}"
+										action="#{contactEditController.addFax}"
+										update=":formPanel:faxPanel" />
+									<h:dataTable var="fax" value="#{contactEditController.faxList}">
+										<h:column>
+											<p:selectOneMenu value="#{fax.scope}">
+												<f:selectItems
+													value="#{contactEditController.availableScopes}"
+													itemLabel="#{scope}" itemValue="#{scope}" />
+											</p:selectOneMenu>
+										</h:column>
+										<h:column>
+											<p:inputText value="#{fax.value}" maxlength="255" />
+										</h:column>
+										<h:column>
+											<p:commandButton title="#{messages.editcontact_remove_fax}"
+												action="#{contactEditController.removeFax}"
+												icon="ui-icon-minusthick" update=":formPanel:faxPanel"
+												rendered="#{contactEditController.showRemoveFaxButton}">
+												<f:setPropertyActionListener
+													target="#{contactEditController.selectedFax}"
+													value="#{fax}" />
+											</p:commandButton>
+										</h:column>
+										<h:column>
+											<h:selectBooleanCheckbox title="#{messages.mark_as_default}"
+												value="#{fax.isDefault}" onchange="uncheckOtherBoxes(this);" />
 										</h:column>
 									</h:dataTable>
 								</p:panel>
@@ -191,12 +296,30 @@
 
 					<bm:addressManagement id=":formPanel" />
 
+					<div class="verticalSpacingSmall" />
+					
+					<p:panel header="#{messages.editcontact_contact_misc}">
+						<p:panelGrid>
+							<p:row>
+								<p:column>
+									<h:outputLabel value="#{messages.editcontact_contact_birthday}"/>
+								</p:column>
+								<p:column>
+									<p:calendar label="#{messages.editcontact_contact_birthday}" value="#{contactEditController.bean.birthday}" showOn="button" pattern="#{messages.date_pattern}" timeZone="#{messages.timezone}" locale="de" navigator="true" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+					</p:panel>
+					
+					<div class="verticalSpacingSmall" />
+
 					<p:commandButton value="#{messages.save}"
 						action="#{contactEditController.saveContact}" update=":formPanel" />
 					<p:commandLink value="#{messages.cancel}"
 						action="#{navigationHelper.getContactmanagement}"
 						styleClass="marginButton" />
 
+					<div class="verticalSpacingSmall" />
 				</h:form>
 			</div>
 		</h:body>
