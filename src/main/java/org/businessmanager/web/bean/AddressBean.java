@@ -1,7 +1,23 @@
+/*******************************************************************************
+ * Copyright 2012 Christian Ternes and Thorsten Volland
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package org.businessmanager.web.bean;
 
 import org.businessmanager.domain.Address;
 import org.businessmanager.domain.Address.AddressType;
+import org.businessmanager.geodb.Country;
 
 public class AddressBean {
 	private Long id;
@@ -12,7 +28,7 @@ public class AddressBean {
 	private String forAttentionOf;
 	private String postOfficeBox;
 	private AddressType scope;
-	private String country;
+	private Country country;
 	private Boolean isDefault = true;
 
 	public Long getId() {
@@ -96,7 +112,7 @@ public class AddressBean {
 		setScope(theAddress.getScope());
 		setForAttentionOf(theAddress.getForAttentionOf());
 		setPostOfficeBox(theAddress.getPostOfficeBox());
-		setCountry(theAddress.getCountry());
+		setCountry(Country.fromCountryCode(theAddress.getCountry()));
 		setIsDefault(theAddress.getIsDefault());
 		return this;
 	}
@@ -114,7 +130,7 @@ public class AddressBean {
 		anAddress.setScope(getScope());
 		anAddress.setForAttentionOf(getForAttentionOf());
 		anAddress.setPostOfficeBox(getPostOfficeBox());
-		anAddress.setCountry(getCountry());
+		anAddress.setCountry(getCountry().getCode());
 		anAddress.setIsDefault(getIsDefault());
 		return anAddress;
 	}
@@ -132,11 +148,11 @@ public class AddressBean {
 		setIsDefault(theFromBean.getIsDefault());
 	}
 
-	public void setCountry(String country) {
-		this.country = country;
+	public Country getCountry() {
+		return country;
 	}
 
-	public String getCountry() {
-		return country;
+	public void setCountry(Country country) {
+		this.country = country;
 	}
 }
