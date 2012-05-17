@@ -15,6 +15,10 @@
  ******************************************************************************/
 package org.businessmanager.web.controller.page.contact;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.businessmanager.web.bean.ContactItemBean;
 import org.businessmanager.web.controller.AbstractPageController;
 import org.businessmanager.web.controller.state.ContactModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +31,7 @@ public class ContactViewController extends AbstractPageController {
 
 	@Autowired
 	private ContactModel model;
-
+	
 	public void setModel(ContactModel model) {
 		this.model = model;
 	}

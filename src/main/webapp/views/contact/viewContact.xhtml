@@ -7,36 +7,108 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	template="/WEB-INF/templates/template.xhtml">
-	
+
 	<ui:define name="head">
-    </ui:define>
-	
+	</ui:define>
+
 	<ui:define name="content">
 		<h:body>
 			<h2 class="contentheading">#{messages.viewcontact_title}</h2>
-			
+
 			<div id="left-col">
 				<ui:include src="sideBarContact.xhtml" />
 			</div>
-			
+
 			<div id="right-col">
 				<h:form id="formPanel">
 					<p:messages />
 					<p:focus for="formPanel" />
 					<h1>
-						<h:outputText value="#{contactViewController.model.selectedEntity.displayName}"/>
+						<h:outputText
+							value="#{contactViewController.model.selectedEntity.displayName}" />
 					</h1>
 					<h2>
-						<h:outputText value="#{contactViewController.model.selectedEntity.jobTitle}"/>
+						<h:outputText
+							value="#{contactViewController.model.selectedEntity.jobTitle}" />
 					</h2>
 					<h2>
-						<h:outputText value="#{contactViewController.model.selectedEntity.company}"/>
+						<h:outputText
+							value="#{contactViewController.model.selectedEntity.company}" />
 					</h2>
-					
-					<!-- 
-					<h:dataTable value="#{contactViewController.model.selectedEntity.emailList}">
-					</h:dataTable>
-					 -->
+
+					<div class="verticalSpacingSmall" />
+
+					<p:panelGrid styleClass="centerMainPanelGrid">
+						<p:row>
+							<p:column styleClass="topAlign">
+								<p:panel id="emailPanel"
+									header="#{messages.editcontact_contact_email}">
+									<h:dataTable var="email"
+										value="#{contactViewController.model.selectedEntity.emailList}">
+										<h:column>
+											<h:outputText value="#{email.scope}" />
+										</h:column>
+										<h:column>
+											<h:outputText value="#{email.value}" />
+										</h:column>
+									</h:dataTable>
+								</p:panel>
+							</p:column>
+
+							<p:column styleClass="topAlign">
+								<p:panel id="websitePanel"
+									header="#{messages.editcontact_contact_website}">
+
+									<h:dataTable var="website"
+										value="#{contactViewController.model.selectedEntity.websiteList}">
+										<h:column>
+											<h:outputText value="#{website.scope}" />
+										</h:column>
+										<h:column>
+											<h:outputText value="#{website.value}" />
+										</h:column>
+									</h:dataTable>
+								</p:panel>
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+
+					<div class="verticalSpacingSmall" />
+
+					<p:panelGrid styleClass="centerMainPanelGrid">
+						<p:row>
+							<p:column styleClass="topAlign">
+								<p:panel id="phonePanel"
+									header="#{messages.editcontact_contact_phone}">
+									<h:dataTable var="phone"
+										value="#{contactViewController.model.selectedEntity.phoneList}">
+										<h:column>
+											<h:outputText value="#{phone.scope}" />
+										</h:column>
+										<h:column>
+											<h:outputText value="#{phone.value}" />
+										</h:column>
+									</h:dataTable>
+								</p:panel>
+							</p:column>
+
+							<p:column styleClass="topAlign">
+								<p:panel id="faxPanel"
+									header="#{messages.editcontact_contact_fax}">
+									<h:dataTable var="fax"
+										value="#{contactViewController.model.selectedEntity.faxList}">
+										<h:column>
+											<h:outputText value="#{fax.scope}" />
+										</h:column>
+										<h:column>
+											<h:outputText value="#{fax.value}" />
+										</h:column>
+									</h:dataTable>
+								</p:panel>
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+
 				</h:form>
 			</div>
 		</h:body>
