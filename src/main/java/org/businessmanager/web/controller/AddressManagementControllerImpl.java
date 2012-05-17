@@ -7,6 +7,8 @@ import javax.faces.application.FacesMessage;
 
 import org.businessmanager.domain.Address;
 import org.businessmanager.domain.Address.AddressType;
+import org.businessmanager.geodb.OpenGeoDB;
+import org.businessmanager.geodb.OpenGeoEntry;
 import org.businessmanager.service.AddressService;
 import org.businessmanager.web.bean.AddressBean;
 import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
@@ -31,6 +33,9 @@ public class AddressManagementControllerImpl extends AbstractPageController impl
 	
 	@Autowired
 	private AddressService addressService;
+	
+	@Autowired
+	private OpenGeoDB openGeoDB;
 	
 	private List<AddressBean> addressList = new ArrayList<AddressBean>();
 	private List<AddressType> availableAddressTypes = new ArrayList<AddressType>();
@@ -319,5 +324,19 @@ public class AddressManagementControllerImpl extends AbstractPageController impl
     	}
     	return false;
     }
+
+	@Override
+	public void findCity() {
+		String zipCode = addressToUpdate.getZipCode();
+		if(zipCode == null || zipCode.length() < 3) {
+			return;
+		}
+		
+		List<OpenGeoEntry> findByZipCode = openGeoDB.findByZipCode("DE", zipCode);
+		
+		if(findByZipCode != null && findByZipCode.size() > 0) {
+			addressToUpdate.setCity(findByZipCode.get(0).getName());
+		}
+	}
     
 }

@@ -75,7 +75,9 @@
 							<h:outputLabel value="#{messages.addressmanagement_address_zipcode}/#{messages.addressmanagement_address_city}:"></h:outputLabel>
 						</p:column>
 						<p:column>
-							<p:inputText id="addZip" value="#{addressManagementController.addressToUpdate.zipCode}" styleClass="smallInput" />
+							<p:inputText id="addZip" value="#{addressManagementController.addressToUpdate.zipCode}" styleClass="smallInput">
+								<p:ajax event="keyup" update="addCity" listener="#{addressManagementController.findCity}"></p:ajax>
+							</p:inputText>
 						</p:column>
 						<p:column>
 							<p:inputText id="addCity"  value="#{addressManagementController.addressToUpdate.city}"  styleClass="fullSizeInput" />

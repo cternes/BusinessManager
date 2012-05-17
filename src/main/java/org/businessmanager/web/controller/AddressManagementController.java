@@ -49,4 +49,6 @@ public interface AddressManagementController {
 	public void setAvailableAddressTypes(List<AddressType> theAvailableAddressTypes);
 	
 	public boolean isEditMode();
+	
+	public void findCity();
 }
