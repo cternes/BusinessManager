@@ -14,7 +14,9 @@ import org.businessmanager.domain.Address.AddressType;
 import org.businessmanager.domain.Contact;
 import org.businessmanager.domain.ContactItem;
 import org.businessmanager.domain.Email;
+import org.businessmanager.domain.Fax;
 import org.businessmanager.domain.Phone;
+import org.businessmanager.domain.Website;
 import org.businessmanager.service.ContactService;
 import org.businessmanager.web.bean.ContactBean;
 import org.businessmanager.web.bean.ContactItemBean;
@@ -44,19 +46,18 @@ public class ContactEditController extends AbstractPageController {
 	private ContactItemBean selectedEmail;
 	private List<ContactItemBean> phoneList = new ArrayList<ContactItemBean>();
 	private ContactItemBean selectedPhone;
+	private List<ContactItemBean> faxList = new ArrayList<ContactItemBean>();
+	private ContactItemBean selectedFax;
+	private List<ContactItemBean> websiteList = new ArrayList<ContactItemBean>();
+	private ContactItemBean selectedWebsite;
 	
 	private List<String> availableScopes = new ArrayList<String>();
 	private List<String> avaliableSalutations = new ArrayList<String>();
 	
 	@PostConstruct
 	public void init() {
-		List<AddressType> aAvailableAddressTypeList = new ArrayList<AddressType>();
-		aAvailableAddressTypeList.add(AddressType.SCOPE_BILLING);
-		aAvailableAddressTypeList.add(AddressType.SCOPE_SHIPPING);
-		addressController.setAvailableAddressTypes(aAvailableAddressTypeList);
-		
-		emailList.add(new ContactItemBean(true));
-		phoneList.add(new ContactItemBean(true));
+		initAddressManagement();
+		initContactItems();
 
 		availableScopes.add(ResourceBundleProducer.getString("scope_private"));
 		availableScopes.add(ResourceBundleProducer
@@ -67,6 +68,21 @@ public class ContactEditController extends AbstractPageController {
 				.getString("salutation_mr"));
 		avaliableSalutations.add(ResourceBundleProducer
 				.getString("salutation_mrs"));
+	}
+
+	private void initContactItems() {
+		emailList.add(new ContactItemBean(true));
+		phoneList.add(new ContactItemBean(true));
+		faxList.add(new ContactItemBean(true));
+		websiteList.add(new ContactItemBean(true));
+	}
+
+	private void initAddressManagement() {
+		//init address management
+		List<AddressType> aAvailableAddressTypeList = new ArrayList<AddressType>();
+		aAvailableAddressTypeList.add(AddressType.SCOPE_BILLING);
+		aAvailableAddressTypeList.add(AddressType.SCOPE_SHIPPING);
+		addressController.setAvailableAddressTypes(aAvailableAddressTypeList);
 	}
 
 	@ErrorHandled
@@ -109,6 +125,16 @@ public class ContactEditController extends AbstractPageController {
 			addItemToContact(contact, contactItem, email);
 		}
 
+		for (ContactItemBean contactItem : websiteList) {
+			Website website = new Website();
+			addItemToContact(contact, contactItem, website);
+		}
+		
+		for (ContactItemBean contactItem : faxList) {
+			Fax fax = new Fax();
+			addItemToContact(contact, contactItem, fax);
+		}
+		
 		for (ContactItemBean contactItem : phoneList) {
 			Phone phone = new Phone();
 			addItemToContact(contact, contactItem, phone);
@@ -164,7 +190,11 @@ public class ContactEditController extends AbstractPageController {
 	private Contact createContact() {
 		Contact contact = new Contact(bean.getFirstname(), bean.getLastname());
 		contact.setSalutation(bean.getSalutation());
-		contact.setTitle(bean.getTitle());
+		
+		if (!StringUtils.isEmpty(bean.getTitle())) {
+			contact.setTitle(bean.getTitle());
+		}
+		
 		return contact;
 	}
 
@@ -251,5 +281,64 @@ public class ContactEditController extends AbstractPageController {
 	public void addAddress() {
 		addressModel.getEntityList().add(new Address());
 	}
+
+	public List<ContactItemBean> getFaxList() {
+		return faxList;
+	}
+
+	public void setSelectedFax(ContactItemBean selectedFax) {
+		this.selectedFax = selectedFax;
+	}
+
+	public ContactItemBean getSelectedFax() {
+		return selectedFax;
+	}
+
+	public List<ContactItemBean> getWebsiteList() {
+		return websiteList;
+	}
+
+	public void setSelectedWebsite(ContactItemBean selectedWebsite) {
+		this.selectedWebsite = selectedWebsite;
+	}
+
+	public ContactItemBean getSelectedWebsite() {
+		return selectedWebsite;
+	}
+	
+	public void addFax() {
+		faxList.add(new ContactItemBean());
+	}
+
+	public void removeFax() {
+		if (selectedFax != null) {
+			faxList.remove(selectedFax);
+		}
+	}
+	
+	public boolean getShowRemoveFaxButton() {
+		if (faxList.size() > 1) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void addWebsite() {
+		websiteList.add(new ContactItemBean());
+	}
+
+	public void removeWebsite() {
+		if (selectedWebsite != null) {
+			websiteList.remove(selectedWebsite);
+		}
+	}
+	
+	public boolean getShowRemoveWebsiteButton() {
+		if (websiteList.size() > 1) {
+			return true;
+		}
+		return false;
+	}
+	
 	
 }

@@ -135,6 +135,50 @@
 							</p:column>
 
 							<p:column styleClass="topAlign">
+								<p:panel id="websitePanel"
+									header="#{messages.editcontact_contact_website}">
+									<p:commandLink value="#{messages.editcontact_add_website}"
+										action="#{contactEditController.addWebsite}"
+										update=":formPanel:websitePanel" />
+									<h:dataTable var="website"
+										value="#{contactEditController.websiteList}">
+										<h:column>
+											<p:selectOneMenu value="#{website.scope}">
+												<f:selectItems
+													value="#{contactEditController.availableScopes}"
+													itemLabel="#{scope}" itemValue="#{scope}" />
+											</p:selectOneMenu>
+										</h:column>
+										<h:column>
+											<p:inputText value="#{website.value}" maxlength="255" />
+										</h:column>
+										<h:column>
+											<p:commandButton
+												title="#{messages.editcontact_remove_website}"
+												action="#{contactEditController.removeWebsite}"
+												icon="ui-icon-minusthick" update=":formPanel:websitePanel"
+												rendered="#{contactEditController.showRemoveWebsiteButton}">
+												<f:setPropertyActionListener
+													target="#{contactEditController.selectedWebsite}"
+													value="#{website}" />
+											</p:commandButton>
+										</h:column>
+										<h:column>
+											<h:selectBooleanCheckbox title="#{messages.mark_as_default}"
+												value="#{website.isDefault}"
+												onchange="uncheckOtherBoxes(this);" />
+										</h:column>
+									</h:dataTable>
+								</p:panel>
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+
+					<div class="verticalSpacingSmall" />
+
+					<p:panelGrid styleClass="centerMainPanelGrid">
+						<p:row>
+							<p:column styleClass="topAlign">
 								<p:panel id="phonePanel"
 									header="#{messages.editcontact_contact_phone}">
 									<p:commandLink value="#{messages.editcontact_add_phone}"
@@ -150,7 +194,7 @@
 											</p:selectOneMenu>
 										</h:column>
 										<h:column>
-											<p:inputText value="#{phone.value}" maxlength="255"/>
+											<p:inputText value="#{phone.value}" maxlength="255" />
 										</h:column>
 										<h:column>
 											<p:commandButton title="#{messages.editcontact_remove_phone}"
@@ -166,6 +210,41 @@
 											<h:selectBooleanCheckbox title="#{messages.mark_as_default}"
 												value="#{phone.isDefault}"
 												onchange="uncheckOtherBoxes(this);" />
+										</h:column>
+									</h:dataTable>
+								</p:panel>
+							</p:column>
+
+							<p:column styleClass="topAlign">
+								<p:panel id="faxPanel"
+									header="#{messages.editcontact_contact_fax}">
+									<p:commandLink value="#{messages.editcontact_add_fax}"
+										action="#{contactEditController.addFax}"
+										update=":formPanel:faxPanel" />
+									<h:dataTable var="fax" value="#{contactEditController.faxList}">
+										<h:column>
+											<p:selectOneMenu value="#{fax.scope}">
+												<f:selectItems
+													value="#{contactEditController.availableScopes}"
+													itemLabel="#{scope}" itemValue="#{scope}" />
+											</p:selectOneMenu>
+										</h:column>
+										<h:column>
+											<p:inputText value="#{fax.value}" maxlength="255" />
+										</h:column>
+										<h:column>
+											<p:commandButton title="#{messages.editcontact_remove_fax}"
+												action="#{contactEditController.removeFax}"
+												icon="ui-icon-minusthick" update=":formPanel:faxPanel"
+												rendered="#{contactEditController.showRemoveFaxButton}">
+												<f:setPropertyActionListener
+													target="#{contactEditController.selectedFax}"
+													value="#{fax}" />
+											</p:commandButton>
+										</h:column>
+										<h:column>
+											<h:selectBooleanCheckbox title="#{messages.mark_as_default}"
+												value="#{fax.isDefault}" onchange="uncheckOtherBoxes(this);" />
 										</h:column>
 									</h:dataTable>
 								</p:panel>
@@ -225,6 +304,7 @@
 						action="#{navigationHelper.getContactmanagement}"
 						styleClass="marginButton" />
 
+					<div class="verticalSpacingSmall" />
 				</h:form>
 			</div>
 		</h:body>
