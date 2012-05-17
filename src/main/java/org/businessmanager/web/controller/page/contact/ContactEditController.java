@@ -14,6 +14,8 @@ import org.businessmanager.domain.Contact;
 import org.businessmanager.domain.ContactItem;
 import org.businessmanager.domain.Email;
 import org.businessmanager.domain.Phone;
+import org.businessmanager.geodb.OpenGeoDB;
+import org.businessmanager.geodb.OpenGeoEntry;
 import org.businessmanager.service.ContactService;
 import org.businessmanager.web.bean.ContactBean;
 import org.businessmanager.web.bean.ContactItemBean;
@@ -37,6 +39,9 @@ public class ContactEditController extends AbstractPageController {
 	
 	@Autowired
 	AddressManagementController addressController;
+	
+	@Autowired
+	private OpenGeoDB openGeoDB;
 
 	private ContactBean bean = new ContactBean();
 	private List<ContactItemBean> emailList = new ArrayList<ContactItemBean>();
@@ -255,6 +260,16 @@ public class ContactEditController extends AbstractPageController {
 	
 	public void addAddress() {
 		addressModel.getEntityList().add(new Address());
+	}
+	
+	public void updateCity() {
+		if(bean.getJobTitle().length() < 3) return;
+		
+		List<OpenGeoEntry> findByZipCode = openGeoDB.findByZipCode("de", bean.getJobTitle());
+		
+		if(findByZipCode != null && findByZipCode.size() > 0) {
+			bean.setCompany(findByZipCode.get(0).getName());
+		}
 	}
 	
 }

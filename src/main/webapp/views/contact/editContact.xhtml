@@ -58,7 +58,9 @@
 							<h:outputLabel for="jobTitle"
 								value="#{messages.editcontact_contact_jobtitle}:" />
 							<p:inputText id="jobTitle"
-								value="#{contactEditController.bean.jobTitle}" />
+								value="#{contactEditController.bean.jobTitle}">
+								<p:ajax event="keyup" listener="#{contactEditController.updateCity}" update="company" />
+							</p:inputText>
 
 							<h:outputLabel for="company"
 								value="#{messages.editcontact_contact_company}:" />
@@ -147,7 +149,7 @@
 
 					<div class="verticalSpacingSmall" />
 
-<!--  
+					<!--  
 					<p:panel id="addressesPanel"
 						header="#{messages.editcontact_contact_addresses}"
 						style="margin: 0px 10px;">
@@ -186,7 +188,7 @@
 						</p:dataTable>
 					</p:panel>
 					-->
-					
+
 					<bm:addressManagement id=":formPanel" />
 
 					<p:commandButton value="#{messages.save}"
