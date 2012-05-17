@@ -249,6 +249,41 @@
 									</h:dataTable>
 								</p:panel>
 							</p:column>
+
+							<p:column styleClass="topAlign">
+								<p:panel id="faxPanel"
+									header="#{messages.editcontact_contact_fax}">
+									<p:commandLink value="#{messages.editcontact_add_fax}"
+										action="#{contactEditController.addFax}"
+										update=":formPanel:faxPanel" />
+									<h:dataTable var="fax" value="#{contactEditController.faxList}">
+										<h:column>
+											<p:selectOneMenu value="#{fax.scope}">
+												<f:selectItems
+													value="#{contactEditController.availableScopes}"
+													itemLabel="#{scope}" itemValue="#{scope}" />
+											</p:selectOneMenu>
+										</h:column>
+										<h:column>
+											<p:inputText value="#{fax.value}" maxlength="255" />
+										</h:column>
+										<h:column>
+											<p:commandButton title="#{messages.editcontact_remove_fax}"
+												action="#{contactEditController.removeFax}"
+												icon="ui-icon-minusthick" update=":formPanel:faxPanel"
+												rendered="#{contactEditController.showRemoveFaxButton}">
+												<f:setPropertyActionListener
+													target="#{contactEditController.selectedFax}"
+													value="#{fax}" />
+											</p:commandButton>
+										</h:column>
+										<h:column>
+											<h:selectBooleanCheckbox title="#{messages.mark_as_default}"
+												value="#{fax.isDefault}" onchange="uncheckOtherBoxes(this);" />
+										</h:column>
+									</h:dataTable>
+								</p:panel>
+							</p:column>
 						</p:row>
 					</p:panelGrid>
 
@@ -295,6 +330,23 @@
 					-->
 
 					<bm:addressManagement id=":formPanel" />
+
+					<div class="verticalSpacingSmall" />
+					
+					<p:panel header="#{messages.editcontact_contact_misc}">
+						<p:panelGrid>
+							<p:row>
+								<p:column>
+									<h:outputLabel value="#{messages.editcontact_contact_birthday}"/>
+								</p:column>
+								<p:column>
+									<p:calendar label="#{messages.editcontact_contact_birthday}" value="#{contactEditController.bean.birthday}" showOn="button" pattern="#{messages.date_pattern}" timeZone="#{messages.timezone}" locale="de" navigator="true" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+					</p:panel>
+					
+					<div class="verticalSpacingSmall" />
 
 					<div class="verticalSpacingSmall" />
 					
