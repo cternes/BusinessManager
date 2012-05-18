@@ -5,19 +5,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
 import org.businessmanager.geodb.Country;
+import org.springframework.stereotype.Component;
 
+@Component("countryConverter")
 public class CountryConverter implements Converter {
 
 	@Override
-	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
-		System.out.println(arg2);
-		return Country.fromCountryCode("DE");
+	public Object getAsObject(FacesContext context, UIComponent component, String value) {
+		return Country.fromCountryCode(value);
 	}
 
 	@Override
-	public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) {
-		if (arg2 != null && arg2 instanceof Country) {
-			return ((Country) arg2).getName();
+	public String getAsString(FacesContext context, UIComponent component, Object value) {
+		if (value == null || value.equals("")) {
+            return "";
+        }
+		if (value instanceof Country) {
+			return ((Country) value).getName();
 		}
 		return "";
 	}

@@ -95,11 +95,11 @@
 						<p:column colspan="2">
 	        				<!-- <p:inputText id="addCountry" value="#{addressManagementController.addressToUpdate.country}" />-->
 							<p:selectOneMenu id="addCountry" value="#{addressManagementController.addressToUpdate.country}"
-								effect="fade" converter="countryConverter">
+								effect="fade" converter="#{countryConverter}">
 								<f:selectItem itemLabel="#{messages.please_select}" itemValue="" />
 								<f:selectItems value="#{addressManagementController.availableCountries}" var="country"
-									itemLabel="#{country.name}" itemValue="#{country}" />
-							</p:selectOneMenu>  
+									itemLabel="#{country.name}" itemValue="#{country.code}" />
+							</p:selectOneMenu>
 						</p:column>
 						<p:column>
 							<p:message for="addCountry" display="icon"/>
