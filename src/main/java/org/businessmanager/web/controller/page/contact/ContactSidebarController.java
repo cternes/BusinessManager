@@ -16,6 +16,8 @@
 package org.businessmanager.web.controller.page.contact;
 
 import org.businessmanager.web.controller.AbstractPageController;
+import org.businessmanager.web.controller.state.ContactModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +29,11 @@ import org.springframework.stereotype.Component;
 @Scope("request")
 public class ContactSidebarController extends AbstractPageController {
 
+	@Autowired
+	private ContactModel model;
+	
 	public String navigateToEditContact() {
+		model.setSelectedEntity(null);
 		return navigationHelper.getEditContact();
 	}
 	

@@ -24,5 +24,9 @@
 		<tag-name>addressManagement</tag-name>
 		<source>components/addressManagement.xhtml</source>
 	</tag>
+	<tag>
+		<tag-name>addressOutput</tag-name>
+		<source>components/addressOutput.xhtml</source>
+	</tag>
 	
 </facelet-taglib>

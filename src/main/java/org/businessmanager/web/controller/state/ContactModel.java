@@ -27,4 +27,14 @@ import org.springframework.stereotype.Component;
 @Scope("conversation.access")
 public class ContactModel extends AbstractModel<Contact> {
 
+	private String backUrl;
+
+	public void setBackUrl(String backUrl) {
+		this.backUrl = backUrl;
+	}
+
+	public String getBackUrl() {
+		return backUrl;
+	}
+	
 }

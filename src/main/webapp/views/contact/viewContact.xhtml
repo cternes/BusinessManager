@@ -6,6 +6,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:bm="http://www.businessmanager.org/tags"
 	template="/WEB-INF/templates/template.xhtml">
 
 	<ui:define name="head">
@@ -23,6 +24,17 @@
 				<h:form id="formPanel">
 					<p:messages />
 					<p:focus for="formPanel" />
+					<div>
+						<p:toolbar>  
+    						<p:toolbarGroup align="left">
+    							<p:commandButton title="#{messages.contactmanagement_edit_contact}" value="#{messages.edit}" action="#{contactViewController.navigateToEditContact}" icon="ui-icon-pencil" />
+    							<p:separator />
+    							<p:commandButton title="#{messages.contactmanagement_delete_contact}" value="#{messages.delete}" icon="ui-icon-closethick" onclick="confirmation.show()" />
+    						</p:toolbarGroup>
+    					</p:toolbar>
+					</div>
+					
+					<div class="clearFloat">
 					<h1>
 						<h:outputText
 							value="#{contactViewController.model.selectedEntity.displayName}" />
@@ -37,10 +49,10 @@
 					</h2>
 
 					<div class="verticalSpacingSmall" />
-
+					
 					<p:panelGrid styleClass="centerMainPanelGrid">
 						<p:row>
-							<p:column styleClass="topAlign">
+							<p:column styleClass="topAlign" rendered="#{contactViewController.renderEmail}">
 								<p:panel id="emailPanel"
 									header="#{messages.editcontact_contact_email}">
 									<h:dataTable var="email"
@@ -49,13 +61,13 @@
 											<h:outputText value="#{email.scope}" />
 										</h:column>
 										<h:column>
-											<h:outputText value="#{email.value}" />
+											<a href="mailto:#{email.value}">#{email.value}</a>
 										</h:column>
 									</h:dataTable>
 								</p:panel>
 							</p:column>
 
-							<p:column styleClass="topAlign">
+							<p:column styleClass="topAlign" rendered="#{contactViewController.renderWebsite}">
 								<p:panel id="websitePanel"
 									header="#{messages.editcontact_contact_website}">
 
@@ -65,19 +77,18 @@
 											<h:outputText value="#{website.scope}" />
 										</h:column>
 										<h:column>
-											<h:outputText value="#{website.value}" />
+											<a href="#{website.value}">#{website.value}</a>
 										</h:column>
 									</h:dataTable>
 								</p:panel>
 							</p:column>
 						</p:row>
+						<div class="verticalSpacingSmall" />
 					</p:panelGrid>
-
-					<div class="verticalSpacingSmall" />
 
 					<p:panelGrid styleClass="centerMainPanelGrid">
 						<p:row>
-							<p:column styleClass="topAlign">
+							<p:column styleClass="topAlign" rendered="#{contactViewController.renderPhone}">
 								<p:panel id="phonePanel"
 									header="#{messages.editcontact_contact_phone}">
 									<h:dataTable var="phone"
@@ -92,7 +103,7 @@
 								</p:panel>
 							</p:column>
 
-							<p:column styleClass="topAlign">
+							<p:column styleClass="topAlign" rendered="#{contactViewController.renderFax}">
 								<p:panel id="faxPanel"
 									header="#{messages.editcontact_contact_fax}">
 									<h:dataTable var="fax"
@@ -107,8 +118,49 @@
 								</p:panel>
 							</p:column>
 						</p:row>
+						<div class="verticalSpacingSmall" />
 					</p:panelGrid>
 
+					<p:panel id="addressPanel"
+						header="#{messages.addressmanagement_title}"
+						rendered="#{contactViewController.renderAddress}">
+						<h:dataTable var="address"
+							value="#{contactViewController.model.selectedEntity.addresses}">
+							<h:column>
+								<h:outputText value="#{address.scope.label}"
+									styleClass="boldText" />
+							</h:column>
+							<h:column>
+								<bm:addressOutput address="#{address}" />
+							</h:column>
+						</h:dataTable>
+					
+						<div class="verticalSpacingSmall" />
+					</p:panel>
+
+					<p:panel header="#{messages.editcontact_contact_misc}" rendered="#{contactViewController.renderMisc}">
+						<p:panelGrid columns="2">
+							<h:outputLabel value="#{messages.editcontact_contact_birthday}" rendered="#{!empty contactViewController.model.selectedEntity.birthday}" />
+							<h:outputText value="#{contactViewController.model.selectedEntity.birthday.time}" rendered="#{!empty contactViewController.model.selectedEntity.birthday}" >
+								<f:convertDateTime type="date" dateStyle="medium" pattern="#{messages.date_pattern}" timeZone="#{messages.timezone}"/>
+							</h:outputText>
+							
+							<h:outputLabel value="#{messages.editcontact_contact_instantmessenger}" rendered="#{!empty contactViewController.model.selectedEntity.instantMessenger}" />
+							<h:outputText value="#{contactViewController.model.selectedEntity.instantMessenger}" rendered="#{!empty contactViewController.model.selectedEntity.instantMessenger}" />
+							
+							<h:outputLabel value="#{messages.editcontact_contact_notes}" rendered="#{!empty contactViewController.model.selectedEntity.notes}" />
+							<h:outputText value="#{contactViewController.model.selectedEntity.notes}" rendered="#{!empty contactViewController.model.selectedEntity.notes}" />
+						</p:panelGrid>
+					</p:panel>
+					
+					</div>
+					
+					<p:confirmDialog message="#{messages.are_you_sure}"  header="#{messages.contactmanagement_delete_contact}" severity="alert" widgetVar="confirmation" width="300">  
+				        <p:commandButton value="#{messages.yes}" update="formPanel" oncomplete="confirmation.hide()"  
+				                    action="#{contactViewController.deleteContact}" ajax="false" />  
+				        <p:commandButton value="#{messages.no}" onclick="confirmation.hide()" type="button" />   
+				    </p:confirmDialog>
+					
 				</h:form>
 			</div>
 		</h:body>

@@ -26,12 +26,12 @@ import org.businessmanager.domain.Contact;
 public interface ContactService {
 
 	/**
-	 * Adds a new {@link Contact} to the database.
+	 * Save a {@link Contact} in the database.
 	 * 
-	 * @param contact the {@link Contact} which should be created
+	 * @param contact the {@link Contact} which should be saved
 	 * @return the {@link Contact} with set id
 	 */
-	public Contact addContact(Contact contact);
+	public Contact saveContact(Contact contact);
 	
 	/**
 	 * Retrieves all available {@link Contact}s from the database.
@@ -39,5 +39,12 @@ public interface ContactService {
 	 * @return a list of {@link Contact}s
 	 */
 	public List<Contact> getContacts();
+
+	/**
+	 * Removes a {@link Contact} from the database.
+	 * 
+	 * @param contact the contact to remove
+	 */
+	public void deleteContact(Contact contact);
 
 }

@@ -1,0 +1,20 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<!-- NOTE: 	-Use with address attribute
+	-->
+	<p:panelGrid columns="1">
+		<h:outputText value="#{address.street} #{address.housenumber}" />
+
+		<h:outputText value="#{address.postOfficeBox}" />
+
+		<h:outputText value="#{address.zipCode} #{address.city}" />
+		
+		<h:outputText value="#{address.country}" />
+	</p:panelGrid>
+	<!-- rendered="#{empty rendered || rendered}" -->
+</ui:composition>

@@ -40,6 +40,12 @@
 				            </f:facet>
 				            <h:outputText value="#{contact.lastname}"/>
 				        </p:column>
+				        <p:column sortBy="#{contact.company}" filterBy="#{contact.company}" filterMatchMode="contains">
+				            <f:facet name="header">
+				                    #{messages.contactmanagement_contact_company}
+				            </f:facet>
+				            <h:outputText value="#{contact.company}"/>
+				        </p:column>
 				        <p:column sortBy="#{contact.defaultBillingAddress.street}" filterBy="#{contact.defaultBillingAddress.street}" filterMatchMode="contains">
 				            <f:facet name="header">
 				                    #{messages.contactmanagement_contact_street}

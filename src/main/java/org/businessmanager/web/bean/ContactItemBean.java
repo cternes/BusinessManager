@@ -15,6 +15,8 @@
  ******************************************************************************/
 package org.businessmanager.web.bean;
 
+import org.businessmanager.domain.ContactItem;
+
 /**
  * @author Christian Ternes
  *
@@ -90,6 +92,12 @@ public class ContactItemBean {
 		} else if (!value.equals(other.value))
 			return false;
 		return true;
+	}
+	
+	public void copyDataFromContactItem(ContactItem contactItem) {
+		setIsDefault(contactItem.getIsDefault());
+		setScope(contactItem.getScope());
+		setValue(contactItem.getValue());
 	}
 	
 }

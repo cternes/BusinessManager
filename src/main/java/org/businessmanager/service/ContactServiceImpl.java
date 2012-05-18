@@ -17,6 +17,7 @@ package org.businessmanager.service;
 
 import java.util.List;
 
+import org.apache.commons.lang3.Validate;
 import org.businessmanager.database.ContactDao;
 import org.businessmanager.domain.Contact;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +36,27 @@ public class ContactServiceImpl implements ContactService {
 	private ContactDao contactDao;
 	
 	@Override
-	public Contact addContact(Contact contact) {
-		return contactDao.save(contact);
+	public Contact saveContact(Contact contact) {
+		Validate.notNull(contact, "Parameter contact must not be null!");
+		
+		if(contact.getId() == null) {
+			return contactDao.save(contact);
+		}
+		else {
+			return contactDao.update(contact);
+		}
 	}
 
 	@Override
 	public List<Contact> getContacts() {
 		return contactDao.findAll();
+	}
+
+	@Override
+	public void deleteContact(Contact contact) {
+		Validate.notNull(contact, "Parameter contact must not be null!");
+		
+		contactDao.remove(contact);
 	}
 
 }

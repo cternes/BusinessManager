@@ -118,7 +118,11 @@ a:active,
 
 /*************SIDEBAR***************/
 .navigationList {
-	list-style:none;	
+	list-style:none;
+}
+
+.navigationList li {
+	margin-bottom: 10px;
 }
 
 /*************MAIN***************/
@@ -162,6 +166,10 @@ a:active,
 	margin: 0px -10px;
 }
 
+.clearFloat {
+	clear: both;	
+}
+
 /************BUTTONS*********/
 .marginButton {
 	margin-left: 3em !important;
@@ -196,4 +204,9 @@ a:active,
 
 .mediumInput, .mediumInput input {
 	width: 5em;
+}
+
+/****************OUTPUT**************************/
+.boldText {
+	font-weight: bold;
 }

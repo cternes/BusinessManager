@@ -37,4 +37,8 @@ public abstract class AbstractModel<T> {
 	public T getSelectedEntity() {
 		return selectedEntity;
 	}
+	
+	public void refresh() {
+		setEntityList(null);
+	}
 }

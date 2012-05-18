@@ -296,9 +296,9 @@
 					<div class="verticalSpacingSmall" />
 
 					<p:commandButton value="#{messages.save}"
-						action="#{contactEditController.saveContact}" update=":formPanel" />
+						action="#{contactEditController.saveContact}" update=":formPanel" icon="ui-icon-disk"/>
 					<p:commandLink value="#{messages.cancel}"
-						action="#{navigationHelper.getContactmanagement}"
+						action="#{contactEditController.navigateBack}"
 						styleClass="marginButton" />
 
 					<div class="verticalSpacingSmall" />

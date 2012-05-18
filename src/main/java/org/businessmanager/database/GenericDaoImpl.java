@@ -141,7 +141,7 @@ public abstract class GenericDaoImpl<T extends AbstractEntity> implements Generi
 		//filter out deleted entities
 		T entityFromDb = entityManager.find(getPersistenceClass(), id);
 		if(entityFromDb instanceof AbstractEntity) {
-			if(entityFromDb.getMutationType().equals(MutationType.DELETE)) {
+			if(MutationType.DELETE.equals(entityFromDb.getMutationType())) {
 				return null;
 			}
 		}

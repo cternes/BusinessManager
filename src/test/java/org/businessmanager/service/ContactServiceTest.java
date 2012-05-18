@@ -43,7 +43,7 @@ public class ContactServiceTest {
 	public void testAddContact() {
 		String email = "mail@localhost";
 		Contact contact = createContact("firstname", "lastname", email, "555-22-666");
-		contactService.addContact(contact);
+		contactService.saveContact(contact);
 		
 		List<Contact> contactList = contactService.getContacts();
 		Assert.assertEquals(1, contactList.size());

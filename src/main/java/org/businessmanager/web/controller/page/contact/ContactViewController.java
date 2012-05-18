@@ -15,10 +15,13 @@
  ******************************************************************************/
 package org.businessmanager.web.controller.page.contact;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.businessmanager.web.bean.ContactItemBean;
+import javax.faces.application.FacesMessage;
+
+import org.businessmanager.aop.annotation.ErrorHandled;
+import org.businessmanager.domain.Contact;
+import org.businessmanager.service.ContactService;
 import org.businessmanager.web.controller.AbstractPageController;
 import org.businessmanager.web.controller.state.ContactModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +35,67 @@ public class ContactViewController extends AbstractPageController {
 	@Autowired
 	private ContactModel model;
 	
+	@Autowired
+	private ContactService contactService; 
+	
 	public void setModel(ContactModel model) {
 		this.model = model;
 	}
 
 	public ContactModel getModel() {
 		return model;
-	} 
+	}
+	
+	private boolean renderList(List<?> list) {
+		if(list.size() > 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean getRenderEmail() {
+		return renderList(model.getSelectedEntity().getEmailList());
+	}
+	
+	public boolean getRenderFax() {
+		return renderList(model.getSelectedEntity().getFaxList());
+	}
+	
+	public boolean getRenderWebsite() {
+		return renderList(model.getSelectedEntity().getWebsiteList());
+	}
+	
+	public boolean getRenderPhone() {
+		return renderList(model.getSelectedEntity().getPhoneList());
+	}
+	
+	public boolean getRenderAddress() {
+		return renderList(model.getSelectedEntity().getAddresses());
+	}
+	
+	public boolean getRenderMisc() {
+		Contact selectedEntity = model.getSelectedEntity();
+		if(selectedEntity.getBirthday() != null || selectedEntity.getNotes() != null || selectedEntity.getInstantMessenger() != null) {
+			return true;
+		}
+		return false;
+	}
+	
+	public String navigateToEditContact() {
+		model.setBackUrl(navigationHelper.getContactView());
+		
+		return navigationHelper.getEditContact();
+	}
+	
+	@ErrorHandled
+	public String deleteContact() {
+		if(model.getSelectedEntity() != null) {
+			contactService.deleteContact(model.getSelectedEntity());
+			model.refresh();
+			
+			addMessage(FacesMessage.SEVERITY_INFO, "editcontact_success_contact_deleted");
+			return navigationHelper.getContactmanagement();
+		}
+		return "#";
+	}
 }

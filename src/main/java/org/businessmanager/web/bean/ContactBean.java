@@ -17,6 +17,8 @@ package org.businessmanager.web.bean;
 
 import java.util.Date;
 
+import org.businessmanager.domain.Contact;
+
 /**
  * @author Christian Ternes
  *
@@ -103,5 +105,19 @@ public class ContactBean {
 
 	public String getInstantMessenger() {
 		return instantMessenger;
+	}
+
+	public void copyDataFromContact(Contact contact) {
+		if(contact.getBirthday() != null) {
+			setBirthday(contact.getBirthday().getTime());
+		}
+		setCompany(contact.getCompany());
+		setFirstname(contact.getFirstname());
+		setInstantMessenger(contact.getInstantMessenger());
+		setJobTitle(contact.getJobTitle());
+		setLastname(contact.getLastname());
+		setNotes(contact.getNotes());
+		setSalutation(contact.getSalutation());
+		setTitle(contact.getTitle());
 	}
 }
