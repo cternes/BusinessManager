@@ -20,6 +20,7 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.businessmanager.domain.Contact;
+import org.businessmanager.domain.ContactItem.Scope;
 import org.businessmanager.domain.Email;
 import org.businessmanager.domain.Phone;
 import org.junit.Test;
@@ -63,12 +64,12 @@ public class ContactServiceTest {
 		Contact contact = new Contact(firstname, lastname);
 		
 		Email emailObj = new Email();
-		emailObj.setScope("private");
+		emailObj.setScope(Scope.PRIVATE);
 		emailObj.setValue(email);
 		contact.getContactItemList().add(emailObj);
 		
 		Phone phoneObj = new Phone();
-		phoneObj.setScope("private");
+		phoneObj.setScope(Scope.PRIVATE);
 		phoneObj.setValue(phone);
 		contact.getContactItemList().add(phoneObj);
 		

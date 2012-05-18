@@ -210,3 +210,15 @@ a:active,
 .boldText {
 	font-weight: bold;
 }
+
+/***************IMAGES***************************/
+.ui-icon-adduser {
+	background-image: url("#{resource['images/add_user.png']}");
+	background-repeat: no-repeat;
+	
+	width: 32px;
+	height: 32px;
+	
+	position: absolute;
+	margin-left: -35px;
+}

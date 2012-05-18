@@ -11,7 +11,9 @@
 		<h:form id="sideBarForm">
 			<ul class="navigationList">
 				<li>
-					<p:commandLink value="#{messages.contactmanagement_sidebar_add_contact}" action="#{contactSidebarController.navigateToEditContact}" />
+					<div class="imageLink">
+						<p:commandLink value="#{messages.contactmanagement_sidebar_add_contact}" action="#{contactSidebarController.navigateToEditContact}" />
+					</div>
 				</li>
 				<li>
 					<p:commandLink value="#{messages.contactmanagement_sidebar_all_contacts}" action="#{contactSidebarController.navigateToAllContacts}" />
