@@ -30,6 +30,8 @@ public class ContactBean {
 	private String jobTitle;
 	private String company;
 	private Date birthday;
+	private String notes;
+	private String instantMessenger;
 
 	public String getSalutation() {
 		return salutation;
@@ -86,5 +88,20 @@ public class ContactBean {
 	public Date getBirthday() {
 		return birthday;
 	}
-	
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setInstantMessenger(String instantMessenger) {
+		this.instantMessenger = instantMessenger;
+	}
+
+	public String getInstantMessenger() {
+		return instantMessenger;
+	}
 }

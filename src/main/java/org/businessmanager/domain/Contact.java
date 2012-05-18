@@ -26,6 +26,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
 import org.apache.commons.collections.Predicate;
@@ -68,6 +69,9 @@ public class Contact extends AbstractEntity {
 	
 	@Column
 	private Calendar birthday;
+	
+	@Column
+	private String instantMessenger;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "contact")
 	private List<ContactItem> contactItems = new ArrayList<ContactItem>();
@@ -77,6 +81,10 @@ public class Contact extends AbstractEntity {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contact")
 	private List<Invoice> invoices = new ArrayList<Invoice>();
+	
+	@Column
+	@Lob
+	private String notes;
 
 	Contact() {
 	}
@@ -388,5 +396,21 @@ public class Contact extends AbstractEntity {
 
 	public Calendar getBirthday() {
 		return birthday;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setInstantMessenger(String instantMessenger) {
+		this.instantMessenger = instantMessenger;
+	}
+
+	public String getInstantMessenger() {
+		return instantMessenger;
 	}
 }

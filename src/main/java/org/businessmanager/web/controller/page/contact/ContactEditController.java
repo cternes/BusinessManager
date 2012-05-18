@@ -32,9 +32,8 @@ import org.businessmanager.domain.ContactItem;
 import org.businessmanager.domain.Email;
 import org.businessmanager.domain.Fax;
 import org.businessmanager.domain.Phone;
-import org.businessmanager.geodb.OpenGeoDB;
-import org.businessmanager.geodb.OpenGeoEntry;
 import org.businessmanager.domain.Website;
+import org.businessmanager.geodb.OpenGeoDB;
 import org.businessmanager.service.ContactService;
 import org.businessmanager.web.bean.ContactBean;
 import org.businessmanager.web.bean.ContactItemBean;
@@ -140,10 +139,19 @@ public class ContactEditController extends AbstractPageController {
 		if (!StringUtils.isEmpty(bean.getJobTitle())) {
 			contact.setJobTitle(bean.getJobTitle());
 		}
+		
 		if (bean.getBirthday() != null) {
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(bean.getBirthday());
 			contact.setBirthday(cal);
+		}
+		
+		if(!StringUtils.isEmpty(bean.getNotes())) {
+			contact.setNotes(bean.getNotes());
+		}
+		
+		if(!StringUtils.isEmpty(bean.getInstantMessenger())) {
+			contact.setInstantMessenger(bean.getInstantMessenger());
 		}
 
 		for (ContactItemBean contactItem : emailList) {

@@ -24,7 +24,7 @@
 			<div id="right-col">
 				<h:form id="formPanel" prependId="false">
 					<p:messages />
-					<p:focus for="contacttitle" />
+					<p:focus for="firstname" />
 
 					<p:panel id="contactPanel"
 						header="#{messages.editcontact_contact_general}">
@@ -43,9 +43,6 @@
 											itemLabel="#{salutation}" itemValue="#{salutation}" />
 									</p:selectOneMenu>
 								</p:column>
-							</p:row>
-
-							<p:row>
 								<p:column>
 									<h:outputLabel for="contacttitle"
 										value="#{messages.editcontact_contact_title}:" />
@@ -55,6 +52,9 @@
 										value="#{contactEditController.bean.title}" maxlength="50"
 										styleClass="mediumInput" />
 								</p:column>
+							</p:row>
+
+							<p:row>
 								<p:column>
 									<h:outputLabel for="firstname"
 										value="#{messages.editcontact_contact_firstname}:" />
@@ -86,10 +86,10 @@
 									<h:outputLabel for="company"
 										value="#{messages.editcontact_contact_company}:" />
 								</p:column>
-								<p:column colspan="2">
+								<p:column>
 									<p:inputText id="company"
 										value="#{contactEditController.bean.company}" maxlength="255"
-										styleClass="fullSizeInput" />
+										 />
 								</p:column>
 							</p:row>
 						</p:panelGrid>
@@ -257,46 +257,6 @@
 
 					<div class="verticalSpacingSmall" />
 
-					<!--  
-					<p:panel id="addressesPanel"
-						header="#{messages.editcontact_contact_addresses}"
-						style="margin: 0px 10px;">
-
-						<p:commandLink value="#{messages.editcontact_add_address}"
-							action="#{contactEditController.addAddress}"
-							update=":formPanel:addressesPanel" oncomplete="editLastDatatableRow();" />
-
-						<p:dataTable id="addressList" var="address"
-							value="#{contactEditController.addressModel.entityList}" paginator="true"
-							rows="10"
-							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-							rowsPerPageTemplate="5,10,15" paginatorAlwaysVisible="true"
-							emptyMessage="#{messages.empty_table_message}"
-							selection="#{contactEditController.addressModel.selectedEntity}"
-							selectionMode="single" rowKey="#{address.id}"
-							paginatorPosition="top" editable="true">
-							<p:ajax event="rowSelect" update=":formPanel" />
-							<p:column sortBy="#{address.street}" filterBy="#{address.street}"
-								filterMatchMode="contains">
-								<f:facet name="header">
-				                    #{messages.editcontact_address_street}
-				            	</f:facet>
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{address.street}" />
-									</f:facet>
-									<f:facet name="input">
-										<p:inputText value="#{address.street}" style="width:100%" />
-									</f:facet>
-								</p:cellEditor>
-							</p:column>
-							<p:column headerText="Options" style="width:50px">
-								<p:rowEditor />
-							</p:column>
-						</p:dataTable>
-					</p:panel>
-					-->
-
 					<bm:addressManagement id=":formPanel" />
 
 					<div class="verticalSpacingSmall" />
@@ -305,13 +265,29 @@
 						<p:panelGrid>
 							<p:row>
 								<p:column>
-									<h:outputLabel value="#{messages.editcontact_contact_birthday}" />
+									<h:outputLabel value="#{messages.editcontact_contact_birthday}:" />
 								</p:column>
 								<p:column>
 									<p:calendar label="#{messages.editcontact_contact_birthday}"
 										value="#{contactEditController.bean.birthday}" showOn="button"
 										pattern="#{messages.date_pattern}"
 										timeZone="#{messages.timezone}" locale="de" navigator="true" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<h:outputLabel value="#{messages.editcontact_contact_instantmessenger}:" />
+								</p:column>
+								<p:column>
+									<p:inputText value="#{contactEditController.bean.instantMessenger}" maxlength="255"/>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<h:outputLabel value="#{messages.editcontact_contact_notes}:" />
+								</p:column>
+								<p:column>
+									<p:inputTextarea value="#{contactEditController.bean.notes}" cols="100"/>
 								</p:column>
 							</p:row>
 						</p:panelGrid>
