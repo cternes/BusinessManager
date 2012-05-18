@@ -32,6 +32,12 @@
 			<var>messages</var>
 		</resource-bundle>
 	</application>
+	<converter>
+		<description></description>
+		<display-name>countryConverter</display-name>
+		<converter-id>countryConverter</converter-id>
+		<converter-class>org.businessmanager.web.converter.CountryConverter</converter-class>
+	</converter>
 	
 	<!-- Inject a phase listener to interfere before rendering phase -->
 	<lifecycle>
