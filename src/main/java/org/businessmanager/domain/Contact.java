@@ -22,6 +22,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,6 +36,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.businessmanager.domain.Address.AddressType;
 import org.businessmanager.util.CollectionUtil;
 import org.businessmanager.util.DefaultItemPredicate;
+import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
 
 /**
  * @author Christian Ternes
@@ -42,6 +45,21 @@ import org.businessmanager.util.DefaultItemPredicate;
 @Entity
 public class Contact extends AbstractEntity {
 
+	public enum Salutation {
+		MR("salutation_mr")
+		, MRS("salutation_mrs");
+		
+		private String label;
+		
+		private Salutation(String label) {
+			this.label = label;
+		}
+		
+		public String getLabel() {
+			return ResourceBundleProducer.getString(label);
+		}
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -65,7 +83,8 @@ public class Contact extends AbstractEntity {
 	private String company;
 
 	@Column(length=20)
-	private String salutation;
+	@Enumerated(EnumType.STRING)
+	private Salutation salutation = Salutation.MR;
 	
 	@Column
 	private Calendar birthday;
@@ -150,11 +169,11 @@ public class Contact extends AbstractEntity {
 		this.company = company;
 	}
 
-	public String getSalutation() {
+	public Salutation getSalutation() {
 		return salutation;
 	}
 
-	public void setSalutation(String salutation) {
+	public void setSalutation(Salutation salutation) {
 		this.salutation = salutation;
 	}
 

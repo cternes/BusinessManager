@@ -18,6 +18,7 @@ package org.businessmanager.web.bean;
 import java.util.Date;
 
 import org.businessmanager.domain.Contact;
+import org.businessmanager.domain.Contact.Salutation;
 
 /**
  * @author Christian Ternes
@@ -25,7 +26,7 @@ import org.businessmanager.domain.Contact;
  */
 public class ContactBean {
 
-	private String salutation;
+	private Salutation salutation;
 	private String title;
 	private String firstname;
 	private String lastname;
@@ -35,11 +36,11 @@ public class ContactBean {
 	private String notes;
 	private String instantMessenger;
 
-	public String getSalutation() {
+	public Salutation getSalutation() {
 		return salutation;
 	}
 
-	public void setSalutation(String salutation) {
+	public void setSalutation(Salutation salutation) {
 		this.salutation = salutation;
 	}
 	

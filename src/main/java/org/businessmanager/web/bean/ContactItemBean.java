@@ -16,6 +16,7 @@
 package org.businessmanager.web.bean;
 
 import org.businessmanager.domain.ContactItem;
+import org.businessmanager.domain.ContactItem.Scope;
 
 /**
  * @author Christian Ternes
@@ -23,10 +24,8 @@ import org.businessmanager.domain.ContactItem;
  */
 public class ContactItemBean {
 
-	private String scope;
-	
+	private Scope scope;
 	private String value;
-	
 	private boolean isDefault;
 
 	public ContactItemBean() {
@@ -36,11 +35,11 @@ public class ContactItemBean {
 		this.isDefault = isDefault;
 	}
 	
-	public String getScope() {
+	public Scope getScope() {
 		return scope;
 	}
 
-	public void setScope(String scope) {
+	public void setScope(Scope scope) {
 		this.scope = scope;
 	}
 

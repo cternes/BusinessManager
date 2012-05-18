@@ -19,6 +19,8 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,6 +28,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
 
 /**
  * @author Christian Ternes
@@ -37,12 +41,29 @@ import javax.persistence.Table;
 @DiscriminatorColumn(name = "TYPE", discriminatorType = DiscriminatorType.STRING, length = 20)
 public abstract class ContactItem implements HasDefault {
 
+	public enum Scope {
+		PRIVATE("scope_private")
+		, COMMERCIAL("scope_commercial")
+		, MISC("scope_misc");
+		
+		private String label;
+		
+		private Scope(String label) {
+			this.label = label;
+		}
+		
+		public String getLabel() {
+			return ResourceBundleProducer.getString(label);
+		}
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	@Column
-	private String scope;
+	@Enumerated(EnumType.STRING)
+	private Scope scope;
 
 	@Column
 	private String value;
@@ -61,11 +82,11 @@ public abstract class ContactItem implements HasDefault {
 		this.id = id;
 	}
 
-	public String getScope() {
+	public Scope getScope() {
 		return scope;
 	}
 
-	public void setScope(String scope) {
+	public void setScope(Scope scope) {
 		this.scope = scope;
 	}
 

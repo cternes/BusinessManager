@@ -39,8 +39,8 @@
 									<p:selectOneMenu id="salutation"
 										value="#{contactEditController.bean.salutation}">
 										<f:selectItems
-											value="#{contactEditController.availableSalutations}"
-											itemLabel="#{salutation}" itemValue="#{salutation}" />
+											value="#{contactEditController.availableSalutations}" var="salutation"
+											itemLabel="#{salutation.label}" itemValue="#{salutation}" />
 									</p:selectOneMenu>
 								</p:column>
 								<p:column>
@@ -80,7 +80,7 @@
 								</p:column>
 								<p:column>
 									<p:inputText id="jobTitle"
-										value="#{contactEditController.bean.jobTitle}" maxlength="255" />
+										value="#{contactEditController.bean.jobTitle}" maxlength="100" />
 								</p:column>
 								<p:column>
 									<h:outputLabel for="company"
@@ -107,8 +107,8 @@
 										<h:column>
 											<p:selectOneMenu value="#{email.scope}">
 												<f:selectItems
-													value="#{contactEditController.availableScopes}"
-													itemLabel="#{scope}" itemValue="#{scope}" />
+													value="#{contactEditController.availableScopes}" var="scope"
+													itemLabel="#{scope.label}" itemValue="#{scope}" />
 											</p:selectOneMenu>
 										</h:column>
 										<h:column>
@@ -145,8 +145,8 @@
 										<h:column>
 											<p:selectOneMenu value="#{website.scope}">
 												<f:selectItems
-													value="#{contactEditController.availableScopes}"
-													itemLabel="#{scope}" itemValue="#{scope}" />
+													value="#{contactEditController.availableScopes}" var="scope"
+													itemLabel="#{scope.label}" itemValue="#{scope}" />
 											</p:selectOneMenu>
 										</h:column>
 										<h:column>
@@ -189,8 +189,8 @@
 										<h:column>
 											<p:selectOneMenu value="#{phone.scope}">
 												<f:selectItems
-													value="#{contactEditController.availableScopes}"
-													itemLabel="#{scope}" itemValue="#{scope}" />
+													value="#{contactEditController.availableScopes}" var="scope"
+													itemLabel="#{scope.label}" itemValue="#{scope}" />
 											</p:selectOneMenu>
 										</h:column>
 										<h:column>
@@ -225,8 +225,8 @@
 										<h:column>
 											<p:selectOneMenu value="#{fax.scope}">
 												<f:selectItems
-													value="#{contactEditController.availableScopes}"
-													itemLabel="#{scope}" itemValue="#{scope}" />
+													value="#{contactEditController.availableScopes}" var="scope"
+													itemLabel="#{scope.label}" itemValue="#{scope}" />
 											</p:selectOneMenu>
 										</h:column>
 										<h:column>

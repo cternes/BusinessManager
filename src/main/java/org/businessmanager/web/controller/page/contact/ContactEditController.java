@@ -28,12 +28,12 @@ import org.businessmanager.aop.annotation.ErrorHandled;
 import org.businessmanager.domain.Address;
 import org.businessmanager.domain.Address.AddressType;
 import org.businessmanager.domain.Contact;
+import org.businessmanager.domain.Contact.Salutation;
 import org.businessmanager.domain.ContactItem;
 import org.businessmanager.domain.Email;
 import org.businessmanager.domain.Fax;
 import org.businessmanager.domain.Phone;
 import org.businessmanager.domain.Website;
-import org.businessmanager.geodb.OpenGeoDB;
 import org.businessmanager.service.ContactService;
 import org.businessmanager.web.bean.ContactBean;
 import org.businessmanager.web.bean.ContactItemBean;
@@ -41,7 +41,6 @@ import org.businessmanager.web.controller.AbstractPageController;
 import org.businessmanager.web.controller.AddressManagementController;
 import org.businessmanager.web.controller.state.AddressModel;
 import org.businessmanager.web.controller.state.ContactModel;
-import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -72,8 +71,8 @@ public class ContactEditController extends AbstractPageController {
 	private List<ContactItemBean> websiteList = new ArrayList<ContactItemBean>();
 	private ContactItemBean selectedWebsite;
 	
-	private List<String> availableScopes = new ArrayList<String>();
-	private List<String> avaliableSalutations = new ArrayList<String>();
+	private List<org.businessmanager.domain.ContactItem.Scope> availableScopes = new ArrayList<org.businessmanager.domain.ContactItem.Scope>();
+	private List<Salutation> avaliableSalutations = new ArrayList<Salutation>();
 	
 	@PostConstruct
 	public void init() {
@@ -81,15 +80,13 @@ public class ContactEditController extends AbstractPageController {
 		initAddressManagement();
 		initContactItems();
 
-		availableScopes.add(ResourceBundleProducer.getString("scope_private"));
-		availableScopes.add(ResourceBundleProducer
-				.getString("scope_commercial"));
-		availableScopes.add(ResourceBundleProducer.getString("scope_misc"));
+		
+		availableScopes.add(org.businessmanager.domain.ContactItem.Scope.PRIVATE);
+		availableScopes.add(org.businessmanager.domain.ContactItem.Scope.COMMERCIAL);
+		availableScopes.add(org.businessmanager.domain.ContactItem.Scope.MISC);
 
-		avaliableSalutations.add(ResourceBundleProducer
-				.getString("salutation_mr"));
-		avaliableSalutations.add(ResourceBundleProducer
-				.getString("salutation_mrs"));
+		avaliableSalutations.add(Salutation.MR);
+		avaliableSalutations.add(Salutation.MRS);
 	}
 
 	private void initGeneral() {
@@ -312,7 +309,7 @@ public class ContactEditController extends AbstractPageController {
 		return false;
 	}
 
-	public List<String> getAvailableScopes() {
+	public List<org.businessmanager.domain.ContactItem.Scope> getAvailableScopes() {
 		return availableScopes;
 	}
 
@@ -345,7 +342,7 @@ public class ContactEditController extends AbstractPageController {
 		return false;
 	}
 
-	public List<String> getAvailableSalutations() {
+	public List<Salutation> getAvailableSalutations() {
 		return avaliableSalutations;
 	}
 
