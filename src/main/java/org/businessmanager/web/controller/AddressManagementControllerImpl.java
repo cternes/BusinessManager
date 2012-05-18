@@ -46,6 +46,7 @@ public class AddressManagementControllerImpl extends AbstractPageController impl
 	private static final String CLIENT_ID_NUMBER= "addNumber";
 	private static final String CLIENT_ID_CITY = "addCity";
 	private static final String CLIENT_ID_ZIP = "addZip";
+	private static final String CLIENT_ID_COUNTRY = "addCountry";
 	
 	@Autowired
 	private AddressService addressService;
@@ -263,6 +264,13 @@ public class AddressManagementControllerImpl extends AbstractPageController impl
 			addErrorMessage(CLIENT_ID_CITY, "addressmanagement_error_empty_city");
 			isValid = false;
 		}
+		
+		Country country = theBean.getCountry();
+		if(country == null) {
+			addErrorMessage(CLIENT_ID_COUNTRY, "addressmanagement_error_empty_country");
+			isValid = false;
+		}
+		
 		return isValid;
 	}
 	
