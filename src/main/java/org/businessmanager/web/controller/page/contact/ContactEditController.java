@@ -62,9 +62,6 @@ public class ContactEditController extends AbstractPageController {
 	@Autowired
 	AddressManagementController addressController;
 	
-	@Autowired
-	private OpenGeoDB openGeoDB;
-
 	private ContactBean bean = new ContactBean();
 	private List<ContactItemBean> emailList = new ArrayList<ContactItemBean>();
 	private ContactItemBean selectedEmail;
@@ -422,9 +419,11 @@ public class ContactEditController extends AbstractPageController {
 	}
 	
 	public String navigateBack() {
-		if(contactModel.getBackUrl() == null) {
-			return navigationHelper.getContactmanagement();
+		String backUrl = contactModel.getBackUrl();
+		if(backUrl != null) {
+			contactModel.setBackUrl(null); //clear back url
+			return backUrl;
 		}
-		return contactModel.getBackUrl();
+		return navigationHelper.getContactmanagement();
 	}
 }
