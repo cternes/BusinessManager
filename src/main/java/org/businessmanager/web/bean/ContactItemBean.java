@@ -24,6 +24,7 @@ import org.businessmanager.domain.ContactItem.Scope;
  */
 public class ContactItemBean {
 
+	private Long id;
 	private Scope scope;
 	private String value;
 	private boolean isDefault;
@@ -57,6 +58,14 @@ public class ContactItemBean {
 
 	public void setIsDefault(boolean isDefault) {
 		this.isDefault = isDefault;
+	}
+	
+	public Long getId() {
+		return id;
+	}
+
+	private void setId(Long id) {
+		this.id = id;
 	}
 
 	@Override
@@ -94,6 +103,7 @@ public class ContactItemBean {
 	}
 	
 	public void copyDataFromContactItem(ContactItem contactItem) {
+		setId(contactItem.getId());
 		setIsDefault(contactItem.getIsDefault());
 		setScope(contactItem.getScope());
 		setValue(contactItem.getValue());

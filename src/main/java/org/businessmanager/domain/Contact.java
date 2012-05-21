@@ -92,7 +92,7 @@ public class Contact extends AbstractEntity {
 	@Column
 	private String instantMessenger;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "contact")
+	@OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "contact")
 	private List<ContactItem> contactItems = new ArrayList<ContactItem>();
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "contact")

@@ -228,13 +228,17 @@ public class ContactEditController extends AbstractPageController {
 			return;
 		}
 
+		item.setId(contactItem.getId());
 		item.setIsDefault(contactItem.getIsDefault());
 		item.setScope(contactItem.getScope());
 		item.setValue(contactItem.getValue());
 		item.setContact(contact);
-		contact.getContactItemList().add(item);
 		
-		//TODO: find contactItem in contact.getContactItemList and update if necessary instead of add
+		if(contact.getId() != null) {
+			item = contactService.mergeContactItem(item);
+		} else {
+			contact.getContactItemList().add(item);
+		}
 	}
 
 	private boolean validateInput() {

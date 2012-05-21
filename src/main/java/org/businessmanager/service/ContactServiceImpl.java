@@ -20,13 +20,18 @@ import java.util.List;
 import org.apache.commons.lang3.Validate;
 import org.businessmanager.database.ContactDao;
 import org.businessmanager.domain.Contact;
+import org.businessmanager.domain.ContactItem;
+import org.businessmanager.domain.Email;
+import org.businessmanager.domain.Fax;
+import org.businessmanager.domain.Phone;
+import org.businessmanager.domain.Website;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Christian Ternes
- *
+ * 
  */
 @Service
 @Transactional
@@ -34,15 +39,14 @@ public class ContactServiceImpl implements ContactService {
 
 	@Autowired
 	private ContactDao contactDao;
-	
+
 	@Override
 	public Contact saveContact(Contact contact) {
 		Validate.notNull(contact, "Parameter contact must not be null!");
-		
-		if(contact.getId() == null) {
+
+		if (contact.getId() == null) {
 			return contactDao.save(contact);
-		}
-		else {
+		} else {
 			return contactDao.update(contact);
 		}
 	}
@@ -55,8 +59,24 @@ public class ContactServiceImpl implements ContactService {
 	@Override
 	public void deleteContact(Contact contact) {
 		Validate.notNull(contact, "Parameter contact must not be null!");
-		
+
 		contactDao.remove(contact);
+	}
+
+	@Override
+	public ContactItem mergeContactItem(ContactItem contactItem) {
+		Validate.notNull(contactItem);
+
+		if (contactItem instanceof Email) {
+			return contactDao.mergeEmail((Email) contactItem);
+		} else if (contactItem instanceof Phone) {
+			return contactDao.mergePhone((Phone) contactItem);
+		} else if (contactItem instanceof Fax) {
+			return contactDao.mergeFax((Fax) contactItem);
+		} else if (contactItem instanceof Website) {
+			return contactDao.mergeWebsite((Website) contactItem);
+		}
+		return null;
 	}
 
 }

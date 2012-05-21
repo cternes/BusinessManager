@@ -17,8 +17,13 @@ package org.businessmanager.database;
 
 import java.util.List;
 
+import org.apache.commons.lang.Validate;
 import org.businessmanager.domain.Contact;
 import org.businessmanager.domain.Contact_;
+import org.businessmanager.domain.Email;
+import org.businessmanager.domain.Fax;
+import org.businessmanager.domain.Phone;
+import org.businessmanager.domain.Website;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -38,4 +43,27 @@ public class ContactDaoImpl extends GenericDaoImpl<Contact> implements ContactDa
 		return Contact.class;
 	}
 
+	@Override
+	public Email mergeEmail(Email email) {
+		Validate.notNull(email);
+		return getEntityManager().merge(email);
+	}
+	
+	@Override
+	public Phone mergePhone(Phone phone) {
+		Validate.notNull(phone);
+		return getEntityManager().merge(phone);
+	}
+
+	@Override
+	public Fax mergeFax(Fax fax) {
+		Validate.notNull(fax);
+		return getEntityManager().merge(fax);
+	}
+
+	@Override
+	public Website mergeWebsite(Website website) {
+		Validate.notNull(website);
+		return getEntityManager().merge(website);
+	}
 }

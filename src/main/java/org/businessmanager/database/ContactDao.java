@@ -16,11 +16,21 @@
 package org.businessmanager.database;
 
 import org.businessmanager.domain.Contact;
+import org.businessmanager.domain.Email;
+import org.businessmanager.domain.Fax;
+import org.businessmanager.domain.Phone;
+import org.businessmanager.domain.Website;
 
 /**
  * @author Christian Ternes
- *
+ * 
  */
 public interface ContactDao extends GenericDao<Contact> {
+	public Email mergeEmail(Email email);
 
+	public Phone mergePhone(Phone phone);
+
+	public Fax mergeFax(Fax fax);
+	
+	public Website mergeWebsite(Website website);
 }

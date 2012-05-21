@@ -18,6 +18,7 @@ package org.businessmanager.service;
 import java.util.List;
 
 import org.businessmanager.domain.Contact;
+import org.businessmanager.domain.ContactItem;
 
 /**
  * @author Christian Ternes
@@ -46,5 +47,6 @@ public interface ContactService {
 	 * @param contact the contact to remove
 	 */
 	public void deleteContact(Contact contact);
-
+	
+	public ContactItem mergeContactItem(ContactItem contactItem);
 }
