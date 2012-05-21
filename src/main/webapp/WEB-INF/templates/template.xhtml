@@ -64,6 +64,7 @@
 									<h:commandLink action="#" >
 									#{messages.username}: #{facesContext.externalContext.userPrincipal.name}
 									</h:commandLink>
+									<h:commandLink value="#{messages.configuration}" action="#{navigationHelper.getAdminSettings}"/>
 								</li>
 								<li>
 									<a href="#{facesContext.externalContext.request.contextPath}/j_spring_security_logout">#{messages.logout}</a>

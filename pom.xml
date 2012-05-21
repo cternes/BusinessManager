@@ -29,6 +29,7 @@
 		<spring-security.version>3.0.7.RELEASE</spring-security.version>
 		<hibernate.version>3.6.9.Final</hibernate.version>
 		<primefaces.version>3.2</primefaces.version>
+		<querydsl.version>2.5.0</querydsl.version>
 		<jsf.version>2.1.5</jsf.version>
 		<slf4j.version>1.5.10</slf4j.version>
 		<java.version>1.7</java.version>
@@ -192,6 +193,26 @@
 			<version>4.2.0.Final</version>
 			<scope>compile</scope>
 		</dependency>
+		
+		<!-- QueryDSL -->
+		<dependency>
+			<groupId>com.mysema.querydsl</groupId>
+			<artifactId>querydsl-core</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.mysema.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>com.mysema.querydsl</groupId>
+		  <artifactId>querydsl-apt</artifactId>
+		  <version>2.5.0</version>
+		  <scope>provided</scope>
+		</dependency>    
 
 		<!-- JPA Persistence Dependencies -->
 		<dependency>
@@ -610,7 +631,24 @@
 					</nonFilteredFileExtensions>
 				</configuration>
 			</plugin>
-
+			
+			<!-- QueryDSL plugin -->
+			<plugin>
+		      <groupId>com.mysema.maven</groupId>
+		      <artifactId>maven-apt-plugin</artifactId>
+		      <version>1.0.3</version>
+		      <executions>
+		        <execution>
+		          <goals>
+		            <goal>process</goal>
+		          </goals>
+		          <configuration>
+		            <outputDirectory>target/metamodel</outputDirectory>
+		            <processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+		          </configuration>
+		        </execution>
+		      </executions>
+		    </plugin>
 		</plugins>
 	</build>
 </project>

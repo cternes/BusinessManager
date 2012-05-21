@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="content">
+		<h:body>
+			<h2 class="contentheading">#{messages.settings_title}</h2>
+
+			<div>
+				<h:form id="formPanel">
+					<p:messages />
+					<p:panel header="#{messages.settings_title}">
+						<p:panelGrid>
+							<p:row>
+								<p:column colspan="4">
+									<p:spacer width="0" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column colspan="4">
+									<h:outputLabel value="#{messages.settings_general}"
+										styleClass="boldText" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:15px" />
+								<p:column>
+									<h:outputLabel for="language"
+										value="#{messages.settings_general_language}:" />
+								</p:column>
+								<p:column>
+									<p:selectOneMenu id="language" value="#{settingsController.settingsMap['general.language']}">
+										<f:selectItems value="#{settingsController.availableLanguages}"/> 
+									</p:selectOneMenu>
+								</p:column>
+								<p:column>
+									<h:message for="language" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:15px" />
+								<p:column>
+									<h:outputLabel for="country"
+										value="#{messages.settings_general_country}:" />
+								</p:column>
+								<p:column>
+									<p:selectOneMenu id="country" value="#{settingsController.settingsMap['general.country']}">
+										<f:selectItems value="#{settingsController.availableCountries}" var="country" itemLabel="#{country.name}" itemValue="#{country.code}"/> 
+									</p:selectOneMenu>
+								</p:column>
+								<p:column>
+									<h:message for="country" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+					</p:panel>
+					
+					<div class="verticalSpacingSmall" />
+					
+					<p:commandButton value="#{messages.save}" action="#{settingsController.save}" update="formPanel"/>
+				</h:form>
+			</div>
+		</h:body>
+	</ui:define>
+
+</ui:composition>

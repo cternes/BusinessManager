@@ -37,6 +37,7 @@ public class NavigationHelper {
 	private boolean isWithoutContext = true;
 	
 	private static final String ADMIN_HOME 						= "/views/admin/admin.jsf";
+	private static final String ADMIN_SETTINGS					= "/views/admin/settings.jsf";
 	private static final String CONTACTMANAGEMENT 				= "/views/contact/contactManagement.jsf";
 	private static final String CONTACT_EDIT					= "/views/contact/editContact.jsf";
 	private static final String CONTACT_VIEW					= "/views/contact/viewContact.jsf";
@@ -107,6 +108,10 @@ public class NavigationHelper {
 
 	public String getContactView() {
 		return getNavigation(CONTACT_VIEW);
+	}
+	
+	public String getAdminSettings() {
+		return getNavigation(ADMIN_SETTINGS);
 	}
 	
 }
