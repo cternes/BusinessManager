@@ -49,4 +49,6 @@ public interface ContactService {
 	public void deleteContact(Contact contact);
 	
 	public ContactItem mergeContactItem(ContactItem contactItem);
+	
+	public void removeContactItem(Long id);
 }

@@ -70,6 +70,7 @@ public class ContactEditController extends AbstractPageController {
 	private ContactItemBean selectedFax;
 	private List<ContactItemBean> websiteList = new ArrayList<ContactItemBean>();
 	private ContactItemBean selectedWebsite;
+	private List<ContactItemBean> deletedItems = new ArrayList<ContactItemBean>();
 	
 	private List<org.businessmanager.domain.ContactItem.Scope> availableScopes = new ArrayList<org.businessmanager.domain.ContactItem.Scope>();
 	private List<Salutation> avaliableSalutations = new ArrayList<Salutation>();
@@ -218,8 +219,18 @@ public class ContactEditController extends AbstractPageController {
 			Phone phone = new Phone();
 			addItemToContact(contact, contactItem, phone);
 		}
+		
+		for(ContactItemBean contactItem : deletedItems) {
+			deleteContactItem(contactItem);
+		}
 	}
 
+	private void deleteContactItem(ContactItemBean contactItemBean) {
+		if(contactItemBean.getId() != null) {
+			contactService.removeContactItem(contactItemBean.getId());
+		}
+	}
+	
 	private void addItemToContact(Contact contact, ContactItemBean contactItem,
 			ContactItem item) {
 		
@@ -287,6 +298,7 @@ public class ContactEditController extends AbstractPageController {
 
 	public void removeEmail() {
 		if (selectedEmail != null) {
+			deletedItems.add(selectedEmail);
 			emailList.remove(selectedEmail);
 
 			if (selectedEmail.getIsDefault()) {
@@ -327,6 +339,7 @@ public class ContactEditController extends AbstractPageController {
 
 	public void removePhone() {
 		if (selectedPhone != null) {
+			deletedItems.add(selectedPhone);
 			phoneList.remove(selectedPhone);
 		}
 	}
@@ -391,6 +404,7 @@ public class ContactEditController extends AbstractPageController {
 
 	public void removeFax() {
 		if (selectedFax != null) {
+			deletedItems.add(selectedFax);
 			faxList.remove(selectedFax);
 		}
 	}
@@ -408,6 +422,7 @@ public class ContactEditController extends AbstractPageController {
 
 	public void removeWebsite() {
 		if (selectedWebsite != null) {
+			deletedItems.add(selectedSelected);
 			websiteList.remove(selectedWebsite);
 		}
 	}

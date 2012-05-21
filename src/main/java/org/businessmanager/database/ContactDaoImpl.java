@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.apache.commons.lang.Validate;
 import org.businessmanager.domain.Contact;
+import org.businessmanager.domain.ContactItem;
 import org.businessmanager.domain.Contact_;
 import org.businessmanager.domain.Email;
 import org.businessmanager.domain.Fax;
@@ -65,5 +66,14 @@ public class ContactDaoImpl extends GenericDaoImpl<Contact> implements ContactDa
 	public Website mergeWebsite(Website website) {
 		Validate.notNull(website);
 		return getEntityManager().merge(website);
+	}
+
+	@Override
+	public void removeContactItem(Long id) {
+		ContactItem contactItem = getEntityManager().find(ContactItem.class, id);
+		
+		if(contactItem != null) {
+			getEntityManager().remove(contactItem);
+		}
 	}
 }

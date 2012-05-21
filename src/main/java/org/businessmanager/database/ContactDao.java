@@ -33,4 +33,6 @@ public interface ContactDao extends GenericDao<Contact> {
 	public Fax mergeFax(Fax fax);
 	
 	public Website mergeWebsite(Website website);
+	
+	public void removeContactItem(Long id);
 }
