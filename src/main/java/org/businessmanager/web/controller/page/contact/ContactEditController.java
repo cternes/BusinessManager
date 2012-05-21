@@ -422,7 +422,7 @@ public class ContactEditController extends AbstractPageController {
 
 	public void removeWebsite() {
 		if (selectedWebsite != null) {
-			deletedItems.add(selectedSelected);
+			deletedItems.add(selectedWebsite);
 			websiteList.remove(selectedWebsite);
 		}
 	}
