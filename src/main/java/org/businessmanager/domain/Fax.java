@@ -22,10 +22,18 @@ import javax.persistence.Entity;
 @DiscriminatorValue("FAX")
 public class Fax extends ContactItem {
 
+	public Fax() {
+		super();
+	}
+
+	public Fax(Long id, Scope scope, String value, Boolean isDefault) {
+		super(id, scope, value, isDefault);
+	}
+
 	public String getFax() {
 		return getValue();
 	}
-	
+
 	public void setFax(String fax) {
 		setValue(fax);
 	}

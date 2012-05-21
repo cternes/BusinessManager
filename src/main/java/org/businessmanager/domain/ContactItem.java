@@ -42,21 +42,20 @@ import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
 public abstract class ContactItem implements HasDefault {
 
 	public enum Scope {
-		PRIVATE("scope_private")
-		, COMMERCIAL("scope_commercial")
-		, MISC("scope_misc");
-		
+		PRIVATE("scope_private"), COMMERCIAL("scope_commercial"), MISC(
+				"scope_misc");
+
 		private String label;
-		
+
 		private Scope(String label) {
 			this.label = label;
 		}
-		
+
 		public String getLabel() {
 			return ResourceBundleProducer.getString(label);
 		}
 	}
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -67,13 +66,22 @@ public abstract class ContactItem implements HasDefault {
 
 	@Column
 	private String value;
-	
+
 	@Column
 	private Boolean isDefault;
 
-	@ManyToOne(targetEntity=Contact.class)
+	@ManyToOne(targetEntity = Contact.class)
 	private Contact contact;
-		
+
+	public ContactItem() {}
+	
+	public ContactItem(Long id, Scope scope, String value, Boolean isDefault) {
+		this.id = id;
+		this.scope = scope;
+		this.value = value;
+		this.isDefault = isDefault;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -112,5 +120,30 @@ public abstract class ContactItem implements HasDefault {
 
 	public void setIsDefault(Boolean isDefault) {
 		this.isDefault = isDefault;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ContactItem other = (ContactItem) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 }

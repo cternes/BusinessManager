@@ -46,20 +46,19 @@ import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
 public class Contact extends AbstractEntity {
 
 	public enum Salutation {
-		MR("salutation_mr")
-		, MRS("salutation_mrs");
-		
+		MR("salutation_mr"), MRS("salutation_mrs");
+
 		private String label;
-		
+
 		private Salutation(String label) {
 			this.label = label;
 		}
-		
+
 		public String getLabel() {
 			return ResourceBundleProducer.getString(label);
 		}
 	}
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -70,10 +69,10 @@ public class Contact extends AbstractEntity {
 	@Column
 	private String lastname;
 
-	@Column(length=100)
+	@Column(length = 100)
 	private String title;
 
-	@Column(length=100)
+	@Column(length = 100)
 	private String jobTitle;
 
 	@Column
@@ -82,17 +81,17 @@ public class Contact extends AbstractEntity {
 	@Column
 	private String company;
 
-	@Column(length=20)
+	@Column(length = 20)
 	@Enumerated(EnumType.STRING)
 	private Salutation salutation = Salutation.MR;
-	
+
 	@Column
 	private Calendar birthday;
-	
+
 	@Column
 	private String instantMessenger;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "contact")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "contact", orphanRemoval=true)
 	private List<ContactItem> contactItems = new ArrayList<ContactItem>();
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "contact")
@@ -100,7 +99,7 @@ public class Contact extends AbstractEntity {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contact")
 	private List<Invoice> invoices = new ArrayList<Invoice>();
-	
+
 	@Column
 	@Lob
 	private String notes;
@@ -380,8 +379,8 @@ public class Contact extends AbstractEntity {
 							public boolean evaluate(Object paramObject) {
 								if (paramObject instanceof Address) {
 									Address address = (Address) paramObject;
-									return AddressType.SHIPPING
-											.equals(address.getScope());
+									return AddressType.SHIPPING.equals(address
+											.getScope());
 								}
 								return false;
 							}
@@ -392,18 +391,18 @@ public class Contact extends AbstractEntity {
 		}
 		return null;
 	}
-	
+
 	public String getDisplayName() {
 		StringBuilder sb = new StringBuilder();
 		appendToString(sb, title);
 		appendToString(sb, firstname);
 		appendToString(sb, lastname);
-		
+
 		return sb.toString();
 	}
 
 	private void appendToString(StringBuilder sb, String value) {
-		if(!StringUtils.isEmpty(value)) {
+		if (!StringUtils.isEmpty(value)) {
 			sb.append(value);
 			sb.append(" ");
 		}

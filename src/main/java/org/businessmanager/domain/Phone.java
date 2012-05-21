@@ -22,6 +22,14 @@ import javax.persistence.Entity;
 @DiscriminatorValue("PHONE")
 public class Phone extends ContactItem {
 
+	public Phone() {
+		super();
+	}
+
+	public Phone(Long id, Scope scope, String value, Boolean isDefault) {
+		super(id, scope, value, isDefault);
+	}
+
 	public String getPhone() {
 		return getValue();
 	}

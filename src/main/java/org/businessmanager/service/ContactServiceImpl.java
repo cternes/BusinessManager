@@ -43,7 +43,7 @@ public class ContactServiceImpl implements ContactService {
 	@Override
 	public Contact saveContact(Contact contact) {
 		Validate.notNull(contact, "Parameter contact must not be null!");
-
+		
 		if (contact.getId() == null) {
 			return contactDao.save(contact);
 		} else {
