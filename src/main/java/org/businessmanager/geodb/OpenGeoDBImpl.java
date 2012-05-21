@@ -27,7 +27,11 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
+import org.apache.poi.util.StringUtil;
+import org.businessmanager.service.settings.ApplicationSettingsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -38,6 +42,9 @@ public class OpenGeoDBImpl implements OpenGeoDB {
 	private Map<String, OpenGeoDBMapper> mappers = new HashMap<String, OpenGeoDBMapper>();
 	private Map<String, List<Country>> countryMap = new HashMap<String, List<Country>>();
 
+	@Autowired
+	private ApplicationSettingsService settingsService;
+	
 	public OpenGeoDBImpl() {
 		init();
 	}
@@ -174,6 +181,10 @@ public class OpenGeoDBImpl implements OpenGeoDB {
 		}
 		
 		Collections.sort(countries, Country.getComparator());
+		Country defaultCountry = findDefaultCountry(countries);
+		if(defaultCountry != null) {
+			countries.add(0, defaultCountry);
+		}
 		
 		if (language == null) {
 			countryMap.put(Locale.getDefault().getLanguage(), countries);
@@ -182,5 +193,22 @@ public class OpenGeoDBImpl implements OpenGeoDB {
 		}
 		
 		return countries;
+	}
+	
+	private Country findDefaultCountry(List<Country> countries) {
+		String defaultCountry = settingsService.getApplicationSettingValue(ApplicationSettingsService.GENERAL_COUNTRY);
+		if(!StringUtils.isEmpty(defaultCountry)) {
+			for (Country country : countries) {
+				if(defaultCountry.equals(country.getCode())) {
+					return country;
+				}
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public void refreshListOfCountries() {
+		countryMap.clear();
 	}
 }

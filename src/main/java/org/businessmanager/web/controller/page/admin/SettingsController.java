@@ -67,6 +67,8 @@ public class SettingsController extends AbstractPageController {
 				}
 			}
 			
+			openGeoService.refreshListOfCountries();
+			
 			addMessage(FacesMessage.SEVERITY_INFO, "settings_saved");
 		}
 	}

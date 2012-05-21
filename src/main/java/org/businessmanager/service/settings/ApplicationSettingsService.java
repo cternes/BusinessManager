@@ -28,6 +28,9 @@ import org.businessmanager.domain.settings.ApplicationSetting;
  */
 public interface ApplicationSettingsService {
 
+	public static final String GENERAL_LANGUAGE = "general.language";
+	public static final String GENERAL_COUNTRY = "general.country";
+	
 	/**
 	 * Returns all application settings from the database.
 	 * 

@@ -93,10 +93,9 @@
 							<h:outputLabel value="#{messages.addressmanagement_address_country}:"></h:outputLabel>
 						</p:column>
 						<p:column colspan="2">
-	        				<!-- <p:inputText id="addCountry" value="#{addressManagementController.addressToUpdate.country}" />-->
 							<p:selectOneMenu id="addCountry" value="#{addressManagementController.addressToUpdate.country}"
 								effect="fade" converter="#{countryConverter}">
-								<f:selectItem itemLabel="#{messages.please_select}" itemValue="" />
+								<!-- <f:selectItem itemLabel="#{messages.please_select}" itemValue="" /> -->
 								<f:selectItems value="#{addressManagementController.availableCountries}" var="country"
 									itemLabel="#{country.name}" itemValue="#{country.code}" />
 							</p:selectOneMenu>

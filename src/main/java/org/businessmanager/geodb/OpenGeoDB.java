@@ -26,4 +26,9 @@ public interface OpenGeoDB {
 			String areaCode);
 
 	public List<Country> getListOfCountries(String language);
+	
+	/**
+	 * Builds a new list of countries.
+	 */
+	public void refreshListOfCountries();
 }
