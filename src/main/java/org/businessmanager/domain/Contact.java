@@ -37,12 +37,19 @@ import org.businessmanager.domain.Address.AddressType;
 import org.businessmanager.util.CollectionUtil;
 import org.businessmanager.util.DefaultItemPredicate;
 import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Store;
 
 /**
  * @author Christian Ternes
  * 
  */
 @Entity
+@Indexed
 public class Contact extends AbstractEntity {
 
 	public enum Salutation {
@@ -64,21 +71,25 @@ public class Contact extends AbstractEntity {
 	private Long id;
 
 	@Column
+	@Field(index = Index.YES, analyze = Analyze.NO, store = Store.NO)
 	private String firstname;
 
 	@Column
+	@Field(index = Index.YES, analyze = Analyze.NO, store = Store.NO)
 	private String lastname;
 
 	@Column(length = 100)
 	private String title;
 
 	@Column(length = 100)
+	@Field(index = Index.YES, analyze = Analyze.NO, store = Store.NO)
 	private String jobTitle;
 
 	@Column
 	private String image;
 
 	@Column
+	@Field(index = Index.YES, analyze = Analyze.NO, store = Store.NO)
 	private String company;
 
 	@Column(length = 20)
@@ -91,9 +102,11 @@ public class Contact extends AbstractEntity {
 	@Column
 	private String instantMessenger;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "contact", orphanRemoval=true)
+	@IndexedEmbedded
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "contact", orphanRemoval = true)
 	private List<ContactItem> contactItems = new ArrayList<ContactItem>();
 
+	@IndexedEmbedded
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "contact")
 	private List<Address> addresses = new ArrayList<Address>();
 

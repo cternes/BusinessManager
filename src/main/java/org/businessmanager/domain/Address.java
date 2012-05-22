@@ -25,8 +25,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
 
 @Entity
+@Indexed
 public class Address extends AbstractEntity implements HasDefault {
 
 	public enum AddressType {
@@ -49,15 +55,18 @@ public class Address extends AbstractEntity implements HasDefault {
 	private Long id;
 
 	@Column
+	@Field(index = Index.YES, analyze = Analyze.NO, store = Store.NO)
 	private String street;
 
 	@Column
 	private String housenumber;
 
 	@Column
+	@Field(index = Index.YES, analyze = Analyze.NO, store = Store.NO)
 	private String city;
 
 	@Column
+	@Field(index = Index.YES, analyze = Analyze.NO, store = Store.NO)
 	private String zipCode;
 
 	@Column

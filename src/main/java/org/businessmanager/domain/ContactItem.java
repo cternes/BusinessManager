@@ -30,6 +30,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
 
 /**
  * @author Christian Ternes
@@ -39,6 +44,7 @@ import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
 @Table(name = "CONTACT_ITEM")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "TYPE", discriminatorType = DiscriminatorType.STRING, length = 20)
+@Indexed
 public abstract class ContactItem implements HasDefault {
 
 	public enum Scope {
@@ -65,6 +71,7 @@ public abstract class ContactItem implements HasDefault {
 	private Scope scope;
 
 	@Column
+	@Field(index = Index.YES, analyze = Analyze.NO, store = Store.NO)
 	private String value;
 
 	@Column
