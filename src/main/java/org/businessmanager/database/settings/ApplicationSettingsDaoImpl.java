@@ -20,7 +20,10 @@ import java.util.List;
 import org.businessmanager.database.GenericDaoImpl;
 import org.businessmanager.domain.settings.ApplicationSetting;
 import org.businessmanager.domain.settings.ApplicationSetting_;
+import org.businessmanager.domain.settings.QApplicationSetting;
 import org.springframework.stereotype.Repository;
+
+import com.mysema.query.jpa.impl.JPAQuery;
 
 /**
  * @author Christian Ternes
@@ -40,8 +43,19 @@ public class ApplicationSettingsDaoImpl extends GenericDaoImpl<ApplicationSettin
 	}
 	
 	@Override 
-	public ApplicationSetting getApplicationSettingByKey(String key) {
-		List<ApplicationSetting> list = findByAttribute(ApplicationSetting_.paramKey, key);
+	public ApplicationSetting getApplicationSettingByKey(String key, String username) {
+		JPAQuery query = new JPAQuery(getEntityManager());
+		QApplicationSetting setting = QApplicationSetting.applicationSetting;
+		query.from(setting).where(setting.paramKey.eq(key));
+		
+		if(username == null) {
+			query.where(setting.username.isNull());
+		}
+		else {
+			query.where(setting.username.eq(username));
+		}
+		
+		List<ApplicationSetting> list = query.list(setting);
 		if(list.size() > 0) {
 			return list.get(0);
 		}

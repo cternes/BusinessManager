@@ -364,8 +364,7 @@ public class AddressManagementControllerImpl extends AbstractPageController impl
 	}
 	
 	public List<Country> getAvailableCountries() {
-		return openGeoDB.getListOfCountries(null);
+		return openGeoDB.getListOfCountries(facesContext.getLocale().getLanguage());
 	}
-	
     
 }

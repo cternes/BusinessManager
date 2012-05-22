@@ -42,6 +42,14 @@ public interface ContactService {
 	public List<Contact> getContacts();
 
 	/**
+	 * Retrieves a {@link Contact} from the database by its id.
+	 * 
+	 * @param id the id of the {@link Contact}
+	 * @return the {@link Contact} if found, null otherwise
+	 */
+	public Contact getContactById(Long id);
+	
+	/**
 	 * Removes a {@link Contact} from the database.
 	 * 
 	 * @param contact the contact to remove

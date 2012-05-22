@@ -83,5 +83,10 @@ public class ContactServiceImpl implements ContactService {
 	public void removeContactItem(Long id) {
 		contactDao.removeContactItem(id);
 	}
+	
+	@Override
+	public Contact getContactById(Long id) {
+		return contactDao.findById(id);
+	}
 
 }

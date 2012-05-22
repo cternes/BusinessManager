@@ -32,6 +32,7 @@ import org.apache.commons.lang.Validate;
 import org.apache.poi.util.StringUtil;
 import org.businessmanager.service.settings.ApplicationSettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -196,7 +197,8 @@ public class OpenGeoDBImpl implements OpenGeoDB {
 	}
 	
 	private Country findDefaultCountry(List<Country> countries) {
-		String defaultCountry = settingsService.getApplicationSettingValue(ApplicationSettingsService.GENERAL_COUNTRY);
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		String defaultCountry = settingsService.getApplicationSettingValue(ApplicationSettingsService.GENERAL_COUNTRY, username);
 		if(!StringUtils.isEmpty(defaultCountry)) {
 			for (Country country : countries) {
 				if(defaultCountry.equals(country.getCode())) {
