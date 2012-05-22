@@ -310,9 +310,11 @@ public class ContactEditController extends AbstractPageController {
 
 	public void removeEmail() {
 		if (selectedEmail != null) {
-			deletedItems.add(new Email(selectedEmail.getId(), selectedEmail
-					.getScope(), selectedEmail.getValue(), selectedEmail
-					.getIsDefault()));
+			if (selectedEmail.getId() != null) {
+				deletedItems.add(new Email(selectedEmail.getId(), selectedEmail
+						.getScope(), selectedEmail.getValue(), selectedEmail
+						.getIsDefault()));
+			}
 			emailList.remove(selectedEmail);
 
 			if (selectedEmail.getIsDefault()) {
@@ -353,9 +355,11 @@ public class ContactEditController extends AbstractPageController {
 
 	public void removePhone() {
 		if (selectedPhone != null) {
-			deletedItems.add(new Phone(selectedPhone.getId(), selectedPhone
-					.getScope(), selectedPhone.getValue(), selectedPhone
-					.getIsDefault()));
+			if (selectedPhone.getId() != null) {
+				deletedItems.add(new Phone(selectedPhone.getId(), selectedPhone
+						.getScope(), selectedPhone.getValue(), selectedPhone
+						.getIsDefault()));
+			}
 			phoneList.remove(selectedPhone);
 		}
 	}
@@ -420,9 +424,11 @@ public class ContactEditController extends AbstractPageController {
 
 	public void removeFax() {
 		if (selectedFax != null) {
-			deletedItems.add(new Fax(selectedFax.getId(), selectedFax
-					.getScope(), selectedFax.getValue(), selectedFax
-					.getIsDefault()));
+			if (selectedFax.getId() != null) {
+				deletedItems.add(new Fax(selectedFax.getId(), selectedFax
+						.getScope(), selectedFax.getValue(), selectedFax
+						.getIsDefault()));
+			}
 			faxList.remove(selectedFax);
 		}
 	}
@@ -440,9 +446,11 @@ public class ContactEditController extends AbstractPageController {
 
 	public void removeWebsite() {
 		if (selectedWebsite != null) {
-			deletedItems.add(new Website(selectedWebsite.getId(),
-					selectedWebsite.getScope(), selectedWebsite.getValue(),
-					selectedWebsite.getIsDefault()));
+			if (selectedWebsite.getId() != null) {
+				deletedItems.add(new Website(selectedWebsite.getId(),
+						selectedWebsite.getScope(), selectedWebsite.getValue(),
+						selectedWebsite.getIsDefault()));
+			}
 			websiteList.remove(selectedWebsite);
 		}
 	}
