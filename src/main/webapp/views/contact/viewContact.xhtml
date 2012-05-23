@@ -83,7 +83,11 @@
 								</p:panel>
 							</p:column>
 						</p:row>
-						<div class="verticalSpacingSmall" />
+						<p:row>
+							<p:column>
+								<div class="verticalSpacingSmall" />
+							</p:column>
+						</p:row>
 					</p:panelGrid>
 
 					<p:panelGrid styleClass="centerMainPanelGrid">
@@ -118,25 +122,30 @@
 								</p:panel>
 							</p:column>
 						</p:row>
-						<div class="verticalSpacingSmall" />
+						<p:row>
+							<p:column>
+								<div class="verticalSpacingSmall" />
+							</p:column>
+						</p:row>
 					</p:panelGrid>
 
-					<p:panel id="addressPanel"
-						header="#{messages.addressmanagement_title}"
-						rendered="#{contactViewController.renderAddress}">
-						<h:dataTable var="address"
-							value="#{contactViewController.model.selectedEntity.addresses}">
-							<h:column>
-								<h:outputText value="#{address.scope.label}"
-									styleClass="boldText" />
-							</h:column>
-							<h:column>
-								<bm:addressOutput address="#{address}" />
-							</h:column>
-						</h:dataTable>
-					
+					<p:panelGrid columns="1"  styleClass="centerMainPanelGrid">
+						<p:panel id="addressPanel"
+							header="#{messages.addressmanagement_title}"
+							rendered="#{contactViewController.renderAddress}">
+								<h:dataTable var="address"
+									value="#{contactViewController.model.selectedEntity.addresses}">
+									<h:column>
+										<h:outputText value="#{address.scope.label}"
+											styleClass="boldText" />
+									</h:column>
+									<h:column>
+										<bm:addressOutput address="#{address}" />
+									</h:column>
+								</h:dataTable>
+						</p:panel>
 						<div class="verticalSpacingSmall" />
-					</p:panel>
+					</p:panelGrid>
 
 					<p:panel header="#{messages.editcontact_contact_misc}" rendered="#{contactViewController.renderMisc}">
 						<p:panelGrid columns="2">
@@ -152,7 +161,6 @@
 							<h:outputText value="#{contactViewController.model.selectedEntity.notes}" rendered="#{!empty contactViewController.model.selectedEntity.notes}" />
 						</p:panelGrid>
 					</p:panel>
-					
 					</div>
 					
 					<p:confirmDialog message="#{messages.are_you_sure}"  header="#{messages.contactmanagement_delete_contact}" severity="alert" widgetVar="confirmation" width="300">  

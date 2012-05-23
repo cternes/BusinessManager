@@ -14,7 +14,7 @@
 
 		<h:outputText value="#{address.zipCode} #{address.city}" />
 		
-		<h:outputText value="#{address.country}" />
+		<h:outputText value="#{address.country}" converter="#{countryConverter}"/>
 	</p:panelGrid>
 	<!-- rendered="#{empty rendered || rendered}" -->
 </ui:composition>
