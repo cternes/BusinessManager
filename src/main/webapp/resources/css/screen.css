@@ -59,12 +59,15 @@ h4 {
 
 .contentheading,.componentheading {
 	font-size: 15px;
+}
+
+.componentheading {
 	padding-bottom: 20px;
 }
 
 .spacer {
 	width: 100%;
-	height: 30px;
+	height: 10px;
 }
 
 a:link,
@@ -93,7 +96,7 @@ a:active,
 }
 
 #slogan {
-	padding: 20px 0 20px 0;
+	padding: 7px 0 7px 0;
 	font-size: 11px;
 }
 
@@ -119,10 +122,11 @@ a:active,
 /*************SIDEBAR***************/
 .navigationList {
 	list-style:none;
+	padding-left: 5px;
 }
 
 .navigationList li {
-	margin-bottom: 10px;
+	margin-bottom: 8px;
 }
 
 /*************MAIN***************/
