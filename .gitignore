@@ -1,3 +1,7 @@
 target
 jetty.log
 /WebContent
+.classpath
+.factorypath
+.project
+.settings
