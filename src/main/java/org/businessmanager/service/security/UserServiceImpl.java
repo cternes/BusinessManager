@@ -26,7 +26,7 @@ import org.businessmanager.database.security.UserDao;
 import org.businessmanager.domain.security.Role;
 import org.businessmanager.domain.security.User;
 import org.businessmanager.error.DuplicateUserException;
-import org.businessmanager.util.MD5Generator;
+import org.businessmanager.util.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,7 +76,9 @@ public class UserServiceImpl implements UserService {
 			throw new DuplicateUserException("User with email " + user.getEmail() + " exists already.");
 		}
 		else {
-			String encodedPwd = MD5Generator.encodePassword(user.getPassword(), user.getUsername());
+			user.setSalt(PasswordGenerator.generateSalt());
+			
+			String encodedPwd = PasswordGenerator.encodePassword(user.getPassword(), user.getSalt());
 			user.setPassword(encodedPwd);
 			
 			logger.debug("Saving user "+user.getUsername()+" to database.");
@@ -115,7 +117,7 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		if(updatePassword) {
-			String encodedPwd = MD5Generator.encodePassword(user.getPassword(), user.getUsername());
+			String encodedPwd = PasswordGenerator.encodePassword(user.getPassword(), user.getSalt());
 			user.setPassword(encodedPwd);
 		}
 		

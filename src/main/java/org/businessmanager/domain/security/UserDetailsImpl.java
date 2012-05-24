@@ -29,6 +29,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class UserDetailsImpl extends org.springframework.security.core.userdetails.User implements UserDetails {
 
 	private List<String> grantedRoles = new ArrayList<String>();
+	private Long salt;
 	
 	public UserDetailsImpl(String username, String password, boolean enabled,
 			boolean accountNonExpired, boolean credentialsNonExpired,
@@ -49,7 +50,13 @@ public class UserDetailsImpl extends org.springframework.security.core.userdetai
 	public void setGrantedRoles(List<String> roles) {
 		this.grantedRoles = roles;
 	}
-	
 
+	public Long getSalt() {
+		return salt;
+	}
+
+	public void setSalt(Long salt) {
+		this.salt = salt;
+	}
 	
 }

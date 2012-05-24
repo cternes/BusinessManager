@@ -54,7 +54,10 @@ public final class User extends AbstractEntity {
 	private String email;
 	
 	@Column
-	private boolean mustChangePassword = true; 
+	private boolean mustChangePassword = true;
+	
+	@Column
+	private Long salt;
 	
 	private transient List<Role> assignedRoles;
 
@@ -171,6 +174,14 @@ public final class User extends AbstractEntity {
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", enabled="
 				+ enabled + ", email=" + email + "]";
+	}
+
+	public Long getSalt() {
+		return salt;
+	}
+
+	public void setSalt(Long salt) {
+		this.salt = salt;
 	}
 
 }

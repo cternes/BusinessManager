@@ -80,6 +80,6 @@
 	
 	<!-- Spring-Security Salt. This must NOT be changed. -->
 	<beans:bean class="org.springframework.security.authentication.dao.ReflectionSaltSource" id="saltSource">
-		<beans:property name="userPropertyToUse" value="username"/>
+		<beans:property name="userPropertyToUse" value="salt"/>
 	</beans:bean>
 </beans:beans>

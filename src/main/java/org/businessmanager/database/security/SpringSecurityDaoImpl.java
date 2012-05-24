@@ -50,20 +50,25 @@ public class SpringSecurityDaoImpl extends JdbcDaoImpl {
 		Collection<GrantedAuthority> authorities = userDetails.getAuthorities();
 		
 		UserDetailsImpl userDetailsImpl = new UserDetailsImpl(userDetails.getUsername(), password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
-		List<String> grantedRoles = retrieveRolesForUser(username);
+		User user = getUserByName(username);
+		List<String> grantedRoles = retrieveRolesForUser(user);
 		userDetailsImpl.setGrantedRoles(grantedRoles);
+		userDetailsImpl.setSalt(user.getSalt());
 		
 		return userDetailsImpl;
 	}
 	
-	private List<String> retrieveRolesForUser(String username) {
-		User user = userDao.findUserByName(username);
-		
+	private List<String> retrieveRolesForUser(User user) {
 		List<String> roleList = new ArrayList<String>();
 		List<Role> roles = roleDao.findRolesForUser(user.getId());
 		for (Role role : roles) {
 			roleList.add(role.getName());
 		}
 		return roleList;
+	}
+
+	private User getUserByName(String username) {
+		User user = userDao.findUserByName(username);
+		return user;
 	}
 }
