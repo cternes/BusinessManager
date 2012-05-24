@@ -9,7 +9,7 @@
 	>
 
 <!-- Needed for Chrome & Safari -->
-<f:view contentType="text/html">
+<f:view contentType="text/html" locale="#{languageController.locale}">
 	<h:head>
 		<title>Business Manager</title>
 		<meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
@@ -61,7 +61,7 @@
 						<ul class="menu">
 							<sec:isAuthenticated>
 								<li>
-									<h:commandLink action="#" >
+									<h:commandLink action="#{navigationHelper.getUserPreferences}">
 									#{messages.username}: #{facesContext.externalContext.userPrincipal.name}
 									</h:commandLink>
 									<h:commandLink value="#{messages.configuration}" action="#{navigationHelper.getAdminSettings}"/>

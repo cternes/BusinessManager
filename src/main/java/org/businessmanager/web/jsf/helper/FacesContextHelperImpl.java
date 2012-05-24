@@ -19,6 +19,8 @@ import java.util.Locale;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
+import javax.faces.application.ViewHandler;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 import org.springframework.stereotype.Component;
@@ -98,6 +100,18 @@ public class FacesContextHelperImpl implements FacesContextHelper {
 						ResourceBundleProducer.getString(msgKey) + " "
 								+ additionalInfo));
 
+	}
+	
+	@Override
+	public void setLocale(Locale locale) {
+		getCurrentFacesContext().getViewRoot().setLocale(locale);
+		
+		String aViewId = getCurrentFacesContext().getViewRoot().getViewId();
+		ViewHandler aHandler = getCurrentFacesContext().getApplication().getViewHandler();
+		UIViewRoot aRoot = aHandler.createView(getCurrentFacesContext(), aViewId);
+		aRoot.setLocale(locale);
+		aRoot.setViewId(aViewId);
+		getCurrentFacesContext().setViewRoot(aRoot);
 	}
 
 }

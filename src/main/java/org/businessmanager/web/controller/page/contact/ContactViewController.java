@@ -17,6 +17,7 @@ package org.businessmanager.web.controller.page.contact;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 
 import org.businessmanager.aop.annotation.ErrorHandled;
@@ -37,6 +38,15 @@ public class ContactViewController extends AbstractPageController {
 	
 	@Autowired
 	private ContactService contactService; 
+	
+	@PostConstruct
+	public void init() {
+		//refreshing entity here, to prevent lazyInitException
+		if(model.getSelectedEntity() != null) {
+			Contact contactFromDb = contactService.getContactById(model.getSelectedEntity().getId());
+			model.setSelectedEntity(contactFromDb);
+		}
+	}
 	
 	public void setModel(ContactModel model) {
 		this.model = model;

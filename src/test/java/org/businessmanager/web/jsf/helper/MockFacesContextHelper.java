@@ -105,4 +105,9 @@ public class MockFacesContextHelper implements FacesContextHelper {
 		messages.add(msgKey);		
 	}
 
+	@Override
+	public void setLocale(Locale locale) {
+		//not implemented
+	}
+
 }

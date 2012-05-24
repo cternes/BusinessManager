@@ -29,9 +29,9 @@ import java.util.zip.ZipInputStream;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
-import org.apache.poi.util.StringUtil;
 import org.businessmanager.service.settings.ApplicationSettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -196,7 +196,8 @@ public class OpenGeoDBImpl implements OpenGeoDB {
 	}
 	
 	private Country findDefaultCountry(List<Country> countries) {
-		String defaultCountry = settingsService.getApplicationSettingValue(ApplicationSettingsService.GENERAL_COUNTRY);
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		String defaultCountry = settingsService.getApplicationSettingValue(ApplicationSettingsService.GENERAL_COUNTRY, username);
 		if(!StringUtils.isEmpty(defaultCountry)) {
 			for (Country country : countries) {
 				if(defaultCountry.equals(country.getCode())) {
@@ -210,5 +211,19 @@ public class OpenGeoDBImpl implements OpenGeoDB {
 	@Override
 	public void refreshListOfCountries() {
 		countryMap.clear();
+	}
+	
+	public Country getCountryByCode(String language, String countryCode) {
+		List<Country> countries = getListOfCountries(language);
+		
+		if(countries != null) {
+			for (Country country : countries) {
+				if(country.getCode().equals(countryCode)) {
+					return country;
+				}
+			}
+		}
+		
+		return null;
 	}
 }

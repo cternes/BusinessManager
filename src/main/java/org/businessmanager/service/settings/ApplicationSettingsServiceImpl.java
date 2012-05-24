@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.businessmanager.database.settings.ApplicationSettingsDao;
 import org.businessmanager.domain.settings.ApplicationSetting;
+import org.businessmanager.domain.settings.ApplicationSetting_;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,21 +29,31 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @Service
+@Transactional
 public class ApplicationSettingsServiceImpl implements ApplicationSettingsService {
 
 	@Autowired
 	private ApplicationSettingsDao dao;
 	
 	@Override
-	@Transactional(readOnly=true)
 	public List<ApplicationSetting> getApplicationSettings() {
 		return dao.findAll();
 	}
 	
 	@Override
-	@Transactional
 	public String getApplicationSettingValue(String key) {
-		ApplicationSetting setting = dao.getApplicationSettingByKey(key);
+		return getApplicationSettingValue(key, null);
+	}
+	
+	@Override
+	public String getApplicationSettingValue(String key, String username) {
+		ApplicationSetting setting = dao.getApplicationSettingByKey(key, username);
+
+		//try to find general setting if setting was not found for username
+		if(setting == null && username != null) {
+			setting = dao.getApplicationSettingByKey(key, null);
+		}
+		
 		if(setting != null) {
 			return setting.getParamValue();
 		}
@@ -50,13 +61,23 @@ public class ApplicationSettingsServiceImpl implements ApplicationSettingsServic
 	}
 	
 	@Override
-	@Transactional
 	public void setApplicationSetting(String key, String value) {
-		ApplicationSetting setting = dao.getApplicationSettingByKey(key);
+		setApplicationSetting(key, value, null);
+	}
+
+	@Override
+	public List<ApplicationSetting> getApplicationSettingsByUsername(String username) {
+		return dao.findByAttribute(ApplicationSetting_.username, username);
+	}
+
+	@Override
+	public void setApplicationSetting(String key, String value, String username) {
+		ApplicationSetting setting = dao.getApplicationSettingByKey(key, username);
 		if(setting == null) {
 			setting = new ApplicationSetting();
 			setting.setParamKey(key);
 			setting.setParamValue(value);
+			setting.setUsername(username);
 			dao.save(setting);
 		}
 		else {
@@ -64,4 +85,5 @@ public class ApplicationSettingsServiceImpl implements ApplicationSettingsServic
 			dao.update(setting);
 		}
 	}
+
 }

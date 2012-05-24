@@ -58,7 +58,7 @@
 									<h:dataTable var="email"
 										value="#{contactViewController.model.selectedEntity.emailList}">
 										<h:column>
-											<h:outputText value="#{email.scope}" />
+											<h:outputText value="#{email.scope.label}" />
 										</h:column>
 										<h:column>
 											<a href="mailto:#{email.value}">#{email.value}</a>
@@ -74,7 +74,7 @@
 									<h:dataTable var="website"
 										value="#{contactViewController.model.selectedEntity.websiteList}">
 										<h:column>
-											<h:outputText value="#{website.scope}" />
+											<h:outputText value="#{website.scope.label}" />
 										</h:column>
 										<h:column>
 											<a href="#{website.value}">#{website.value}</a>
@@ -83,7 +83,11 @@
 								</p:panel>
 							</p:column>
 						</p:row>
-						<div class="verticalSpacingSmall" />
+						<p:row>
+							<p:column>
+								<div class="verticalSpacingSmall" />
+							</p:column>
+						</p:row>
 					</p:panelGrid>
 
 					<p:panelGrid styleClass="centerMainPanelGrid">
@@ -94,7 +98,7 @@
 									<h:dataTable var="phone"
 										value="#{contactViewController.model.selectedEntity.phoneList}">
 										<h:column>
-											<h:outputText value="#{phone.scope}" />
+											<h:outputText value="#{phone.scope.label}" />
 										</h:column>
 										<h:column>
 											<h:outputText value="#{phone.value}" />
@@ -109,7 +113,7 @@
 									<h:dataTable var="fax"
 										value="#{contactViewController.model.selectedEntity.faxList}">
 										<h:column>
-											<h:outputText value="#{fax.scope}" />
+											<h:outputText value="#{fax.scope.label}" />
 										</h:column>
 										<h:column>
 											<h:outputText value="#{fax.value}" />
@@ -118,25 +122,30 @@
 								</p:panel>
 							</p:column>
 						</p:row>
-						<div class="verticalSpacingSmall" />
+						<p:row>
+							<p:column>
+								<div class="verticalSpacingSmall" />
+							</p:column>
+						</p:row>
 					</p:panelGrid>
 
-					<p:panel id="addressPanel"
-						header="#{messages.addressmanagement_title}"
-						rendered="#{contactViewController.renderAddress}">
-						<h:dataTable var="address"
-							value="#{contactViewController.model.selectedEntity.addresses}">
-							<h:column>
-								<h:outputText value="#{address.scope.label}"
-									styleClass="boldText" />
-							</h:column>
-							<h:column>
-								<bm:addressOutput address="#{address}" />
-							</h:column>
-						</h:dataTable>
-					
+					<p:panelGrid columns="1"  styleClass="centerMainPanelGrid">
+						<p:panel id="addressPanel"
+							header="#{messages.addressmanagement_title}"
+							rendered="#{contactViewController.renderAddress}">
+								<h:dataTable var="address"
+									value="#{contactViewController.model.selectedEntity.addresses}">
+									<h:column>
+										<h:outputText value="#{address.scope.label}"
+											styleClass="boldText" />
+									</h:column>
+									<h:column>
+										<bm:addressOutput address="#{address}" />
+									</h:column>
+								</h:dataTable>
+						</p:panel>
 						<div class="verticalSpacingSmall" />
-					</p:panel>
+					</p:panelGrid>
 
 					<p:panel header="#{messages.editcontact_contact_misc}" rendered="#{contactViewController.renderMisc}">
 						<p:panelGrid columns="2">
@@ -152,7 +161,6 @@
 							<h:outputText value="#{contactViewController.model.selectedEntity.notes}" rendered="#{!empty contactViewController.model.selectedEntity.notes}" />
 						</p:panelGrid>
 					</p:panel>
-					
 					</div>
 					
 					<p:confirmDialog message="#{messages.are_you_sure}"  header="#{messages.contactmanagement_delete_contact}" severity="alert" widgetVar="confirmation" width="300">  

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="content">
+		<h:body>
+			<h2 class="contentheading">#{messages.userpreferences_title} #{userPreferencesController.currentUser.username}</h2>
+
+			<div>
+				<h:form id="formPanel">
+					<p:messages />
+					<p:panel header="#{messages.userpreferences_title}">
+						<p:panelGrid columns="2">
+							<h:outputLabel value="#{messages.userpreferences_name}:"/>
+							<h:outputText value="#{userPreferencesController.currentUser.username}"/>
+							
+							<h:outputLabel value="#{messages.userpreferences_email}:"/>
+							<h:outputText value="#{userPreferencesController.currentUser.email}"/>
+							
+							<h:outputLabel value="#{messages.userpreferences_password}:"/>
+							<p:commandLink value="#{messages.userpreferences_change_password}" action="#{userPreferencesController.showPasswordDialog}" update=":formPanel:passwordDialog" process="@this"/>
+						</p:panelGrid>
+					</p:panel>
+					
+					<div class="verticalSpacingSmall" />
+					
+					<p:panel id="settingsPanel" header="#{messages.userpreferences_settings}">
+						<p:panelGrid columns="2">
+							<h:outputLabel for="language" value="#{messages.userpreferences_language}:" />
+							<p:selectOneMenu id="language" value="#{userPreferencesController.userPreferences['general.language']}">
+								<f:selectItems value="#{userPreferencesController.availableLanguages}"/> 
+							</p:selectOneMenu>
+							
+							<h:outputLabel for="country" value="#{messages.userpreferences_country}:"/>
+							<p:selectOneMenu id="country" value="#{userPreferencesController.userPreferences['general.country']}">
+								<f:selectItems value="#{settingsController.availableCountries}" var="country" itemLabel="#{country.name}" itemValue="#{country.code}"/> 
+							</p:selectOneMenu>
+						</p:panelGrid>
+					</p:panel>
+					
+					<div class="verticalSpacingSmall" />
+					
+					<p:commandButton value="#{messages.save}" action="#{userPreferencesController.saveSettings}" update="formPanel" process="@this, settingsPanel"/>
+					
+					<p:dialog id="passwordDialog" header="#{messages.userpreferences_change_password}" visible="#{userPreferencesController.showPasswordDialog}">
+						<p:messages />
+						<p:panelGrid columns="2">
+							 <h:outputLabel for="password" value="#{messages.userpreferences_new_password}:" />
+							 <p:password id="password" value="#{userPreferencesController.bean.password}" match="confirmPassword" required="true" requiredMessage="#{messages.required_message}" validatorMessage="#{messages.userpreferences_error_password_dont_match}"/>
+							 
+							 <h:outputLabel for="confirmPassword" value="#{messages.userpreferences_confirm_password}:" />
+							 <p:password id="confirmPassword" value="#{userPreferencesController.bean.password}" required="true" requiredMessage="#{messages.required_message}"/>
+							 
+							 <div class="verticalSpacingSmall" />
+							 <p:spacer />
+							 
+							 <p:commandButton value="#{messages.save}" action="#{userPreferencesController.changePassword}" update=":formPanel" />
+						</p:panelGrid>
+					</p:dialog>
+				</h:form>
+			</div>
+		</h:body>
+	</ui:define>
+
+</ui:composition>

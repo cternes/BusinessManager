@@ -30,7 +30,8 @@ public interface ApplicationSettingsDao extends GenericDao<ApplicationSetting> {
 	 * Retrieves an {@link ApplicationSetting} by its key.
 	 * 
 	 * @param key the settings key
+	 * @param username the name of the user, can be null
 	 * @return the {@link ApplicationSetting} if found or null
 	 */
-	public ApplicationSetting getApplicationSettingByKey(String key);
+	public ApplicationSetting getApplicationSettingByKey(String key, String username);
 }

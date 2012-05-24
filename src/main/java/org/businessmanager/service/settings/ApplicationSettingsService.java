@@ -39,13 +39,33 @@ public interface ApplicationSettingsService {
 	public List<ApplicationSetting> getApplicationSettings();
 	
 	/**
+	 * Returns the user settings for the given username from the database.
+	 * 
+	 * @param username the name of the user 
+	 * @return a list of application settings
+	 */
+	public List<ApplicationSetting> getApplicationSettingsByUsername(String username);
+	
+	/**
 	 * Returns the application setting value from the database for the given key.
-	 * <i>Note:</i> All keys are defined in {@link ConfigurationUtil}.
+	 * <i>Note:</i> All keys are defined here.
 	 * 
 	 * @param key the setting key which should be searched
 	 * @return the value of the setting or null if not existing
 	 */
 	public String getApplicationSettingValue(String key);
+	
+	/**
+	 * Returns the application setting value from the database for the given key and username.
+	 * If that application setting does not exist it returns the setting value without username if existing.
+	 * 
+	 * <i>Note:</i> All keys are defined here.
+	 * 
+	 * @param key the setting key which should be searched
+	 * @param username the name of the user
+	 * @return the value of the setting or null if not existing
+	 */
+	public String getApplicationSettingValue(String key, String username);
 	
 	/**
 	 * Sets the application setting value in the database for the given key.
@@ -55,4 +75,14 @@ public interface ApplicationSettingsService {
 	 * @param value the value of the setting
 	 */
 	public void setApplicationSetting(String key, String value);
+	
+	/**
+	 * Sets the application setting value in the database for the given key and username.
+	 * If the setting does not exist in the database, it will be created.
+	 * 
+	 * @param key the key of the setting 
+	 * @param value the value of the setting
+	 * @param username the name of the user
+	 */
+	public void setApplicationSetting(String key, String value, String username);
 }

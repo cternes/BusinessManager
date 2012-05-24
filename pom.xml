@@ -191,19 +191,19 @@
 		<dependency>
 			<groupId>com.mysema.querydsl</groupId>
 			<artifactId>querydsl-core</artifactId>
-			<version>2.5.0</version>
+			<version>${querydsl.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.mysema.querydsl</groupId>
 			<artifactId>querydsl-jpa</artifactId>
-			<version>2.5.0</version>
+			<version>${querydsl.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.mysema.querydsl</groupId>
 			<artifactId>querydsl-apt</artifactId>
-			<version>2.5.0</version>
+			<version>${querydsl.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -230,9 +230,9 @@
 
 		<!-- HSQLDB Dependencies - Needed for tests -->
 		<dependency>
-			<groupId>hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<version>1.8.0.10</version>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb-j5</artifactId>
+			<version>2.2.4</version>
 		</dependency>
 
 		<dependency>
@@ -650,5 +650,57 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.bsc.maven</groupId>
+										<artifactId>
+											maven-processor-plugin
+										</artifactId>
+										<versionRange>
+											[2.0.2,)
+										</versionRange>
+										<goals>
+											<goal>process</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											com.mysema.maven
+										</groupId>
+										<artifactId>
+											maven-apt-plugin
+										</artifactId>
+										<versionRange>
+											[1.0.3,)
+										</versionRange>
+										<goals>
+											<goal>process</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 </project>

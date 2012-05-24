@@ -31,4 +31,13 @@ public interface OpenGeoDB {
 	 * Builds a new list of countries.
 	 */
 	public void refreshListOfCountries();
+	
+	/**
+	 * Retrieves a country by its country code.
+	 * 
+	 * @param language the language in which to display the country name
+	 * @param countryCode the country code of the country
+	 * @return the {@link Country} if found or null
+	 */
+	public Country getCountryByCode(String language, String countryCode);
 }

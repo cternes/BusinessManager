@@ -27,6 +27,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 /**
  * This entity represents an application setting.
  * A setting consists of a key and a value, both are strings. The key is mandatory.
+ * A setting can belong to a user by setting the username. This is optional.
  * 
  * @author Christian Ternes
  *
@@ -46,7 +47,7 @@ public final class ApplicationSetting extends AbstractEntity {
 	private String paramValue;
 	
 	@Column
-	private String context;
+	private String username;
 
 	public Long getId() {
 		return id;
@@ -72,61 +73,52 @@ public final class ApplicationSetting extends AbstractEntity {
 		this.paramValue = paramValue;
 	}
 
-	public String getContext() {
-		return context;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
-	public void setContext(String context) {
-		this.context = context;
+	public String getUsername() {
+		return username;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((context == null) ? 0 : context.hashCode());
-		result = prime * result + ((paramKey == null) ? 0 : paramKey.hashCode());
-		result = prime * result + ((paramValue == null) ? 0 : paramValue.hashCode());
+		result = prime * result
+				+ ((paramKey == null) ? 0 : paramKey.hashCode());
+		result = prime * result
+				+ ((paramValue == null) ? 0 : paramValue.hashCode());
+		result = prime * result
+				+ ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (getClass() != obj.getClass()) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
 		ApplicationSetting other = (ApplicationSetting) obj;
-		if (context == null) {
-			if (other.context != null) {
-				return false;
-			}
-		}
-		else if (!context.equals(other.context)) {
-			return false;
-		}
 		if (paramKey == null) {
-			if (other.paramKey != null) {
+			if (other.paramKey != null)
 				return false;
-			}
-		}
-		else if (!paramKey.equals(other.paramKey)) {
+		} else if (!paramKey.equals(other.paramKey))
 			return false;
-		}
 		if (paramValue == null) {
-			if (other.paramValue != null) {
+			if (other.paramValue != null)
 				return false;
-			}
-		}
-		else if (!paramValue.equals(other.paramValue)) {
+		} else if (!paramValue.equals(other.paramValue))
 			return false;
-		}
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
 		return true;
 	}
-	
+
 }

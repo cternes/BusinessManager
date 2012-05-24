@@ -77,6 +77,13 @@ public interface FacesContextHelper {
 	public Locale getLocale();
 	
 	/**
+	 * Sets the locale for the current session.
+	 * 
+	 * @param locale the locale which should be set
+	 */
+	public void setLocale(Locale locale);
+	
+	/**
 	 * Passes a global facesMessage to the ui. The given message key will be translated into the users
 	 * locale. 
 	 * 
