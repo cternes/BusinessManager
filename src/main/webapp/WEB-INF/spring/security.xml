@@ -62,12 +62,12 @@
 		<beans:property name="enableGroups" value="true" />
 		<beans:property name="enableAuthorities" value="false" />
 		<beans:property name="groupAuthoritiesByUsernameQuery">
-			<beans:value>SELECT R.ID, R.NAME, P.NAME
-			FROM ROLES R 
-			JOIN ROLE_MEMBERS RM on R.id = RM.roles_id
-			JOIN USERS U on U.id = RM.members_id
-			JOIN ROLE_PERMISSIONS RP ON RP.roles_id = R.id
-			JOIN PERMISSIONS P ON P.id = RP.permissions_id
+			<beans:value>SELECT G.ID, G.NAME, P.NAME
+			FROM GROUPS G
+			JOIN GROUP_MEMBERS GM on G.id = GM.groups_id
+			JOIN USERS U on U.id = GM.members_id
+			JOIN GROUP_PERMISSIONS GP ON GP.groups_id = G.id
+			JOIN PERMISSIONS P ON P.id = GP.permissions_id
 			WHERE U.username=? and U.mutationType!='DELETE'
 			</beans:value>
 		</beans:property>

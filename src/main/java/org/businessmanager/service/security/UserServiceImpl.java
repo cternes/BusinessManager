@@ -23,7 +23,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.businessmanager.database.security.UserDao;
-import org.businessmanager.domain.security.Role;
+import org.businessmanager.domain.security.Group;
 import org.businessmanager.domain.security.User;
 import org.businessmanager.error.DuplicateUserException;
 import org.businessmanager.util.PasswordGenerator;
@@ -45,27 +45,27 @@ public class UserServiceImpl implements UserService {
 	private UserDao userDao;
 	
 	@Autowired
-	private RoleService roleService;
+	private GroupService groupService;
 	
 	@Override
 	public List<User> getUsers() {
 		List<User> userList = userDao.findAll();
-		fetchRolesForUsers(userList);
+		fetchGroupsForUsers(userList);
 		return userList;
 	}
 	
-	private List<User> fetchRolesForUsers(List<User> userList) {
+	private List<User> fetchGroupsForUsers(List<User> userList) {
 		for (User user : userList) {
-			List<Role> roleList = roleService.getRolesForUser(user.getId());
-			user.setAssignedRoles(roleList);
-			user.setAdministrator(hasUserRoleAdmin(roleList));
+			List<Group> groupList = groupService.getGroupsForUser(user.getId());
+			user.setAssignedGroups(groupList);
+			user.setAdministrator(hasUserGroupAdmin(groupList));
 		}
 		return userList;
 	}
 
-	private boolean hasUserRoleAdmin(List<Role> roleList) {
-		for (Role role : roleList) {
-			if(RoleService.ADMIN_ROLE.equals(role.getMessagesKey())) {
+	private boolean hasUserGroupAdmin(List<Group> groups) {
+		for (Group group : groups) {
+			if(GroupService.ADMIN_GROUP.equals(group.getMessagesKey())) {
 				return true;
 			}
 		}
@@ -91,11 +91,11 @@ public class UserServiceImpl implements UserService {
 			logger.debug("Saving user "+user.getUsername()+" to database.");
 			user = userDao.save(user);
 			
-			//assign default role
-			roleService.assignUserToDefaultRole(user);
+			//assign default group
+			groupService.assignUserToDefaultGroup(user);
 			
 			if(isAdmin) {
-				roleService.assignUserToAdminRole(user);
+				groupService.assignUserToAdminGroup(user);
 			}
 			
 			return user;
@@ -138,10 +138,10 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		if(isAdmin) {
-			roleService.assignUserToAdminRole(user);
+			groupService.assignUserToAdminGroup(user);
 		}
 		else {
-			roleService.removeUserFromAdminRole(user);
+			groupService.removeUserFromAdminGroup(user);
 		}
 		
 		logger.debug("Modifying user "+user.getUsername()+" in database.");
@@ -158,31 +158,31 @@ public class UserServiceImpl implements UserService {
 	public void deleteUser(Long userId) {
 		User user = getUserById(userId);
 		if(user != null) {
-			removeUserFromRoles(user, roleService.getRolesForUser(userId));
+			removeUserFromGroups(user, groupService.getGroupsForUser(userId));
 			
 			logger.debug("Deleting user "+user.getUsername()+" from database.");
 			userDao.remove(user);
 		}
 	}
 
-	private void removeUserFromRoles(User user, List<Role> roles) {
-		for (Role role : roles) {
-			role.getMembers().remove(user);
-			roleService.updateRole(role);
+	private void removeUserFromGroups(User user, List<Group> groups) {
+		for (Group group : groups) {
+			group.getMembers().remove(user);
+			groupService.updateGroup(group);
 		}
 	}
 
 	@Override
 	public List<User> getUsers(SingularAttribute<User, ?> orderAttribute, boolean orderAsc) {
 		List<User> userList = userDao.findAll(orderAttribute, orderAsc);
-		fetchRolesForUsers(userList);
+		fetchGroupsForUsers(userList);
 		return userList;
 	}
 
 	@Override
 	public List<User> getUsers(SingularAttribute<User, ?> orderAttribute, boolean orderAsc, int firstResult, int maxResults, Map<SingularAttribute<User, ?>, Object> filters, boolean enableLikeSearch) {
 		List<User> userList = userDao.findAll(orderAttribute, orderAsc, firstResult, maxResults, filters, enableLikeSearch);
-		fetchRolesForUsers(userList);
+		fetchGroupsForUsers(userList);
 		return userList;
 	}
 	

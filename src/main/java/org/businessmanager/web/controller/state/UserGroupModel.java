@@ -17,7 +17,7 @@ package org.businessmanager.web.controller.state;
 
 import java.util.List;
 
-import org.businessmanager.domain.security.Role;
+import org.businessmanager.domain.security.Group;
 import org.businessmanager.domain.security.User;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -32,8 +32,8 @@ public class UserGroupModel {
 
 	private List<User> userList;
 	private User selectedUser;
-	private List<Role> roleList;
-	private Role selectedRole;
+	private List<Group> groupList;
+	private Group selectedGroup;
 
 	public void setUserList(List<User> userList) {
 		this.userList = userList;
@@ -53,23 +53,23 @@ public class UserGroupModel {
 	
 	public void refresh() {
 		userList = null;
-		roleList = null;
+		groupList = null;
 	}
 
-	public List<Role> getRoleList() {
-		return roleList;
+	public List<Group> getGroupList() {
+		return groupList;
 	}
 
-	public void setRoleList(List<Role> roleList) {
-		this.roleList = roleList;
+	public void setGroupList(List<Group> groupList) {
+		this.groupList = groupList;
 	}
 
-	public Role getSelectedRole() {
-		return selectedRole;
+	public Group getSelectedGroup() {
+		return selectedGroup;
 	}
 
-	public void setSelectedRole(Role selectedRole) {
-		this.selectedRole = selectedRole;
+	public void setSelectedGroup(Group selectedGroup) {
+		this.selectedGroup = selectedGroup;
 	}
 	
 }

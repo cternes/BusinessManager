@@ -20,7 +20,7 @@ import java.util.Map;
 
 import javax.persistence.metamodel.SingularAttribute;
 
-import org.businessmanager.domain.security.Role;
+import org.businessmanager.domain.security.Group;
 import org.businessmanager.domain.security.User;
 
 /**
@@ -73,7 +73,7 @@ public interface UserService {
 	 * <p>
 	 * 
 	 * @param user the {@link User} which should be added
-	 * @param isAdmin true if the {@link User} should be added to admin role
+	 * @param isAdmin true if the {@link User} should be added to admin group
 	 * @return the {@link User} with an id set
 	 * @throws DuplicateUserException if the there is already a user with the same username 
 	 */
@@ -100,7 +100,7 @@ public interface UserService {
 	 * 
 	 * @param user the {@link User} to update
 	 * @param updatePassword determines if the password of the given user should be updated
-	 * @param isAdmin determines if the given user should be assigned to the admin {@link Role}
+	 * @param isAdmin determines if the given user should be assigned to the admin {@link Group}
 	 */
 	public User updateUser(User user, boolean updatePassword, boolean isAdmin);
 	

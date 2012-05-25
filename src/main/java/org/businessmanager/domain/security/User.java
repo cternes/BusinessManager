@@ -59,7 +59,7 @@ public final class User extends AbstractEntity {
 	@Column
 	private Long salt;
 	
-	private transient List<Role> assignedRoles;
+	private transient List<Group> assignedGroups;
 	private transient boolean isAdministrator;
 
 	protected User() {
@@ -116,16 +116,16 @@ public final class User extends AbstractEntity {
 		this.id = id;
 	}
 	
-	public void setAssignedRoles(List<Role> assignedRoles) {
-		this.assignedRoles = assignedRoles;
+	public void setAssignedGroups(List<Group> assignedGroups) {
+		this.assignedGroups = assignedGroups;
 	}
 	
-	public List<Role> getAssignedRoles() {
-		return assignedRoles;
+	public List<Group> getAssignedGroups() {
+		return assignedGroups;
 	}
 	
-	public int getAssignedRolesSize() {
-		return assignedRoles.size();
+	public int getAssignedGroupSize() {
+		return assignedGroups.size();
 	}
 
 	public boolean getMustChangePassword() {

@@ -19,9 +19,9 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.businessmanager.domain.security.Role;
+import org.businessmanager.domain.security.Group;
 import org.businessmanager.domain.security.User;
-import org.businessmanager.service.security.RoleService;
+import org.businessmanager.service.security.GroupService;
 import org.businessmanager.service.security.UserService;
 import org.businessmanager.web.controller.AbstractController;
 import org.businessmanager.web.controller.state.UserGroupModel;
@@ -37,12 +37,12 @@ public class UserGroupController extends AbstractController {
 	private UserService userService;
 	
 	@Autowired
-	private RoleService roleService;
+	private GroupService groupService;
 	
 	@Autowired
 	private UserGroupModel model;
 	
-	private boolean showRoleDialog = false;
+	private boolean showGroupDialog = false;
 	private boolean showUserDialog = false;
 	
 	@PostConstruct
@@ -54,15 +54,15 @@ public class UserGroupController extends AbstractController {
 		if(model.getUserList() == null) {
 			retrieveUsers();
 		}
-		if(model.getRoleList() == null) {
-			retrieveRoles();
+		if(model.getGroupList() == null) {
+			retrieveGroups();
 		}
 		return model;
 	}
 
-	private void retrieveRoles() {
-		List<Role> roleList = roleService.getRoles();
-		model.setRoleList(roleList);
+	private void retrieveGroups() {
+		List<Group> groupList = groupService.getGroups();
+		model.setGroupList(groupList);
 	}
 
 	private void retrieveUsers() {
@@ -70,12 +70,12 @@ public class UserGroupController extends AbstractController {
 		model.setUserList(userList);
 	}
 	
-	public boolean getShowRoleDialog() {
-		return showRoleDialog;
+	public boolean getShowGroupDialog() {
+		return showGroupDialog;
 	}
 	
-	public void openRoleDialog() {
-		showRoleDialog = true;
+	public void openGroupDialog() {
+		showGroupDialog = true;
 	}
 	
 	public boolean getShowUserDialog() {

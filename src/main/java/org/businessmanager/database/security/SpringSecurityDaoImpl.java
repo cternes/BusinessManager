@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.businessmanager.domain.security.Role;
+import org.businessmanager.domain.security.Group;
 import org.businessmanager.domain.security.User;
 import org.businessmanager.domain.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class SpringSecurityDaoImpl extends JdbcDaoImpl {
 	private UserDao userDao;
 	
 	@Autowired
-	private RoleDao roleDao;
+	private GroupDao groupDao;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) {
@@ -51,20 +51,20 @@ public class SpringSecurityDaoImpl extends JdbcDaoImpl {
 		
 		UserDetailsImpl userDetailsImpl = new UserDetailsImpl(userDetails.getUsername(), password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
 		User user = getUserByName(username);
-		List<String> grantedRoles = retrieveRolesForUser(user);
-		userDetailsImpl.setGrantedRoles(grantedRoles);
+		List<String> grantedGroups = retrieveGroupsForUser(user);
+		userDetailsImpl.setGrantedGroups(grantedGroups);
 		userDetailsImpl.setSalt(user.getSalt());
 		
 		return userDetailsImpl;
 	}
 	
-	private List<String> retrieveRolesForUser(User user) {
-		List<String> roleList = new ArrayList<String>();
-		List<Role> roles = roleDao.findRolesForUser(user.getId());
-		for (Role role : roles) {
-			roleList.add(role.getName());
+	private List<String> retrieveGroupsForUser(User user) {
+		List<String> groupList = new ArrayList<String>();
+		List<Group> groups = groupDao.findGroupsForUser(user.getId());
+		for (Group group : groups) {
+			groupList.add(group.getName());
 		}
-		return roleList;
+		return groupList;
 	}
 
 	private User getUserByName(String username) {

@@ -28,7 +28,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public class UserDetailsImpl extends org.springframework.security.core.userdetails.User implements UserDetails {
 
-	private List<String> grantedRoles = new ArrayList<String>();
+	private List<String> grantedGroups = new ArrayList<String>();
 	private Long salt;
 	
 	public UserDetailsImpl(String username, String password, boolean enabled,
@@ -39,16 +39,16 @@ public class UserDetailsImpl extends org.springframework.security.core.userdetai
 				accountNonLocked, authorities);
 	}
 	
-	public void addGrantedRole(String role) {
-		this.grantedRoles.add(role);
+	public void addGrantedGroup(String group) {
+		this.grantedGroups.add(group);
 	}
 	
-	public List<String> getGrantedRoles() {
-		return grantedRoles;
+	public List<String> getGrantedGroups() {
+		return grantedGroups;
 	}
 	
-	public void setGrantedRoles(List<String> roles) {
-		this.grantedRoles = roles;
+	public void setGrantedGroups(List<String> groups) {
+		this.grantedGroups = groups;
 	}
 
 	public Long getSalt() {

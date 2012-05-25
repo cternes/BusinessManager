@@ -40,7 +40,7 @@
 						        </p:column>
 						        
 						        <p:column headerText="#{messages.securitymanagement_groups}">
-						            <p:commandLink value="#{messages.securitymanagement_view_groups} (#{user.assignedRolesSize})" action="#{userGroupController.openRoleDialog}" update=":formPanel:roleDialog">
+						            <p:commandLink value="#{messages.securitymanagement_view_groups} (#{user.assignedGroupSize})" action="#{userGroupController.openGroupDialog}" update=":formPanel:groupDialog">
 						            	<f:setPropertyActionListener target="#{userGroupController.model.selectedUser}" value="#{user}" />
 						            </p:commandLink>
 						        </p:column>
@@ -60,34 +60,34 @@
 							</p:dataTable>
 						</p:tab>
 						<p:tab title="#{messages.securitymanagement_groups}">
-							<p:dataTable id="roleList" var="role" value="#{userGroupController.model.roleList}" paginator="true" rows="10"
+							<p:dataTable id="groupList" var="group" value="#{userGroupController.model.groupList}" paginator="true" rows="10"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 							rowsPerPageTemplate="5,10,15" paginatorAlwaysVisible="true" emptyMessage="#{messages.empty_table_message}" 
-							rowKey="#{role.id}" paginatorPosition="top">
+							rowKey="#{group.id}" paginatorPosition="top">
 								<p:ajax event="rowSelect" update=":formPanel" />
-					        	<p:column sortBy="#{role.displayName}" filterBy="#{role.displayName}" filterMatchMode="contains" headerText="#{messages.securitymanagement_group_name}">
-						            <h:outputText value="#{role.displayName}"/>
+					        	<p:column sortBy="#{group.displayName}" filterBy="#{group.displayName}" filterMatchMode="contains" headerText="#{messages.securitymanagement_group_name}">
+						            <h:outputText value="#{group.displayName}"/>
 						        </p:column>
 						        
 						        <p:column headerText="#{messages.securitymanagement_users}">
-						        	<p:commandLink value="#{messages.securitymanagement_view_users} (#{role.membersSize})" action="#{userGroupController.openUserDialog}" update=":formPanel:userDialog">
-						            	<f:setPropertyActionListener target="#{userGroupController.model.selectedRole}" value="#{role}" />
+						        	<p:commandLink value="#{messages.securitymanagement_view_users} (#{group.membersSize})" action="#{userGroupController.openUserDialog}" update=":formPanel:userDialog">
+						            	<f:setPropertyActionListener target="#{userGroupController.model.selectedGroup}" value="#{group}" />
 						            </p:commandLink>
 						        </p:column>
 							</p:dataTable>
 						</p:tab>
 					</p:tabView>
 					
-					<p:dialog id="roleDialog" header="#{messages.securitymanagement_assigned_groups}" visible="#{userGroupController.showRoleDialog}" width="500">
-						<h:dataTable value="#{userGroupController.model.selectedUser.assignedRoles}" var="role">
+					<p:dialog id="groupDialog" header="#{messages.securitymanagement_assigned_groups}" visible="#{userGroupController.showGroupDialog}" width="500">
+						<h:dataTable value="#{userGroupController.model.selectedUser.assignedGroups}" var="group">
 							<h:column>
-								<h:outputText value="#{role.displayName}" />
+								<h:outputText value="#{group.displayName}" />
 							</h:column>
 						</h:dataTable>
 					</p:dialog>
 					
 					<p:dialog id="userDialog" header="#{messages.securitymanagement_assigned_users}" visible="#{userGroupController.showUserDialog}" width="500">
-						<h:dataTable value="#{userGroupController.model.selectedRole.members}" var="user">
+						<h:dataTable value="#{userGroupController.model.selectedGroup.members}" var="user">
 							<h:column>
 								<h:outputText value="#{user.username}" />
 							</h:column>

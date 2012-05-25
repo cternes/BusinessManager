@@ -30,7 +30,7 @@
 			<map>
 				<entry key-ref="userProvider" value-ref="userStrategy"></entry>
 				<entry key-ref="permissionProvider" value-ref="permissionStrategy"></entry>
-				<entry key-ref="roleProvider" value-ref="roleStrategy"></entry>
+				<entry key-ref="groupProvider" value-ref="groupStrategy"></entry>
 			</map>
 		</property>
 	</bean>
@@ -72,16 +72,16 @@
 
 	<bean id="permissionStrategy" class="org.businessmanager.startup.strategy.PermissionStrategy" />
 
-	<bean id="roleProvider" class="org.businessmanager.startup.provider.DefaultProvider">
+	<bean id="groupProvider" class="org.businessmanager.startup.provider.DefaultProvider">
 		<property name="objectList">
 			<list>
-				<ref bean="roleAdmin" />
-				<ref bean="roleAllUsers" />
+				<ref bean="groupAdmin" />
+				<ref bean="groupAllUsers" />
 			</list>
 		</property>
 	</bean>
 
-	<bean id="roleAdmin" class="org.businessmanager.domain.security.Role">
+	<bean id="groupAdmin" class="org.businessmanager.domain.security.Group">
 		<property name="name" value="Administrators"></property>
 		<property name="messagesKey" value="groupname_admin" />
 		<property name="members">
@@ -96,7 +96,7 @@
 		</property>
 	</bean>
 	
-	<bean id="roleAllUsers" class="org.businessmanager.domain.security.Role">
+	<bean id="groupAllUsers" class="org.businessmanager.domain.security.Group">
 		<property name="name" value="All Users" />
 		<property name="messagesKey" value="groupname_all_users" />
 		<property name="permissions">
@@ -106,5 +106,5 @@
 		</property>
 	</bean>
 
-	<bean id="roleStrategy" class="org.businessmanager.startup.strategy.RoleStrategy" />
+	<bean id="groupStrategy" class="org.businessmanager.startup.strategy.GroupStrategy" />
 </beans>
