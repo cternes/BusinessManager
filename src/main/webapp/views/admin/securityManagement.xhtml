@@ -51,6 +51,7 @@
 					        				<f:setPropertyActionListener target="#{userGroupController.model.selectedUser}" value="#{user}" />
 					        			</p:commandButton>
 					        			<p:commandButton title="#{messages.securitymanagement_add_remove_groups}" action="#{userGroupController.navigateToAssignGroups}" icon="ui-icon-transferthick-e-w" styleClass="marginButton" rendered="#{not user.isDefaultAdminUser}">
+											<f:setPropertyActionListener target="#{userGroupController.model.selectedUser}" value="#{user}" />
 					        			</p:commandButton>
 					        			<p:commandButton title="#{messages.securitymanagement_delete_user}" icon="ui-icon-closethick" styleClass="marginButton" onclick="deleteDialog.show()" rendered="#{not user.isDefaultAdminUser}">
 					        				<f:setPropertyActionListener target="#{userGroupController.model.selectedUser}" value="#{user}" />
@@ -89,7 +90,9 @@
 					<p:dialog id="userDialog" header="#{messages.securitymanagement_assigned_users}" visible="#{userGroupController.showUserDialog}" width="500">
 						<h:dataTable value="#{userGroupController.model.selectedGroup.members}" var="user">
 							<h:column>
-								<h:outputText value="#{user.username}" />
+								<p:commandLink title="#{messages.securitymanagement_edit_user}" value="#{user.username}" action="#{userGroupController.navigateToEditUser}">
+					        		<f:setPropertyActionListener target="#{userGroupController.model.selectedUser}" value="#{user}" />
+					        	</p:commandLink>
 							</h:column>
 						</h:dataTable>
 					</p:dialog>

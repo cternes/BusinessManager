@@ -13,19 +13,24 @@
 			<h2 class="contentheading">#{messages.assignGroups_title}</h2>
 				<h:form id="formPanel">
 					<p:messages />
-					<p:panel header="TODO" >
-						<p:panelGrid columns="2">
-						</p:panelGrid>
-					</p:panel>
 					
+					<p:pickList value="#{assignGroupsController.groups}"  
+	                    var="group" iconOnly="true" 
+	                    itemLabel="#{group.displayName}"  
+	                    itemValue="#{group}" converter="#{groupConverter}" 
+	                    showSourceControls="false" showTargetControls="false">  
+				        <f:facet name="sourceCaption">#{messages.assignGroups_available_groups}</f:facet>  
+				        <f:facet name="targetCaption">#{messages.assignGroups_assigned_groups}</f:facet>  
+				    </p:pickList>
+				    
 					<div class="verticalSpacingSmall" />
 					
-					<p:commandButton value="#{messages.save}"  update=":formPanel"/>
-					<p:commandLink value="#{messages.cancel}" 
+					<p:commandButton value="#{messages.save}" action="#{assignGroupsController.assignGroups}" update=":formPanel"/>
+					<p:commandLink value="#{messages.cancel}" action="#{assignGroupsController.navigateBack}"
 						styleClass="marginButton" immediate="true"/>
 					
 					<div class="verticalSpacingSmall" />
-			</h:form>
+				</h:form>
 		</h:body>
 	</ui:define>
 </ui:composition>

@@ -64,7 +64,7 @@
 									<h:commandLink action="#{navigationHelper.getUserPreferences}">
 									#{messages.username}: #{facesContext.externalContext.userPrincipal.name}
 									</h:commandLink>
-									<h:commandLink value="#{messages.configuration}" action="#{navigationHelper.getAdminSettings}"/>
+									<h:commandLink value="#{messages.configuration}" action="#{navigationHelper.getAdminSettings}" rendered="#{sec:ifAnyGranted('Adminrights')}"/>
 								</li>
 								<li>
 									<a href="#{facesContext.externalContext.request.contextPath}/j_spring_security_logout">#{messages.logout}</a>
@@ -93,7 +93,7 @@
 							<p:submenu label="#{messages.menu_contact}">
 								<p:menuitem value="#{messages.menu_contact_contactmanagement}" action="#{navigationHelper.getContactmanagement}"/>
 							</p:submenu>
-							<p:submenu label="#{messages.menu_admin}">
+							<p:submenu label="#{messages.menu_admin}" rendered="#{sec:ifAnyGranted('Adminrights')}">
 								<p:menuitem value="#{messages.menu_admin_securitymanagement}" action="#{navigationHelper.getAdminSecuritymanagement}"/>
 							</p:submenu>
 						</p:menubar>
