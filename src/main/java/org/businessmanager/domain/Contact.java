@@ -444,4 +444,8 @@ public class Contact extends AbstractEntity {
 	public String getInstantMessenger() {
 		return instantMessenger;
 	}
+	
+	public String getFullname() {
+		return firstname + " " + lastname;
+	}
 }

@@ -26,54 +26,27 @@
 					selection="#{contactManagementController.model.selectedEntity}" selectionMode="single" 
 					rowKey="#{contact.id}" paginatorPosition="top">
 						<p:ajax event="rowSelect" update=":formPanel" />
-			        	<p:column sortBy="#{contact.firstname}" filterBy="#{contact.firstname}" filterMatchMode="contains">
-				            <f:facet name="header">
-				                    #{messages.contactmanagement_contact_firstname}
-				            </f:facet>
-				            <p:commandLink value="#{contact.firstname}" action="#{contactManagementController.navigateToContactView}">
+			        	<p:column sortBy="#{contact.fullname}" filterBy="#{contact.fullname}" filterMatchMode="contains" headerText="#{messages.contactmanagement_contact_name}">
+				            <p:commandLink value="#{contact.fullname}" action="#{contactManagementController.navigateToContactView}">
 				            	<f:setPropertyActionListener target="#{contactManagementController.model.selectedEntity}" value="#{contact}" />
 				            </p:commandLink>
 				        </p:column> 
-				        <p:column sortBy="#{contact.lastname}" filterBy="#{contact.lastname}" filterMatchMode="contains">
-				            <f:facet name="header">
-				                    #{messages.contactmanagement_contact_lastname}
-				            </f:facet>
-				            <h:outputText value="#{contact.lastname}"/>
-				        </p:column>
-				        <p:column sortBy="#{contact.company}" filterBy="#{contact.company}" filterMatchMode="contains">
-				            <f:facet name="header">
-				                    #{messages.contactmanagement_contact_company}
-				            </f:facet>
+				        <p:column sortBy="#{contact.company}" filterBy="#{contact.company}" filterMatchMode="contains" headerText="#{messages.contactmanagement_contact_company}">
 				            <h:outputText value="#{contact.company}"/>
 				        </p:column>
-				        <p:column sortBy="#{contact.defaultBillingAddress.street}" filterBy="#{contact.defaultBillingAddress.street}" filterMatchMode="contains">
-				            <f:facet name="header">
-				                    #{messages.contactmanagement_contact_street}
-				            </f:facet>
+				        <p:column sortBy="#{contact.defaultBillingAddress.street}" filterBy="#{contact.defaultBillingAddress.street}" filterMatchMode="contains" headerText="#{messages.contactmanagement_contact_street}">
 				            <h:outputText value="#{contact.defaultBillingAddress.street} #{contact.defaultBillingAddress.housenumber}"/>
 				        </p:column>
-				        <p:column sortBy="#{contact.defaultBillingAddress.zipCode}" filterBy="#{contact.defaultBillingAddress.zipCode}" filterMatchMode="contains">
-				            <f:facet name="header">
-				                    #{messages.contactmanagement_contact_zipcode}
-				            </f:facet>
+				        <p:column sortBy="#{contact.defaultBillingAddress.zipCode}" filterBy="#{contact.defaultBillingAddress.zipCode}" filterMatchMode="contains" headerText="#{messages.contactmanagement_contact_zipcode}" styleClass="zipcodeInput">
 				            <h:outputText value="#{contact.defaultBillingAddress.zipCode}"/>
 				        </p:column>
-				        <p:column sortBy="#{contact.defaultBillingAddress.city}" filterBy="#{contact.defaultBillingAddress.city}" filterMatchMode="contains">
-				            <f:facet name="header">
-				                    #{messages.contactmanagement_contact_city}
-				            </f:facet>
+				        <p:column sortBy="#{contact.defaultBillingAddress.city}" filterBy="#{contact.defaultBillingAddress.city}" filterMatchMode="contains" headerText="#{messages.contactmanagement_contact_city}">
 				            <h:outputText value="#{contact.defaultBillingAddress.city}"/>
 				        </p:column>
-				        <p:column sortBy="#{contact.defaultEmail.value}" filterBy="#{contact.defaultEmail.value}" filterMatchMode="contains">
-				            <f:facet name="header">
-				                    #{messages.contactmanagement_contact_email}
-				            </f:facet>
+				        <p:column sortBy="#{contact.defaultEmail.value}" filterBy="#{contact.defaultEmail.value}" filterMatchMode="contains" headerText="#{messages.contactmanagement_contact_email}">
 				            <h:outputText value="#{contact.defaultEmail.value}"/>
 				        </p:column>  
-				        <p:column sortBy="#{contact.defaultPhone.value}" filterBy="#{contact.defaultPhone.value}" filterMatchMode="contains">
-				            <f:facet name="header">
-				                    #{messages.contactmanagement_contact_phone}
-				            </f:facet>
+				        <p:column sortBy="#{contact.defaultPhone.value}" filterBy="#{contact.defaultPhone.value}" filterMatchMode="contains" headerText="#{messages.contactmanagement_contact_phone}">
 				            <h:outputText value="#{contact.defaultPhone.value}"/>
 				        </p:column>  
 					</p:dataTable>
