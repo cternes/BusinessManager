@@ -90,11 +90,11 @@
 			<div class="inner">
 					<h:form id="menubarForm">
 						<p:menubar autoSubmenuDisplay="true" effect="fade" effectDuration="1">
-							<p:submenu label="#{messages.menu_admin}">
-								<p:menuitem value="#{messages.menu_admin_usermanagement}" action="#{navigationHelper.getAdminHome}"/>
-							</p:submenu>
 							<p:submenu label="#{messages.menu_contact}">
 								<p:menuitem value="#{messages.menu_contact_contactmanagement}" action="#{navigationHelper.getContactmanagement}"/>
+							</p:submenu>
+							<p:submenu label="#{messages.menu_admin}">
+								<p:menuitem value="#{messages.menu_admin_securitymanagement}" action="#{navigationHelper.getAdminSecuritymanagement}"/>
 							</p:submenu>
 						</p:menubar>
 					</h:form>

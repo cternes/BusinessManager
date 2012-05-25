@@ -55,7 +55,7 @@ public class PermissionStrategy extends AbstractStorageStrategy<Permission> impl
 
 	@Override
 	public boolean isEntitiesRemovedOnStartup() {
-		return true;
+		return false;
 	}
 
 }

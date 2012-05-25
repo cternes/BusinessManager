@@ -49,17 +49,17 @@ public class UserStrategy extends AbstractStorageStrategy<User> implements Entit
 	 * We want to use the {@link UserService} here, to handle the passwords correctly. 
 	 */
 	@Override
-	protected void createOrUpdateObjects(List<User> userList) {
+	protected void createObjects(List<User> userList) {
 		for (User entity : userList) {
 			List<User> result = getDao().findByAttribute(getAttributeKey(), getAttributeValue(entity));
 			if(result.size() == 1) {
 				User updatedEntity = updateEntity(entity, result.get(0));
 				
-				userService.updateUser(updatedEntity, true);
+				userService.updateUser(updatedEntity, true, true);
 				doPostProcessing(updatedEntity);
 			}
 			else {
-				userService.addUser(entity);
+				userService.addUser(entity, true);
 				doPostProcessing(entity);
 			}
 		}
@@ -88,7 +88,7 @@ public class UserStrategy extends AbstractStorageStrategy<User> implements Entit
 
 	@Override
 	public boolean isEntitiesRemovedOnStartup() {
-		return true;
+		return false;
 	}
 
 }

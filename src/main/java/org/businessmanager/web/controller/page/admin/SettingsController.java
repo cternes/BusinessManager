@@ -31,14 +31,14 @@ import org.businessmanager.domain.settings.ApplicationSetting;
 import org.businessmanager.geodb.Country;
 import org.businessmanager.geodb.OpenGeoDB;
 import org.businessmanager.service.settings.ApplicationSettingsService;
-import org.businessmanager.web.controller.AbstractPageController;
+import org.businessmanager.web.controller.AbstractController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component("settingsController")
 @Scope("request")
-public class SettingsController extends AbstractPageController {
+public class SettingsController extends AbstractController {
 
 	@Autowired
 	private ApplicationSettingsService service;

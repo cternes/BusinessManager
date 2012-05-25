@@ -57,12 +57,17 @@
 		<property name="objectList">
 			<list>
 				<ref bean="permissionAdmin" />
+				<ref bean="permissionAll" />
 			</list>
 		</property>
 	</bean>
 
 	<bean id="permissionAdmin" class="org.businessmanager.domain.security.Permission">
 		<property name="name" value="Adminrights"></property>
+	</bean>
+	
+	<bean id="permissionAll" class="org.businessmanager.domain.security.Permission">
+		<property name="name" value="all_users"></property>
 	</bean>
 
 	<bean id="permissionStrategy" class="org.businessmanager.startup.strategy.PermissionStrategy" />
@@ -71,12 +76,14 @@
 		<property name="objectList">
 			<list>
 				<ref bean="roleAdmin" />
+				<ref bean="roleAllUsers" />
 			</list>
 		</property>
 	</bean>
 
 	<bean id="roleAdmin" class="org.businessmanager.domain.security.Role">
-		<property name="name" value="Admin"></property>
+		<property name="name" value="Administrators"></property>
+		<property name="messagesKey" value="groupname_admin" />
 		<property name="members">
 			<list>
 				<ref bean="userAdmin" />
@@ -84,7 +91,17 @@
 		</property>
 		<property name="permissions">
 			<list>
-				<ref bean="permissionAdmin"></ref>
+				<ref bean="permissionAdmin" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="roleAllUsers" class="org.businessmanager.domain.security.Role">
+		<property name="name" value="All Users" />
+		<property name="messagesKey" value="groupname_all_users" />
+		<property name="permissions">
+			<list>
+				<ref bean="permissionAll" />
 			</list>
 		</property>
 	</bean>

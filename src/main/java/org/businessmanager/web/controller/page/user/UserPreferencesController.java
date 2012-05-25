@@ -17,7 +17,7 @@ import org.businessmanager.geodb.OpenGeoDB;
 import org.businessmanager.service.security.UserService;
 import org.businessmanager.service.settings.ApplicationSettingsService;
 import org.businessmanager.web.bean.UserBean;
-import org.businessmanager.web.controller.AbstractPageController;
+import org.businessmanager.web.controller.AbstractController;
 import org.businessmanager.web.controller.LanguageController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 
 @Component("userPreferencesController")
 @Scope("view")
-public class UserPreferencesController extends AbstractPageController {
+public class UserPreferencesController extends AbstractController {
 
 	@Autowired
 	private OpenGeoDB openGeoService;
@@ -73,7 +73,7 @@ public class UserPreferencesController extends AbstractPageController {
 	public void changePassword() {
 		String password = bean.getPassword();
 		currentUser.setPassword(password);
-		userService.updateUser(currentUser, true);
+		userService.updateUser(currentUser, true, currentUser.isAdministrator());
 		
 		addMessage(FacesMessage.SEVERITY_INFO, "userpreferences_password_changed");
 		showPasswordDialog = false;
@@ -104,7 +104,6 @@ public class UserPreferencesController extends AbstractPageController {
 			
 			addMessage(FacesMessage.SEVERITY_INFO, "settings_saved");
 		}
-		
 	}
 
 	public User getCurrentUser() {

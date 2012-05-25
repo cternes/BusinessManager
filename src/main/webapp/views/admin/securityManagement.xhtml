@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/template.xhtml">
+	
+	<ui:define name="head">
+    </ui:define>
+	
+	<ui:define name="content">
+		<h:body>
+			<h2 class="contentheading">#{messages.securitymanagement_title}</h2>
+				<h:form id="formPanel">
+					<p:messages />
+					
+					<p:tabView>
+						<p:tab title="#{messages.securitymanagement_users}">
+							<p:commandButton value="#{messages.securitymanagement_add_user}" action="#{userGroupController.navigateToAddUser}" icon="ui-icon-plusthick"/>
+							
+							<div class="verticalSpacingSmall" />
+						
+							<p:dataTable id="userList" var="user" value="#{userGroupController.model.userList}" paginator="true" rows="10"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+							rowsPerPageTemplate="5,10,15" paginatorAlwaysVisible="true" emptyMessage="#{messages.empty_table_message}" 
+							rowKey="#{user.id}" paginatorPosition="top">
+								<p:ajax event="rowSelect" update=":formPanel" />
+					        	<p:column sortBy="#{user.username}" filterBy="#{user.username}" filterMatchMode="contains" headerText="#{messages.securitymanagement_user_name}">
+					        		<p:commandLink title="#{messages.securitymanagement_edit_user}" value="#{user.username}" action="#{userGroupController.navigateToEditUser}">
+					        			<f:setPropertyActionListener target="#{userGroupController.model.selectedUser}" value="#{user}" />
+					        		</p:commandLink>
+						        </p:column> 
+						        
+						        <p:column sortBy="#{user.email}" filterBy="#{user.email}" filterMatchMode="contains" headerText="#{messages.securitymanagement_user_email}">
+						            <h:outputText value="#{user.email}"/>
+						        </p:column>
+						        
+						        <p:column headerText="#{messages.securitymanagement_groups}">
+						            <p:commandLink value="#{messages.securitymanagement_view_groups} (#{user.assignedRolesSize})" action="#{userGroupController.openRoleDialog}" update=":formPanel:roleDialog">
+						            	<f:setPropertyActionListener target="#{userGroupController.model.selectedUser}" value="#{user}" />
+						            </p:commandLink>
+						        </p:column>
+						        
+						        <p:column>
+						        	<div class="center">
+						        		<p:commandButton title="#{messages.securitymanagement_edit_user}" action="#{userGroupController.navigateToEditUser}" icon="ui-icon-pencil">
+					        				<f:setPropertyActionListener target="#{userGroupController.model.selectedUser}" value="#{user}" />
+					        			</p:commandButton>
+					        			<p:commandButton title="#{messages.securitymanagement_add_remove_groups}" action="#{userGroupController.navigateToAssignGroups}" icon="ui-icon-transferthick-e-w" styleClass="marginButton" rendered="#{not user.isDefaultAdminUser}">
+					        			</p:commandButton>
+					        			<p:commandButton title="#{messages.securitymanagement_delete_user}" icon="ui-icon-closethick" styleClass="marginButton" onclick="deleteDialog.show()" rendered="#{not user.isDefaultAdminUser}">
+					        				<f:setPropertyActionListener target="#{userGroupController.model.selectedUser}" value="#{user}" />
+					        			</p:commandButton>
+						        	</div>
+						        </p:column>
+							</p:dataTable>
+						</p:tab>
+						<p:tab title="#{messages.securitymanagement_groups}">
+							<p:dataTable id="roleList" var="role" value="#{userGroupController.model.roleList}" paginator="true" rows="10"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+							rowsPerPageTemplate="5,10,15" paginatorAlwaysVisible="true" emptyMessage="#{messages.empty_table_message}" 
+							rowKey="#{role.id}" paginatorPosition="top">
+								<p:ajax event="rowSelect" update=":formPanel" />
+					        	<p:column sortBy="#{role.displayName}" filterBy="#{role.displayName}" filterMatchMode="contains" headerText="#{messages.securitymanagement_group_name}">
+						            <h:outputText value="#{role.displayName}"/>
+						        </p:column>
+						        
+						        <p:column headerText="#{messages.securitymanagement_users}">
+						        	<p:commandLink value="#{messages.securitymanagement_view_users} (#{role.membersSize})" action="#{userGroupController.openUserDialog}" update=":formPanel:userDialog">
+						            	<f:setPropertyActionListener target="#{userGroupController.model.selectedRole}" value="#{role}" />
+						            </p:commandLink>
+						        </p:column>
+							</p:dataTable>
+						</p:tab>
+					</p:tabView>
+					
+					<p:dialog id="roleDialog" header="#{messages.securitymanagement_assigned_groups}" visible="#{userGroupController.showRoleDialog}" width="500">
+						<h:dataTable value="#{userGroupController.model.selectedUser.assignedRoles}" var="role">
+							<h:column>
+								<h:outputText value="#{role.displayName}" />
+							</h:column>
+						</h:dataTable>
+					</p:dialog>
+					
+					<p:dialog id="userDialog" header="#{messages.securitymanagement_assigned_users}" visible="#{userGroupController.showUserDialog}" width="500">
+						<h:dataTable value="#{userGroupController.model.selectedRole.members}" var="user">
+							<h:column>
+								<h:outputText value="#{user.username}" />
+							</h:column>
+						</h:dataTable>
+					</p:dialog>
+					
+					<p:confirmDialog message="#{messages.are_you_sure}"  header="#{messages.edituser_delete_user}" severity="alert" widgetVar="deleteDialog" width="300">  
+				        <p:commandButton value="#{messages.yes}" update="formPanel" oncomplete="confirmation.hide()"  
+				                    action="#{userEditController.deleteUser}" ajax="false" />  
+				        <p:commandButton value="#{messages.no}" onclick="deleteDialog.hide()" type="button" />   
+				    </p:confirmDialog>
+				</h:form>
+		</h:body>
+	</ui:define>
+</ui:composition>

@@ -192,6 +192,10 @@ a:active,
 	text-align: center;
 }
 
+.right {
+	text-align: right;	
+}
+
 /****************SPACER**************************/
 .verticalSpacingSmall { 
 	height: 1.5em;
@@ -225,4 +229,9 @@ a:active,
 	
 	position: absolute;
 	margin-left: -35px;
+}
+
+/***************TABS***************************/
+.ui-tabs-nav .ui-state-default a {
+	color: #555 !important;
 }

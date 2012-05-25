@@ -15,7 +15,6 @@
  ******************************************************************************/
 package org.businessmanager.domain.security;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -24,7 +23,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import org.apache.commons.lang.StringUtils;
 import org.businessmanager.domain.AbstractEntity;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -35,6 +33,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity(name="users")
 public final class User extends AbstractEntity {
 
+	public static final String ADMIN_USER = "admin";
+	
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -60,6 +60,7 @@ public final class User extends AbstractEntity {
 	private Long salt;
 	
 	private transient List<Role> assignedRoles;
+	private transient boolean isAdministrator;
 
 	protected User() {
 	}
@@ -118,18 +119,15 @@ public final class User extends AbstractEntity {
 	public void setAssignedRoles(List<Role> assignedRoles) {
 		this.assignedRoles = assignedRoles;
 	}
-
-	public String getRolesAsString() {
-		if(assignedRoles != null) {
-			ArrayList<String> roleNames = new ArrayList<String>();
-			for (Role role : assignedRoles) {
-				roleNames.add(role.getName());
-			}
-			return StringUtils.join(roleNames.iterator(), ", ");
-		}
-		return "";
+	
+	public List<Role> getAssignedRoles() {
+		return assignedRoles;
 	}
 	
+	public int getAssignedRolesSize() {
+		return assignedRoles.size();
+	}
+
 	public boolean getMustChangePassword() {
 		return mustChangePassword;
 	}
@@ -182,6 +180,21 @@ public final class User extends AbstractEntity {
 
 	public void setSalt(Long salt) {
 		this.salt = salt;
+	}
+
+	public boolean isAdministrator() {
+		return isAdministrator;
+	}
+
+	public void setAdministrator(boolean isAdministrator) {
+		this.isAdministrator = isAdministrator;
+	}
+	
+	public boolean getIsDefaultAdminUser() {
+		if(getUsername().equals(User.ADMIN_USER)) {
+			return true;
+		}
+		return false;
 	}
 
 }

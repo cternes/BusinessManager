@@ -56,13 +56,24 @@ public class UserServiceImpl implements UserService {
 	
 	private List<User> fetchRolesForUsers(List<User> userList) {
 		for (User user : userList) {
-			user.setAssignedRoles(roleService.getRolesForUser(user.getId()));
+			List<Role> roleList = roleService.getRolesForUser(user.getId());
+			user.setAssignedRoles(roleList);
+			user.setAdministrator(hasUserRoleAdmin(roleList));
 		}
 		return userList;
 	}
 
+	private boolean hasUserRoleAdmin(List<Role> roleList) {
+		for (Role role : roleList) {
+			if(RoleService.ADMIN_ROLE.equals(role.getMessagesKey())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
-	public User addUser(User user) {
+	public User addUser(User user, boolean isAdmin) {
 		if(user == null) {
 			throw new IllegalArgumentException("User is null");
 		}
@@ -71,10 +82,6 @@ public class UserServiceImpl implements UserService {
 			logger.warn("Could not create user " + user.getUsername() + " because there is already a user with the same username. Aborting...");
 			throw new DuplicateUserException("User with username " + user.getUsername() + " exists already.");
 		}
-		else if(emailExistsAlready(user.getEmail())) {
-			logger.warn("Could not create user " + user.getUsername() + " because there is already a user with the same email. Aborting...");
-			throw new DuplicateUserException("User with email " + user.getEmail() + " exists already.");
-		}
 		else {
 			user.setSalt(PasswordGenerator.generateSalt());
 			
@@ -82,7 +89,16 @@ public class UserServiceImpl implements UserService {
 			user.setPassword(encodedPwd);
 			
 			logger.debug("Saving user "+user.getUsername()+" to database.");
-			return userDao.save(user);
+			user = userDao.save(user);
+			
+			//assign default role
+			roleService.assignUserToDefaultRole(user);
+			
+			if(isAdmin) {
+				roleService.assignUserToAdminRole(user);
+			}
+			
+			return user;
 		}
 	}
 
@@ -111,7 +127,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateUser(User user, boolean updatePassword) {
+	public User updateUser(User user, boolean updatePassword, boolean isAdmin) {
 		if(user == null) {
 			throw new IllegalArgumentException("User is null");
 		}
@@ -119,6 +135,13 @@ public class UserServiceImpl implements UserService {
 		if(updatePassword) {
 			String encodedPwd = PasswordGenerator.encodePassword(user.getPassword(), user.getSalt());
 			user.setPassword(encodedPwd);
+		}
+		
+		if(isAdmin) {
+			roleService.assignUserToAdminRole(user);
+		}
+		else {
+			roleService.removeUserFromAdminRole(user);
 		}
 		
 		logger.debug("Modifying user "+user.getUsername()+" in database.");

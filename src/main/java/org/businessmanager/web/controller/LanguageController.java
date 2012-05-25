@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Component("languageController")
 @Scope("session")
-public class LanguageController extends AbstractPageController {
+public class LanguageController extends AbstractController {
 
 	@Autowired
 	private ApplicationSettingsService settingsService; 

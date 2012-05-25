@@ -40,7 +40,7 @@ import org.springframework.stereotype.Component;
  */
 @Component("addressManagementController")
 @Scope("view")
-public class AddressManagementControllerImpl extends AbstractPageController implements AddressManagementController {
+public class AddressManagementControllerImpl extends AbstractController implements AddressManagementController {
 
 	private static final String CLIENT_ID_STREET = "addStreet";
 	private static final String CLIENT_ID_NUMBER= "addNumber";

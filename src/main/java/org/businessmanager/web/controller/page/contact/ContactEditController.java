@@ -37,7 +37,7 @@ import org.businessmanager.domain.Website;
 import org.businessmanager.service.ContactService;
 import org.businessmanager.web.bean.ContactBean;
 import org.businessmanager.web.bean.ContactItemBean;
-import org.businessmanager.web.controller.AbstractPageController;
+import org.businessmanager.web.controller.AbstractController;
 import org.businessmanager.web.controller.AddressManagementController;
 import org.businessmanager.web.controller.state.AddressModel;
 import org.businessmanager.web.controller.state.ContactModel;
@@ -47,7 +47,7 @@ import org.springframework.stereotype.Component;
 
 @Component("contactEditController")
 @Scope("view")
-public class ContactEditController extends AbstractPageController {
+public class ContactEditController extends AbstractController {
 
 	@Autowired
 	private ContactService contactService;
@@ -468,6 +468,6 @@ public class ContactEditController extends AbstractPageController {
 			contactModel.setBackUrl(null); // clear back url
 			return backUrl;
 		}
-		return navigationHelper.getContactmanagement();
+		return navigationManager.getContactmanagement();
 	}
 }

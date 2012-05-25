@@ -20,6 +20,7 @@ import java.util.Map;
 
 import javax.persistence.metamodel.SingularAttribute;
 
+import org.businessmanager.domain.security.Role;
 import org.businessmanager.domain.security.User;
 
 /**
@@ -70,12 +71,13 @@ public interface UserService {
 	 * <p>
 	 * If the there is already a user with the same username an {@link DuplicateUserException} will be thrown.
 	 * <p>
-	 * If the there is already a user with the same email an {@link DuplicateEmailException} will be thrown.
 	 * 
 	 * @param user the {@link User} which should be added
+	 * @param isAdmin true if the {@link User} should be added to admin role
 	 * @return the {@link User} with an id set
+	 * @throws DuplicateUserException if the there is already a user with the same username 
 	 */
-	public User addUser(User user);
+	public User addUser(User user, boolean isAdmin);
 	
 	/**
 	 * Retrieves the {@link User} for the given username from the database. If the user does not exist, null is returned. 
@@ -97,8 +99,10 @@ public interface UserService {
 	 * Updates the properties of an existing {@link User} in the database.
 	 * 
 	 * @param user the {@link User} to update
+	 * @param updatePassword determines if the password of the given user should be updated
+	 * @param isAdmin determines if the given user should be assigned to the admin {@link Role}
 	 */
-	public User updateUser(User user, boolean updatePassword);
+	public User updateUser(User user, boolean updatePassword, boolean isAdmin);
 	
 	/**
 	 * Deletes a {@link User} from the database.

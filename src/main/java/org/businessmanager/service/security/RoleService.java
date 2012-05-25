@@ -31,6 +31,9 @@ import org.businessmanager.domain.security.User;
  */
 public interface RoleService {
 
+	public static final String DEFAULT_ROLE = "groupname_all_users";
+	public static final String ADMIN_ROLE = "groupname_admin";
+	
 	/**
 	 * Retrieves all {@link Role}s from the database.
 	 * 
@@ -41,62 +44,62 @@ public interface RoleService {
 	/**
 	 * Retrieves a list of {@link Role}s from the database and sorts them by the given attribute.
 	 * 
-	 * @param theOrderAttribute the sort attribute
-	 * @param theOrderAsc true for Ascending, false for Descending
+	 * @param orderAttribute the sort attribute
+	 * @param orderAsc true for Ascending, false for Descending
 	 * @return a list of {@link Role}s
 	 */
-	public List<Role> getRoles(SingularAttribute<Role, ?> theOrderAttribute, boolean theOrderAsc);
+	public List<Role> getRoles(SingularAttribute<Role, ?> orderAttribute, boolean orderAsc);
 	
 	/**
 	 * Adds a new {@link Role} to the database. The name must be unique for all roles.
 	 * <p>
 	 * If the there is already a role with the same name an {@link IllegalArgumentException} will be thrown.
 	 * 
-	 * @param theRole the role which should be added
+	 * @param role the role which should be added
 	 * @return the role with an id set
 	 */
-	public Role addRole(Role theRole);
+	public Role addRole(Role role);
 	
 	/**
 	 * Updates a {@link Role} in the database. 
 	 * 
-	 * @param theRole the {@link Role} which should be updated
+	 * @param role the {@link Role} which should be updated
 	 * @return the updated {@link Role}
 	 */
-	public Role updateRole(Role theRole);
+	public Role updateRole(Role role);
 	
 	/**
 	 * Deletes a {@link Role} from the database. 
 	 * If the role was assigned to one or several {@link User}s the assignment will be removed.
 	 * If the role was assigned to one or several {@link Permission}s the assignment will be removed.
 	 * 
-	 * @param theId the role id from the role which should be deleted
+	 * @param id the role id from the role which should be deleted
 	 */
-	public void deleteRole(long theId);
+	public void deleteRole(Long id);
 	
 	/**
 	 * Deletes several {@link Role}s from the database.
 	 * 
-	 * @param theRoleIdList
-	 * @see IRoleService#deleteRole(long)
+	 * @param roleIdList
+	 * @see RoleService#deleteRole(long)
 	 */
-	public void deleteRoles(List<Long> theRoleIdList);
+	public void deleteRoles(List<Long> roleIdList);
 	
 	/**
 	 * Retrieves a {@link Role} by its id from the database.
 	 * 
-	 * @param theId
+	 * @param id
 	 * @return the found {@link Role}
 	 */
-	public Role getRoleById(long theId);
+	public Role getRoleById(Long id);
 	
 	/**
 	 * Retrieves a role by its name from the database.
 	 * 
-	 * @param theName
+	 * @param name
 	 * @return the found {@link Role}
 	 */
-	public Role getRoleByName(String theName);
+	public Role getRoleByName(String name);
 	
 	/**
 	 * Assigns a list of users to the given role.
@@ -104,10 +107,10 @@ public interface RoleService {
 	 * Every user that was previously assigned to the given role but is not anymore in the given
 	 * userList will be removed from the given role.
 	 * 
-	 * @param theUserlist the list of {@link User}s which should be assigned 
-	 * @param theRole the {@link Role} to which the users should be assigned
+	 * @param userList the list of {@link User}s which should be assigned 
+	 * @param role the {@link Role} to which the users should be assigned
 	 */
-	public void assignUsersToRole(List<User> theUserlist, Role theRole);
+	public void assignUsersToRole(List<User> userList, Role role);
 
 	/**
 	 * Assigns a list of permissions to the given {@link Role}.
@@ -115,26 +118,47 @@ public interface RoleService {
 	 * Every permission that was previously assigned to the given role but is not anymore in the given
 	 * permissionList will be removed from the given role.
 	 * 
-	 * @param thePermissionList the list of {@link Permission}s which should be assigned 
-	 * @param theRole the {@link Role} to which the permissions should be assigned
+	 * @param permissionList the list of {@link Permission}s which should be assigned 
+	 * @param role the {@link Role} to which the permissions should be assigned
 	 */
-	public void assignPermissionsToRole(List<Permission> thePermissionList, Role theRole);
+	public void assignPermissionsToRole(List<Permission> permissionList, Role role);
 	
 	/**
 	 * Retrieves the assigned {@link Role}s for a given {@link User}.
 	 * 
-	 * @param theUserId the id of the {@link User}
+	 * @param userId the id of the {@link User}
 	 * @return a list of assigned {@link Role}s
 	 */
-	public List<Role> getRolesForUser(Long theUserId);
+	public List<Role> getRolesForUser(Long userId);
 	
 	/**
 	 * Retrieves the assigned {@link Role}s for a given {@link Permission}.
 	 * 
-	 * @param thePermissionId the id of the {@link Permission}
+	 * @param permissionId the id of the {@link Permission}
 	 * @return a list of assigned {@link Role}s
 	 */
-	public List<Role> getRolesForPermission(Long thePermissionId);
+	public List<Role> getRolesForPermission(Long permissionId);
+	
+	/**
+	 * Assigns the given {@link User} to the default {@link Role}.
+	 * 
+	 * @param user the {@link User} which should be assigned
+	 */
+	public void assignUserToDefaultRole(User user);
+
+	/**
+	 * Assigns the given {@link User} to the admin {@link Role}.
+	 * 
+	 * @param user the {@link User} which should be assigned
+	 */
+	public void assignUserToAdminRole(User user);
+
+	/**
+	 * Removes the given {@link User} from the admin {@link Role}.
+	 * 
+	 * @param user the {@link User} which should be removed
+	 */
+	public void removeUserFromAdminRole(User user);
 		
 	
 }

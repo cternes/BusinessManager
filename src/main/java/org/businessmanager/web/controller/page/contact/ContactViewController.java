@@ -23,7 +23,7 @@ import javax.faces.application.FacesMessage;
 import org.businessmanager.aop.annotation.ErrorHandled;
 import org.businessmanager.domain.Contact;
 import org.businessmanager.service.ContactService;
-import org.businessmanager.web.controller.AbstractPageController;
+import org.businessmanager.web.controller.AbstractController;
 import org.businessmanager.web.controller.state.ContactModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -31,7 +31,7 @@ import org.springframework.stereotype.Component;
 
 @Component("contactViewController")
 @Scope("request")
-public class ContactViewController extends AbstractPageController {
+public class ContactViewController extends AbstractController {
 
 	@Autowired
 	private ContactModel model;
@@ -92,9 +92,9 @@ public class ContactViewController extends AbstractPageController {
 	}
 	
 	public String navigateToEditContact() {
-		model.setBackUrl(navigationHelper.getContactView());
+		model.setBackUrl(navigationManager.getContactView());
 		
-		return navigationHelper.getEditContact();
+		return navigationManager.getEditContact();
 	}
 	
 	@ErrorHandled
@@ -104,7 +104,7 @@ public class ContactViewController extends AbstractPageController {
 			model.refresh();
 			
 			addMessage(FacesMessage.SEVERITY_INFO, "editcontact_success_contact_deleted");
-			return navigationHelper.getContactmanagement();
+			return navigationManager.getContactmanagement();
 		}
 		return "#";
 	}

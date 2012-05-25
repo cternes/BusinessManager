@@ -15,6 +15,7 @@
  ******************************************************************************/
 package org.businessmanager.service.security;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.metamodel.SingularAttribute;
@@ -24,8 +25,8 @@ import org.apache.commons.logging.LogFactory;
 import org.businessmanager.database.security.RoleDao;
 import org.businessmanager.domain.security.Permission;
 import org.businessmanager.domain.security.Role;
+import org.businessmanager.domain.security.Role_;
 import org.businessmanager.domain.security.User;
-import org.perf4j.aop.Profiled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @Service
+@Transactional
 public class RoleServiceImpl implements RoleService {
 
 	private final Log logger = LogFactory.getLog(getClass());
@@ -43,14 +45,11 @@ public class RoleServiceImpl implements RoleService {
 	@Autowired
 	private RoleDao roleDao;
 	
-	@Transactional(readOnly=true)
-	@Profiled
 	@Override
 	public List<Role> getRoles() {
 		return roleDao.findAll();
 	}
 
-	@Transactional
 	@Override
 	public Role addRole(Role role) {
 		if(role == null) {
@@ -75,7 +74,6 @@ public class RoleServiceImpl implements RoleService {
 		return false;
 	}
 
-	@Transactional
 	@Override
 	public Role updateRole(Role role) {
 		if(role == null) {
@@ -85,15 +83,13 @@ public class RoleServiceImpl implements RoleService {
 		return roleDao.update(role);
 	}
 	
-	@Transactional(readOnly=true)
 	@Override
-	public Role getRoleById(long id) {
+	public Role getRoleById(Long id) {
 		return roleDao.findById(id);
 	}
 
-	@Transactional
 	@Override
-	public void deleteRole(long id) {
+	public void deleteRole(Long id) {
 		Role role = getRoleById(id);
 		if(role != null) {
 			role.getMembers().clear();
@@ -104,33 +100,53 @@ public class RoleServiceImpl implements RoleService {
 		}
 	}
 
-	@Transactional(readOnly=true)
 	@Override
 	public Role getRoleByName(String name) {
 		return roleDao.findRoleByName(name);
 	}
+	
+	public Role getRoleByMessagesKey(String messageKey) {
+		List<Role> roles = roleDao.findByAttribute(Role_.messagesKey, messageKey);
+		if(roles.size() > 0) {
+			return roles.get(0);
+		}
+		return null;
+	}
 
-	@Transactional(readOnly=true)
 	@Override
 	public List<Role> getRoles(SingularAttribute<Role, ?> orderAttribute, boolean orderAsc) {
 		return roleDao.findAll(orderAttribute, orderAsc);
 	}
 
-	@Transactional
 	@Override
 	public void assignUsersToRole(List<User> userList, Role role) {
 		role.setMembers(userList);
 		updateRole(role);
 	}
 	
-	@Transactional
+	private void addUserToRole(User user, Role role) {
+		List<User> userList = role.getMembers();
+		if(!containsUser(userList, user)) {
+			userList.add(user);
+		}
+		assignUsersToRole(userList, role);
+	}
+	
+	private boolean containsUser(List<User> userList, User newUser) {
+		for (User user : userList) {
+			if(user.getId() != null && user.getId().equals(newUser.getId())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	@Override
 	public void assignPermissionsToRole(List<Permission> permissionList, Role role) {
 		role.setPermissions(permissionList);
 		updateRole(role);
 	}
 	
-	@Transactional
 	@Override
 	public void deleteRoles(List<Long> roleIds) {
 		if(roleIds != null) {
@@ -151,6 +167,43 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public List<Role> getRolesForPermission(Long permissionId) {
 		return roleDao.findRolesForPermission(permissionId);
+	}
+
+	@Override
+	public void assignUserToDefaultRole(User user) {
+		assignUserToRole(user, RoleService.DEFAULT_ROLE);
+	}
+
+	@Override
+	public void assignUserToAdminRole(User user) {
+		assignUserToRole(user, RoleService.ADMIN_ROLE);
+	}
+	
+	private void assignUserToRole(User user, String roleMessageKey) {
+		Role role = getRoleByMessagesKey(roleMessageKey);
+		if(role != null) {
+			addUserToRole(user, role);
+		}
+	}
+
+	@Override
+	public void removeUserFromAdminRole(User user) {
+		Role role = getRoleByMessagesKey(RoleService.ADMIN_ROLE);
+		if(role != null) {
+			removeUserFromRole(user, role);
+		}
+	}
+
+	private void removeUserFromRole(User user, Role role) {
+		List<User> userList = role.getMembers();
+		List<User> removeList = new ArrayList<User>();
+		for (User userInList : userList) {
+			if(userInList.getId() != null && userInList.getId().equals(user.getId())) {
+				removeList.add(userInList);
+			}
+		}
+		userList.removeAll(removeList);
+		assignUsersToRole(userList, role);
 	}
 
 }

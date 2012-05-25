@@ -45,20 +45,13 @@ public abstract class AbstractStorageStrategy<T> implements EntityStorageStrateg
 		if(removeObjects) {
 			removeAllObjects();
 		}
-		createOrUpdateObjects(objectList);
+		createObjects(objectList);
 	}
 	
-	protected void createOrUpdateObjects(List<T> objectList) {
+	protected void createObjects(List<T> objectList) {
 		for (T entity : objectList) {
 			List<T> result = getDao().findByAttribute(getAttributeKey(), getAttributeValue(entity));
-			if(result.size() == 1) {
-				doPreProcessing(entity);
-				T updatedEntity = updateEntity(entity, result.get(0));
-				
-				entity = getDao().update(updatedEntity);
-				doPostProcessing(updatedEntity);
-			}
-			else {
+			if(result.size() == 0) {
 				doPreProcessing(entity);
 				entity = getDao().save(entity);
 				doPostProcessing(entity);

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/template.xhtml">
+	
+	<ui:define name="content">
+		<h:body>
+			<h2 class="contentheading">#{messages.edituser_title}</h2>
+				<h:form id="formPanel">
+					<p:messages />
+					<p:focus for="name" />
+					
+					<div class="right">
+						<p:commandButton value="#{messages.edituser_delete_user}"
+							icon="ui-icon-closethick" 
+							onclick="deleteDialog.show()"
+							rendered="#{userEditController.canDelete and not userEditController.isAdminUser}"/>
+					</div>
+						
+					<div class="verticalSpacingSmall" />
+
+					<p:panel header="#{messages.edituser_general}" >
+						<p:panelGrid columns="2">
+							<h:outputText for="name" value="#{messages.edituser_user_name}:" />
+							<p:inputText id="name" value="#{userEditController.bean.username}" required="true" requiredMessage="#{messages.required_message}" maxlength="50" disabled="#{userEditController.isAdminUser}"/>
+							
+							<h:outputText for="mail" value="#{messages.edituser_user_mail}:" />
+							<p:inputText id="mail" value="#{userEditController.bean.mail}" maxlength="50"/>
+							
+							<h:outputText for="password" value="#{messages.edituser_password}:" />
+							<p:password id="password" value="#{userEditController.bean.password}" match="confirmPassword" validatorMessage="#{messages.userpreferences_error_password_dont_match}" maxlength="50"/>
+							
+							<h:outputText for="confirmPassword" value="#{messages.edituser_confirm_password}:" />
+							<p:password id="confirmPassword" value="#{userEditController.bean.password}" maxlength="50"/>
+						</p:panelGrid>
+					</p:panel>
+					
+					<div class="verticalSpacingSmall" />
+					
+					<p:panel header="#{messages.edituser_adminstatus}">
+						<h:selectBooleanCheckbox value="#{userEditController.bean.isAdministrator}" disabled="#{userEditController.isAdminUser}" />
+						#{messages.edituser_give_user_admin_rights}
+					</p:panel>
+					
+					<div class="verticalSpacingSmall" />
+					
+					<p:commandButton value="#{messages.save}" action="#{userEditController.saveUser}" update=":formPanel"/>
+					<p:commandLink value="#{messages.cancel}" action="#{userEditController.navigateBack}"
+						styleClass="marginButton" immediate="true"/>
+					
+					<div class="verticalSpacingSmall" />
+					
+					<p:confirmDialog message="#{messages.are_you_sure}"  header="#{messages.edituser_delete_user}" severity="alert" widgetVar="deleteDialog" width="300">  
+				        <p:commandButton value="#{messages.yes}" update="formPanel" oncomplete="confirmation.hide()"  
+				                    action="#{userEditController.deleteUser}" ajax="false" />  
+				        <p:commandButton value="#{messages.no}" onclick="deleteDialog.hide()" type="button" />   
+				    </p:confirmDialog>
+			</h:form>
+		</h:body>
+	</ui:define>
+</ui:composition>

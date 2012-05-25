@@ -94,7 +94,7 @@ public class RoleStrategy extends AbstractStorageStrategy<Role> implements Entit
 
 	@Override
 	public boolean isEntitiesRemovedOnStartup() {
-		return true;
+		return false;
 	}
 	
 }

@@ -27,6 +27,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 import org.businessmanager.domain.AbstractEntity;
+import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -46,6 +47,12 @@ public final class Role extends AbstractEntity {
 	@Column(length=50)
 	@NotEmpty
 	private String name;
+	
+	@Column
+	private String messagesKey;
+	
+	@Column
+	private String description;
 	
 	@ManyToMany
 	@LazyCollection(LazyCollectionOption.FALSE)
@@ -82,6 +89,10 @@ public final class Role extends AbstractEntity {
 
 	public List<User> getMembers() {
 		return members;
+	}
+	
+	public int getMembersSize() {
+		return members.size();
 	}
 
 	public void setMembers(List<User> members) {
@@ -125,6 +136,29 @@ public final class Role extends AbstractEntity {
 	@Override
 	public String toString() {
 		return "Role [id=" + id + ", name=" + name + "]";
+	}
+
+	public String getMessagesKey() {
+		return messagesKey;
+	}
+
+	public void setMessagesKey(String messagesKey) {
+		this.messagesKey = messagesKey;
+	}
+	
+	public String getDisplayName() {
+		if(messagesKey != null && !messagesKey.isEmpty()) {
+			return ResourceBundleProducer.getString(messagesKey);
+		}
+		return name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 }
