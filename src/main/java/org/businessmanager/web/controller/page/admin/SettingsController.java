@@ -28,6 +28,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import org.businessmanager.domain.settings.ApplicationSetting;
+import org.businessmanager.domain.settings.ApplicationSetting.Group;
 import org.businessmanager.geodb.Country;
 import org.businessmanager.geodb.OpenGeoDB;
 import org.businessmanager.service.settings.ApplicationSettingsService;
@@ -42,55 +43,62 @@ public class SettingsController extends AbstractController {
 
 	@Autowired
 	private ApplicationSettingsService service;
-	
+
 	@Autowired
-	private OpenGeoDB openGeoService; 
-	
+	private OpenGeoDB openGeoService;
+
 	private Map<String, String> settingsMap = new HashMap<String, String>();
-	
+
 	@PostConstruct
 	public void init() {
-		List<ApplicationSetting> aApplicationSettingsList = service.getApplicationSettings();
+		List<ApplicationSetting> aApplicationSettingsList = service
+				.getApplicationSettingsByGroup(Group.USER_PREFERENCS);
 		for (ApplicationSetting aApplicationSetting : aApplicationSettingsList) {
-			getSettingsMap().put(aApplicationSetting.getParamKey(), aApplicationSetting.getParamValue());
+			getSettingsMap().put(aApplicationSetting.getParamKey(),
+					aApplicationSetting.getParamValue());
 		}
+
 	}
-	
+
 	public void save() {
-		if(settingsMap != null) {
+		if (settingsMap != null) {
 			Iterator<String> anIterator = settingsMap.keySet().iterator();
-			while(anIterator.hasNext()) {
+			while (anIterator.hasNext()) {
 				String aKey = anIterator.next();
 				String aValue = settingsMap.get(aKey);
-				if(aValue != null) {
-					service.setApplicationSetting(aKey, aValue);
+				if (aValue != null) {
+					// service.setApplicationSetting(aKey, aValue);
 				}
 			}
-			
+
 			openGeoService.refreshListOfCountries();
-			
+
 			addMessage(FacesMessage.SEVERITY_INFO, "settings_saved");
 		}
 	}
-	
+
 	public Map<String, String> getSettingsMap() {
 		return settingsMap;
 	}
-	
+
 	public List<SelectItem> getAvailableLanguages() {
-		Locale language = FacesContext.getCurrentInstance().getViewRoot().getLocale();
-		
+		Locale language = FacesContext.getCurrentInstance().getViewRoot()
+				.getLocale();
+
 		String german = Locale.GERMAN.getDisplayLanguage(language);
 		String english = Locale.ENGLISH.getDisplayLanguage(language);
-		
+
 		List<SelectItem> aSelectItemsList = new ArrayList<SelectItem>();
-		aSelectItemsList.add(new SelectItem(Locale.GERMAN.getLanguage(), german));
-		aSelectItemsList.add(new SelectItem(Locale.ENGLISH.getLanguage(), english));
+		aSelectItemsList
+				.add(new SelectItem(Locale.GERMAN.getLanguage(), german));
+		aSelectItemsList.add(new SelectItem(Locale.ENGLISH.getLanguage(),
+				english));
 		return aSelectItemsList;
 	}
-	
+
 	public List<Country> getAvailableCountries() {
-		String language = FacesContext.getCurrentInstance().getViewRoot().getLocale().getLanguage();
+		String language = FacesContext.getCurrentInstance().getViewRoot()
+				.getLocale().getLanguage();
 		return openGeoService.getListOfCountries(language);
 	}
 }

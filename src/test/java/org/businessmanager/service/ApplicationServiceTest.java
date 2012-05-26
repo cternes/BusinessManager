@@ -1,5 +1,6 @@
 package org.businessmanager.service;
 
+import org.businessmanager.domain.settings.ApplicationSetting;
 import org.businessmanager.service.settings.ApplicationSettingsService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,21 +19,29 @@ public class ApplicationServiceTest {
 
 	@Autowired
 	private ApplicationSettingsService service;
-	
+
 	@Test
 	public void testGetSettingForUsername() {
 		String username = "admin";
-		String language = service.getApplicationSettingValue(ApplicationSettingsService.GENERAL_LANGUAGE, username);
+		String language = service.getApplicationSettingValue(
+				ApplicationSetting.Group.USER_PREFERENCS,
+				ApplicationSettingsService.GENERAL_LANGUAGE, username);
 		Assert.assertNull(language);
-		
-		//must return 'de', since there is no such setting for username
-		service.setApplicationSetting(ApplicationSettingsService.GENERAL_LANGUAGE, "de");
-		language = service.getApplicationSettingValue(ApplicationSettingsService.GENERAL_LANGUAGE, username);
+
+		// must return 'de', since there is no such setting for username
+		service.setApplicationSetting(ApplicationSetting.Group.USER_PREFERENCS,
+				ApplicationSettingsService.GENERAL_LANGUAGE, "de");
+		language = service.getApplicationSettingValue(
+				ApplicationSetting.Group.USER_PREFERENCS,
+				ApplicationSettingsService.GENERAL_LANGUAGE, username);
 		Assert.assertEquals("de", language);
 
-		//must return 'en', since there is a setting for username
-		service.setApplicationSetting(ApplicationSettingsService.GENERAL_LANGUAGE, "en", username);
-		language = service.getApplicationSettingValue(ApplicationSettingsService.GENERAL_LANGUAGE, username);
+		// must return 'en', since there is a setting for username
+		service.setApplicationSetting(ApplicationSetting.Group.USER_PREFERENCS,
+				ApplicationSettingsService.GENERAL_LANGUAGE, "en", username);
+		language = service.getApplicationSettingValue(
+				ApplicationSetting.Group.USER_PREFERENCS,
+				ApplicationSettingsService.GENERAL_LANGUAGE, username);
 		Assert.assertEquals("en", language);
 	}
 }

@@ -15,8 +15,11 @@
  ******************************************************************************/
 package org.businessmanager.database.settings;
 
+import java.util.List;
+
 import org.businessmanager.database.GenericDao;
 import org.businessmanager.domain.settings.ApplicationSetting;
+import org.businessmanager.domain.settings.ApplicationSetting.Group;
 
 /**
  * Manages the database access of the entity ApplicationSetting.
@@ -33,5 +36,7 @@ public interface ApplicationSettingsDao extends GenericDao<ApplicationSetting> {
 	 * @param username the name of the user, can be null
 	 * @return the {@link ApplicationSetting} if found or null
 	 */
-	public ApplicationSetting getApplicationSettingByKey(String key, String username);
+	public ApplicationSetting getApplicationSettingByKey(Group group, String key, String username);
+	
+	public List<ApplicationSetting> getApplicationSettingsByGroup(Group group);
 }

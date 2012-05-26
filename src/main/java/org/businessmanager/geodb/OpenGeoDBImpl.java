@@ -29,6 +29,7 @@ import java.util.zip.ZipInputStream;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
+import org.businessmanager.domain.settings.ApplicationSetting;
 import org.businessmanager.service.settings.ApplicationSettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,7 +45,7 @@ public class OpenGeoDBImpl implements OpenGeoDB {
 
 	@Autowired
 	private ApplicationSettingsService settingsService;
-	
+
 	public OpenGeoDBImpl() {
 		init();
 	}
@@ -155,17 +156,17 @@ public class OpenGeoDBImpl implements OpenGeoDB {
 		} else {
 			return countries;
 		}
-		
+
 		List<String> codes = new ArrayList<String>();
 		Locale[] locales = Locale.getAvailableLocales();
 		for (Locale locale : locales) {
 			String code = locale.getCountry();
-			
+
 			// do not insert a country more than once
-			if(codes.contains(code)) {
+			if (codes.contains(code)) {
 				continue;
 			}
-			
+
 			String name = null;
 			if (language != null) {
 				name = locale
@@ -179,28 +180,31 @@ public class OpenGeoDBImpl implements OpenGeoDB {
 				codes.add(code);
 			}
 		}
-		
+
 		Collections.sort(countries, Country.getComparator());
 		Country defaultCountry = findDefaultCountry(countries);
-		if(defaultCountry != null) {
+		if (defaultCountry != null) {
 			countries.add(0, defaultCountry);
 		}
-		
+
 		if (language == null) {
 			countryMap.put(Locale.getDefault().getLanguage(), countries);
 		} else {
 			countryMap.put(language, countries);
 		}
-		
+
 		return countries;
 	}
-	
+
 	private Country findDefaultCountry(List<Country> countries) {
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		String defaultCountry = settingsService.getApplicationSettingValue(ApplicationSettingsService.GENERAL_COUNTRY, username);
-		if(!StringUtils.isEmpty(defaultCountry)) {
+		String username = SecurityContextHolder.getContext()
+				.getAuthentication().getName();
+		String defaultCountry = settingsService.getApplicationSettingValue(
+				ApplicationSetting.Group.USER_PREFERENCS,
+				ApplicationSettingsService.GENERAL_COUNTRY, username);
+		if (!StringUtils.isEmpty(defaultCountry)) {
 			for (Country country : countries) {
-				if(defaultCountry.equals(country.getCode())) {
+				if (defaultCountry.equals(country.getCode())) {
 					return country;
 				}
 			}
@@ -212,18 +216,18 @@ public class OpenGeoDBImpl implements OpenGeoDB {
 	public void refreshListOfCountries() {
 		countryMap.clear();
 	}
-	
+
 	public Country getCountryByCode(String language, String countryCode) {
 		List<Country> countries = getListOfCountries(language);
-		
-		if(countries != null) {
+
+		if (countries != null) {
 			for (Country country : countries) {
-				if(country.getCode().equals(countryCode)) {
+				if (country.getCode().equals(countryCode)) {
 					return country;
 				}
 			}
 		}
-		
+
 		return null;
 	}
 }

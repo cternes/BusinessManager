@@ -23,6 +23,7 @@ public class AssignGroupsController extends AbstractController {
 	
 	private DualListModel<Group> groups;
 	
+	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() {
 		User selectedUser = model.getSelectedUser();

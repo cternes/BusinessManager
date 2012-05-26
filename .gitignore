@@ -5,3 +5,5 @@ jetty.log
 .factorypath
 .project
 .settings
+/org.businessmanager.domain.Address
+/org.businessmanager.domain.Contact

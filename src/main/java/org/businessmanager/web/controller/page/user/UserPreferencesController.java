@@ -101,7 +101,7 @@ public class UserPreferencesController extends AbstractController {
 				String key = iter.next();
 				String value = userPreferences.get(key);
 				if(value != null) {
-					settingsService.setApplicationSetting(key, value, currentUser.getUsername());
+					settingsService.setApplicationSetting(ApplicationSetting.Group.USER_PREFERENCS, key, value, currentUser.getUsername());
 				}
 				
 				//set language

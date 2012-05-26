@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.businessmanager.database.settings.ApplicationSettingsDao;
 import org.businessmanager.domain.settings.ApplicationSetting;
+import org.businessmanager.domain.settings.ApplicationSetting.Group;
 import org.businessmanager.domain.settings.ApplicationSetting_;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,17 +42,17 @@ public class ApplicationSettingsServiceImpl implements ApplicationSettingsServic
 	}
 	
 	@Override
-	public String getApplicationSettingValue(String key) {
-		return getApplicationSettingValue(key, null);
+	public String getApplicationSettingValue(Group group, String key) {
+		return getApplicationSettingValue(group, key, null);
 	}
 	
 	@Override
-	public String getApplicationSettingValue(String key, String username) {
-		ApplicationSetting setting = dao.getApplicationSettingByKey(key, username);
+	public String getApplicationSettingValue(Group group, String key, String username) {
+		ApplicationSetting setting = dao.getApplicationSettingByKey(group, key, username);
 
 		//try to find general setting if setting was not found for username
 		if(setting == null && username != null) {
-			setting = dao.getApplicationSettingByKey(key, null);
+			setting = dao.getApplicationSettingByKey(group, key, null);
 		}
 		
 		if(setting != null) {
@@ -61,8 +62,8 @@ public class ApplicationSettingsServiceImpl implements ApplicationSettingsServic
 	}
 	
 	@Override
-	public void setApplicationSetting(String key, String value) {
-		setApplicationSetting(key, value, null);
+	public void setApplicationSetting(Group group, String key, String value) {
+		setApplicationSetting(group, key, value, null);
 	}
 
 	@Override
@@ -71,10 +72,11 @@ public class ApplicationSettingsServiceImpl implements ApplicationSettingsServic
 	}
 
 	@Override
-	public void setApplicationSetting(String key, String value, String username) {
-		ApplicationSetting setting = dao.getApplicationSettingByKey(key, username);
+	public void setApplicationSetting(Group group, String key, String value, String username) {
+		ApplicationSetting setting = dao.getApplicationSettingByKey(group, key, username);
 		if(setting == null) {
 			setting = new ApplicationSetting();
+			setting.setParamGroup(group);
 			setting.setParamKey(key);
 			setting.setParamValue(value);
 			setting.setUsername(username);
@@ -84,6 +86,11 @@ public class ApplicationSettingsServiceImpl implements ApplicationSettingsServic
 			setting.setParamValue(value);
 			dao.update(setting);
 		}
+	}
+
+	@Override
+	public List<ApplicationSetting> getApplicationSettingsByGroup(Group group) {
+		return dao.getApplicationSettingsByGroup(group);
 	}
 
 }

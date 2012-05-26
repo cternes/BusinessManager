@@ -18,6 +18,7 @@ package org.businessmanager.service.settings;
 import java.util.List;
 
 import org.businessmanager.domain.settings.ApplicationSetting;
+import org.businessmanager.domain.settings.ApplicationSetting.Group;
 
 /**
  * A service to manage the application settings.
@@ -47,13 +48,21 @@ public interface ApplicationSettingsService {
 	public List<ApplicationSetting> getApplicationSettingsByUsername(String username);
 	
 	/**
+	 * Returns the user settings for the given group from the database.
+	 * 
+	 * @param group the settings group
+	 * @return a list of application settings
+	 */
+	public List<ApplicationSetting> getApplicationSettingsByGroup(Group group);
+	
+	/**
 	 * Returns the application setting value from the database for the given key.
 	 * <i>Note:</i> All keys are defined here.
 	 * 
 	 * @param key the setting key which should be searched
 	 * @return the value of the setting or null if not existing
 	 */
-	public String getApplicationSettingValue(String key);
+	public String getApplicationSettingValue(Group group, String key);
 	
 	/**
 	 * Returns the application setting value from the database for the given key and username.
@@ -65,7 +74,7 @@ public interface ApplicationSettingsService {
 	 * @param username the name of the user
 	 * @return the value of the setting or null if not existing
 	 */
-	public String getApplicationSettingValue(String key, String username);
+	public String getApplicationSettingValue(Group group, String key, String username);
 	
 	/**
 	 * Sets the application setting value in the database for the given key.
@@ -74,7 +83,7 @@ public interface ApplicationSettingsService {
 	 * @param key the key of the setting 
 	 * @param value the value of the setting
 	 */
-	public void setApplicationSetting(String key, String value);
+	public void setApplicationSetting(Group group, String key, String value);
 	
 	/**
 	 * Sets the application setting value in the database for the given key and username.
@@ -84,5 +93,5 @@ public interface ApplicationSettingsService {
 	 * @param value the value of the setting
 	 * @param username the name of the user
 	 */
-	public void setApplicationSetting(String key, String value, String username);
+	public void setApplicationSetting(Group group, String key, String value, String username);
 }

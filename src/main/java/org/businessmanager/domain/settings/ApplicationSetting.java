@@ -17,35 +17,48 @@ package org.businessmanager.domain.settings;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.businessmanager.domain.AbstractEntity;
+import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
- * This entity represents an application setting.
- * A setting consists of a key and a value, both are strings. The key is mandatory.
- * A setting can belong to a user by setting the username. This is optional.
+ * This entity represents an application setting. A setting consists of a key
+ * and a value, both are strings. The key is mandatory. A setting can belong to
+ * a user by setting the username. This is optional.
  * 
  * @author Christian Ternes
- *
+ * 
  */
 @Entity
 public final class ApplicationSetting extends AbstractEntity {
 
+	public enum Group {
+		USER_PREFERENCS, COMPANY_PREFERENCES;
+		
+		
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
+	@Column
+	@Enumerated(EnumType.STRING)
+	private Group paramGroup;
+
 	@Column
 	@NotEmpty
 	private String paramKey;
-	
+
 	@Column
 	private String paramValue;
-	
+
 	@Column
 	private String username;
 
@@ -56,7 +69,7 @@ public final class ApplicationSetting extends AbstractEntity {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public String getParamKey() {
 		return paramKey;
 	}
@@ -79,6 +92,14 @@ public final class ApplicationSetting extends AbstractEntity {
 
 	public String getUsername() {
 		return username;
+	}
+
+	public Group getParamGroup() {
+		return paramGroup;
+	}
+
+	public void setParamGroup(Group paramGroup) {
+		this.paramGroup = paramGroup;
 	}
 
 	@Override
