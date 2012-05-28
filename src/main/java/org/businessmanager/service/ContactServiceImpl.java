@@ -89,4 +89,9 @@ public class ContactServiceImpl implements ContactService {
 		return contactDao.findById(id);
 	}
 
+	@Override
+	public List<Contact> fullTextSearchContact(String searchString) {
+		return contactDao.fullTextSearchContact(searchString);
+	}
+
 }

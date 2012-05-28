@@ -17,6 +17,8 @@ package org.businessmanager.database;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.apache.commons.lang.Validate;
 import org.businessmanager.domain.Contact;
 import org.businessmanager.domain.ContactItem;
@@ -25,14 +27,17 @@ import org.businessmanager.domain.Email;
 import org.businessmanager.domain.Fax;
 import org.businessmanager.domain.Phone;
 import org.businessmanager.domain.Website;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.stereotype.Repository;
 
 /**
  * @author Christian Ternes
- *
+ * 
  */
 @Repository
-public class ContactDaoImpl extends GenericDaoImpl<Contact> implements ContactDao {
+public class ContactDaoImpl extends GenericDaoImpl<Contact> implements
+		ContactDao {
 
 	@Override
 	public List<Contact> findAll() {
@@ -49,7 +54,7 @@ public class ContactDaoImpl extends GenericDaoImpl<Contact> implements ContactDa
 		Validate.notNull(email);
 		return getEntityManager().merge(email);
 	}
-	
+
 	@Override
 	public Phone mergePhone(Phone phone) {
 		Validate.notNull(phone);
@@ -70,10 +75,40 @@ public class ContactDaoImpl extends GenericDaoImpl<Contact> implements ContactDa
 
 	@Override
 	public void removeContactItem(Long id) {
-		ContactItem contactItem = getEntityManager().find(ContactItem.class, id);
-		
-		if(contactItem != null) {
+		ContactItem contactItem = getEntityManager()
+				.find(ContactItem.class, id);
+
+		if (contactItem != null) {
 			getEntityManager().remove(contactItem);
 		}
+	}
+
+	@Override
+	public List<Contact> fullTextSearchContact(String searchString) {
+		EntityManager em = getEntityManager();
+		FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
+				.getFullTextEntityManager(em);
+
+		QueryBuilder qb = fullTextEntityManager.getSearchFactory()
+				.buildQueryBuilder().forEntity(Contact.class).get();
+		org.apache.lucene.search.Query query = qb
+				.keyword()
+				.onFields("firstname", "lastname", "company",
+						"contactItems.value").matching(searchString)
+				.createQuery();
+
+		// wrap Lucene query in a javax.persistence.Query
+		javax.persistence.Query persistenceQuery = fullTextEntityManager
+				.createFullTextQuery(query, Contact.class);
+
+		// execute search
+		List<?> result = persistenceQuery.getResultList();
+
+		// avoid ClassCastException
+		if(result == null) {
+			return null;
+		}
+		
+		return (List<Contact>) result;
 	}
 }

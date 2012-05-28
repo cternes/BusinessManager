@@ -1,19 +1,4 @@
-#-------------------------------------------------------------------------------
-# Copyright 2012 Christian Ternes and Thorsten Volland
-# 
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-# 
-#   http://www.apache.org/licenses/LICENSE-2.0
-# 
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#-------------------------------------------------------------------------------
-/*************GENERAL*************/
+/*************GENERAL*************/ 
 * {
 	margin: 0;
 	padding: 0;
@@ -31,6 +16,7 @@ body,html {
 }
 
 body {
+	
 }
 
 h1,h2,h3,h4,h5,h6 {
@@ -70,20 +56,12 @@ h4 {
 	height: 10px;
 }
 
-a:link,
-a:visited,
-#main a:link,
-#main a:visited {
+a:link,a:visited,#main a:link,#main a:visited {
 	color: #948C75;
 	text-decoration: none;
 }
 
-a:focus,
-a:hover,
-a:active,
-#main a:focus,
-#main a:hover,
-#main a:active {
+a:focus,a:hover,a:active,#main a:focus,#main a:hover,#main a:active {
 	color: #7A6A53;
 	text-decoration: none;
 }
@@ -121,7 +99,7 @@ a:active,
 
 /*************SIDEBAR***************/
 .navigationList {
-	list-style:none;
+	list-style: none;
 	padding-left: 5px;
 }
 
@@ -143,7 +121,7 @@ a:active,
 #left-col {
 	float: left;
 	width: 180px;
-	background-color: red;	
+	background-color: red;
 }
 
 #right-col {
@@ -157,7 +135,8 @@ a:active,
 }
 
 #main {
-	padding-bottom: 60px; /* since footer has position:absolute, we need to push the footer down here, to avoid overlapping*/
+	padding-bottom: 60px;
+	/* since footer has position:absolute, we need to push the footer down here, to avoid overlapping*/
 	min-height: 100%;
 	height: auto !important;
 	height: 100%;
@@ -166,12 +145,12 @@ a:active,
 }
 
 .centerMainPanelGrid {
-	width: 102%; 
+	width: 102%;
 	margin: 0px -10px;
 }
 
 .clearFloat {
-	clear: both;	
+	clear: both;
 }
 
 /************BUTTONS*********/
@@ -180,8 +159,8 @@ a:active,
 }
 
 /************PANEL GRID *********/
-.ui-panelgrid tr, .ui-panelgrid td {
-	border:0 !important;
+.ui-panelgrid tr,.ui-panelgrid td {
+	border: 0 !important;
 }
 
 .topAlign {
@@ -193,24 +172,28 @@ a:active,
 }
 
 .right {
-	text-align: right;	
+	text-align: right;
+}
+
+#contactManagementFormPanel .ui-datatable .ui-datatable-header {
+	text-align: right !important;
 }
 
 /****************SPACER**************************/
-.verticalSpacingSmall { 
+.verticalSpacingSmall {
 	height: 1.5em;
 }
 
 /****************INPUT**************************/
-.fullSizeInput, .fullSizeInput input  {
+.fullSizeInput,.fullSizeInput input {
 	width: 100%;
 }
 
-.smallInput, .smallInput input {
+.smallInput,.smallInput input {
 	width: 3em;
 }
 
-.mediumInput, .mediumInput input {
+.mediumInput,.mediumInput input {
 	width: 5em;
 }
 
@@ -223,10 +206,8 @@ a:active,
 .ui-icon-adduser {
 	background-image: url("#{resource['images/add_user.png']}");
 	background-repeat: no-repeat;
-	
 	width: 32px;
 	height: 32px;
-	
 	position: absolute;
 	margin-left: -35px;
 }
@@ -237,5 +218,5 @@ a:active,
 }
 /***************TABLE***************************/
 .zipcodeInput .ui-dt-c input {
-	width: 45px;	
+	width: 45px;
 }

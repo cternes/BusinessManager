@@ -7,47 +7,84 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	template="/WEB-INF/templates/template.xhtml">
-	
+
 	<ui:define name="content">
 		<h:body>
 			<h2 class="contentheading">#{messages.contactmanagement_title}</h2>
-			
+
 			<div id="left-col">
 				<ui:include src="sideBarContact.xhtml" />
 			</div>
-			
+
 			<div id="right-col">
-				<h:form id="formPanel">
+				<h:form id="contactManagementFormPanel">
 					<p:messages />
-					
-					<p:dataTable id="contactList" var="contact" value="#{contactManagementController.model.entityList}" paginator="true" rows="10"
-					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-					rowsPerPageTemplate="5,10,15" paginatorAlwaysVisible="true" emptyMessage="#{messages.empty_table_message}" 
-					rowKey="#{contact.id}" paginatorPosition="top">
-						<p:ajax event="rowSelect" update=":formPanel" />
-			        	<p:column sortBy="#{contact.fullname}" filterBy="#{contact.fullname}" filterMatchMode="contains" headerText="#{messages.contactmanagement_contact_name}">
-				            <p:commandLink value="#{contact.fullname}" action="#{contactManagementController.navigateToContactView}">
-				            	<f:setPropertyActionListener target="#{contactManagementController.model.selectedEntity}" value="#{contact}" />
-				            </p:commandLink>
-				        </p:column> 
-				        <p:column sortBy="#{contact.company}" filterBy="#{contact.company}" filterMatchMode="contains" headerText="#{messages.contactmanagement_contact_company}">
-				            <h:outputText value="#{contact.company}"/>
-				        </p:column>
-				        <p:column sortBy="#{contact.defaultBillingAddress.street}" filterBy="#{contact.defaultBillingAddress.street}" filterMatchMode="contains" headerText="#{messages.contactmanagement_contact_street}">
-				            <h:outputText value="#{contact.defaultBillingAddress.street} #{contact.defaultBillingAddress.housenumber}"/>
-				        </p:column>
-				        <p:column sortBy="#{contact.defaultBillingAddress.zipCode}" filterBy="#{contact.defaultBillingAddress.zipCode}" filterMatchMode="contains" headerText="#{messages.contactmanagement_contact_zipcode}" styleClass="zipcodeInput">
-				            <h:outputText value="#{contact.defaultBillingAddress.zipCode}"/>
-				        </p:column>
-				        <p:column sortBy="#{contact.defaultBillingAddress.city}" filterBy="#{contact.defaultBillingAddress.city}" filterMatchMode="contains" headerText="#{messages.contactmanagement_contact_city}">
-				            <h:outputText value="#{contact.defaultBillingAddress.city}"/>
-				        </p:column>
-				        <p:column sortBy="#{contact.defaultEmail.value}" filterBy="#{contact.defaultEmail.value}" filterMatchMode="contains" headerText="#{messages.contactmanagement_contact_email}">
-				            <h:outputText value="#{contact.defaultEmail.value}"/>
-				        </p:column>  
-				        <p:column sortBy="#{contact.defaultPhone.value}" filterBy="#{contact.defaultPhone.value}" filterMatchMode="contains" headerText="#{messages.contactmanagement_contact_phone}">
-				            <h:outputText value="#{contact.defaultPhone.value}"/>
-				        </p:column>  
+
+					<p:dataTable id="contactList" var="contact"
+						value="#{contactManagementController.model.entityList}"
+						paginator="true" rows="10"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+						rowsPerPageTemplate="5,10,15" paginatorAlwaysVisible="true"
+						emptyMessage="#{messages.empty_table_message}"
+						rowKey="#{contact.id}" paginatorPosition="top"
+						widgetVar="contactTable">
+
+						<f:facet name="header" style="text-align:right;">
+							<p:outputPanel>
+								<h:outputText value="#{messages.contactmanagement_global_search}:" />
+								<p:inputText id="globalFilter" onkeyup="contactTable.filter()"
+									style="width:150px;margin-left: 5px;" />
+							</p:outputPanel>
+						</f:facet>
+
+						<p:ajax event="rowSelect" update=":contactManagementFormPanel" />
+						<p:column sortBy="#{contact.fullname}"
+							filterBy="#{contact.fullname}" filterMatchMode="contains"
+							headerText="#{messages.contactmanagement_contact_name}">
+							<p:commandLink value="#{contact.fullname}"
+								action="#{contactManagementController.navigateToContactView}">
+								<f:setPropertyActionListener
+									target="#{contactManagementController.model.selectedEntity}"
+									value="#{contact}" />
+							</p:commandLink>
+						</p:column>
+						<p:column sortBy="#{contact.company}"
+							filterBy="#{contact.company}" filterMatchMode="contains"
+							headerText="#{messages.contactmanagement_contact_company}">
+							<h:outputText value="#{contact.company}" />
+						</p:column>
+						<p:column sortBy="#{contact.defaultBillingAddress.street}"
+							filterBy="#{contact.defaultBillingAddress.street}"
+							filterMatchMode="contains"
+							headerText="#{messages.contactmanagement_contact_street}">
+							<h:outputText
+								value="#{contact.defaultBillingAddress.street} #{contact.defaultBillingAddress.housenumber}" />
+						</p:column>
+						<p:column sortBy="#{contact.defaultBillingAddress.zipCode}"
+							filterBy="#{contact.defaultBillingAddress.zipCode}"
+							filterMatchMode="contains"
+							headerText="#{messages.contactmanagement_contact_zipcode}"
+							styleClass="zipcodeInput">
+							<h:outputText value="#{contact.defaultBillingAddress.zipCode}" />
+						</p:column>
+						<p:column sortBy="#{contact.defaultBillingAddress.city}"
+							filterBy="#{contact.defaultBillingAddress.city}"
+							filterMatchMode="contains"
+							headerText="#{messages.contactmanagement_contact_city}">
+							<h:outputText value="#{contact.defaultBillingAddress.city}" />
+						</p:column>
+						<p:column sortBy="#{contact.defaultEmail.value}"
+							filterBy="#{contact.defaultEmail.value}"
+							filterMatchMode="contains"
+							headerText="#{messages.contactmanagement_contact_email}">
+							<h:outputText value="#{contact.defaultEmail.value}" />
+						</p:column>
+						<p:column sortBy="#{contact.defaultPhone.value}"
+							filterBy="#{contact.defaultPhone.value}"
+							filterMatchMode="contains"
+							headerText="#{messages.contactmanagement_contact_phone}">
+							<h:outputText value="#{contact.defaultPhone.value}" />
+						</p:column>
 					</p:dataTable>
 				</h:form>
 			</div>

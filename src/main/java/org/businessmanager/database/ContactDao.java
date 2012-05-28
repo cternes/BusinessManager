@@ -15,6 +15,8 @@
  ******************************************************************************/
 package org.businessmanager.database;
 
+import java.util.List;
+
 import org.businessmanager.domain.Contact;
 import org.businessmanager.domain.Email;
 import org.businessmanager.domain.Fax;
@@ -35,4 +37,6 @@ public interface ContactDao extends GenericDao<Contact> {
 	public Website mergeWebsite(Website website);
 	
 	public void removeContactItem(Long id);
+	
+	public List<Contact> fullTextSearchContact(String searchString);
 }

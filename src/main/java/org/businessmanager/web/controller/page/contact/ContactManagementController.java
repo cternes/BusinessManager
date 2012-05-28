@@ -15,6 +15,9 @@
  ******************************************************************************/
 package org.businessmanager.web.controller.page.contact;
 
+import java.util.List;
+
+import org.businessmanager.domain.Contact;
 import org.businessmanager.service.ContactService;
 import org.businessmanager.web.controller.AbstractController;
 import org.businessmanager.web.controller.state.ContactModel;
@@ -35,6 +38,8 @@ public class ContactManagementController extends AbstractController {
 	
 	@Autowired
 	private ContactModel model;
+	
+	private String searchString = "";
 
 	private void fetchContacts() {
 		model.setEntityList(contactService.getContacts());
@@ -49,5 +54,13 @@ public class ContactManagementController extends AbstractController {
 	
 	public String navigateToContactView() {
 		return navigationManager.getContactView();
+	}
+
+	public String getSearchString() {
+		return searchString;
+	}
+
+	public void setSearchString(String searchString) {
+		this.searchString = searchString;
 	}
 }

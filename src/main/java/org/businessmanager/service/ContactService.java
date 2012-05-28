@@ -56,7 +56,20 @@ public interface ContactService {
 	 */
 	public void deleteContact(Contact contact);
 	
+	/**
+	 * Merges ContactItem with persisted instance
+	 * 
+	 * @param contactItem item to be merged
+	 * @return merged ContactItem
+	 */
 	public ContactItem mergeContactItem(ContactItem contactItem);
 	
+	/**
+	 * Removes ContactItem from persistence layer by id.
+	 * 
+	 * @param id the id of the item to be removed
+	 */
 	public void removeContactItem(Long id);
+	
+	public List<Contact> fullTextSearchContact(String searchString);
 }

@@ -5,132 +5,142 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:sec="http://www.springframework.org/security/facelets/tags" 
-	>
+	xmlns:sec="http://www.springframework.org/security/facelets/tags">
 
 <!-- Needed for Chrome & Safari -->
 <f:view contentType="text/html" locale="#{languageController.locale}">
 	<h:head>
-		<title>Business Manager</title>
-		<meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+	 	<f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+			<title>Business Manager</title>
+        </f:facet>
+                
 		<h:outputStylesheet name="css/screen.css" />
 		<h:outputStylesheet name="css/theme.css" />
-		 <script type="text/javascript">
-      //<![CDATA[
-        PrimeFaces.locales['de'] = {
-        		closeText: 'Schließen',
-                prevText: 'Zurück',
-                nextText: 'Weiter',
-                currentText: 'Heute',
-                monthNames: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember' ],
-                monthNamesShort: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez' ],
-                dayNames: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
-                dayNamesShort: ['Son', 'Mon', 'Die', 'Mit', 'Don', 'Fre', 'Sam'],
-                dayNamesMin: ['S', 'M', 'D', 'M ', 'D', 'F ', 'S'],
-                weekHeader: 'Woche',
-                firstDay: 1,
-                isRTL: false,
-                showMonthAfterYear: false,
-                yearSuffix: '',
-                timeOnlyTitle: 'Uhrzeit auswählen',
-                timeText: 'Zeit',
-                hourText: 'Stunde',
-                minuteText: 'Minute',
-                secondText: 'Sekunde',
-                currentText: 'Aktuelles Datum',
-                ampm: false,
-                month: 'Monat',
-                week: 'Woche',
-                day: 'Tag',
-                allDayText: 'Ganzer Tag'
-        };
+		
+		<script type="text/javascript">
+			//         
+			PrimeFaces.locales['de'] = {
+				closeText : 'Schließen',
+				prevText : 'Zurück',
+				nextText : 'Weiter',
+				currentText : 'Heute',
+				monthNames : [ 'Januar', 'Februar', 'März', 'April', 'Mai',
+						'Juni', 'Juli', 'August', 'September', 'Oktober',
+						'November', 'Dezember' ],
+				monthNamesShort : [ 'Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun',
+						'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez' ],
+				dayNames : [ 'Sonntag', 'Montag', 'Dienstag', 'Mittwoch',
+						'Donnerstag', 'Freitag', 'Samstag' ],
+				dayNamesShort : [ 'Son', 'Mon', 'Die', 'Mit', 'Don', 'Fre',
+						'Sam' ],
+				dayNamesMin : [ 'S', 'M', 'D', 'M ', 'D', 'F ', 'S' ],
+				weekHeader : 'Woche',
+				firstDay : 1,
+				isRTL : false,
+				showMonthAfterYear : false,
+				yearSuffix : '',
+				timeOnlyTitle : 'Uhrzeit auswählen',
+				timeText : 'Zeit',
+				hourText : 'Stunde',
+				minuteText : 'Minute',
+				secondText : 'Sekunde',
+				currentText : 'Aktuelles Datum',
+				ampm : false,
+				month : 'Monat',
+				week : 'Woche',
+				day : 'Tag',
+				allDayText : 'Ganzer Tag'
+			};
 
-	//]]>
-        </script>
+			//
+		</script>
 		<ui:insert name="head"></ui:insert>
 	</h:head>
 	<h:body>
-	<div id="page-body">
-		<div id="wrapper">
-			<!-- HEADER -->
-			<div id="header">
-				<div class="inner">
-					<div class="spacer"></div>
-					<div id="topmenu">
-						<h:form id="linkForm">
-						<ul class="menu">
-							<sec:isAuthenticated>
-								<li>
-									<h:commandLink action="#{navigationHelper.getUserPreferences}">
+		<div id="page-body">
+			<div id="wrapper">
+				<!-- HEADER -->
+				<div id="header">
+					<div class="inner">
+						<div class="spacer"></div>
+						<div id="topmenu">
+							<h:form id="linkForm">
+								<ul class="menu">
+									<sec:isAuthenticated>
+										<li><h:commandLink
+												action="#{navigationHelper.getUserPreferences}">
 									#{messages.username}: #{facesContext.externalContext.userPrincipal.name}
-									</h:commandLink>
-									<h:commandLink value="#{messages.configuration}" action="#{navigationHelper.getAdminSettings}" rendered="#{sec:ifAnyGranted('Adminrights')}"/>
-								</li>
-								<li>
-									<a href="#{facesContext.externalContext.request.contextPath}/j_spring_security_logout">#{messages.logout}</a>
-								</li>
-							</sec:isAuthenticated>
-						</ul>
+									</h:commandLink> <h:commandLink value="#{messages.configuration}"
+												action="#{navigationHelper.getAdminSettings}"
+												rendered="#{sec:ifAnyGranted('Adminrights')}" /></li>
+										<li><a
+											href="#{facesContext.externalContext.request.contextPath}/j_spring_security_logout">#{messages.logout}</a>
+										</li>
+									</sec:isAuthenticated>
+								</ul>
+							</h:form>
+						</div>
+					</div>
+				</div>
+
+				<div id="logo">
+					<div class="inner">
+						<h:form id="logoForm">
 						</h:form>
 					</div>
 				</div>
-			</div>
-				
-			<div id="logo">
+				<div id="slogan"></div>
+				<!-- END HEADER -->
+
+				<!-- MAINTABS -->
 				<div class="inner">
-					<h:form id="logoForm">
-					</h:form>
-				</div>
-			</div>
-			<div id="slogan">
-			</div>
-			<!-- END HEADER -->
-			
-			<!-- MAINTABS -->
-			<div class="inner">
 					<h:form id="menubarForm">
-						<p:menubar autoSubmenuDisplay="true" effect="fade" effectDuration="1">
+						<p:menubar autoSubmenuDisplay="true" effect="fade"
+							effectDuration="1">
 							<p:submenu label="#{messages.menu_contact}">
-								<p:menuitem value="#{messages.menu_contact_contactmanagement}" action="#{navigationHelper.getContactmanagement}"/>
+								<p:menuitem value="#{messages.menu_contact_contactmanagement}"
+									action="#{navigationHelper.getContactmanagement}" />
 							</p:submenu>
-							<p:submenu label="#{messages.menu_admin}" rendered="#{sec:ifAnyGranted('Adminrights')}">
-								<p:menuitem value="#{messages.menu_admin_securitymanagement}" action="#{navigationHelper.getAdminSecuritymanagement}"/>
+							<p:submenu label="#{messages.menu_admin}"
+								rendered="#{sec:ifAnyGranted('Adminrights')}">
+								<p:menuitem value="#{messages.menu_admin_securitymanagement}"
+									action="#{navigationHelper.getAdminSecuritymanagement}" />
 							</p:submenu>
 						</p:menubar>
 					</h:form>
+				</div>
+				<!-- END MAINTABS -->
+
+				<h:panelGroup layout="block">
+					<h:panelGroup id="main" layout="block">
+						<div class="inner">
+							<h:panelGroup id="content" layout="block">
+								<div class="spacer"></div>
+								<div id="center">
+									<h:outputText value="#{pageHint}"
+										rendered="#{not empty pageHint}" />
+									<!-- <h2 class="contentheading"><h:outputText value="#{pageHeading}" /></h2>-->
+									<ui:insert name="content">Main Content</ui:insert>
+								</div>
+							</h:panelGroup>
+						</div>
+					</h:panelGroup>
+					<div class="push"></div>
+					<h:panelGroup id="footer" layout="block">
+						<div class="inner">
+							<h:form id="footerForm">
+								<div class="moduletable"></div>
+
+								<div class="version">
+									<p></p>
+								</div>
+							</h:form>
+						</div>
+					</h:panelGroup>
+				</h:panelGroup>
 			</div>
-			<!-- END MAINTABS -->
-		
-			<h:panelGroup layout="block">
-				<h:panelGroup id="main" layout="block">
-					<div class="inner">
-						<h:panelGroup id="content" layout="block">
-							<div class="spacer"></div>
-							<div id="center">
-								<h:outputText value="#{pageHint}" rendered="#{not empty pageHint}" />
-								<!-- <h2 class="contentheading"><h:outputText value="#{pageHeading}" /></h2>-->
-								<ui:insert name="content">Main Content</ui:insert>
-							</div>
-						</h:panelGroup>
-					</div>
-				</h:panelGroup>
-				<div class="push"></div>
-				<h:panelGroup id="footer" layout="block">
-					<div class="inner">
-						<h:form id="footerForm">
-							<div class="moduletable">
-							</div>
-							
-							<div class="version">
-								<p>
-								</p>
-							</div>	
-						</h:form>
-					</div>
-				</h:panelGroup>
-			</h:panelGroup>
 		</div>
-	</div>
 	</h:body>
 </f:view>
 </html>

@@ -18,7 +18,10 @@ package org.businessmanager.domain;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+import org.hibernate.search.annotations.Indexed;
+
 @Entity
+@Indexed
 @DiscriminatorValue("PHONE")
 public class Phone extends ContactItem {
 
