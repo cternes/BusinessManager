@@ -8,6 +8,8 @@ import javax.faces.application.FacesMessage;
 
 import org.businessmanager.domain.settings.ApplicationSetting;
 import org.businessmanager.domain.settings.ApplicationSetting.Group;
+import org.businessmanager.geodb.OpenGeoDB;
+import org.businessmanager.geodb.OpenGeoEntry;
 import org.businessmanager.service.settings.ApplicationSettingsService;
 import org.businessmanager.web.bean.CompanySettingsBean;
 import org.businessmanager.web.controller.AbstractController;
@@ -22,6 +24,9 @@ public class CompanySettingsController extends AbstractController {
 	@Autowired
 	private ApplicationSettingsService settingsService;
 
+	@Autowired
+	private OpenGeoDB openGeoDB;
+	
 	private CompanySettingsBean companySettings;
 	
 	@PostConstruct
@@ -31,6 +36,14 @@ public class CompanySettingsController extends AbstractController {
 		companySettings.setSettings(companySettingsList);
 	}
 	
+	public CompanySettingsBean getCompanySettings() {
+		return companySettings;
+	}
+
+	public void setCompanySettings(CompanySettingsBean companySettings) {
+		this.companySettings = companySettings;
+	}
+
 	public void saveSettings() {
 		if(companySettings != null) {
 			Iterator<String> iter = companySettings.getSettingsMap().keySet().iterator();
@@ -43,6 +56,19 @@ public class CompanySettingsController extends AbstractController {
 			}
 			
 			addMessage(FacesMessage.SEVERITY_INFO, "settings_saved");
+		}
+	}
+	
+	public void findCity() {
+		String zipCode = companySettings.getZip();
+		if(zipCode == null || zipCode.length() < 3) {
+			return;
+		}
+		
+		List<OpenGeoEntry> findByZipCode = openGeoDB.findByZipCode("DE", zipCode);
+		
+		if(findByZipCode != null && findByZipCode.size() > 0) {
+			companySettings.setCity(findByZipCode.get(0).getName());
 		}
 	}
 }

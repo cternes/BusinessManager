@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="head">
+	</ui:define>
+
+	<ui:define name="content">
+		<h:body>
+			<h2 class="contentheading">#{messages.companySettings_title}</h2>
+
+			<h:form id="formPanel">
+				<p:messages />
+
+				<div class="verticalSpacingSmall" />
+				<p:panel header="#{messages.companySettings_panel_general}">
+					<p:panelGrid>
+						<p:row>
+							<p:column>
+								<h:outputLabel for="companyName"
+									value="#{messages.companySettings_name}:" />
+							</p:column>
+							<p:column>
+								<p:inputText id="companyName"
+									value="#{companySettingsController.companySettings.companyName}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputLabel for="companyOwner"
+									value="#{messages.companySettings_owner}:" />
+							</p:column>
+							<p:column>
+								<p:inputText id="companyOwner"
+									value="#{companySettingsController.companySettings.owners}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputLabel for="companyLegalForm"
+									value="#{messages.companySettings_legalform}:" />
+							</p:column>
+							<p:column>
+								<p:inputText id="companyLegalForm"
+									value="#{companySettingsController.companySettings.legalForm}" />
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+				</p:panel>
+				<div class="verticalSpacingSmall" />
+				<p:panel header="#{messages.companySettings_panel_contact}">
+					<p:panelGrid>
+						<p:row>
+							<p:column>
+								<h:outputLabel for="companyStreet"
+									value="#{messages.companySettings_street}:" />
+							</p:column>
+							<p:column colspan="2">
+								<p:inputText id="companyStreet"
+									value="#{companySettingsController.companySettings.street}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputLabel
+									value="#{messages.companySettings_street}/#{messages.companySettings_city}:"></h:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="companyZip"
+									value="#{companySettingsController.companySettings.zip}"
+									styleClass="smallInput">
+									<p:ajax event="keyup" update="companyCity"
+										listener="#{companySettingsController.findCity}"></p:ajax>
+								</p:inputText>
+							</p:column>
+							<p:column>
+								<p:inputText id="companyCity"
+									value="#{companySettingsController.companySettings.city}"
+									styleClass="fullSizeInput" />
+							</p:column>
+							<p:column>
+								<p:message for="companyZip" display="icon" />
+								<p:message for="companyCity" display="icon" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<div style="margin: 20px;" />
+								<h:outputLabel for="companyPhone"
+									value="#{messages.companySettings_phone}:" />
+							</p:column>
+							<p:column colspan="2">
+								<div style="margin: 20px;" />
+								<p:inputText id="companyPhone"
+									value="#{companySettingsController.companySettings.phoneNo}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputLabel for="companyFax"
+									value="#{messages.companySettings_fax}:" />
+							</p:column>
+							<p:column colspan="2">
+								<p:inputText id="companyFax"
+									value="#{companySettingsController.companySettings.faxNo}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputLabel for="companyMobile"
+									value="#{messages.companySettings_mobile}:" />
+							</p:column>
+							<p:column colspan="2">
+								<p:inputText id="companyMobile"
+									value="#{companySettingsController.companySettings.mobileNo}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<div style="margin: 20px;" />
+								<h:outputLabel for="companyEMail"
+									value="#{messages.companySettings_email}:" />
+							</p:column>
+							<p:column colspan="2">
+								<div style="margin: 20px;" />
+								<p:inputText id="companyEMail"
+									value="#{companySettingsController.companySettings.email}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputLabel for="companyWebsite"
+									value="#{messages.companySettings_website}:" />
+							</p:column>
+							<p:column colspan="2">
+								<p:inputText id="companyWebsite"
+									value="#{companySettingsController.companySettings.website}" />
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+				</p:panel>
+				<div class="verticalSpacingSmall" />
+				<p:panel header="#{messages.companySettings_panel_tax}">
+					<p:panelGrid>
+						<p:row>
+							<p:column>
+								<h:outputLabel for="companyTaxId"
+									value="#{messages.companySettings_taxid}:" />
+							</p:column>
+							<p:column>
+								<p:inputText id="companyTaxId"
+									value="#{companySettingsController.companySettings.taxId}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputLabel for="companyTaxAuthority"
+									value="#{messages.companySettings_tax_authority}:" />
+							</p:column>
+							<p:column>
+								<p:inputText id="companyTaxAuthority"
+									value="#{companySettingsController.companySettings.taxAuthority}" />
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+				</p:panel>
+				<div class="verticalSpacingSmall" />
+
+				<p:commandButton value="#{messages.save}"
+					action="#{companySettingsController.saveSettings}"
+					update=":formPanel" />
+			</h:form>
+		</h:body>
+	</ui:define>
+</ui:composition>

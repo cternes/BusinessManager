@@ -106,6 +106,8 @@
 								rendered="#{sec:ifAnyGranted('Adminrights')}">
 								<p:menuitem value="#{messages.menu_admin_securitymanagement}"
 									action="#{navigationHelper.getAdminSecuritymanagement}" />
+								<p:menuitem value="#{messages.menu_admin_companysettings}"
+									action="#{navigationHelper.getAdminCompanySettings}" />									
 							</p:submenu>
 						</p:menubar>
 					</h:form>
