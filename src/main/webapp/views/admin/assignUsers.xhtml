@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/template.xhtml">
+	
+	<ui:define name="content">
+		<h:body>
+			<h2 class="contentheading">#{messages.assignUsers_title}</h2>
+				<h:form id="formPanel">
+					<p:messages />
+					
+					<p:panel header="#{messages.assignUsers_search_users}">
+						<p:panelGrid columns="3">
+							<h:outputLabel value="#{messages.assignUsers_insert_username}"/>
+							<p:autoComplete value="#{assignUsersController.username}" completeMethod="#{assignUsersController.searchUser}"/>
+							<p:commandButton value="#{messages.assignUsers_title}" action="#{assignUsersController.assignUser}" update=":formPanel"/>
+						</p:panelGrid>
+					</p:panel>
+					
+					<div class="verticalSpacingSmall" />
+					
+					<p:panel header="#{messages.assignUsers_assigned_users}">
+						<p:dataTable value="#{assignUsersController.assignedUsers}" var="user" emptyMessage="#{messages.empty_table_message}">
+							<p:column sortBy="#{user.username}" headerText="#{messages.securitymanagement_user_name}">
+					        	<h:outputText value="#{user.username}" />
+						    </p:column> 
+						    <p:column>
+						    	<div class="center">
+									<p:commandButton title="#{messages.assignUsers_remove_user}" action="#{assignUsersController.removeUser}" icon="ui-icon-closethick" update=":formPanel">
+										<f:setPropertyActionListener target="#{assignUsersController.selectedUser}" value="#{user}" />
+									</p:commandButton>
+								</div>					    
+						    </p:column>
+						</p:dataTable>
+					</p:panel>
+					
+					<div class="verticalSpacingSmall" />
+					
+					<p:commandButton value="#{messages.assignUsers_title}" action="#{assignUsersController.save}" update=":formPanel" />
+					<p:commandLink value="#{messages.cancel}" action="#{assignUsersController.navigateBack}"
+						styleClass="marginButton" immediate="true"/>
+					
+					<div class="verticalSpacingSmall" />
+				</h:form>
+		</h:body>
+	</ui:define>
+</ui:composition>

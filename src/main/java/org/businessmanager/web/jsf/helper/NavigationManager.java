@@ -39,6 +39,7 @@ public class NavigationManager {
 	private static final String ADMIN_SECURITYMANAGEMENT 		= "/views/admin/securityManagement.jsf";
 	private static final String ADMIN_USER_EDIT					= "/views/admin/editUser.jsf";
 	private static final String ADMIN_ASSIGN_GROUPS				= "/views/admin/assignGroups.jsf";
+	private static final String ADMIN_ASSIGN_USERS				= "/views/admin/assignUsers.jsf";
 	private static final String ADMIN_SETTINGS					= "/views/admin/settings.jsf";
 	private static final String ADMIN_COMPANY_SETTINGS			= "/views/admin/companySettings.jsf";
 	private static final String CONTACTMANAGEMENT 				= "/views/contact/contactManagement.jsf";
@@ -133,5 +134,9 @@ public class NavigationManager {
 
 	public String getAdminAssignGroups() {
 		return getNavigation(ADMIN_ASSIGN_GROUPS);
+	}
+
+	public String getAdminAssignUsers() {
+		return getNavigation(ADMIN_ASSIGN_USERS);
 	}
 }

@@ -88,6 +88,14 @@ public interface UserService {
 	public User getUserByName(String username);
 	
 	/**
+	 * Retrieves a list of {@link User}s by the given username fragment.
+	 * 
+	 * @param usernameFragment a fragment of the username or the complete username
+	 * @return a list of {@link User}s
+	 */
+	public List<User> getUsersByNameFragment(String usernameFragment);
+	
+	/**
 	 * Retrieves the {@link User} for the given email address from the database. If the user does not exist, null is returned. 
 	 * 
 	 * @param email the email to search for

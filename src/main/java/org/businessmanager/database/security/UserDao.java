@@ -15,6 +15,8 @@
  ******************************************************************************/
 package org.businessmanager.database.security;
 
+import java.util.List;
+
 import org.businessmanager.database.GenericDao;
 import org.businessmanager.domain.security.User;
 
@@ -30,5 +32,7 @@ public interface UserDao extends GenericDao<User> {
 	public User findUserByName(String username);
 	
 	public User findUserByEmail(String email);
+
+	public List<User> findByUsernameFragment(String usernameFragment);
 
 }

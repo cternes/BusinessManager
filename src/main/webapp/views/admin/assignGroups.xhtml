@@ -17,7 +17,7 @@
 					<p:pickList value="#{assignGroupsController.groups}"  
 	                    var="group" iconOnly="true" 
 	                    itemLabel="#{group.displayName}"  
-	                    itemValue="#{group}" converter="#{groupConverter}" 
+	                    itemValue="#{group.id}" converter="#{groupConverter}" 
 	                    showSourceControls="false" showTargetControls="false">  
 				        <f:facet name="sourceCaption">#{messages.assignGroups_available_groups}</f:facet>  
 				        <f:facet name="targetCaption">#{messages.assignGroups_assigned_groups}</f:facet>  

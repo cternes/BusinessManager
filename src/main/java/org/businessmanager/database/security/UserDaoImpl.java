@@ -23,9 +23,14 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.businessmanager.database.GenericDaoImpl;
+import org.businessmanager.domain.MutationType;
+import org.businessmanager.domain.security.QUser;
 import org.businessmanager.domain.security.User;
 import org.businessmanager.domain.security.User_;
+import org.businessmanager.domain.settings.QApplicationSetting;
 import org.springframework.stereotype.Repository;
+
+import com.mysema.query.jpa.impl.JPAQuery;
 
 /**
  * @author Christian Ternes
@@ -67,6 +72,14 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
 	@Override
 	public Class<User> getPersistenceClass() {
 		return User.class;
+	}
+
+	@Override
+	public List<User> findByUsernameFragment(String usernameFragment) {
+		JPAQuery query = new JPAQuery(getEntityManager());
+		QUser user = QUser.user;
+		
+		return query.from(user).where(user.username.like(usernameFragment).and(user.mutationType.ne(MutationType.DELETE))).list(user);
 	}
 	
 }

@@ -44,6 +44,7 @@ public class UserGroupController extends AbstractController {
 	
 	private boolean showGroupDialog = false;
 	private boolean showUserDialog = false;
+	private boolean showAssignGroupDialog = false;
 	
 	@PostConstruct
 	public void init() {
@@ -97,6 +98,26 @@ public class UserGroupController extends AbstractController {
 	
 	public String navigateToAssignGroups() {
 		return navigationManager.getAdminAssignGroups();
+	}
+	
+	public String navigateToAssignUsers() {
+		return navigationManager.getAdminAssignUsers();
+	}
+
+	public boolean getShowAssignGroupDialog() {
+		return showAssignGroupDialog;
+	}
+
+	public void setShowAssignGroupDialog(boolean showAssignGroupDialog) {
+		this.showAssignGroupDialog = showAssignGroupDialog;
+	}
+	
+	public void openAssignGroupDialog() {
+		showAssignGroupDialog = true;
+	}
+	
+	public void closeAssignGroupDialog() {
+		showAssignGroupDialog = false;
 	}
 	
 }

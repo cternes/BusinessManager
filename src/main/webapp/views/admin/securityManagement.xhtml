@@ -75,6 +75,14 @@
 						            	<f:setPropertyActionListener target="#{userGroupController.model.selectedGroup}" value="#{group}" />
 						            </p:commandLink>
 						        </p:column>
+						        
+						        <p:column>
+						        	<div class="center">
+							        	<p:commandButton title="#{messages.securitymanagement_add_remove_users}" action="#{userGroupController.navigateToAssignUsers}" icon="ui-icon-transferthick-e-w" styleClass="marginButton">
+											<f:setPropertyActionListener target="#{userGroupController.model.selectedGroup}" value="#{group}" />
+						        		</p:commandButton>
+					        		</div>
+						        </p:column>
 							</p:dataTable>
 						</p:tab>
 					</p:tabView>

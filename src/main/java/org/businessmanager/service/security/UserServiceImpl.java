@@ -208,8 +208,17 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User getUserByEmail(String email) {
-		User user = userDao.findUserByEmail(email);
-		return user;
+		return userDao.findUserByEmail(email);
+	}
+
+	@Override
+	public List<User> getUsersByNameFragment(String usernameFragment) {
+		String fragment = usernameFragment;
+		if(!usernameFragment.contains("%")) {
+			fragment += "%";
+		}
+		
+		return userDao.findByUsernameFragment(fragment);
 	}
 
 }
