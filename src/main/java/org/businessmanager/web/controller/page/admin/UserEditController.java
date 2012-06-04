@@ -171,7 +171,7 @@ public class UserEditController extends AbstractController {
 	 */
 	public boolean getIsAdminUser() {
 		User selectedUser = model.getSelectedUser();
-		if(selectedUser != null && selectedUser.getUsername().equals(User.ADMIN_USER)) {
+		if(selectedUser != null && selectedUser.getIsDefaultAdminUser()) {
 			return true;
 		}
 		return false;

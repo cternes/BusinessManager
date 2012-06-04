@@ -10,13 +10,13 @@
 	
 	<ui:define name="content">
 		<h:body>
-			<h2 class="contentheading">#{messages.assignUsers_title}</h2>
+			<h2 class="contentheading">#{messages.assignUsers_title}: #{assignUsersController.model.selectedUser.username}</h2>
 				<h:form id="formPanel">
 					<p:messages />
 					
 					<p:panel header="#{messages.assignUsers_search_users}">
 						<p:panelGrid columns="3">
-							<h:outputLabel value="#{messages.assignUsers_insert_username}"/>
+							<h:outputLabel value="#{messages.assignUsers_insert_username}:"/>
 							<p:autoComplete value="#{assignUsersController.username}" completeMethod="#{assignUsersController.searchUser}"/>
 							<p:commandButton value="#{messages.assignUsers_title}" action="#{assignUsersController.assignUser}" update=":formPanel"/>
 						</p:panelGrid>
@@ -25,7 +25,7 @@
 					<div class="verticalSpacingSmall" />
 					
 					<p:panel header="#{messages.assignUsers_assigned_users}">
-						<p:dataTable value="#{assignUsersController.assignedUsers}" var="user" emptyMessage="#{messages.empty_table_message}">
+						<p:dataTable value="#{assignUsersController.assignedUsers}" var="user" emptyMessage="#{messages.assignUsers_no_user_assigned}">
 							<p:column sortBy="#{user.username}" headerText="#{messages.securitymanagement_user_name}">
 					        	<h:outputText value="#{user.username}" />
 						    </p:column> 
@@ -41,7 +41,7 @@
 					
 					<div class="verticalSpacingSmall" />
 					
-					<p:commandButton value="#{messages.assignUsers_title}" action="#{assignUsersController.save}" update=":formPanel" />
+					<p:commandButton value="#{messages.assignUsers_assign}" action="#{assignUsersController.save}" update=":formPanel" />
 					<p:commandLink value="#{messages.cancel}" action="#{assignUsersController.navigateBack}"
 						styleClass="marginButton" immediate="true"/>
 					

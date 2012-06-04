@@ -119,4 +119,8 @@ public class AssignUsersController extends AbstractController {
 		}
 	}
 	
+	public UserGroupModel getModel() {
+		return model;
+	}
+	
 }

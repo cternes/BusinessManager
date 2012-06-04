@@ -17,42 +17,59 @@ package org.businessmanager.startup;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.businessmanager.domain.settings.ApplicationSetting;
+import org.businessmanager.service.settings.ApplicationSettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 /**
- * This controller will be executed <b>once on application startup</b>.
- * This is usually be used to setup databases or initialize environment variables.
+ * Setup environment and other stuff here
  * 
- * @author Christian Ternes
- *
  */
 @Component
 public class StartupManager implements ApplicationListener<ContextRefreshedEvent> {
 
 	private final Log logger = LogFactory.getLog(getClass());
 	
-	private static boolean IS_STARTUP = true; /*needs to be static*/
+	private static boolean STARTUP = true;
 	
 	@Autowired
 	private StorageManager storageManager;
-
+	
+	@Autowired
+	private ApplicationSettingsService settingsService;
+	
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		if(IS_STARTUP) {
-			IS_STARTUP = false;
+		if(STARTUP) {
+			STARTUP = false;
 			
-			//setup database if enabled
-			if(storageManager.isStartupScriptEnabled()) {
-				logger.info("Setting up database & environment...");
+			if(storageManager.isStartupScriptEnabled() && isFirstStartOfApplication()) {
+				logger.info("Setup application...");
 				
 				setupDatabase();
+				writeStartupFlag();
 				
-				logger.info("Setup completed.");
+				logger.info("Setup done.");
+			}
+			else {
+				logger.info("Skipping application setup");
 			}
 		}
+	}
+	
+	private void writeStartupFlag() {
+		settingsService.setApplicationSetting(ApplicationSetting.Group.SYSTEM_PREFERENCES, ApplicationSettingsService.GENERAL_FIRST_STARTUP, "false");
+	}
+
+	private boolean isFirstStartOfApplication() {
+		String isFirstStartup = settingsService.getApplicationSettingValue(ApplicationSetting.Group.SYSTEM_PREFERENCES, ApplicationSettingsService.GENERAL_FIRST_STARTUP);
+		if(isFirstStartup == null || "true".equalsIgnoreCase(isFirstStartup)) {
+			return true;
+		}
+		return false;
 	}
 	
 	public void setupDatabase() {

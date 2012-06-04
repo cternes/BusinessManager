@@ -64,6 +64,8 @@ public final class Group extends AbstractEntity {
 	@JoinTable(name="group_permissions")
 	private List<Permission> permissions = new ArrayList<Permission>();
 	
+	private boolean isDefaultGroup = false;
+	
 	protected Group() {
 	}
 	
@@ -159,6 +161,14 @@ public final class Group extends AbstractEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public boolean getIsDefaultGroup() {
+		return isDefaultGroup;
+	}
+
+	public void setDefaultGroup(boolean isDefaultGroup) {
+		this.isDefaultGroup = isDefaultGroup;
 	}
 	
 }

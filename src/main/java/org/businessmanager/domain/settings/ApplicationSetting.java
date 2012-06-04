@@ -24,7 +24,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.businessmanager.domain.AbstractEntity;
-import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -39,9 +38,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public final class ApplicationSetting extends AbstractEntity {
 
 	public enum Group {
-		USER_PREFERENCS, COMPANY_PREFERENCES;
-		
-		
+		SYSTEM_PREFERENCES, USER_PREFERENCS, COMPANY_PREFERENCES;
 	}
 	
 	@Id

@@ -78,7 +78,7 @@
 						        
 						        <p:column>
 						        	<div class="center">
-							        	<p:commandButton title="#{messages.securitymanagement_add_remove_users}" action="#{userGroupController.navigateToAssignUsers}" icon="ui-icon-transferthick-e-w" styleClass="marginButton">
+							        	<p:commandButton title="#{messages.securitymanagement_add_remove_users}" action="#{userGroupController.navigateToAssignUsers}" icon="ui-icon-transferthick-e-w" styleClass="marginButton" rendered="#{not group.isDefaultGroup}">
 											<f:setPropertyActionListener target="#{userGroupController.model.selectedGroup}" value="#{group}" />
 						        		</p:commandButton>
 					        		</div>
@@ -95,7 +95,7 @@
 						</h:dataTable>
 					</p:dialog>
 					
-					<p:dialog id="userDialog" header="#{messages.securitymanagement_assigned_users}" visible="#{userGroupController.showUserDialog}" width="500">
+					<p:dialog id="userDialog" widgetVar="userDialog" header="#{messages.securitymanagement_assigned_users}" visible="#{userGroupController.showUserDialog}" width="500">
 						<h:dataTable value="#{userGroupController.model.selectedGroup.members}" var="user">
 							<h:column>
 								<p:commandLink title="#{messages.securitymanagement_edit_user}" value="#{user.username}" action="#{userGroupController.navigateToEditUser}">

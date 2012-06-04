@@ -27,7 +27,7 @@
 					<p:panel header="#{messages.edituser_general}" >
 						<p:panelGrid columns="2">
 							<h:outputText for="name" value="#{messages.edituser_user_name}:" />
-							<p:inputText id="name" value="#{userEditController.bean.username}" required="true" requiredMessage="#{messages.required_message}" maxlength="50" disabled="#{userEditController.isAdminUser}"/>
+							<p:inputText id="name" value="#{userEditController.bean.username}" required="true" requiredMessage="#{messages.required_message}" maxlength="50" />
 							
 							<h:outputText for="mail" value="#{messages.edituser_user_mail}:" />
 							<p:inputText id="mail" value="#{userEditController.bean.mail}" maxlength="50"/>

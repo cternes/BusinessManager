@@ -15,6 +15,7 @@
  ******************************************************************************/
 package org.businessmanager.web.controller.page.admin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -55,8 +56,6 @@ public class AssignGroupsController extends AbstractController {
 
 	@SuppressWarnings("unchecked")
 	private void createGroupsModel() {
-		//TODO: filter default roles
-		
 		User selectedUser = model.getSelectedUser();
 		
 		List<Group> source = model.getGroupList();
@@ -66,7 +65,7 @@ public class AssignGroupsController extends AbstractController {
 		
 		groups = new DualListModel<Group>(source, target);
 	}
-
+	
 	public void setGroups(DualListModel<Group> groups) {
 		this.groups = groups;
 	}

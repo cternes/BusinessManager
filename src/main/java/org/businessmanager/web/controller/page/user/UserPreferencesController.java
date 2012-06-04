@@ -106,13 +106,6 @@ public class UserPreferencesController extends AbstractController {
 				
 				//set language
 				if(key.equals(ApplicationSettingsService.GENERAL_LANGUAGE)) {
-					//facesContext.setLocale(new Locale(value));
-//					String aViewId = facesContext.getCurrentFacesContext().getViewRoot().getViewId();
-//					ViewHandler aHandler = facesContext.getCurrentFacesContext().getApplication().getViewHandler();
-//					UIViewRoot aRoot = aHandler.createView(facesContext.getCurrentFacesContext(), aViewId);
-//					aRoot.setLocale(new Locale(value));
-//					aRoot.setViewId(aViewId);
-//					facesContext.getCurrentFacesContext().setViewRoot(aRoot);
 					languageController.setLocale(new Locale(value));
 				}
 			}

@@ -44,11 +44,12 @@
 	</bean>
 
 	<bean id="userAdmin" class="org.businessmanager.domain.security.User">
-		<property name="username" value="admin"></property>
-		<property name="password" value="admin"></property>
-		<property name="enabled" value="true"></property>
-		<property name="email" value="admin@localhost"></property>
-		<property name="mustChangePassword" value="false"></property>
+		<property name="username" value="admin" />
+		<property name="password" value="admin" />
+		<property name="enabled" value="true" />
+		<property name="email" value="admin@localhost" />
+		<property name="mustChangePassword" value="false" />
+		<property name="defaultAdminUser" value="true" />
 	</bean>
 
 	<bean id="userStrategy" class="org.businessmanager.startup.strategy.UserStrategy" />
@@ -84,6 +85,7 @@
 	<bean id="groupAdmin" class="org.businessmanager.domain.security.Group">
 		<property name="name" value="Administrators"></property>
 		<property name="messagesKey" value="groupname_admin" />
+		<property name="defaultGroup" value="true" />
 		<property name="members">
 			<list>
 				<ref bean="userAdmin" />
@@ -99,6 +101,12 @@
 	<bean id="groupAllUsers" class="org.businessmanager.domain.security.Group">
 		<property name="name" value="All Users" />
 		<property name="messagesKey" value="groupname_all_users" />
+		<property name="defaultGroup" value="true" />
+		<property name="members">
+			<list>
+				<ref bean="userAdmin" />
+			</list>
+		</property>
 		<property name="permissions">
 			<list>
 				<ref bean="permissionAll" />

@@ -33,8 +33,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity(name="users")
 public final class User extends AbstractEntity {
 
-	public static final String ADMIN_USER = "admin";
-	
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -58,6 +56,9 @@ public final class User extends AbstractEntity {
 	
 	@Column
 	private Long salt;
+	
+	@Column
+	private boolean isDefaultAdminUser = false;
 	
 	private transient List<Group> assignedGroups;
 	private transient boolean isAdministrator;
@@ -191,10 +192,11 @@ public final class User extends AbstractEntity {
 	}
 	
 	public boolean getIsDefaultAdminUser() {
-		if(getUsername().equals(User.ADMIN_USER)) {
-			return true;
-		}
-		return false;
+		return isDefaultAdminUser;
+	}
+
+	public void setDefaultAdminUser(boolean isDefaultAdminUser) {
+		this.isDefaultAdminUser = isDefaultAdminUser;
 	}
 
 }

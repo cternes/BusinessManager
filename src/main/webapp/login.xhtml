@@ -11,7 +11,6 @@
     <h:body>
     	<div class="spacer"></div>
     	<div id="center">
-    		<h2 class="contentheading">#{messages.login_title}</h2>
 			<h:form id="loginForm" prependId="false" styleClass="inputForm">
 					<p:focus context="loginForm"/>
 					<!-- Messages must be global here, to show bad credentials -->
@@ -28,7 +27,7 @@
 							<h:inputSecret id="j_password" required="true" label="#{messages.login_password}"/>  
 					    	<h:message for="j_password" display="text" style="color:red"/>
 					    	
-					    	<p:spacer height="10" />
+					    	<p:spacer height="5" />
 					    	<p:spacer />
 					    	<p:spacer />
 					    	

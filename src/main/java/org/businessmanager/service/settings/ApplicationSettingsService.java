@@ -24,13 +24,12 @@ import org.businessmanager.domain.settings.ApplicationSetting.Group;
  * A service to manage the application settings.
  * <i>Note:</i> All keys are defined here.
  * 
- * @author Christian Ternes
- *
  */
 public interface ApplicationSettingsService {
 
 	public static final String GENERAL_LANGUAGE = "general.language";
 	public static final String GENERAL_COUNTRY = "general.country";
+	public static final String GENERAL_FIRST_STARTUP = "general.firststartup";
 	
 	/**
 	 * Returns all application settings from the database.
