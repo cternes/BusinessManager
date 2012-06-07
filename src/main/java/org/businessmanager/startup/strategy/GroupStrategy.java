@@ -19,9 +19,9 @@ import java.util.List;
 
 import javax.persistence.metamodel.SingularAttribute;
 
-import org.businessmanager.database.GenericDao;
-import org.businessmanager.database.security.PermissionDao;
-import org.businessmanager.database.security.GroupDao;
+import org.businessmanager.dao.GenericDao;
+import org.businessmanager.dao.security.GroupDao;
+import org.businessmanager.dao.security.PermissionDao;
 import org.businessmanager.domain.security.Permission;
 import org.businessmanager.domain.security.Group;
 import org.businessmanager.domain.security.Group_;

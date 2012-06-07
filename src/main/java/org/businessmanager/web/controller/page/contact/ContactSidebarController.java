@@ -16,15 +16,11 @@
 package org.businessmanager.web.controller.page.contact;
 
 import org.businessmanager.web.controller.AbstractController;
-import org.businessmanager.web.controller.state.ContactModel;
+import org.businessmanager.web.controller.model.ContactModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-/**
- * @author Christian Ternes
- *
- */
 @Component("contactSidebarController")
 @Scope("request")
 public class ContactSidebarController extends AbstractController {

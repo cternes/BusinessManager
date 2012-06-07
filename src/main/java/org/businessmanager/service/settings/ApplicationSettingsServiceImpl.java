@@ -17,7 +17,7 @@ package org.businessmanager.service.settings;
 
 import java.util.List;
 
-import org.businessmanager.database.settings.ApplicationSettingsDao;
+import org.businessmanager.dao.settings.ApplicationSettingsDao;
 import org.businessmanager.domain.settings.ApplicationSetting;
 import org.businessmanager.domain.settings.ApplicationSetting.Group;
 import org.businessmanager.domain.settings.ApplicationSetting_;
@@ -25,10 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * @author Christian Ternes
- *
- */
 @Service
 @Transactional
 public class ApplicationSettingsServiceImpl implements ApplicationSettingsService {

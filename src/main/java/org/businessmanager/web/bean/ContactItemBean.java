@@ -18,10 +18,6 @@ package org.businessmanager.web.bean;
 import org.businessmanager.domain.ContactItem;
 import org.businessmanager.domain.ContactItem.Scope;
 
-/**
- * @author Christian Ternes
- *
- */
 public class ContactItemBean {
 
 	private Long id;

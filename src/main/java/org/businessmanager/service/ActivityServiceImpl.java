@@ -18,7 +18,7 @@ package org.businessmanager.service;
 import java.util.List;
 
 import org.apache.commons.lang3.Validate;
-import org.businessmanager.database.ActivityDao;
+import org.businessmanager.dao.ActivityDao;
 import org.businessmanager.domain.Activity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

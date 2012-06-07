@@ -22,10 +22,6 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-/**
- * @author Christian Ternes
- *
- */
 public class UserDetailsImpl extends org.springframework.security.core.userdetails.User implements UserDetails {
 
 	private List<String> grantedGroups = new ArrayList<String>();

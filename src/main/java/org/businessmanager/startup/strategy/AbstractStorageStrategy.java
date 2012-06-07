@@ -19,7 +19,7 @@ import java.util.List;
 
 import javax.persistence.metamodel.SingularAttribute;
 
-import org.businessmanager.database.GenericDao;
+import org.businessmanager.dao.GenericDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;

@@ -22,7 +22,7 @@ import javax.persistence.metamodel.SingularAttribute;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.businessmanager.database.security.GroupDao;
+import org.businessmanager.dao.security.GroupDao;
 import org.businessmanager.domain.security.Permission;
 import org.businessmanager.domain.security.Group;
 import org.businessmanager.domain.security.Group_;
@@ -31,11 +31,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-/**
- * @author Christian Ternes
- *
- */
 @Service
 @Transactional
 public class GroupServiceImpl implements GroupService {

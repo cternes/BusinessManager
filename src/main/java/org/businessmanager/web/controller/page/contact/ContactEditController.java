@@ -24,7 +24,7 @@ import javax.faces.application.FacesMessage;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
-import org.businessmanager.aop.annotation.ErrorHandled;
+import org.businessmanager.annotation.HandlesExceptions;
 import org.businessmanager.domain.Address;
 import org.businessmanager.domain.Address.AddressType;
 import org.businessmanager.domain.Contact;
@@ -39,8 +39,7 @@ import org.businessmanager.web.bean.ContactBean;
 import org.businessmanager.web.bean.ContactItemBean;
 import org.businessmanager.web.controller.AbstractController;
 import org.businessmanager.web.controller.AddressManagementController;
-import org.businessmanager.web.controller.state.AddressModel;
-import org.businessmanager.web.controller.state.ContactModel;
+import org.businessmanager.web.controller.model.ContactModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -51,9 +50,6 @@ public class ContactEditController extends AbstractController {
 
 	@Autowired
 	private ContactService contactService;
-
-	@Autowired
-	private AddressModel addressModel;
 
 	@Autowired
 	private ContactModel contactModel;
@@ -157,7 +153,7 @@ public class ContactEditController extends AbstractController {
 		}
 	}
 
-	@ErrorHandled
+	@HandlesExceptions
 	public String saveContact() {
 		if (validateInput()) {
 
@@ -381,17 +377,6 @@ public class ContactEditController extends AbstractController {
 
 	public List<Salutation> getAvailableSalutations() {
 		return avaliableSalutations;
-	}
-
-	public AddressModel getAddressModel() {
-		if (addressModel.getEntityList() == null) {
-			addressModel.setEntityList(new ArrayList<Address>());
-		}
-		return addressModel;
-	}
-
-	public void addAddress() {
-		addressModel.getEntityList().add(new Address());
 	}
 
 	public List<ContactItemBean> getFaxList() {

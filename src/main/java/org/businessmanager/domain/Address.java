@@ -24,7 +24,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
+import org.businessmanager.i18n.ResourceBundleAccessor;
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
@@ -46,7 +46,7 @@ public class Address extends AbstractEntity implements HasDefault {
 		}
 
 		public String getLabel() {
-			return ResourceBundleProducer.getString(label);
+			return ResourceBundleAccessor.getString(label);
 		}
 	}
 	

@@ -18,13 +18,13 @@ package org.businessmanager.web.controller.page.admin;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 
-import org.businessmanager.aop.annotation.ErrorHandled;
+import org.businessmanager.annotation.HandlesExceptions;
 import org.businessmanager.domain.security.User;
-import org.businessmanager.error.DuplicateUserException;
+import org.businessmanager.exception.DuplicateUserException;
 import org.businessmanager.service.security.UserService;
 import org.businessmanager.web.bean.UserBean;
 import org.businessmanager.web.controller.AbstractController;
-import org.businessmanager.web.controller.state.UserGroupModel;
+import org.businessmanager.web.controller.model.UserGroupModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -76,7 +76,7 @@ public class UserEditController extends AbstractController {
 		return navigationManager.getAdminSecuritymanagement();
 	}
 	
-	@ErrorHandled
+	@HandlesExceptions
 	public String saveUser() {
 		if (model.getSelectedUser() == null) {
 			return createUser();

@@ -22,25 +22,17 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 
-/**
- * This abstract class provides common properties for entities like mutationUser and mutationTime.
- * <p/>
- * All entity classes should extend this class. 
- * 
- * @author Christian Ternes
- *
- */
 @MappedSuperclass
-public abstract class AbstractEntity implements MutationTracked {
+public abstract class AbstractEntity implements TrackModifications {
 
 	@Column
-	private String mutationUser;
+	private String modificationUser;
 	
 	@Column
-	private Calendar mutationTime;
+	private Calendar modificationDate;
 	
 	@Enumerated(EnumType.STRING)
-	private MutationType mutationType;
+	private ModificationType modificationType;
 	
 	@Column
 	private Calendar validFrom;
@@ -49,33 +41,33 @@ public abstract class AbstractEntity implements MutationTracked {
 	private Calendar validUntil;
 
 	@Override
-	public void setMutationUser(String mutationUser) {
-		this.mutationUser = mutationUser;
+	public void setModificationUser(String modificationUser) {
+		this.modificationUser = modificationUser;
 	}
 
 	@Override
-	public String getMutationUser() {
-		return mutationUser;
+	public String getModificationUser() {
+		return modificationUser;
 	}
 
 	@Override
-	public void setMutationTime(Calendar mutationTime) {
-		this.mutationTime = mutationTime;
+	public void setModificationDate(Calendar modificationDate) {
+		this.modificationDate = modificationDate;
 	}
 
 	@Override
-	public Calendar getMutationTime() {
-		return mutationTime;
+	public Calendar getModificationDate() {
+		return modificationDate;
 	}
 
 	@Override
-	public void setMutationType(MutationType mutationType) {
-		this.mutationType = mutationType;
+	public void setModificationType(ModificationType modificationType) {
+		this.modificationType = modificationType;
 	}
 
 	@Override
-	public MutationType getMutationType() {
-		return mutationType;
+	public ModificationType getModificationType() {
+		return modificationType;
 	}
 
 	@Override

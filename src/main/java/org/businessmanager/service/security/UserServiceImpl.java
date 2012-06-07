@@ -22,19 +22,15 @@ import javax.persistence.metamodel.SingularAttribute;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.businessmanager.database.security.UserDao;
+import org.businessmanager.dao.security.UserDao;
 import org.businessmanager.domain.security.Group;
 import org.businessmanager.domain.security.User;
-import org.businessmanager.error.DuplicateUserException;
+import org.businessmanager.exception.DuplicateUserException;
 import org.businessmanager.util.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * @author Christian Ternes
- *
- */
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {

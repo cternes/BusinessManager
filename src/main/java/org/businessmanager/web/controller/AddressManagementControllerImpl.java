@@ -25,9 +25,9 @@ import org.businessmanager.domain.Address.AddressType;
 import org.businessmanager.geodb.Country;
 import org.businessmanager.geodb.OpenGeoDB;
 import org.businessmanager.geodb.OpenGeoEntry;
+import org.businessmanager.i18n.ResourceBundleAccessor;
 import org.businessmanager.service.AddressService;
 import org.businessmanager.web.bean.AddressBean;
-import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -64,32 +64,25 @@ public class AddressManagementControllerImpl extends AbstractController implemen
 	private int maxAssigneableAddresses = 3; //DEFAULT is 3
 	
 	@Override
-	public void initializeAddressComponent(Address theAdresse) {
-		if(theAdresse != null) {
-			List<Address> aAddressList = new ArrayList<Address>();
-			aAddressList.add(theAdresse);
-			initializeAddressComponent(aAddressList);
+	public void initializeAddressComponent(Address address) {
+		if(address != null) {
+			List<Address> addressList = new ArrayList<Address>();
+			addressList.add(address);
+			initializeAddressComponent(addressList);
 		}
 	}
 	
 	@Override
-	public void initializeAddressComponent(List<Address> theAddressList) {
-		if(theAddressList != null) {
-			for (Address anAdresse : theAddressList) {
-				AddressBean anAddressBean = new AddressBean().getMappedAddressBean(anAdresse);
-				addressList.add(anAddressBean);
+	public void initializeAddressComponent(List<Address> list) {
+		if(list != null) {
+			for (Address address : list) {
+				AddressBean bean = new AddressBean().getMappedAddressBean(address);
+				addressList.add(bean);
 			}
 		}
 	}
 	
-	/**
-	 * This id must only be unique for the current user and the current view.
-	 * This id will never be transmitted to the database.
-	 * 
-	 * Therefore current millis should be sufficient here.
-	 * 
-	 */
-	private long createUniqueId(AddressBean theAddressBean) {
+	private long createTempUniqueId(AddressBean theAddressBean) {
 		return theAddressBean.hashCode()+System.currentTimeMillis();
 	}
 	
@@ -97,7 +90,7 @@ public class AddressManagementControllerImpl extends AbstractController implemen
 		if(!getIsMaximumReached()) {
 			//create unique id and add address
 			if(validateInput(addressToUpdate)) {
-				addressToUpdate.setId(createUniqueId(addressToUpdate));
+				addressToUpdate.setId(createTempUniqueId(addressToUpdate));
 				removeDefaultFlag(addressToUpdate);
 				addressList.add(addressToUpdate);
 				addressToUpdate = new AddressBean();
@@ -140,11 +133,11 @@ public class AddressManagementControllerImpl extends AbstractController implemen
 	
 	public void updateAddress() {
 		if(validateInput(addressToUpdate)) {
-			AddressBean anAddress = findAddressInList(addressToUpdate.getId());
+			AddressBean address = findAddressInList(addressToUpdate.getId());
 			
-			if(anAddress != null) {
-				removeDefaultFlag(anAddress);
-				anAddress.copyDataFromAddressBean(addressToUpdate);
+			if(address != null) {
+				removeDefaultFlag(address);
+				address.copyDataFromAddressBean(addressToUpdate);
 				showAddressUpdateDialog = false;
 			}
 			else {
@@ -202,18 +195,18 @@ public class AddressManagementControllerImpl extends AbstractController implemen
 
 	@Override
 	public List<Address> getAssignedAddressList() {
-		List<Address> aResultList = new ArrayList<Address>();
-		for (AddressBean aBean : addressList) {
-			Address aAdresse = aBean.getAddress(isIdExisting(aBean.getId()));
+		List<Address> resultList = new ArrayList<Address>();
+		for (AddressBean bean : addressList) {
+			Address aAdresse = bean.getAddress(isIdExisting(bean.getId()));
 			
-			aResultList.add(aAdresse);
+			resultList.add(aAdresse);
 		}
-		return aResultList;
+		return resultList;
 	}
 
 	@Override
-	public void setMaxAssigneableAddresses(int theMaxAssigneableAddresses) {
-		this.maxAssigneableAddresses = theMaxAssigneableAddresses;
+	public void setMaxAssigneableAddresses(int maxAssigneableAddresses) {
+		this.maxAssigneableAddresses = maxAssigneableAddresses;
 	}
 	
 	public int getMaxAssigneableAddresses() {
@@ -227,9 +220,6 @@ public class AddressManagementControllerImpl extends AbstractController implemen
 		return false;
 	}
 	
-	/**
-	 * Reset the controller state, just for unit tests.
-	 */
 	void reset() {
 		addressList = new ArrayList<AddressBean>();
 		selectedAddress = null;
@@ -239,33 +229,33 @@ public class AddressManagementControllerImpl extends AbstractController implemen
 		maxAssigneableAddresses = -1;
 	}
 	
-	private boolean validateInput(AddressBean theBean) {
+	private boolean validateInput(AddressBean bean) {
 		boolean isValid = true;
-		String street = theBean.getStreet();
+		String street = bean.getStreet();
 		if(street == null || street.isEmpty()) {
 			addErrorMessage(CLIENT_ID_STREET, "addressmanagement_error_empty_street");
 			isValid = false;
 		}
 		
-		String number = theBean.getHousenumber();
+		String number = bean.getHousenumber();
 		if(number == null || number.isEmpty()) {
 			addErrorMessage(CLIENT_ID_NUMBER, "addressmanagement_error_empty_housenumber");
 			isValid = false;
 		}
 		
-		String zip = theBean.getZipCode();
+		String zip = bean.getZipCode();
 		if(zip == null || zip.isEmpty()) {
 			addErrorMessage(CLIENT_ID_ZIP, "addressmanagement_error_empty_zipcode");
 			isValid = false;
 		}
 		
-		String city = theBean.getCity();
+		String city = bean.getCity();
 		if(city == null || city.isEmpty()) {
 			addErrorMessage(CLIENT_ID_CITY, "addressmanagement_error_empty_city");
 			isValid = false;
 		}
 		
-		Country country = theBean.getCountry();
+		Country country = bean.getCountry();
 		if(country == null) {
 			addErrorMessage(CLIENT_ID_COUNTRY, "addressmanagement_error_empty_country");
 			isValid = false;
@@ -274,67 +264,37 @@ public class AddressManagementControllerImpl extends AbstractController implemen
 		return isValid;
 	}
 	
-	private AddressBean findAddressInList(Long theId) {
+	private AddressBean findAddressInList(Long addressId) {
 		for (AddressBean aAddressBean : addressList) {
-			if(aAddressBean.getId().equals(theId)) {
+			if(aAddressBean.getId().equals(addressId)) {
 				return aAddressBean;
 			}
 		}
 		return null;
 	}
 	
-	private boolean isIdExisting(Long theId) {
-		Address aAdresseById = addressService.getAddressById(theId);
-		if(aAdresseById != null) {
+	private boolean isIdExisting(Long addressId) {
+		Address address = addressService.getAddressById(addressId);
+		if(address != null) {
 			return true;
 		}
 		return false;
 	}
 	
 	public List<AddressType> getAvailableAddressTypeValues() {
-//		List<String> aRemoveList = getUsedAddressTypes();
-//		if(availableAddressTypes == null || availableAddressTypes.size() == 0) {
-//			String[] aFilteredArray = ListHelper.filterArray(AddressType.values(), aRemoveList, AddressType.class);
-//			return getCurrentAddressType(aFilteredArray);
-//		}
-//		String[] aFilteredArray = ListHelper.filterArray(availableAddressTypes.toArray(new AddressType[0]), aRemoveList, AddressType.class);
-//		return getCurrentAddressType(aFilteredArray);
 		return availableAddressTypes;
 	}
 	
-	private AddressType[] getCurrentAddressType(AddressType[] theAvailableTypes) {
-		if(theAvailableTypes.length == 0) {
-			if(addressToUpdate != null) {
-				AddressType[] addressTypes = new AddressType[1];
-				addressTypes[0] = addressToUpdate.getScope();
-				return addressTypes; 
-			}
-		}
-		return theAvailableTypes;
-	}
-
-	private List<AddressType> getUsedAddressTypes() {
-		List<AddressType> aRemoveList = new ArrayList<AddressType>();
-		for (AddressBean aBean : addressList) {
-			AddressType aType = aBean.getScope();
-			aRemoveList.add(aType);
-		}
-		return aRemoveList;
-	}
-
-	/* (non-Javadoc)
-	 * @see ch.vqf.cp.web.controller.IAddressManagementController#setAvailableAddressTypes(java.util.List)
-	 */
 	@Override
-	public void setAvailableAddressTypes(List<AddressType> theAvailableAddressTypes) {
-		this.availableAddressTypes = theAvailableAddressTypes;
+	public void setAvailableAddressTypes(List<AddressType> availableAddressTypes) {
+		this.availableAddressTypes = availableAddressTypes;
 	}
 
     public String getPanelTitle() {
     	if(showAddressAddDialog) {
-    		return ResourceBundleProducer.getString("addressmanagement_address_new");
+    		return ResourceBundleAccessor.getString("addressmanagement_address_new");
     	}
-    	return ResourceBundleProducer.getString("addressmanagement_update_address");
+    	return ResourceBundleAccessor.getString("addressmanagement_update_address");
     }
     
     public void closePanel() {

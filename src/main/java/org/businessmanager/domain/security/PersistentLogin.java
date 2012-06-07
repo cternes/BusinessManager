@@ -26,11 +26,6 @@ import javax.persistence.Id;
 import org.businessmanager.domain.AbstractEntity;
 import org.hibernate.validator.constraints.NotEmpty;
 
-
-/**
- * @author Christian Ternes
- *
- */
 @Entity(name="persistent_logins")
 public final class PersistentLogin extends AbstractEntity {
 

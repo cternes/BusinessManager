@@ -26,14 +26,6 @@ import javax.persistence.Id;
 import org.businessmanager.domain.AbstractEntity;
 import org.hibernate.validator.constraints.NotEmpty;
 
-/**
- * This entity represents an application setting. A setting consists of a key
- * and a value, both are strings. The key is mandatory. A setting can belong to
- * a user by setting the username. This is optional.
- * 
- * @author Christian Ternes
- * 
- */
 @Entity
 public final class ApplicationSetting extends AbstractEntity {
 

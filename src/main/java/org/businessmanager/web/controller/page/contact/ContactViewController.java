@@ -20,11 +20,11 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 
-import org.businessmanager.aop.annotation.ErrorHandled;
+import org.businessmanager.annotation.HandlesExceptions;
 import org.businessmanager.domain.Contact;
 import org.businessmanager.service.ContactService;
 import org.businessmanager.web.controller.AbstractController;
-import org.businessmanager.web.controller.state.ContactModel;
+import org.businessmanager.web.controller.model.ContactModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -97,7 +97,7 @@ public class ContactViewController extends AbstractController {
 		return navigationManager.getEditContact();
 	}
 	
-	@ErrorHandled
+	@HandlesExceptions
 	public String deleteContact() {
 		if(model.getSelectedEntity() != null) {
 			contactService.deleteContact(model.getSelectedEntity());

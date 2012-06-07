@@ -17,10 +17,6 @@ package org.businessmanager.service;
 
 import org.businessmanager.domain.Address;
 
-/**
- * @author Christian Ternes
- *
- */
 public interface AddressService {
 
 	/**

@@ -34,9 +34,9 @@ import javax.persistence.OneToMany;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.businessmanager.domain.Address.AddressType;
+import org.businessmanager.i18n.ResourceBundleAccessor;
 import org.businessmanager.util.CollectionUtil;
 import org.businessmanager.util.DefaultItemPredicate;
-import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
@@ -44,10 +44,6 @@ import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Store;
 
-/**
- * @author Christian Ternes
- * 
- */
 @Entity
 @Indexed
 public class Contact extends AbstractEntity {
@@ -62,7 +58,7 @@ public class Contact extends AbstractEntity {
 		}
 
 		public String getLabel() {
-			return ResourceBundleProducer.getString(label);
+			return ResourceBundleAccessor.getString(label);
 		}
 	}
 

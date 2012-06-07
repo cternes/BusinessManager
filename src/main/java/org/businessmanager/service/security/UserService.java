@@ -26,8 +26,6 @@ import org.businessmanager.domain.security.User;
 /**
  * This service manages users.
  * 
- * @author Christian Ternes
- *
  */
 public interface UserService {
 

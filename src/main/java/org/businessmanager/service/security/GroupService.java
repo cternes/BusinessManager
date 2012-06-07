@@ -26,8 +26,6 @@ import org.businessmanager.domain.security.User;
 /**
  * This service manages groups.
  * 
- * @author Christian Ternes
- *
  */
 public interface GroupService {
 

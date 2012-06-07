@@ -15,7 +15,6 @@
  ******************************************************************************/
 package org.businessmanager.web.controller.page.admin;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -25,7 +24,7 @@ import org.businessmanager.domain.security.Group;
 import org.businessmanager.domain.security.User;
 import org.businessmanager.service.security.GroupService;
 import org.businessmanager.web.controller.AbstractController;
-import org.businessmanager.web.controller.state.UserGroupModel;
+import org.businessmanager.web.controller.model.UserGroupModel;
 import org.primefaces.model.DualListModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;

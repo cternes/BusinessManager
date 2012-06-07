@@ -23,12 +23,9 @@ import javax.faces.application.ViewHandler;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
+import org.businessmanager.i18n.ResourceBundleAccessor;
 import org.springframework.stereotype.Component;
 
-/**
- * @author Christian Ternes
- * 
- */
 @Component
 public class FacesContextHelperImpl implements FacesContextHelper {
 
@@ -63,8 +60,8 @@ public class FacesContextHelperImpl implements FacesContextHelper {
 	public void addMessage(String clientId, Severity severity, String msgKey) {
 		getCurrentFacesContext().addMessage(
 				clientId,
-				new FacesMessage(severity, ResourceBundleProducer
-						.getString(msgKey), ResourceBundleProducer
+				new FacesMessage(severity, ResourceBundleAccessor
+						.getString(msgKey), ResourceBundleAccessor
 						.getString(msgKey)));
 	}
 
@@ -95,9 +92,9 @@ public class FacesContextHelperImpl implements FacesContextHelper {
 			String additionalInfo) {
 		getCurrentFacesContext().addMessage(
 				null,
-				new FacesMessage(severity, ResourceBundleProducer
+				new FacesMessage(severity, ResourceBundleAccessor
 						.getString(msgKey) + " " + additionalInfo,
-						ResourceBundleProducer.getString(msgKey) + " "
+						ResourceBundleAccessor.getString(msgKey) + " "
 								+ additionalInfo));
 
 	}

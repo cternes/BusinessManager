@@ -26,10 +26,6 @@ import javax.persistence.Id;
 import org.businessmanager.domain.AbstractEntity;
 import org.hibernate.validator.constraints.NotEmpty;
 
-/**
- * @author Christian Ternes
- *
- */
 @Entity(name="users")
 public final class User extends AbstractEntity {
 

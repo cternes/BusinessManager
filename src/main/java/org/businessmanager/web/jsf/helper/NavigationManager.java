@@ -19,11 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * This class contains the names of all pages used in the application.
- * For all navigation actions a getter of this class should be used to determine
- * the navigation target.
- * 
- * @author Christian Ternes
+ * Contains all the path to all jsf pages of the application.
  *
  */
 @Component("navigationHelper")

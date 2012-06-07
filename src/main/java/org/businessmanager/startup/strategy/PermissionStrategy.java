@@ -17,8 +17,8 @@ package org.businessmanager.startup.strategy;
 
 import javax.persistence.metamodel.SingularAttribute;
 
-import org.businessmanager.database.GenericDao;
-import org.businessmanager.database.security.PermissionDao;
+import org.businessmanager.dao.GenericDao;
+import org.businessmanager.dao.security.PermissionDao;
 import org.businessmanager.domain.security.Permission;
 import org.businessmanager.domain.security.Permission_;
 import org.springframework.beans.factory.annotation.Autowired;

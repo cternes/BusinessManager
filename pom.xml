@@ -18,53 +18,16 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.7</java.version>
+		<junit.version>4.10</junit.version>
+		<jsf.version>2.1.5</jsf.version>
+		<primefaces.version>3.3</primefaces.version>
 		<spring.version>3.1.0.RELEASE</spring.version>
 		<spring-security.version>3.0.7.RELEASE</spring-security.version>
 		<hibernate.version>4.1.1.Final</hibernate.version>
-		<primefaces.version>3.3</primefaces.version>
 		<querydsl.version>2.5.0</querydsl.version>
-		<jsf.version>2.1.5</jsf.version>
 		<slf4j.version>1.5.10</slf4j.version>
-		<java.version>1.7</java.version>
-		<junit.version>4.10</junit.version>
 	</properties>
-
-	<profiles>
-		<profile>
-			<id>profile-development</id>
-			<properties>
-				<facelets.development>true</facelets.development>
-				<facelets.refreshperiod>5</facelets.refreshperiod>
-				<environment>dev</environment>
-				<application.revision>${project.version}</application.revision>
-				<mailhost>localhost</mailhost>
-				<tomcat.port>8080</tomcat.port>
-			</properties>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-				<property>
-					<name>environment</name>
-					<value>dev</value>
-				</property>
-			</activation>
-		</profile>
-		<profile>
-			<id>profile-production</id>
-			<properties>
-				<facelets.development>false</facelets.development>
-				<facelets.refreshperiod>-1</facelets.refreshperiod>
-				<environment>prod</environment>
-				<mailhost>localhost</mailhost>
-				<tomcat.port>8080</tomcat.port>
-			</properties>
-			<activation>
-				<property>
-					<name>environment</name>
-					<value>prod</value>
-				</property>
-			</activation>
-		</profile>
-	</profiles>
 
 	<dependencies>
 		<!-- Apache Commons -->
@@ -115,7 +78,6 @@
 			<version>1.4.0</version>
 		</dependency>
 
-		<!-- PrimeFaces FileUpload Dependencies -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
@@ -221,25 +183,26 @@
 			<version>${hibernate.version}</version>
 			<scope>compile</scope>			
 		</dependency>
+		
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.0-api</artifactId>
+			<version>1.0.0.Final</version>
+			<scope>compile</scope>
+		</dependency>
 
+		<!-- MySQL Dependencies -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.18</version>
 		</dependency>
 
-		<!-- HSQLDB Dependencies - Needed for tests -->
+		<!-- HSQLDB Dependencies -->
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb-j5</artifactId>
 			<version>2.2.4</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.0-api</artifactId>
-			<version>1.0.0.Final</version>
-			<scope>compile</scope>
 		</dependency>
 
 		<!-- JPA Metamodel generator, will generate metamodel for all @Entity annotated 
@@ -262,6 +225,7 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
@@ -269,11 +233,13 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
@@ -282,26 +248,31 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Spring Security -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
 			<version>${spring-security.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
 			<version>${spring-security.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-acl</artifactId>
 			<version>${spring-security.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
 			<version>${spring-security.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
@@ -409,27 +380,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>org.apache.tomcat</groupId>
-			<artifactId>el-api</artifactId>
-			<version>6.0.32</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>nl.jqno.equalsverifier</groupId>
-			<artifactId>equalsverifier</artifactId>
-			<version>1.0.2</version>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- iCal4j -->
-		<dependency>
-			<groupId>net.fortuna.ical4j</groupId>
-			<artifactId>ical4j</artifactId>
-			<version>1.0</version>
-		</dependency>
-
 		<!-- logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -464,13 +414,13 @@
 	</dependencies>
 
 	<repositories>
-		<!-- JBoss Repository used for Java EE 6 pieces -->
 		<repository>
-			<id>repository.jboss.org</id>
-			<name>JBoss Repository</name>
-			<url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+			<id>prime-repo</id>
+			<name>Prime Technology Maven Repository</name>
+			<url>http://repository.primefaces.org</url>
+			<layout>default</layout>
 		</repository>
-
+	
 		<repository>
 			<id>org.springframework.maven.milestone</id>
 			<name>Spring Maven Milestone Repository</name>
@@ -487,13 +437,6 @@
 		</repository>
 
 		<repository>
-			<id>prime-repo</id>
-			<name>Prime Technology Maven Repository</name>
-			<url>http://repository.primefaces.org</url>
-			<layout>default</layout>
-		</repository>
-
-		<repository>
 			<id>maven2-repository.dev.java.net</id>
 			<name>Java.net Repository for Maven</name>
 			<url>http://download.java.net/maven/2</url>
@@ -502,6 +445,12 @@
 		<repository>
 			<id>org.springframework.security.taglibs.facelets</id>
 			<url>http://spring-security-facelets-taglib.googlecode.com/svn/repo/</url>
+		</repository>
+		
+		<repository>
+			<id>repository.jboss.org</id>
+			<name>JBoss Repository</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
 		</repository>
 
 		<repository>
@@ -519,9 +468,6 @@
 
 	<build>
 		<finalName>${project.name}</finalName>
-		<!-- We specify a filter list here, which contains variables that should 
-			be replaced during compile. Variables must be in form of ${varname} and have 
-			to be specified in this pom.xml -->
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -554,7 +500,6 @@
 				</configuration>
 			</plugin>
 
-			<!-- Ensures we are compiling at 1.6 level -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -579,7 +524,6 @@
 						</goals>
 						<phase>generate-sources</phase>
 						<configuration>
-							<!-- source output directory -->
 							<outputDirectory>target/metamodel</outputDirectory>
 						</configuration>
 					</execution>
@@ -604,7 +548,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- War packaging plugin, we can filter web resources like web.xml here -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -618,8 +561,6 @@
 					</webResources>
 				</configuration>
 			</plugin>
-			<!-- Resources plugin to filter resources, we have to specify here because 
-				we want to filter with UTF-8 encoding -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>

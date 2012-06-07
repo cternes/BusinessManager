@@ -19,8 +19,8 @@ import java.util.List;
 
 import javax.persistence.metamodel.SingularAttribute;
 
-import org.businessmanager.database.GenericDao;
-import org.businessmanager.database.security.UserDao;
+import org.businessmanager.dao.GenericDao;
+import org.businessmanager.dao.security.UserDao;
 import org.businessmanager.domain.security.User;
 import org.businessmanager.domain.security.User_;
 import org.businessmanager.service.security.UserService;

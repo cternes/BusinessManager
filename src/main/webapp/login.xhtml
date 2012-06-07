@@ -34,7 +34,7 @@
 					    	<h:outputLabel for="_spring_security_remember_me" value="#{messages.login_remember}: " />
 							<h:selectBooleanCheckbox id="_spring_security_remember_me" />
 							
-							<p:commandButton type="submit" id="login" value="#{messages.login_login}" action="#{loginController.doLogin}" ajax="false" />
+							<p:commandButton type="submit" id="login" value="#{messages.login_login}" action="#{loginListener.doLogin}" ajax="false" />
 						</h:panelGrid>
 					</p:panel>
 					

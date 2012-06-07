@@ -29,17 +29,13 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
+import org.businessmanager.i18n.ResourceBundleAccessor;
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.Store;
 
-/**
- * @author Christian Ternes
- * 
- */
 @Entity
 @Table(name = "CONTACT_ITEM")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -58,7 +54,7 @@ public abstract class ContactItem implements HasDefault {
 		}
 
 		public String getLabel() {
-			return ResourceBundleProducer.getString(label);
+			return ResourceBundleAccessor.getString(label);
 		}
 	}
 

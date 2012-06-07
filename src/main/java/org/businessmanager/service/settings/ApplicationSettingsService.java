@@ -22,7 +22,9 @@ import org.businessmanager.domain.settings.ApplicationSetting.Group;
 
 /**
  * A service to manage the application settings.
- * <i>Note:</i> All keys are defined here.
+ * <p>
+ * 	<i>Note:</i> All keys are defined here.
+ * </p>
  * 
  */
 public interface ApplicationSettingsService {

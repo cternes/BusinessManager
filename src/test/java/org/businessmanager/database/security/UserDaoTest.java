@@ -15,7 +15,7 @@
  ******************************************************************************/
 package org.businessmanager.database.security;
 
-import org.businessmanager.database.security.UserDao;
+import org.businessmanager.dao.security.UserDao;
 import org.businessmanager.domain.security.User;
 import org.junit.Assert;
 import org.junit.Test;

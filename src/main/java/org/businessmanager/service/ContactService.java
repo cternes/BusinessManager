@@ -20,10 +20,6 @@ import java.util.List;
 import org.businessmanager.domain.Contact;
 import org.businessmanager.domain.ContactItem;
 
-/**
- * @author Christian Ternes
- *
- */
 public interface ContactService {
 
 	/**

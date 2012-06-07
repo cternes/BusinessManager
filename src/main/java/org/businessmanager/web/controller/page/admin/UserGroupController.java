@@ -24,7 +24,7 @@ import org.businessmanager.domain.security.User;
 import org.businessmanager.service.security.GroupService;
 import org.businessmanager.service.security.UserService;
 import org.businessmanager.web.controller.AbstractController;
-import org.businessmanager.web.controller.state.UserGroupModel;
+import org.businessmanager.web.controller.model.UserGroupModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

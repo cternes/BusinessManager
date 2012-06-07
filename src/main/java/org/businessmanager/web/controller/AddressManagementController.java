@@ -21,27 +21,21 @@ import org.businessmanager.domain.Address;
 import org.businessmanager.domain.Address.AddressType;
 import org.businessmanager.geodb.Country;
 
-/**
- * This interface should be used to programmatically interact with the addressManagement component.
- * 
- * @author Christian Ternes
- *
- */
 public interface AddressManagementController {
 
 	/**
 	 * Initializes the addressManagement component with the given address.
 	 * 
-	 * @param theAddress an {@link Address} which will be listed in the component
+	 * @param address an {@link Address} which will be listed in the component
 	 */
-	public void initializeAddressComponent(Address theAddress);
+	public void initializeAddressComponent(Address address);
 	
 	/**
 	 * Initializes the addressManagement component with the given list of addresses.
 	 * 
-	 * @param theAddressList a list of {@link Address} which will be listed in the component
+	 * @param addressList a list of {@link Address} which will be listed in the component
 	 */
-	public void initializeAddressComponent(List<Address> theAddressList);
+	public void initializeAddressComponent(List<Address> addressList);
 	
 	/**
 	 * Retrieves a list of {@link Address}, which were managed in the component.
@@ -53,16 +47,16 @@ public interface AddressManagementController {
 	/**
 	 * Restricts the number of assigneable addresses to the given number.
 	 * 
-	 * @param theMaxAssigneableAddresses the maximum number of assigneable addresses
+	 * @param maxAssigneableAddresses the maximum number of assigneable addresses
 	 */
-	public void setMaxAssigneableAddresses(int theMaxAssigneableAddresses);
+	public void setMaxAssigneableAddresses(int maxAssigneableAddresses);
 	
 	/**
 	 * Restricts the number of available address types.
 	 * 
-	 * @param theAvailableAddressTypes the available address types
+	 * @param availableAddressTypes the available address types
 	 */
-	public void setAvailableAddressTypes(List<AddressType> theAvailableAddressTypes);
+	public void setAvailableAddressTypes(List<AddressType> availableAddressTypes);
 	
 	public boolean isEditMode();
 	

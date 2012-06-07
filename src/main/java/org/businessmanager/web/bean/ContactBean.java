@@ -20,10 +20,6 @@ import java.util.Date;
 import org.businessmanager.domain.Contact;
 import org.businessmanager.domain.Contact.Salutation;
 
-/**
- * @author Christian Ternes
- *
- */
 public class ContactBean {
 
 	private Salutation salutation;

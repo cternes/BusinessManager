@@ -15,20 +15,13 @@
  ******************************************************************************/
 package org.businessmanager.web.controller.page.contact;
 
-import java.util.List;
-
-import org.businessmanager.domain.Contact;
 import org.businessmanager.service.ContactService;
 import org.businessmanager.web.controller.AbstractController;
-import org.businessmanager.web.controller.state.ContactModel;
+import org.businessmanager.web.controller.model.ContactModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-/**
- * @author Christian Ternes
- *
- */
 @Component("contactManagementController")
 @Scope("request")
 public class ContactManagementController extends AbstractController {

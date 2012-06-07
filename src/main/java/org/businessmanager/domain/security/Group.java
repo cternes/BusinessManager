@@ -27,16 +27,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 import org.businessmanager.domain.AbstractEntity;
-import org.businessmanager.web.jsf.helper.ResourceBundleProducer;
+import org.businessmanager.i18n.ResourceBundleAccessor;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotEmpty;
 
-
-/**
- * @author Christian Ternes
- *
- */
 @Entity(name="groups")
 public final class Group extends AbstractEntity {
 
@@ -150,7 +145,7 @@ public final class Group extends AbstractEntity {
 	
 	public String getDisplayName() {
 		if(messagesKey != null && !messagesKey.isEmpty()) {
-			return ResourceBundleProducer.getString(messagesKey);
+			return ResourceBundleAccessor.getString(messagesKey);
 		}
 		return name;
 	}

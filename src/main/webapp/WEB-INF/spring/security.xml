@@ -21,43 +21,32 @@
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
     <global-method-security pre-post-annotations="enabled">
-        <!-- AspectJ pointcut expression that locates our "post" method and applies security that way
-        <protect-pointcut expression="execution(* bigbank.*Service.post*(..))" access="ROLE_TELLER"/>
-        -->
     </global-method-security>
 
-
     <http use-expressions="true">
-    	<!-- Limit access to all sites in folder restricted, order matters!!! List most specific rule on top! -->
-    	
+    	<!-- Restrict access to pages in folder /views. Most specific rule on top! -->
         <intercept-url pattern="/views/**" access="isAuthenticated()" />
         <intercept-url pattern="/**" access="permitAll()" />
 	
-		<!-- Custom login page -->
         <form-login login-page="/login.jsf" />
-        
-        <!-- Custom logout page is the same as timeout page -->
         <logout />
         <remember-me />
         
-        <!-- We redirect to a servlet here. See org.businessmanager.web.servlet.RedirectLoginPageServlet for details -->
         <session-management invalid-session-url="/logmein/">
         </session-management>
-
     </http>
     
-    <!-- Use database as authentication provider. -->
+    <!-- We use a database as authentication provider -->
     <authentication-manager>
          <authentication-provider user-service-ref="jdbcUserService">
-         	<!-- Hash passwords with MD5 -->
          	<password-encoder hash="md5">
 				<salt-source ref="saltSource" />
          	</password-encoder>
          </authentication-provider>
     </authentication-manager>
     
-     <!-- Spring-Security JDBC Service. This must NOT be changed. -->
-	<beans:bean id="jdbcUserService" class="org.businessmanager.database.security.SpringSecurityDaoImpl">
+     <!-- Spring-Security jdbc user dao -->
+	<beans:bean id="jdbcUserService" class="org.businessmanager.dao.security.UserDetailsDaoImpl">
 		<beans:property name="dataSource" ref="dataSource"/>
 		<beans:property name="enableGroups" value="true" />
 		<beans:property name="enableAuthorities" value="false" />
@@ -68,13 +57,13 @@
 			JOIN USERS U on U.id = GM.members_id
 			JOIN GROUP_PERMISSIONS GP ON GP.groups_id = G.id
 			JOIN PERMISSIONS P ON P.id = GP.permissions_id
-			WHERE U.username=? and U.mutationType!='DELETE'
+			WHERE U.username=? and U.modificationType!='DELETE'
 			</beans:value>
 		</beans:property>
 		<beans:property name="usersByUsernameQuery">
 			<beans:value>SELECT username,password,enabled 
             FROM USERS 
-            WHERE username=? and mutationType!='DELETE'</beans:value>
+            WHERE username=? and modificationType!='DELETE'</beans:value>
 		</beans:property>
 	</beans:bean>
 	
