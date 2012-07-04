@@ -82,9 +82,6 @@ public class Contact extends AbstractEntity {
 	private String jobTitle;
 
 	@Column
-	private String image;
-
-	@Column
 	@Field(index = Index.YES, analyze = Analyze.NO, store = Store.NO)
 	private String company;
 
@@ -112,6 +109,13 @@ public class Contact extends AbstractEntity {
 	@Column
 	@Lob
 	private String notes;
+	
+	@Column
+	@Lob
+	private byte[] image;
+	
+	@Column
+	private String imageType;
 
 	Contact() {
 	}
@@ -159,14 +163,6 @@ public class Contact extends AbstractEntity {
 
 	public void setJobTitle(String jobTitle) {
 		this.jobTitle = jobTitle;
-	}
-
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
 	}
 
 	public String getCompany() {
@@ -444,4 +440,21 @@ public class Contact extends AbstractEntity {
 	public String getFullname() {
 		return firstname + " " + lastname;
 	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+
+	public String getImageType() {
+		return imageType;
+	}
+
+	public void setImageType(String imageType) {
+		this.imageType = imageType;
+	}
+	
 }

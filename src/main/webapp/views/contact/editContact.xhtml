@@ -25,9 +25,15 @@
 				<h:form id="formPanel" prependId="false">
 					<p:messages />
 					<p:focus for="firstname" />
-
+					
 					<p:panel id="contactPanel"
 						header="#{messages.editcontact_contact_general}">
+
+						<div style="float:left; width: 140px;">
+							<p:graphicImage value="/resources/images/user_image_placeholder.png" rendered="#{!contactEditController.hasImage}" />
+							<p:graphicImage value="/generateImage/?key=#{contactEditController.image}" rendered="#{contactEditController.hasImage}" />
+							<p:commandLink value="#{messages.editcontact_upload_title}" onclick="uploadImage.show();"></p:commandLink>
+						</div>
 
 						<p:panelGrid>
 							<p:row>
@@ -303,6 +309,20 @@
 
 					<div class="verticalSpacingSmall" />
 				</h:form>
+				
+				<p:dialog widgetVar="uploadImage" header="#{messages.editcontact_upload_title}" modal="true">
+					<h:form id="uploadForm" enctype="multipart/form-data">  
+						<p:messages id="messages" />
+					    <p:fileUpload fileUploadListener="#{contactEditController.handleFileUpload}"  
+					            mode="advanced"   
+					            update="messages, :formPanel"  
+					            sizeLimit="100000"
+					            allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
+					            cancelLabel="#{messages.cancel}"
+					            label="#{messages.choose}"
+					            uploadLabel="#{messages.upload}"/>  
+					</h:form> 
+				</p:dialog> 
 			</div>
 		</h:body>
 	</ui:define>

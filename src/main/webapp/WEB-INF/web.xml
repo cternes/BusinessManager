@@ -105,6 +105,15 @@
 		<url-pattern>*.jsf</url-pattern>
 	</filter-mapping>
 
+	<!-- Image servlet -->
+	<servlet>
+		<servlet-name>imageServlet</servlet-name>
+		<servlet-class>org.businessmanager.web.servlet.ImageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>imageServlet</servlet-name>
+		<url-pattern>/generateImage/</url-pattern>
+	</servlet-mapping>
 
 	<!-- Apache Orchestra -->
 	<listener>

@@ -77,7 +77,7 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
 		JPAQuery query = new JPAQuery(getEntityManager());
 		QUser user = QUser.user;
 		
-		return query.from(user).where(user.username.like(usernameFragment).and(user.mutationType.ne(ModificationType.DELETE))).list(user);
+		return query.from(user).where(user.username.like(usernameFragment).and(user.modificationType.ne(ModificationType.DELETE))).list(user);
 	}
 	
 }

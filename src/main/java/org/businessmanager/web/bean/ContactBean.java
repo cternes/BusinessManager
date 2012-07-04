@@ -31,6 +31,8 @@ public class ContactBean {
 	private Date birthday;
 	private String notes;
 	private String instantMessenger;
+	private byte[] image;
+	private String imageType;
 
 	public Salutation getSalutation() {
 		return salutation;
@@ -104,6 +106,22 @@ public class ContactBean {
 		return instantMessenger;
 	}
 
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+	
+	public String getImageType() {
+		return imageType;
+	}
+
+	public void setImageType(String imageType) {
+		this.imageType = imageType;
+	}
+	
 	public void copyDataFromContact(Contact contact) {
 		if(contact.getBirthday() != null) {
 			setBirthday(contact.getBirthday().getTime());
@@ -116,5 +134,8 @@ public class ContactBean {
 		setNotes(contact.getNotes());
 		setSalutation(contact.getSalutation());
 		setTitle(contact.getTitle());
+		setImage(contact.getImage());
+		setImageType(contact.getImageType());
 	}
+
 }

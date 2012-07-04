@@ -15,15 +15,20 @@
  ******************************************************************************/
 package org.businessmanager.web.controller.page.contact;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.apache.log4j.lf5.util.StreamUtils;
 import org.businessmanager.annotation.HandlesExceptions;
 import org.businessmanager.domain.Address;
 import org.businessmanager.domain.Address.AddressType;
@@ -40,6 +45,10 @@ import org.businessmanager.web.bean.ContactItemBean;
 import org.businessmanager.web.controller.AbstractController;
 import org.businessmanager.web.controller.AddressManagementController;
 import org.businessmanager.web.controller.model.ContactModel;
+import org.businessmanager.web.servlet.ImageServlet;
+import org.primefaces.event.FileUploadEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -48,6 +57,8 @@ import org.springframework.stereotype.Component;
 @Scope("view")
 public class ContactEditController extends AbstractController {
 
+	private final Logger logger = LoggerFactory.getLogger(getClass());		
+	
 	@Autowired
 	private ContactService contactService;
 
@@ -196,6 +207,8 @@ public class ContactEditController extends AbstractController {
 		contact.setJobTitle(bean.getJobTitle());
 		contact.setNotes(bean.getNotes());
 		contact.setInstantMessenger(bean.getInstantMessenger());
+		contact.setImage(bean.getImage());
+		contact.setImageType(bean.getImageType());
 
 		if (bean.getBirthday() != null) {
 			Calendar cal = Calendar.getInstance();
@@ -454,5 +467,44 @@ public class ContactEditController extends AbstractController {
 			return backUrl;
 		}
 		return navigationManager.getContactmanagement();
+	}
+	
+	public void handleFileUpload(FileUploadEvent event) {
+		try {
+			//TODO: crop image before using it 
+			ByteArrayInputStream inputstream = (ByteArrayInputStream) event.getFile().getInputstream();
+			byte[] bytes = StreamUtils.getBytes(inputstream);
+			bean.setImage(bytes);
+			bean.setImageType(event.getFile().getContentType());
+		} catch (IOException e) {
+			logger.error("Could not process uploaded file. Error was: ", e);
+		}
+    }
+	
+	/**
+	 * Thanks to a PrimeFaces bug, we can't just return a StreamedContent here when using 'View' Scope.
+	 * <p>
+	 * Instead we have to store the image as byte[] in the session map with a random UUID. That random UUID is passed to the {@link ImageServlet} 
+	 * and there it will be retrieved from the session map and rendered as image. Thanks PrimeFaces :( 
+	 * 
+	 * @return a random UUID
+	 */
+	public String getImage() {
+		if(bean.getImage() != null) {
+			//create image
+			
+			String key = UUID.randomUUID().toString();
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(key, bean.getImage());
+			return key;
+		}
+		
+		return null;
+    }
+	
+	public boolean getHasImage() {
+		if(bean.getImage() == null || bean.getImage().length == 0) {
+			return false;
+		}
+		return true;
 	}
 }
