@@ -15,6 +15,7 @@
  ******************************************************************************/
 package org.businessmanager.web.controller.page.contact;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.imageio.ImageIO;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -40,6 +42,7 @@ import org.businessmanager.domain.Fax;
 import org.businessmanager.domain.Phone;
 import org.businessmanager.domain.Website;
 import org.businessmanager.service.ContactService;
+import org.businessmanager.util.ImageUtil;
 import org.businessmanager.web.bean.ContactBean;
 import org.businessmanager.web.bean.ContactItemBean;
 import org.businessmanager.web.controller.AbstractController;
@@ -56,6 +59,10 @@ import org.springframework.stereotype.Component;
 @Component("contactEditController")
 @Scope("view")
 public class ContactEditController extends AbstractController {
+
+	private static final int IMAGE_HEIGHT = 185;
+
+	private static final int IMAGE_WIDTH = 140;
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());		
 	
@@ -471,9 +478,8 @@ public class ContactEditController extends AbstractController {
 	
 	public void handleFileUpload(FileUploadEvent event) {
 		try {
-			//TODO: crop image before using it 
 			ByteArrayInputStream inputstream = (ByteArrayInputStream) event.getFile().getInputstream();
-			byte[] bytes = StreamUtils.getBytes(inputstream);
+			byte[] bytes = ImageUtil.resize(inputstream, IMAGE_WIDTH, IMAGE_HEIGHT);
 			bean.setImage(bytes);
 			bean.setImageType(event.getFile().getContentType());
 		} catch (IOException e) {

@@ -313,14 +313,17 @@
 				<p:dialog widgetVar="uploadImage" header="#{messages.editcontact_upload_title}" modal="true">
 					<h:form id="uploadForm" enctype="multipart/form-data">  
 						<p:messages id="messages" />
+						<h:outputText value="Das Bild muss als Grafikdatei (z. B. JPG, PNG oder GIF) vorliegen und darf maximal 1 MB groß sein." />
+						<div class="verticalSpacingSmall" />
 					    <p:fileUpload fileUploadListener="#{contactEditController.handleFileUpload}"  
 					            mode="advanced"   
 					            update="messages, :formPanel"  
-					            sizeLimit="100000"
+					            sizeLimit="1048576"
 					            allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
 					            cancelLabel="#{messages.cancel}"
 					            label="#{messages.choose}"
-					            uploadLabel="#{messages.upload}"/>  
+					            uploadLabel="#{messages.upload}"
+					            /> <!-- Size limit=1MB -->  
 					</h:form> 
 				</p:dialog> 
 			</div>
