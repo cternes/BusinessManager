@@ -16,9 +16,11 @@
 package org.businessmanager.web.controller.page.contact;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 import org.businessmanager.annotation.HandlesExceptions;
 import org.businessmanager.domain.Contact;
@@ -107,5 +109,26 @@ public class ContactViewController extends AbstractController {
 			return navigationManager.getContactmanagement();
 		}
 		return "#";
+	}
+	
+	public String getImage() {
+		Contact selectedEntity = model.getSelectedEntity();
+		if(selectedEntity.getImage() != null) {
+			//create image
+			
+			String key = UUID.randomUUID().toString();
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(key, selectedEntity.getImage());
+			return key;
+		}
+		
+		return null;
+    }
+	
+	public boolean getHasImage() {
+		Contact selectedEntity = model.getSelectedEntity();
+		if(selectedEntity.getImage() == null || selectedEntity.getImage().length == 0) {
+			return false;
+		}
+		return true;
 	}
 }

@@ -37,6 +37,10 @@
 					<div class="clearFloat">
 					<div class="verticalSpacingSmall" />
 					
+					<div style="float:left; margin-right: 15px;">
+					<p:graphicImage value="/generateImage/?key=#{contactViewController.image}" rendered="#{contactViewController.hasImage}" />
+					</div>
+					
 					<h1>
 						<h:outputText
 							value="#{contactViewController.model.selectedEntity.displayName}" />

@@ -27,12 +27,12 @@
 					<p:focus for="firstname" />
 					
 					<p:panel id="contactPanel"
-						header="#{messages.editcontact_contact_general}">
+						header="#{messages.editcontact_contact_general}" style="height: 250px;">
 
 						<div style="float:left; width: 140px;">
 							<p:graphicImage value="/resources/images/user_image_placeholder.png" rendered="#{!contactEditController.hasImage}" />
 							<p:graphicImage value="/generateImage/?key=#{contactEditController.image}" rendered="#{contactEditController.hasImage}" />
-							<p:commandLink value="#{messages.editcontact_upload_title}" onclick="uploadImage.show();"></p:commandLink>
+							<p:commandLink value="#{messages.editcontact_upload_title}" onclick="uploadImage.show();" style="margin-left: 25px;"/>
 						</div>
 
 						<p:panelGrid>
