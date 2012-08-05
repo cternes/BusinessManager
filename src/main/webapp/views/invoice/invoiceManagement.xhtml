@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="content">
+		<h:body>
+			<h2 class="contentheading">#{messages.invoicemanagement_title}</h2>
+
+			<div id="left-col">
+				<ui:include src="sideBarInvoice.xhtml" />
+			</div>
+
+			<div id="right-col">
+				<h:form id="invoiceManagementFormPanel">
+					<p:messages />
+
+					<p:dataTable id="invoiceList" var="invoice"
+						value="#{invoiceManagementController.model.entityList}"
+						paginator="true" rows="10"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+						rowsPerPageTemplate="5,10,15" paginatorAlwaysVisible="true"
+						emptyMessage="#{messages.empty_table_message}"
+						rowKey="#{invoice.id}" paginatorPosition="top"
+						widgetVar="invoiceTable">
+
+						<f:facet name="header" style="text-align:right;">
+							<p:outputPanel>
+								<h:outputText
+									value="#{messages.invoicemanagement_global_search}:" />
+								<p:inputText id="globalFilter" onkeyup="invoiceTable.filter()"
+									style="width:150px;margin-left: 5px;" />
+							</p:outputPanel>
+						</f:facet>
+
+						<p:ajax event="rowSelect" update=":invoiceManagementFormPanel" />
+
+						<p:column sortBy="#{invoice.invoiceNumber}"
+							filterBy="#{invoice.invoiceNumber}" filterMatchMode="contains"
+							headerText="#{messages.invoicemanagement_invoice_number}">
+							<p:commandLink value="#{invoice.invoiceNumber}"
+								action="#{contactManagementController.navigateToContactView}">
+								<f:setPropertyActionListener
+									target="#{invoiceManagementController.model.selectedEntity}"
+									value="#{invoice}" />
+							</p:commandLink>
+						</p:column>
+						<p:column sortBy="#{invoice.invoiceDate}"
+							filterBy="#{invoice.invoiceDate}" filterMatchMode="contains"
+							headerText="#{messages.invoicemanagement_invoice_date}">
+							<h:outputText value="#{invoice.invoiceDate}" />
+						</p:column>
+						<p:column sortBy="#{invoice.contact.fullname}"
+							filterBy="#{invoice.contact.fullname}" filterMatchMode="contains"
+							headerText="#{messages.invoicemanagement_invoice_recipient}">
+							<h:outputText value="#{invoice.contact.fullname}" />
+						</p:column>
+						<p:column sortBy="#{invoice.invoiceAmountNet}"
+							filterBy="#{invoice.invoiceAmountNet}" filterMatchMode="contains"
+							headerText="#{messages.invoicemanagement_invoice_amount_net}">
+							<h:outputText value="#{invoice.invoiceAmountNet}" />
+						</p:column>
+						<p:column sortBy="#{invoice.invoiceAmountGross}"
+							filterBy="#{invoice.invoiceAmountGross}"
+							filterMatchMode="contains"
+							headerText="#{messages.invoicemanagement_invoice_amount_gross}">
+							<h:outputText value="#{invoice.invoiceAmountGross}" />
+						</p:column>
+						<p:column sortBy="#{invoice.paid}"
+							filterBy="#{invoice.paid}"
+							filterMatchMode="contains"
+							headerText="#{messages.invoicemanagement_invoice_paid}">
+							<h:outputText value="#{invoice.paid}" />
+						</p:column>
+						<p:column headerText="#{messages.invoicemanagement_download}">
+							<h:outputText value="PDF DOCX" />
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</div>
+		</h:body>
+	</ui:define>
+</ui:composition>

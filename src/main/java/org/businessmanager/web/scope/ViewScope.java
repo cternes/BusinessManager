@@ -32,7 +32,7 @@ import org.springframework.beans.factory.config.Scope;
 public class ViewScope implements Scope {
 
 	@Override
-	public Object get(String name, ObjectFactory objectFactory) {
+	public Object get(String name, @SuppressWarnings("rawtypes") ObjectFactory objectFactory) {
 		Map<String,Object> viewMap = FacesContext.getCurrentInstance().getViewRoot().getViewMap();
 
 		if(viewMap.containsKey(name)) {

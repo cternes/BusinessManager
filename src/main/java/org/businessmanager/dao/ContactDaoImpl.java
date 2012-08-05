@@ -79,6 +79,7 @@ public class ContactDaoImpl extends GenericDaoImpl<Contact> implements
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Contact> fullTextSearchContact(String searchString) {
 		EntityManager em = getEntityManager();

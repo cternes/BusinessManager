@@ -23,6 +23,8 @@ import java.util.ListIterator;
 
 public class UnmodifiableList<E> extends ArrayList<E> {
 
+	private static final long serialVersionUID = -5602547523127170960L;
+
 	public UnmodifiableList(List<E> list) {
 		super(list);
 	}

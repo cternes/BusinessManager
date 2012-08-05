@@ -10,8 +10,6 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
-import org.primefaces.event.ResizeEvent;
-
 public class ImageUtil {
 
 	/**

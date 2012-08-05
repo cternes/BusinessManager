@@ -41,6 +41,7 @@ public class NavigationManager {
 	private static final String CONTACTMANAGEMENT 				= "/views/contact/contactManagement.jsf";
 	private static final String CONTACT_EDIT					= "/views/contact/editContact.jsf";
 	private static final String CONTACT_VIEW					= "/views/contact/viewContact.jsf";
+	private static final String INVOICEMANAGEMENT				= "/views/invoice/invoiceManagement.jsf";
 	private static final String USER_PREFERENCES				= "/views/user/userPreferences.jsf";
 	
 
@@ -134,5 +135,8 @@ public class NavigationManager {
 
 	public String getAdminAssignUsers() {
 		return getNavigation(ADMIN_ASSIGN_USERS);
+	}
+	public String getInvoicemanagement() {
+		return getNavigation(INVOICEMANAGEMENT);
 	}
 }

@@ -38,16 +38,21 @@ import org.springframework.stereotype.Component;
 public class StorageManager {
 
 	private boolean isStartupScriptEnabled;
+	
+	@SuppressWarnings("rawtypes")
 	private Map<EntityProvider, EntityStorageStrategy> storageMap;
 	
+	@SuppressWarnings("rawtypes")
 	public Map<EntityProvider, EntityStorageStrategy> getStorageMap() {
 		return storageMap;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void setStorageMap(Map<EntityProvider, EntityStorageStrategy> storageMap) {
 		this.storageMap = storageMap;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void createDefaultEntities() {
 		if(storageMap != null) {
 			Iterator<EntityProvider> keyIterator = storageMap.keySet().iterator();

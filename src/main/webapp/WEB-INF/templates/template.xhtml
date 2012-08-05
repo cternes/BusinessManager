@@ -102,6 +102,10 @@
 								<p:menuitem value="#{messages.menu_contact_contactmanagement}"
 									action="#{navigationHelper.getContactmanagement}" />
 							</p:submenu>
+							<p:submenu label="#{messages.menu_invoice}">
+								<p:menuitem value="#{messages.menu_invoice_invoicemanagement}"
+									action="#{navigationHelper.getInvoicemanagement}" />
+							</p:submenu>							
 							<p:submenu label="#{messages.menu_admin}"
 								rendered="#{sec:ifAnyGranted('Adminrights')}">
 								<p:menuitem value="#{messages.menu_admin_securitymanagement}"

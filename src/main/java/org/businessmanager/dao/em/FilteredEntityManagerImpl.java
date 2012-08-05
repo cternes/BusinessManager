@@ -310,7 +310,7 @@ public class FilteredEntityManagerImpl implements FilteredEntityManager {
 	 * @see javax.persistence.EntityManager#createNativeQuery(java.lang.String, java.lang.Class)
 	 */
 	@Override
-	public Query createNativeQuery(String theSqlString, Class theResultClass) {
+	public Query createNativeQuery(String theSqlString, @SuppressWarnings("rawtypes") Class theResultClass) {
 		return entityManager.createNativeQuery(theSqlString, theResultClass);
 	}
 
@@ -399,6 +399,7 @@ public class FilteredEntityManagerImpl implements FilteredEntityManager {
 	 * @param <T>
 	 * @param theCriteriaQuery
 	 */
+	@SuppressWarnings("unchecked")
 	private <T> void appendIsNotDeletedClause(CriteriaQuery<T> theCriteriaQuery) {
 		Root<T> aRootQuery = null;
 		Path<Object> aPath = null;

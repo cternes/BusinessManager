@@ -26,10 +26,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-@ContextConfiguration("/test-context.xml")
-@RunWith(SpringJUnit4ClassRunner.class)
-@TransactionConfiguration(defaultRollback=true)
-@Transactional
+
 public class UserDaoTest {
 
 	@Autowired
@@ -37,7 +34,14 @@ public class UserDaoTest {
 	
 	@Test
 	public void testAdd() {
-		/*User user = new User("testUser", "empty");
+		/*
+		 * 
+		 * @ContextConfiguration("/test-context.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@TransactionConfiguration(defaultRollback=true)
+@Transactional
+		 * 
+		 * User user = new User("testUser", "empty");
 		
 		user = userDao.save(user);
 		

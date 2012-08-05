@@ -24,6 +24,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserDetailsImpl extends org.springframework.security.core.userdetails.User implements UserDetails {
 
+	private static final long serialVersionUID = -4357117951117858284L;
+
 	private List<String> grantedGroups = new ArrayList<String>();
 	private Long salt;
 	

@@ -15,7 +15,6 @@
  ******************************************************************************/
 package org.businessmanager.web.controller.page.contact;
 
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,11 +25,9 @@ import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.imageio.ImageIO;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
-import org.apache.log4j.lf5.util.StreamUtils;
 import org.businessmanager.annotation.HandlesExceptions;
 import org.businessmanager.domain.Address;
 import org.businessmanager.domain.Address.AddressType;

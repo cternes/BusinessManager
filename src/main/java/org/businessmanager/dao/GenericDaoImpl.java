@@ -199,6 +199,7 @@ public abstract class GenericDaoImpl<T extends AbstractEntity> implements Generi
 		return typedQuery.getSingleResult();
 	}
 	
+	@SuppressWarnings("unchecked")
 	private List<Predicate> createFilterList(Map<SingularAttribute<T, ?>, Object> filterAttributes, boolean enableLikeSearch,
 			CriteriaBuilder queryBuilder, Root<T> rootQuery) {
 		List<Predicate> predicateList = new ArrayList<Predicate>();
@@ -275,9 +276,9 @@ public abstract class GenericDaoImpl<T extends AbstractEntity> implements Generi
 		Root<T> rootQuery = criteriaQuery.from(getPersistenceClass());
 		
 		CriteriaQuery<T> select = criteriaQuery.select(rootQuery);
-		Join memberJoin = rootQuery.join(listAttribute);
+		Join<T,?> memberJoin = rootQuery.join(listAttribute);
 		
-		Path nameField = memberJoin.get("id");
+		Path<?> nameField = memberJoin.get("id");
 		Predicate nameEquals = queryBuilder.equal(nameField, entityId);
 		criteriaQuery.where(nameEquals);
 		
@@ -293,9 +294,9 @@ public abstract class GenericDaoImpl<T extends AbstractEntity> implements Generi
 		Root<T> rootQuery = criteriaQuery.from(getPersistenceClass());
 		
 		CriteriaQuery<T> select = criteriaQuery.select(rootQuery);
-		Join memberJoin = rootQuery.join(setAttribute);
+		Join<T,?> memberJoin = rootQuery.join(setAttribute);
 		
-		Path nameField = memberJoin.get("id");
+		Path<?> nameField = memberJoin.get("id");
 		Predicate nameEquals = queryBuilder.equal(nameField, entityId);
 		criteriaQuery.where(nameEquals);
 		

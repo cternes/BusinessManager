@@ -45,7 +45,7 @@ public class Invoice extends AbstractEntity {
 	private Date invoiceDate;
 
 	@Column
-	private BigDecimal incoiceAmountNet;
+	private BigDecimal invoiceAmountNet;
 
 	@Column
 	private BigDecimal invoiceAmountGross;
@@ -97,12 +97,12 @@ public class Invoice extends AbstractEntity {
 		this.invoiceDate = invoiceDate;
 	}
 
-	public BigDecimal getIncoiceAmountNet() {
-		return incoiceAmountNet;
+	public BigDecimal getInvoiceAmountNet() {
+		return invoiceAmountNet;
 	}
 
-	public void setIncoiceAmountNet(BigDecimal incoiceAmountNet) {
-		this.incoiceAmountNet = incoiceAmountNet;
+	public void setInvoiceAmountNet(BigDecimal invoiceAmountNet) {
+		this.invoiceAmountNet = invoiceAmountNet;
 	}
 
 	public BigDecimal getInvoiceAmountGross() {
@@ -160,7 +160,7 @@ public class Invoice extends AbstractEntity {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime
 				* result
-				+ ((incoiceAmountNet == null) ? 0 : incoiceAmountNet.hashCode());
+				+ ((invoiceAmountNet == null) ? 0 : invoiceAmountNet.hashCode());
 		result = prime
 				* result
 				+ ((invoiceAmountGross == null) ? 0 : invoiceAmountGross
@@ -195,10 +195,10 @@ public class Invoice extends AbstractEntity {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (incoiceAmountNet == null) {
-			if (other.incoiceAmountNet != null)
+		if (invoiceAmountNet == null) {
+			if (other.invoiceAmountNet != null)
 				return false;
-		} else if (!incoiceAmountNet.equals(other.incoiceAmountNet))
+		} else if (!invoiceAmountNet.equals(other.invoiceAmountNet))
 			return false;
 		if (invoiceAmountGross == null) {
 			if (other.invoiceAmountGross != null)
@@ -239,7 +239,7 @@ public class Invoice extends AbstractEntity {
 		return "Invoice [id=" + id + ", invoiceNumber=" + invoiceNumber
 				+ ", invoiceNumberPresentation=" + invoiceNumberPresentation
 				+ ", invoiceDate=" + invoiceDate + ", incoiceAmountNet="
-				+ incoiceAmountNet + ", invoiceAmountGross="
+				+ invoiceAmountNet + ", invoiceAmountGross="
 				+ invoiceAmountGross + ", paid=" + paid
 				+ ", itemsAreGrossValue=" + itemsAreGrossValue + ", payments="
 				+ payments + ", lineItems=" + lineItems + "]";

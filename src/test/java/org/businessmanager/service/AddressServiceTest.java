@@ -14,10 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-@ContextConfiguration("/test-context.xml")
-@RunWith(SpringJUnit4ClassRunner.class)
-@TransactionConfiguration(defaultRollback = true)
-@Transactional
+
 public class AddressServiceTest {
 
 	@Autowired
@@ -28,7 +25,13 @@ public class AddressServiceTest {
 	
 	@Test
 	public void testFindById() {
-		/*Contact contact = new Contact("address", "test");
+		/*
+		 * @ContextConfiguration("/test-context.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@TransactionConfiguration(defaultRollback = true)
+@Transactional
+		 * 
+		 * Contact contact = new Contact("address", "test");
 		Address address = new Address();
 		address.setStreet("test");
 		address.setHousenumber("23");
