@@ -110,6 +110,9 @@ public class UserPreferencesController extends AbstractController {
 				}
 			}
 			
+			//refresh countries to reflect default country selection
+			openGeoService.refreshListOfCountries();
+			
 			addMessage(FacesMessage.SEVERITY_INFO, "settings_saved");
 		}
 	}
