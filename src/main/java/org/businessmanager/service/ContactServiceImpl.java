@@ -19,12 +19,18 @@ import java.util.List;
 
 import org.apache.commons.lang3.Validate;
 import org.businessmanager.dao.ContactDao;
+import org.businessmanager.domain.Activity;
+import org.businessmanager.domain.Activity.ActivityType;
 import org.businessmanager.domain.Contact;
 import org.businessmanager.domain.ContactItem;
 import org.businessmanager.domain.Email;
 import org.businessmanager.domain.Fax;
+import org.businessmanager.domain.ModificationType;
 import org.businessmanager.domain.Phone;
 import org.businessmanager.domain.Website;
+import org.businessmanager.domain.security.User;
+import org.businessmanager.service.security.SpringSecurityService;
+import org.businessmanager.web.bean.ContactActivityBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,15 +41,27 @@ public class ContactServiceImpl implements ContactService {
 
 	@Autowired
 	private ContactDao contactDao;
+	
+	@Autowired
+	private ActivityService activityService;
+	
+	@Autowired
+	private SpringSecurityService securityService;
 
 	@Override
 	public Contact saveContact(Contact contact) {
 		Validate.notNull(contact, "Parameter contact must not be null!");
 		
 		if (contact.getId() == null) {
-			return contactDao.save(contact);
+			contact = contactDao.save(contact);
+			saveActivity(contact.getId(), ModificationType.CREATE, contact.getFullname());
+			
+			return contact;
 		} else {
-			return contactDao.update(contact);
+			contact = contactDao.update(contact);
+			saveActivity(contact.getId(), ModificationType.UPDATE, contact.getFullname());
+			
+			return contact;
 		}
 	}
 
@@ -56,6 +74,7 @@ public class ContactServiceImpl implements ContactService {
 	public void deleteContact(Contact contact) {
 		Validate.notNull(contact, "Parameter contact must not be null!");
 
+		saveActivity(contact.getId(), ModificationType.DELETE, contact.getFullname());
 		contactDao.remove(contact);
 	}
 
@@ -88,6 +107,17 @@ public class ContactServiceImpl implements ContactService {
 	@Override
 	public List<Contact> fullTextSearchContact(String searchString) {
 		return contactDao.fullTextSearchContact(searchString);
+	}
+	
+	private void saveActivity(Long sourceId, ModificationType modType, String contactName) {
+		User currentUser = securityService.getLoggedInUser();
+		ContactActivityBean activityData = new ContactActivityBean(currentUser.getUsername(), modType, contactName);
+		
+		Activity activity = new Activity(currentUser.getId(), ActivityType.CONTACT);
+		activity.setSourceId(sourceId);
+		
+		activity.setData(activityData.toJson());
+		activityService.saveActivity(activity);
 	}
 
 }

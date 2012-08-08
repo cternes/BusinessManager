@@ -19,16 +19,30 @@ import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.businessmanager.i18n.ResourceBundleAccessor;
+
 @Entity
 public class Activity extends AbstractEntity {
 
-	public static final String CREATE_CONTACT = "create_contact";
-	public static final String UPDATE_CONTACT = "update_contact";
-	public static final String DELETE_CONTACT = "delete_contact";
+	public enum ActivityType {
+		CONTACT("activitytype_contact");
+
+		private String label;
+
+		private ActivityType(String label) {
+			this.label = label;
+		}
+
+		public String getLabel() {
+			return ResourceBundleAccessor.getString(label);
+		}
+	}
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -38,21 +52,25 @@ public class Activity extends AbstractEntity {
 	private Long userId;
 	
 	@Column
-	private String activityType;
-	
-	@Column
 	private Long sourceId;
 	
 	@Column
-	private Calendar time;
-
+	@Enumerated(EnumType.STRING)
+	private ActivityType type;
+	
+	@Column
+	private String data;
+	
+	@Column
+	private Calendar creationDate;
+	
 	Activity() {
 	}
 	
-	public Activity(Long userId, String activityType) {
+	public Activity(Long userId, ActivityType activityType) {
 		this.userId = userId;
-		this.activityType = activityType;
-		this.time = Calendar.getInstance();
+		this.type = activityType;
+		this.creationDate = Calendar.getInstance();
 	}
 	
 	public Long getId() {
@@ -71,14 +89,6 @@ public class Activity extends AbstractEntity {
 		this.userId = userId;
 	}
 
-	public String getActivityType() {
-		return activityType;
-	}
-
-	public void setActivityType(String activityType) {
-		this.activityType = activityType;
-	}
-
 	public Long getSourceId() {
 		return sourceId;
 	}
@@ -87,12 +97,75 @@ public class Activity extends AbstractEntity {
 		this.sourceId = sourceId;
 	}
 
-	public Calendar getTime() {
-		return time;
+	public ActivityType getType() {
+		return type;
 	}
 
-	public void setTime(Calendar time) {
-		this.time = time;
+	public void setType(ActivityType type) {
+		this.type = type;
 	}
-	
+
+	public String getData() {
+		return data;
+	}
+
+	public void setData(String data) {
+		this.data = data;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((data == null) ? 0 : data.hashCode());
+		result = prime * result
+				+ ((sourceId == null) ? 0 : sourceId.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Activity other = (Activity) obj;
+		if (data == null) {
+			if (other.data != null)
+				return false;
+		} else if (!data.equals(other.data))
+			return false;
+		if (sourceId == null) {
+			if (other.sourceId != null)
+				return false;
+		} else if (!sourceId.equals(other.sourceId))
+			return false;
+		if (type != other.type)
+			return false;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Activity [userId=" + userId + ", sourceId=" + sourceId
+				+ ", type=" + type + ", data=" + data + "]";
+	}
+
+	public void setCreationDate(Calendar creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public Calendar getCreationDate() {
+		return creationDate;
+	}
+
 }

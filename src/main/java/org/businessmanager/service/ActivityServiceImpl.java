@@ -15,11 +15,14 @@
  ******************************************************************************/
 package org.businessmanager.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.Validate;
 import org.businessmanager.dao.ActivityDao;
 import org.businessmanager.domain.Activity;
+import org.businessmanager.dto.ActivityDto;
+import org.businessmanager.dto.ActivityDtoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,14 +47,27 @@ public class ActivityServiceImpl implements ActivityService {
 	}
 
 	@Override
-	public List<Activity> getRecentActivities(int numberOfRows) {
-		return activityDao.findRecentActivities(numberOfRows);
+	public List<ActivityDto> getRecentActivities(int numberOfRows) {
+		List<Activity> activityList = activityDao.findRecentActivities(numberOfRows);
+		ArrayList<ActivityDto> activityDtoList = convertToDtoList(activityList);
+		
+		return activityDtoList;
 	}
 
 	@Override
-	public List<Activity> getRecentActivitiesByUser(Long userId,
-			int numberOfRows) {
-		return activityDao.findRecentActivitiesByUser(userId, numberOfRows);
+	public List<ActivityDto> getRecentActivitiesByUser(Long userId, int numberOfRows) {
+		List<Activity> activityList = activityDao.findRecentActivitiesByUser(userId, numberOfRows);
+		
+		ArrayList<ActivityDto> activityDtoList = convertToDtoList(activityList);
+		return activityDtoList;
 	}
 
+	private ArrayList<ActivityDto> convertToDtoList(List<Activity> activityList) {
+		ArrayList<ActivityDto> activityDtoList = new ArrayList<ActivityDto>();
+		for (Activity activity : activityList) {
+			ActivityDto dto = ActivityDtoFactory.createActivityDto(activity);
+			activityDtoList.add(dto);
+		}
+		return activityDtoList;
+	}
 }

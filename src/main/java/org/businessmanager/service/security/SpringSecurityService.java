@@ -13,29 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.businessmanager.domain;
+package org.businessmanager.service.security;
 
-import org.businessmanager.i18n.ResourceBundleAccessor;
+import org.businessmanager.domain.security.User;
 
-/**
- * This enum represents the available modification types.
- * 
- * @author Christian Ternes
- *
- */
-public enum ModificationType {
+public interface SpringSecurityService {
 
-	CREATE("modtype_create")
-	, UPDATE("modtype_update")
-	, DELETE("modtype_delete");
+	/**
+	 * Retrieves the logged in {@link User} for the current session. 
+	 * 
+	 * @return the logged in {@link User}
+	 */
+	public User getLoggedInUser();
 	
-	private String label;
-	
-	private ModificationType(String label) {
-		this.label = label;
-	}
-
-	public String getLabel() {
-		return ResourceBundleAccessor.getString(label);
-	}
+	/**
+	 * Retrieves the user id of the current session. 
+	 * 
+	 * @return the id of the logged in user
+	 */
+	public Long getLoggedInUserId();
 }

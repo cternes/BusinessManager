@@ -59,6 +59,5 @@
 	
     <!-- Primary property is needed here, to let spring wire the mocked helper over the real one when available-->
     <bean id="mockFacesContext" class="org.businessmanager.web.jsf.helper.MockFacesContextHelper" primary="true"></bean>
-    <bean id="mockSecurityContext" class="org.businessmanager.web.jsf.helper.MockSecurityContextHelper" primary="true"></bean>
 
 </beans>

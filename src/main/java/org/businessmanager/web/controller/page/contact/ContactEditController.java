@@ -71,7 +71,7 @@ public class ContactEditController extends AbstractController {
 
 	@Autowired
 	AddressManagementController addressController;
-
+	
 	private ContactBean bean = new ContactBean();
 	private List<ContactItemBean> emailList = new ArrayList<ContactItemBean>();
 	private ContactItemBean selectedEmail;
@@ -178,7 +178,7 @@ public class ContactEditController extends AbstractController {
 			}
 
 			fillContact(contact);
-			saveAddressList(contact);
+			updateAddressListInContact(contact);
 			contactService.saveContact(contact);
 
 			addMessage(FacesMessage.SEVERITY_INFO,
@@ -191,7 +191,7 @@ public class ContactEditController extends AbstractController {
 		return "#";
 	}
 
-	private void saveAddressList(Contact contact) {
+	private void updateAddressListInContact(Contact contact) {
 		contact.getAddresses().clear();
 
 		List<Address> assignedAddressList = addressController

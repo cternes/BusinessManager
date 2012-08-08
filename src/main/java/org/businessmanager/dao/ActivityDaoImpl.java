@@ -29,25 +29,24 @@ public class ActivityDaoImpl extends GenericDaoImpl<Activity> implements Activit
 
 	@Override
 	public List<Activity> findAll() {
-		return findAll(Activity_.time, false);
+		return findAll(Activity_.creationDate, false);
 	}
 
 	@Override
 	public Class<Activity> getPersistenceClass() {
-		return Activity.class;
+		return Activity.class; 
 	}
 
 	@Override
 	public List<Activity> findRecentActivities(int numberOfRows) {
-		return findAll(Activity_.time, false, 0, numberOfRows);
+		return findAll(Activity_.creationDate, false, 0, numberOfRows);
 	} 
 
 	@Override
-	public List<Activity> findRecentActivitiesByUser(Long userId,
-			int numberOfRows) {
+	public List<Activity> findRecentActivitiesByUser(Long userId, int numberOfRows) {
 		JPAQuery query = new JPAQuery(getEntityManager());
 		QActivity activity = QActivity.activity;
-		return query.from(activity).where(activity.userId.eq(userId)).orderBy(activity.time.desc()).limit(numberOfRows).list(activity);
+		return query.from(activity).where(activity.userId.eq(userId)).orderBy(activity.modificationDate.desc()).limit(numberOfRows).list(activity);
 	}
 
 }

@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.businessmanager.domain.Activity;
 import org.businessmanager.domain.security.User;
+import org.businessmanager.dto.ActivityDto;
 
 public interface ActivityService {
 
@@ -34,16 +35,16 @@ public interface ActivityService {
 	 * Retrieves recent activities from the database.
 	 * 
 	 * @param numberOfRows the number of activities to retrieve
-	 * @return a list of {@link Activity} ordered by time DESC
+	 * @return a list of {@link ActivityDto} ordered by time DESC
 	 */
-	public List<Activity> getRecentActivities(int numberOfRows);
+	public List<ActivityDto> getRecentActivities(int numberOfRows);
 	
 	/**
 	 * Retrieves recent activities for a specific user from the database.
 	 * 
 	 * @param userId the id of the {@link User}
 	 * @param numberOfRows the number of activities to retrieve
-	 * @return a list of {@link Activity} ordered by time DESC
+	 * @return a list of {@link ActivityDto} ordered by time DESC
 	 */
-	public List<Activity> getRecentActivitiesByUser(Long userId, int numberOfRows);
+	public List<ActivityDto> getRecentActivitiesByUser(Long userId, int numberOfRows);
 }

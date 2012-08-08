@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="content">
+		<h:body>
+			<h2 class="contentheading">#{messages.dashboard_title}</h2>
+
+				<h:form id="contactManagementFormPanel">
+					<p:messages />
+					
+					<div style="width: 800px; float:left; background-color:red;">
+						<p:panel header="#{messages.dashboard_what_do_you_like_to_do}">
+						
+						</p:panel>
+					</div>
+					
+					<div style="width: 400px; float:right; background-color:green;">
+						<p:panel header="#{messages.dashboard_recentActivity}">
+							<h:dataTable var="activity" value="#{dashboardController.recentActivityList}">
+								<h:column>
+									#{activity.username} #{activity.activity.label} #{activity.activityType.label} #{activity.objectName}
+								</h:column>
+							</h:dataTable>
+						</p:panel>
+					</div>
+				</h:form>
+		</h:body>
+	</ui:define>
+</ui:composition>

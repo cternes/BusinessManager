@@ -27,6 +27,7 @@
 		<hibernate.version>4.1.1.Final</hibernate.version>
 		<querydsl.version>2.5.0</querydsl.version>
 		<slf4j.version>1.5.10</slf4j.version>
+		<jackson.version>1.9.8</jackson.version>
 	</properties>
 
 	<dependencies>
@@ -126,7 +127,6 @@
 			<version>2.1.7</version>
 		</dependency>
 
-
 		<!-- Spring-Security JSF TagLib -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -181,9 +181,9 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-search</artifactId>
 			<version>${hibernate.version}</version>
-			<scope>compile</scope>			
+			<scope>compile</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.0-api</artifactId>
@@ -225,7 +225,7 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
@@ -233,13 +233,13 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
@@ -254,25 +254,25 @@
 			<artifactId>spring-security-core</artifactId>
 			<version>${spring-security.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
 			<version>${spring-security.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-acl</artifactId>
 			<version>${spring-security.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
 			<version>${spring-security.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
@@ -330,6 +330,19 @@
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4.4</version>
+		</dependency>
+
+		<!-- Jackson for Json support -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
 
 		<!-- Perf4j -->
@@ -420,7 +433,7 @@
 			<url>http://repository.primefaces.org</url>
 			<layout>default</layout>
 		</repository>
-	
+
 		<repository>
 			<id>org.springframework.maven.milestone</id>
 			<name>Spring Maven Milestone Repository</name>
@@ -446,7 +459,7 @@
 			<id>org.springframework.security.taglibs.facelets</id>
 			<url>http://spring-security-facelets-taglib.googlecode.com/svn/repo/</url>
 		</repository>
-		
+
 		<repository>
 			<id>repository.jboss.org</id>
 			<name>JBoss Repository</name>
@@ -594,7 +607,8 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>

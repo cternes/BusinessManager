@@ -13,29 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.businessmanager.domain;
+package org.businessmanager.web.converter;
 
-import org.businessmanager.i18n.ResourceBundleAccessor;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+
+import org.businessmanager.geodb.Country;
+import org.springframework.stereotype.Component;
 
 /**
- * This enum represents the available modification types.
- * 
- * @author Christian Ternes
+ * Converts an ISO country code into a {@link Country} object.
  *
  */
-public enum ModificationType {
+@Component("countryConverterInput")
+public class CountryConverterInput implements Converter {
 
-	CREATE("modtype_create")
-	, UPDATE("modtype_update")
-	, DELETE("modtype_delete");
-	
-	private String label;
-	
-	private ModificationType(String label) {
-		this.label = label;
+	@Override
+	public Object getAsObject(FacesContext context, UIComponent component, String value) {
+		return Country.fromCountryCode(value);
 	}
 
-	public String getLabel() {
-		return ResourceBundleAccessor.getString(label);
+	@Override
+	public String getAsString(FacesContext context, UIComponent component, Object value) {
+		if (value == null || value.equals("")) {
+            return "";
+        }
+		return value.toString();
 	}
+
 }
