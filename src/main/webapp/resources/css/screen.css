@@ -162,6 +162,33 @@ a:focus,a:hover,a:active,#main a:focus,#main a:hover,#main a:active {
 	clear: both;
 }
 
+.dashboard-box {
+	width: 215px; 
+	height: 175px;
+	display: block;
+	border: 1px solid #ccc;
+	background: #C4C4C4 -linear-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.8)), to(rgba(255, 255, 255, 0)));
+	background: #C4C4C4 -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.8)), to(rgba(255, 255, 255, 0)));
+	background: #C4C4C4 -moz-linear-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.8)), to(rgba(255, 255, 255, 0)));
+}
+
+.dashboard-box:hover {
+	background: #C4C4C4 -linear-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.8)), to(rgba(255, 255, 255, 0)));
+	background: #DEDEDE -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.8)), to(rgba(255, 255, 255, 0)));
+	background: #C4C4C4 -moz-linear-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.8)), to(rgba(255, 255, 255, 0)));
+}
+
+.dashboard-box-desc {
+	/*padding: 13px 0 15px 40px;*/
+	text-align: center;	
+}
+
+.dashboard-box-desc h2 {
+	font-weight: bold;
+	color: #555;
+}
+
+
 /************BUTTONS*********/
 .marginButton {
 	margin-left: 3em !important;
@@ -219,6 +246,13 @@ a:focus,a:hover,a:active,#main a:focus,#main a:hover,#main a:active {
 	height: 32px;
 	position: absolute;
 	margin-left: -35px;
+}
+
+.ui-image-adduser {
+	background-image: url("#{resource['images/dash_add_user.png']}");
+	background-repeat: no-repeat;
+	background-position: center center;
+	height: 133px;
 }
 
 /***************TABS***************************/

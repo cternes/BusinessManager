@@ -17,7 +17,14 @@
 					
 					<div style="width: 800px; float:left;">
 						<p:panel header="#{messages.dashboard_what_do_you_like_to_do}">
-						
+							<div class="dashboard-box">
+							  	<h:commandLink value="" action="#{navigationHelper.getEditContact}">
+									<div class="ui-image-adduser"></div>
+									<div class="dashboard-box-desc">
+										<h2>#{messages.contactmanagement_sidebar_add_contact}</h2>
+									</div>
+								</h:commandLink>
+							</div>
 						</p:panel>
 					</div>
 					
