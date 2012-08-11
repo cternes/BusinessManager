@@ -15,17 +15,22 @@
 				<h:form id="contactManagementFormPanel">
 					<p:messages />
 					
-					<div style="width: 800px; float:left; background-color:red;">
+					<div style="width: 800px; float:left;">
 						<p:panel header="#{messages.dashboard_what_do_you_like_to_do}">
 						
 						</p:panel>
 					</div>
 					
-					<div style="width: 400px; float:right; background-color:green;">
+					<div style="width: 400px; float:right;">
 						<p:panel header="#{messages.dashboard_recentActivity}">
 							<h:dataTable var="activity" value="#{dashboardController.recentActivityList}">
 								<h:column>
 									#{activity.username} #{activity.activity.label} #{activity.activityType.label} #{activity.objectName}
+									
+									<!-- 
+									<p:commandLink value="#{activity.objectName}" action="#{contactManagementController.navigateToContactView}">
+										<f:setPropertyActionListener target="#{contactManagementController.model.selectedEntity}" value="#{contact}" />
+									</p:commandLink> -->
 								</h:column>
 							</h:dataTable>
 						</p:panel>

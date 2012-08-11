@@ -60,17 +60,21 @@
 						<p:row>
 							<p:column>
 								<h:outputLabel for="companyStreet"
-									value="#{messages.companySettings_street}:" />
+									value="#{messages.companySettings_street}/#{messages.companySettings_housenumber}:" />
 							</p:column>
-							<p:column colspan="2">
+							<p:column>
 								<p:inputText id="companyStreet"
 									value="#{companySettingsController.companySettings.street}" />
+							</p:column>
+							<p:column>
+								<p:inputText id="companyHousenumber"
+									value="#{companySettingsController.companySettings.houseNumber}" maxlength="5" styleClass="smallInput"/>
 							</p:column>
 						</p:row>
 						<p:row>
 							<p:column>
 								<h:outputLabel
-									value="#{messages.companySettings_street}/#{messages.companySettings_city}:"></h:outputLabel>
+									value="#{messages.companySettings_zip}/#{messages.companySettings_city}:"></h:outputLabel>
 							</p:column>
 							<p:column>
 								<p:inputText id="companyZip"

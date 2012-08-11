@@ -12,6 +12,7 @@ public class CompanySettingsBean {
 	private static String SETTING_COMPANY_OWNERS = "COMPANY_OWNERS";
 	private static String SETTING_COMPANY_LEGAL_FORM = "COMPANY_LEGAL_FORM";
 	private static String SETTING_COMPANY_STREET = "COMPANY_STREET";
+	private static String SETTING_COMPANY_HOUSENUMBER = "COMPANY_HOUSENUMBER";
 	private static String SETTING_COMPANY_ZIP = "COMPANY_ZIP";
 	private static String SETTING_COMPANY_CITY = "COMPANY_CITY";
 	private static String SETTING_COMPANY_PHONE_NO = "COMPANY_PHONE_NO";
@@ -47,6 +48,12 @@ public class CompanySettingsBean {
 	}
 	public void setStreet(String street) {
 		settingsMap.put(SETTING_COMPANY_STREET, street);
+	}
+	public String getHouseNumber() {
+		return getSetting(SETTING_COMPANY_HOUSENUMBER);
+	}
+	public void setHouseNumber(String houseNumber) {
+		settingsMap.put(SETTING_COMPANY_HOUSENUMBER, houseNumber);
 	}
 	public String getZip() {
 		return getSetting(SETTING_COMPANY_ZIP);
