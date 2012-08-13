@@ -15,12 +15,16 @@
  ******************************************************************************/
 package org.businessmanager.service;
 
+import java.io.OutputStream;
+import java.util.Calendar;
 import java.util.List;
 
 import junit.framework.Assert;
 
 import org.businessmanager.domain.Contact;
+import org.businessmanager.domain.Address.AddressType;
 import org.businessmanager.domain.ContactItem.Scope;
+import org.businessmanager.domain.Address;
 import org.businessmanager.domain.Email;
 import org.businessmanager.domain.Phone;
 import org.junit.Test;
@@ -31,11 +35,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-/*
+
 @ContextConfiguration("/test-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 @TransactionConfiguration(defaultRollback = true)
-@Transactional*/
+@Transactional
 public class ContactServiceTest {
 
 	@Autowired
@@ -75,5 +79,27 @@ public class ContactServiceTest {
 		contact.getContactItemList().add(phoneObj);
 		
 		return contact;
+	}
+	
+	@Test
+	public void testGetVCard() {
+		Contact contact = new Contact("Bruce", "Wayne");
+		contact.setBirthday(Calendar.getInstance());
+		contact.setCompany("Wayne Enterprises");
+		contact.setJobTitle("CEO");
+		contact.setNotes("Batcave Notes");
+		
+		Address address = new Address();
+		address.setCity("Gotham City");
+		address.setCountry("us");
+		address.setScope(AddressType.BILLING);
+		address.setStreet("Mountain Drive");
+		address.setHousenumber("1007");
+		address.setZipCode("10286");
+		contact.getAddresses().add(address);
+		OutputStream out = contactService.getAsVCard(contact);
+		
+		Assert.assertNotNull(out);
+		System.out.println(out);
 	}
 }

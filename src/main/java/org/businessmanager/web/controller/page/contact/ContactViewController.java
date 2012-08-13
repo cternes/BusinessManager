@@ -15,6 +15,10 @@
  ******************************************************************************/
 package org.businessmanager.web.controller.page.contact;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,6 +31,8 @@ import org.businessmanager.domain.Contact;
 import org.businessmanager.service.ContactService;
 import org.businessmanager.web.controller.AbstractController;
 import org.businessmanager.web.controller.model.ContactModel;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -39,7 +45,9 @@ public class ContactViewController extends AbstractController {
 	private ContactModel model;
 	
 	@Autowired
-	private ContactService contactService; 
+	private ContactService contactService;
+
+	private StreamedContent vcard; 
 	
 	@PostConstruct
 	public void init() {
@@ -130,5 +138,20 @@ public class ContactViewController extends AbstractController {
 			return false;
 		}
 		return true;
+	}
+	
+	public StreamedContent getVcard() {
+		if(vcard == null) {
+			createVcard();
+		}
+		return vcard;
+	}
+
+	private void createVcard() {
+		Contact contact = model.getSelectedEntity();
+		OutputStream out = contactService.getAsVCard(contact);
+		
+		InputStream inputStream = new ByteArrayInputStream(((ByteArrayOutputStream) out).toByteArray());
+		vcard = new DefaultStreamedContent(inputStream, "", contact.getFirstname()+"-"+contact.getLastname()+".vcf");
 	}
 }

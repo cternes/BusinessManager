@@ -30,6 +30,10 @@
     							<p:commandButton title="#{messages.contactmanagement_edit_contact}" value="#{messages.edit}" action="#{contactViewController.navigateToEditContact}" icon="ui-icon-pencil" />
     							<p:separator />
     							<p:commandButton title="#{messages.contactmanagement_delete_contact}" value="#{messages.delete}" icon="ui-icon-closethick" onclick="confirmation.show()" />
+    							<p:separator />
+    							<p:commandLink id="downloadLink" value="#{messages.contactmanagement_vcard}" ajax="false">  
+    								<p:fileDownload value="#{contactViewController.vcard}" />  
+								</p:commandLink>  
     						</p:toolbarGroup>
     					</p:toolbar>
 					</div>

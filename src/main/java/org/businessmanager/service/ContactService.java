@@ -15,7 +15,10 @@
  ******************************************************************************/
 package org.businessmanager.service;
 
+import java.io.OutputStream;
 import java.util.List;
+
+import net.fortuna.ical4j.vcard.VCard;
 
 import org.businessmanager.domain.Contact;
 import org.businessmanager.domain.ContactItem;
@@ -68,4 +71,12 @@ public interface ContactService {
 	public void removeContactItem(Long id);
 	
 	public List<Contact> fullTextSearchContact(String searchString);
+	
+	/**
+	 * Converts a {@link Contact} to a {@link VCard}.
+	 * 
+	 * @param contact the contact which should be converted
+	 * @return the vCard written to an OutputStream
+	 */
+	public OutputStream getAsVCard(Contact contact);
 }

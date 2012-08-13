@@ -15,14 +15,41 @@
  ******************************************************************************/
 package org.businessmanager.service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.URI;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.List;
+
+import net.fortuna.ical4j.model.Date;
+import net.fortuna.ical4j.model.ValidationException;
+import net.fortuna.ical4j.vcard.Group;
+import net.fortuna.ical4j.vcard.Property;
+import net.fortuna.ical4j.vcard.VCard;
+import net.fortuna.ical4j.vcard.VCardOutputter;
+import net.fortuna.ical4j.vcard.parameter.Type;
+import net.fortuna.ical4j.vcard.property.BDay;
+import net.fortuna.ical4j.vcard.property.Fn;
+import net.fortuna.ical4j.vcard.property.N;
+import net.fortuna.ical4j.vcard.property.Note;
+import net.fortuna.ical4j.vcard.property.Org;
+import net.fortuna.ical4j.vcard.property.ProdId;
+import net.fortuna.ical4j.vcard.property.SortString;
+import net.fortuna.ical4j.vcard.property.Title;
+import net.fortuna.ical4j.vcard.property.Url;
+import net.fortuna.ical4j.vcard.property.Version;
 
 import org.apache.commons.lang3.Validate;
 import org.businessmanager.dao.ContactDao;
 import org.businessmanager.domain.Activity;
 import org.businessmanager.domain.Activity.ActivityType;
+import org.businessmanager.domain.Address;
 import org.businessmanager.domain.Contact;
 import org.businessmanager.domain.ContactItem;
+import org.businessmanager.domain.ContactItem.Scope;
 import org.businessmanager.domain.Email;
 import org.businessmanager.domain.Fax;
 import org.businessmanager.domain.ModificationType;
@@ -31,6 +58,8 @@ import org.businessmanager.domain.Website;
 import org.businessmanager.domain.security.User;
 import org.businessmanager.service.security.SpringSecurityService;
 import org.businessmanager.web.bean.ContactActivityBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +68,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ContactServiceImpl implements ContactService {
 
+	private Logger logger = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	private ContactDao contactDao;
 	
@@ -47,6 +78,8 @@ public class ContactServiceImpl implements ContactService {
 	
 	@Autowired
 	private SpringSecurityService securityService;
+	
+	private VCardOutputter vcardWriter = new VCardOutputter();
 
 	@Override
 	public Contact saveContact(Contact contact) {
@@ -118,6 +151,71 @@ public class ContactServiceImpl implements ContactService {
 		
 		activity.setData(activityData.toJson());
 		activityService.saveActivity(activity);
+	}
+
+	@Override
+	public OutputStream getAsVCard(Contact contact) {
+		Validate.notNull(contact);
+		
+		List<Property> props = new ArrayList<Property>();
+		props.add(new Version("2.1"));
+		props.add(new N(contact.getLastname(), contact.getFirstname(), null, null, null));
+		props.add(new Fn(contact.getFullname()));
+		props.add(new SortString(contact.getLastname()));
+		
+		List<Email> emailList = contact.getEmailList();
+		for (Email email : emailList) {
+			if(Scope.PRIVATE.equals(email.getScope())) {
+				props.add(new net.fortuna.ical4j.vcard.property.Email(Group.HOME, email.getEmail()));
+			}
+			else if(Scope.COMMERCIAL.equals(email.getScope())) {
+				props.add(new net.fortuna.ical4j.vcard.property.Email(Group.WORK, email.getEmail()));
+			}
+		}
+		
+		if(contact.getBirthday() != null) {
+			Date iCalDate = new Date(contact.getBirthday().getTime());
+			props.add(new BDay(iCalDate));
+		}
+		
+		List<Address> addressList = contact.getAddresses();
+		for (Address address : addressList) {
+			props.add(new net.fortuna.ical4j.vcard.property.Address(Group.WORK, address.getPostOfficeBox(), null, address.getStreet() + " " +address.getHousenumber(), address.getCity(), null, address.getZipCode(), address.getCountry(), Type.WORK));
+		}
+		
+		if(contact.getCompany() != null) {
+			props.add(new Org(contact.getCompany()));
+		}
+		
+		List<Website> websiteList = contact.getWebsiteList();
+		for (Website website : websiteList) {
+			props.add(new Url(URI.create(website.getWebsite())));
+		}
+		
+		if(contact.getJobTitle() != null) {
+			props.add(new Title(contact.getJobTitle()));
+		}
+		
+		if(contact.getNotes() != null) {
+			props.add(new Note(contact.getNotes()));
+		}
+		
+		props.add(new ProdId("Business Manager"));
+		
+		VCard vCard = new VCard(props);
+		
+		OutputStream out = new ByteArrayOutputStream();
+		
+		try {
+			OutputStreamWriter writer = new OutputStreamWriter(out, Charset.forName("UTF-8"));
+			vcardWriter.output(vCard, writer);
+		} catch (IOException e) {
+			logger.error("Could not write vcard to outputstream. Error was: ", e);
+		} catch (ValidationException e) {
+			logger.error("Found validation errors in vcard. Aborting.", e);
+		}
+		
+		return out;
 	}
 
 }
