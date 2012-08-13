@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:bm="http://www.businessmanager.org/tags"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="head">
+	</ui:define>
+
+	<ui:define name="content">
+		<h:body>
+			<h2 class="contentheading">#{messages.editinvoice_title}</h2>
+
+			<div id="left-col">
+				<ui:include src="sideBarInvoice.xhtml" />
+			</div>
+
+			<div id="right-col">
+				<h:form id="formPanel" prependId="false">
+					<p:messages />
+					<p:focus for="invoiceNumber" />
+					
+					<p:panel id="contactPanel" header="#{messages.editinvoice_invoice_general}">
+						<p:panelGrid>
+							<p:row>
+								<p:column>
+									<h:outputLabel for="invoiceNumber"
+										value="#{messages.editinvoice_invoice_invoiceNumber}:" />
+								</p:column>
+								<p:column>
+									<h:outputText id="invoiceNumber"
+										value="#{invoiceEditController.bean.invoiceNumber}" />
+								</p:column>
+								<p:column>
+									<h:outputLabel for="invoiceDate"
+										value="#{messages.editinvoice_invoice_invoiceDate}:" />
+								</p:column>
+								<p:column>
+									<p:calendar id="invoiceDate" value="#{invoiceEditController.bean.invoiceDate}" showOn="button" />  
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<h:outputLabel value="#{messages.editinvoice_invoice_recipient}:"/>
+								</p:column>
+								<p:column>
+									<h:outputText value="" />
+									<p:commandButton value="#{messages.editinvoice_invoice_search_contact}" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+					</p:panel>
+					
+					<div class="verticalSpacingSmall" />
+					
+					<p:panel header="#{messages.editinvoice_invoice_lineitems}">
+					
+					</p:panel>
+
+					<div class="verticalSpacingSmall" />
+
+					<p:commandButton value="#{messages.save}"
+						action="#" update=":formPanel" icon="ui-icon-disk"/>
+					<p:commandLink value="#{messages.cancel}"
+						action="#"
+						styleClass="marginButton" />
+				</h:form>
+			</div>
+		</h:body>
+	</ui:define>
+</ui:composition>
