@@ -21,10 +21,8 @@ import java.util.Map;
 import org.businessmanager.domain.ModificationType;
 import org.businessmanager.util.JsonUtil;
 
-public class ContactActivityBean {
+public class ContactActivityBean extends AbstractActivityBean {
 
-	private String username;
-	private ModificationType activity;
 	private String contactName;
 	
 	public ContactActivityBean() {
@@ -36,18 +34,6 @@ public class ContactActivityBean {
 		this.contactName = contactName;
 	}
 	
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public ModificationType getActivity() {
-		return activity;
-	}
-	public void setActivity(ModificationType activity) {
-		this.activity = activity;
-	}
 	public String getContactName() {
 		return contactName;
 	}

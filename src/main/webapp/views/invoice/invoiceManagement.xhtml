@@ -44,7 +44,7 @@
 							filterBy="#{invoice.invoiceNumber}" filterMatchMode="contains"
 							headerText="#{messages.invoicemanagement_invoice_number}">
 							<p:commandLink value="#{invoice.invoiceNumber}"
-								action="#{contactManagementController.navigateToContactView}">
+								action="#">
 								<f:setPropertyActionListener
 									target="#{invoiceManagementController.model.selectedEntity}"
 									value="#{invoice}" />
@@ -53,7 +53,9 @@
 						<p:column sortBy="#{invoice.invoiceDate}"
 							filterBy="#{invoice.invoiceDate}" filterMatchMode="contains"
 							headerText="#{messages.invoicemanagement_invoice_date}">
-							<h:outputText value="#{invoice.invoiceDate}" />
+							<h:outputText value="#{invoice.invoiceDate.time}" >
+								<f:convertDateTime type="date" dateStyle="medium" pattern="#{messages.date_pattern}" timeZone="#{messages.timezone}"/>
+							</h:outputText>
 						</p:column>
 						<p:column sortBy="#{invoice.contact.fullname}"
 							filterBy="#{invoice.contact.fullname}" filterMatchMode="contains"

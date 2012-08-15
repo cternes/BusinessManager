@@ -13,41 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.businessmanager.web.controller.model;
+package org.businessmanager.web.bean;
 
-import java.util.List;
+import org.businessmanager.domain.ModificationType;
 
-public abstract class AbstractModel<T> {
-
-	private List<T> entityList;
-	private T selectedEntity;
-	private String backUrl;
+public abstract class AbstractActivityBean {
 	
-	public void setEntityList(List<T> entityList) {
-		this.entityList = entityList;
-	}
+	protected String username;
+	protected ModificationType activity;
 	
-	public List<T> getEntityList() {
-		return entityList;
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public ModificationType getActivity() {
+		return activity;
+	}
+	public void setActivity(ModificationType activity) {
+		this.activity = activity;
 	}
 
-	public void setSelectedEntity(T selectedEntity) {
-		this.selectedEntity = selectedEntity;
-	}
-
-	public T getSelectedEntity() {
-		return selectedEntity;
-	}
+	public abstract String toJson();
 	
-	public void refresh() {
-		setEntityList(null);
-	}
-	
-	public void setBackUrl(String backUrl) {
-		this.backUrl = backUrl;
-	}
-
-	public String getBackUrl() {
-		return backUrl;
-	}
+	public abstract AbstractActivityBean fromJson(String json);
 }

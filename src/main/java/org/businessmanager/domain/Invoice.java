@@ -17,7 +17,7 @@ package org.businessmanager.domain;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -42,7 +42,7 @@ public class Invoice extends AbstractEntity {
 	private String invoiceNumberPresentation;
 
 	@Column
-	private Date invoiceDate;
+	private Calendar invoiceDate;
 
 	@Column
 	private BigDecimal invoiceAmountNet;
@@ -64,6 +64,14 @@ public class Invoice extends AbstractEntity {
 
 	@ManyToOne(targetEntity=Contact.class)
 	private Contact contact;
+	
+	Invoice() {
+	}
+	
+	public Invoice(Long invoiceNumber, Calendar invoiceDate) {
+		this.invoiceNumber = invoiceNumber;
+		this.invoiceDate = invoiceDate;
+	}
 	
 	public Long getId() {
 		return id;
@@ -89,11 +97,11 @@ public class Invoice extends AbstractEntity {
 		this.invoiceNumberPresentation = invoiceNumberPresentation;
 	}
 
-	public Date getInvoiceDate() {
+	public Calendar getInvoiceDate() {
 		return invoiceDate;
 	}
 
-	public void setInvoiceDate(Date invoiceDate) {
+	public void setInvoiceDate(Calendar invoiceDate) {
 		this.invoiceDate = invoiceDate;
 	}
 

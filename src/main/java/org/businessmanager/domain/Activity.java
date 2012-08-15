@@ -31,7 +31,8 @@ import org.businessmanager.i18n.ResourceBundleAccessor;
 public class Activity extends AbstractEntity {
 
 	public enum ActivityType {
-		CONTACT("activitytype_contact");
+		CONTACT("activitytype_contact")
+		, INVOICE("activitytype_invoice");
 
 		private String label;
 

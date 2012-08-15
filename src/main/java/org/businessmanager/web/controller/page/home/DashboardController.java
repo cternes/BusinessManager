@@ -17,9 +17,13 @@ package org.businessmanager.web.controller.page.home;
 
 import java.util.List;
 
+import org.businessmanager.domain.Activity.ActivityType;
+import org.businessmanager.domain.Contact;
 import org.businessmanager.dto.ActivityDto;
 import org.businessmanager.service.ActivityService;
+import org.businessmanager.service.ContactService;
 import org.businessmanager.web.controller.AbstractController;
+import org.businessmanager.web.controller.model.ContactModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -31,7 +35,15 @@ public class DashboardController extends AbstractController {
 	@Autowired
 	private ActivityService activityService;
 	
+	@Autowired
+	private ContactModel contactModel;
+	
+	@Autowired
+	private ContactService contactService;
+	
 	private List<ActivityDto> recentActivityList;
+	
+	private ActivityDto selectedActivity;
 	
 	public void fetchRecentActivity() {
 		recentActivityList = activityService.getRecentActivities(50);
@@ -42,6 +54,30 @@ public class DashboardController extends AbstractController {
 			fetchRecentActivity();
 		}
 		return recentActivityList;
+	}
+	
+	public String navigateToObject() {
+		if(selectedActivity != null) {
+			if(selectedActivity.getActivityType().equals(ActivityType.CONTACT)) {
+				Contact contact = contactService.getContactById(selectedActivity.getObjectId());
+				contactModel.setSelectedEntity(contact);
+				return navigationManager.getContactView();
+			}
+		}
+		return "#";
+	}
+
+	public void setSelectedActivity(ActivityDto selectedActivity) {
+		this.selectedActivity = selectedActivity;
+	}
+
+	public ActivityDto getSelectedActivity() {
+		return selectedActivity;
+	}
+	
+	public String navigateToAddContact() {
+		contactModel.setSelectedEntity(null);
+		return navigationManager.getEditContact();
 	}
 	
 }

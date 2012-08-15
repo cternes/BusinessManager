@@ -47,7 +47,7 @@ public class InvoiceLineItem extends AbstractEntity {
 	private BigDecimal sumPrice;
 	
 	@Column
-	private Boolean vatPercentage;
+	private BigDecimal vatPercentage;
 	
 	@ManyToOne(targetEntity=Invoice.class)
 	private Invoice invoice;
@@ -100,11 +100,11 @@ public class InvoiceLineItem extends AbstractEntity {
 		this.sumPrice = sumPrice;
 	}
 
-	public Boolean getVatPercentage() {
+	public BigDecimal getVatPercentage() {
 		return vatPercentage;
 	}
 
-	public void setVatPercentage(Boolean vatPercentage) {
+	public void setVatPercentage(BigDecimal vatPercentage) {
 		this.vatPercentage = vatPercentage;
 	}
 

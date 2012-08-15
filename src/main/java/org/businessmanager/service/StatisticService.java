@@ -13,41 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.businessmanager.web.controller.model;
+package org.businessmanager.service;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.Map;
 
-public abstract class AbstractModel<T> {
+public interface StatisticService {
 
-	private List<T> entityList;
-	private T selectedEntity;
-	private String backUrl;
+	public Long getNumberOfContacts();
 	
-	public void setEntityList(List<T> entityList) {
-		this.entityList = entityList;
-	}
+	public Long getNumberOfInvoices();
 	
-	public List<T> getEntityList() {
-		return entityList;
-	}
-
-	public void setSelectedEntity(T selectedEntity) {
-		this.selectedEntity = selectedEntity;
-	}
-
-	public T getSelectedEntity() {
-		return selectedEntity;
-	}
+	public Map<Integer, Long> getNumberOfInvoicesByMonth();
 	
-	public void refresh() {
-		setEntityList(null);
-	}
+	public Long getNumberOfUnpayedInvoices();
 	
-	public void setBackUrl(String backUrl) {
-		this.backUrl = backUrl;
-	}
-
-	public String getBackUrl() {
-		return backUrl;
-	}
+	public Long getNumberOfPayedInvoices();
+	
+	public BigDecimal getSumUnpayedInvoicesNet();
+	
 }

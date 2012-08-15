@@ -18,7 +18,7 @@
 					<div style="width: 800px; float:left;">
 						<p:panel header="#{messages.dashboard_what_do_you_like_to_do}">
 							<div class="dashboard-box">
-							  	<h:commandLink value="" action="#{navigationHelper.getEditContact}">
+							  	<h:commandLink value="" action="#{dashboardController.navigateToAddContact}">
 									<div class="ui-image-adduser"></div>
 									<div class="dashboard-box-desc">
 										<h2>#{messages.contactmanagement_sidebar_add_contact}</h2>
@@ -32,12 +32,11 @@
 						<p:panel header="#{messages.dashboard_recentActivity}">
 							<h:dataTable var="activity" value="#{dashboardController.recentActivityList}">
 								<h:column>
-									#{activity.username} #{activity.activity.label} #{activity.activityType.label} #{activity.objectName}
+									#{activity.username} #{activity.activity.label} #{activity.activityType.label}
 									
-									<!-- 
-									<p:commandLink value="#{activity.objectName}" action="#{contactManagementController.navigateToContactView}">
-										<f:setPropertyActionListener target="#{contactManagementController.model.selectedEntity}" value="#{contact}" />
-									</p:commandLink> -->
+									<p:commandLink value="#{activity.objectName}" action="#{dashboardController.navigateToObject}" >
+										<f:setPropertyActionListener target="#{dashboardController.selectedActivity}" value="#{activity}" />
+									</p:commandLink>
 								</h:column>
 							</h:dataTable>
 						</p:panel>

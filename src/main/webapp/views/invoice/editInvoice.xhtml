@@ -41,7 +41,10 @@
 										value="#{messages.editinvoice_invoice_invoiceDate}:" />
 								</p:column>
 								<p:column>
-									<p:calendar id="invoiceDate" value="#{invoiceEditController.bean.invoiceDate}" showOn="button" />  
+									<p:calendar id="invoiceDate" value="#{invoiceEditController.bean.invoiceDate}"  
+										showOn="button"	pattern="#{messages.date_pattern}"
+										timeZone="#{messages.timezone}" locale="de" navigator="true"
+										/>  
 								</p:column>
 							</p:row>
 							<p:row>
@@ -59,16 +62,72 @@
 					<div class="verticalSpacingSmall" />
 					
 					<p:panel header="#{messages.editinvoice_invoice_lineitems}">
-					
+						<p:commandLink value="#{messages.editinvoice_invoice_add_lineitem}" onclick="addLineItem.show();"/>
+						
+						<div class="verticalSpacingSmall" />
+						
+						<p:dataTable value="#{invoiceEditController.bean.lineItems}" var="lineItem"
+							emptyMessage="#{messages.empty_table_message}">
+							<p:column headerText="#{messages.editinvoice_lineitem_position}">
+								<h:outputText value="#{lineItem.posNo}" />
+							</p:column>
+							
+							<p:column headerText="#{messages.editinvoice_lineitem_desc}">
+								<h:outputText value="#{lineItem.description}" />
+							</p:column>
+							
+							<p:column headerText="#{messages.editinvoice_lineitem_quantity}">
+								<h:outputText value="#{lineItem.quantity}" />
+							</p:column>
+							
+							<p:column headerText="#{messages.editinvoice_lineitem_unitPrice}">
+								<h:outputText value="#{lineItem.unitPrice}" />
+							</p:column>
+							
+							<p:column headerText="#{messages.editinvoice_lineitem_vat}">
+								<h:outputText value="#{lineItem.vatPercentage}" />
+							</p:column>
+							
+							<p:column headerText="#{messages.editinvoice_lineitem_sumPrice}">
+								<h:outputText value="#{lineItem.sumPrice}" />
+							</p:column>
+						</p:dataTable>
 					</p:panel>
 
 					<div class="verticalSpacingSmall" />
 
 					<p:commandButton value="#{messages.save}"
-						action="#" update=":formPanel" icon="ui-icon-disk"/>
+						action="#{invoiceEditController.saveInvoice}" update=":formPanel" icon="ui-icon-disk"/>
 					<p:commandLink value="#{messages.cancel}"
-						action="#"
+						action="#{invoiceEditController.navigateBack}"
 						styleClass="marginButton" />
+						
+					<p:dialog widgetVar="addLineItem" header="#{messages.editinvoice_invoice_add_lineitem}" 
+						modal="true" visible="#{invoiceEditController.showLineItemDialog}"
+						width="500">
+						<h:form id="lineItemForm">
+							<p:messages id="messages" />
+						  	<p:panelGrid columns="2">
+						  		<h:outputLabel for="posNo" value="#{messages.editinvoice_lineitem_position}:"/>
+						  		<h:outputText id="posNo" value="#{invoiceEditController.lineItemBean.posNo}" />
+						  		
+						  		<h:outputLabel for="desc" value="#{messages.editinvoice_lineitem_desc}:" />
+						  		<p:inputTextarea id="desc" value="#{invoiceEditController.lineItemBean.description}" cols="50"/>
+						  		
+						  		<h:outputLabel for="unitPrice" value="#{messages.editinvoice_lineitem_unitPrice}:" />
+						  		<p:inputText id="unitPrice" value="#{invoiceEditController.lineItemBean.unitPrice}" />
+						  		
+						  		<h:outputLabel for="quantity" value="#{messages.editinvoice_lineitem_quantity}:" />
+						  		<p:spinner id="quantity" value="#{invoiceEditController.lineItemBean.quantity}" min="1"/>
+						  		
+						  		<h:outputLabel for="vat" value="#{messages.editinvoice_lineitem_vat}:" />
+						  		<p:inputText id="vat" value="#{invoiceEditController.lineItemBean.vatPercentage}" />
+						  		
+						  		<p:commandButton value="#{messages.save}" action="#{invoiceEditController.saveLineItem}" update=":formPanel" />
+						  		<p:commandLink value="#{messages.cancel}" actionListener="#{invoiceEditController.closeLineItemDialog}" immediate="true" update=":formPanel" styleClass="marginButton"/>
+						  	</p:panelGrid>
+						</h:form>
+					</p:dialog>
 				</h:form>
 			</div>
 		</h:body>
