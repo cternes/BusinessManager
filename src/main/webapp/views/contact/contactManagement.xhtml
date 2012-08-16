@@ -27,6 +27,7 @@
 						rowsPerPageTemplate="5,10,15" paginatorAlwaysVisible="true"
 						emptyMessage="#{messages.empty_table_message}"
 						rowKey="#{contact.id}" paginatorPosition="top"
+						filteredValue="#{contactManagementController.model.filteredList}"
 						widgetVar="contactTable">
 
 						<f:facet name="header" style="text-align:right;">

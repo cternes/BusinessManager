@@ -27,6 +27,7 @@
 						rowsPerPageTemplate="5,10,15" paginatorAlwaysVisible="true"
 						emptyMessage="#{messages.empty_table_message}"
 						rowKey="#{invoice.id}" paginatorPosition="top"
+						filteredValue="#{invoiceManagementController.model.filteredList}"
 						widgetVar="invoiceTable">
 
 						<f:facet name="header" style="text-align:right;">

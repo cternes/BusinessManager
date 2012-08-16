@@ -20,6 +20,7 @@ import java.util.List;
 public abstract class AbstractModel<T> {
 
 	private List<T> entityList;
+	private List<T> filteredList;
 	private T selectedEntity;
 	private String backUrl;
 	
@@ -49,5 +50,13 @@ public abstract class AbstractModel<T> {
 
 	public String getBackUrl() {
 		return backUrl;
+	}
+
+	public List<T> getFilteredList() {
+		return filteredList;
+	}
+
+	public void setFilteredList(List<T> filteredList) {
+		this.filteredList = filteredList;
 	}
 }
