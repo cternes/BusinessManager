@@ -15,6 +15,7 @@
  ******************************************************************************/
 package org.businessmanager.web.controller.page.admin;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -48,14 +49,19 @@ public class SettingsController extends AbstractController {
 	private OpenGeoDB openGeoService;
 
 	private Map<String, String> settingsMap = new HashMap<String, String>();
+	private BigDecimal vatPercentage;
 
 	@PostConstruct
 	public void init() {
-		List<ApplicationSetting> aApplicationSettingsList = service
-				.getApplicationSettingsByGroup(Group.USER_PREFERENCS);
-		for (ApplicationSetting aApplicationSetting : aApplicationSettingsList) {
-			getSettingsMap().put(aApplicationSetting.getParamKey(),
-					aApplicationSetting.getParamValue());
+		List<ApplicationSetting> applicationSettingsList = service.getApplicationSettingsByGroup(Group.SYSTEM_PREFERENCES);
+		for (ApplicationSetting applicationSetting : applicationSettingsList) {
+			getSettingsMap().put(applicationSetting.getParamKey(),
+					applicationSetting.getParamValue());
+			
+			//retrieve vat percentage
+			if(applicationSetting.getParamKey().equals(ApplicationSettingsService.INVOICES_VATPERCENTAGE)) {
+				setVatPercentage(new BigDecimal(applicationSetting.getParamValue()));
+			}
 		}
 
 	}
@@ -67,8 +73,13 @@ public class SettingsController extends AbstractController {
 				String aKey = anIterator.next();
 				String aValue = settingsMap.get(aKey);
 				if (aValue != null) {
-					// service.setApplicationSetting(aKey, aValue);
+					service.setApplicationSetting(ApplicationSetting.Group.SYSTEM_PREFERENCES, aKey, aValue);
 				}
+			}
+			
+			//set vat percentag
+			if(vatPercentage != null) {
+				service.setApplicationSetting(ApplicationSetting.Group.SYSTEM_PREFERENCES, ApplicationSettingsService.INVOICES_VATPERCENTAGE, vatPercentage.toString());
 			}
 
 			openGeoService.refreshListOfCountries();
@@ -100,5 +111,13 @@ public class SettingsController extends AbstractController {
 		String language = FacesContext.getCurrentInstance().getViewRoot()
 				.getLocale().getLanguage();
 		return openGeoService.getListOfCountries(language);
+	}
+
+	public void setVatPercentage(BigDecimal vatPercentage) {
+		this.vatPercentage = vatPercentage;
+	}
+
+	public BigDecimal getVatPercentage() {
+		return vatPercentage;
 	}
 }

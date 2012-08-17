@@ -22,6 +22,7 @@
 		<junit.version>4.10</junit.version>
 		<jsf.version>2.1.11</jsf.version>
 		<primefaces.version>3.4.RC1</primefaces.version>
+		<primefacesext.version>0.5.1</primefacesext.version>
 		<spring.version>3.1.0.RELEASE</spring.version>
 		<spring-security.version>3.0.7.RELEASE</spring-security.version>
 		<hibernate.version>4.1.1.Final</hibernate.version>
@@ -111,6 +112,12 @@
 			<artifactId>primefaces</artifactId>
 			<version>${primefaces.version}</version>
 		</dependency>
+		
+		<dependency>
+	        <groupId>org.primefaces.extensions</groupId>
+	        <artifactId>primefaces-extensions</artifactId>
+	        <version>${primefacesext.version}</version>
+    	</dependency>
 
 		<!-- Apache Orchestra -->
 		<dependency>

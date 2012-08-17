@@ -44,7 +44,10 @@ public class InvoiceLineItem extends AbstractEntity {
 	private BigDecimal quantity;
 	
 	@Column
-	private BigDecimal sumPrice;
+	private BigDecimal sumPriceNet;
+	
+	@Column
+	private BigDecimal sumPriceGross;
 	
 	@Column
 	private BigDecimal vatPercentage;
@@ -92,14 +95,6 @@ public class InvoiceLineItem extends AbstractEntity {
 		this.quantity = quantity;
 	}
 
-	public BigDecimal getSumPrice() {
-		return sumPrice;
-	}
-
-	public void setSumPrice(BigDecimal sumPrice) {
-		this.sumPrice = sumPrice;
-	}
-
 	public BigDecimal getVatPercentage() {
 		return vatPercentage;
 	}
@@ -115,6 +110,22 @@ public class InvoiceLineItem extends AbstractEntity {
 	public void setInvoice(Invoice invoice) {
 		this.invoice = invoice;
 	}
+	
+	public BigDecimal getSumPriceNet() {
+		return sumPriceNet;
+	}
+
+	public void setSumPriceNet(BigDecimal sumPriceNet) {
+		this.sumPriceNet = sumPriceNet;
+	}
+	
+	public void setSumPriceGross(BigDecimal sumPriceGross) {
+		this.sumPriceGross = sumPriceGross;
+	}
+
+	public BigDecimal getSumPriceGross() {
+		return sumPriceGross;
+	}
 
 	@Override
 	public int hashCode() {
@@ -128,7 +139,7 @@ public class InvoiceLineItem extends AbstractEntity {
 		result = prime * result
 				+ ((quantity == null) ? 0 : quantity.hashCode());
 		result = prime * result
-				+ ((sumPrice == null) ? 0 : sumPrice.hashCode());
+				+ ((sumPriceNet == null) ? 0 : sumPriceNet.hashCode());
 		result = prime * result
 				+ ((unitPrice == null) ? 0 : unitPrice.hashCode());
 		result = prime * result
@@ -170,10 +181,10 @@ public class InvoiceLineItem extends AbstractEntity {
 				return false;
 		} else if (!quantity.equals(other.quantity))
 			return false;
-		if (sumPrice == null) {
-			if (other.sumPrice != null)
+		if (sumPriceNet == null) {
+			if (other.sumPriceNet != null)
 				return false;
-		} else if (!sumPrice.equals(other.sumPrice))
+		} else if (!sumPriceNet.equals(other.sumPriceNet))
 			return false;
 		if (unitPrice == null) {
 			if (other.unitPrice != null)
@@ -192,7 +203,8 @@ public class InvoiceLineItem extends AbstractEntity {
 	public String toString() {
 		return "InvoiceLineItem [id=" + id + ", posNo=" + posNo
 				+ ", description=" + description + ", unitPrice=" + unitPrice
-				+ ", quantity=" + quantity + ", sumPrice=" + sumPrice
+				+ ", quantity=" + quantity + ", sumPrice=" + sumPriceNet
 				+ ", vatPercentage=" + vatPercentage + "]";
 	}
+
 }

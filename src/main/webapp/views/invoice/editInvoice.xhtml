@@ -7,6 +7,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:bm="http://www.businessmanager.org/tags"
+	xmlns:pe="http://primefaces.org/ui/extensions"
 	template="/WEB-INF/templates/template.xhtml">
 
 	<ui:define name="head">
@@ -80,16 +81,16 @@
 								<h:outputText value="#{lineItem.quantity}" />
 							</p:column>
 							
-							<p:column headerText="#{messages.editinvoice_lineitem_unitPrice}">
-								<h:outputText value="#{lineItem.unitPrice}" />
+							<p:column headerText="#{messages.editinvoice_lineitem_unitPriceNet}">
+								<h:outputText value="#{lineItem.unitPrice} #{invoiceEditController.currency}" />
 							</p:column>
 							
 							<p:column headerText="#{messages.editinvoice_lineitem_vat}">
-								<h:outputText value="#{lineItem.vatPercentage}" />
+								<h:outputText value="#{lineItem.vatPercentage} %" />
 							</p:column>
 							
-							<p:column headerText="#{messages.editinvoice_lineitem_sumPrice}">
-								<h:outputText value="#{lineItem.sumPrice}" />
+							<p:column headerText="#{messages.editinvoice_lineitem_sumPrice}" footerText="Total: #{invoiceEditController.totalGrossPrice} #{invoiceEditController.currency}">
+								<h:outputText value="#{lineItem.sumPriceGross} #{invoiceEditController.currency}" />
 							</p:column>
 						</p:dataTable>
 					</p:panel>
@@ -114,16 +115,32 @@
 						  		<h:outputLabel for="desc" value="#{messages.editinvoice_lineitem_desc}:" />
 						  		<p:inputTextarea id="desc" value="#{invoiceEditController.lineItemBean.description}" cols="50"/>
 						  		
-						  		<h:outputLabel for="unitPrice" value="#{messages.editinvoice_lineitem_unitPrice}:" />
-						  		<p:inputText id="unitPrice" value="#{invoiceEditController.lineItemBean.unitPrice}" />
+						  		<h:outputLabel for="unitPriceNet" value="#{messages.editinvoice_lineitem_unitPriceNet}:" />
+						  		<pe:inputNumber id="unitPriceNet" value="#{invoiceEditController.lineItemBean.unitPrice}" converter="#{bigDecimalConverter}"
+                            		decimalSeparator="#{messages.decimal_separator}" thousandSeparator="#{thousand_separator}" decimalPlaces="2"
+                            		symbol=" #{invoiceEditController.currency}" symbolPosition="s">
+                            		<p:ajax update="vatamount, sumPrice" partialSubmit="false"/>
+					            </pe:inputNumber> 
 						  		
 						  		<h:outputLabel for="quantity" value="#{messages.editinvoice_lineitem_quantity}:" />
-						  		<p:spinner id="quantity" value="#{invoiceEditController.lineItemBean.quantity}" min="1"/>
+						  		<p:spinner id="quantity" value="#{invoiceEditController.lineItemBean.quantity}" min="1">
+						  			<p:ajax update="vatamount, sumPrice" partialSubmit="false"/>    
+						  		</p:spinner>
 						  		
 						  		<h:outputLabel for="vat" value="#{messages.editinvoice_lineitem_vat}:" />
-						  		<p:inputText id="vat" value="#{invoiceEditController.lineItemBean.vatPercentage}" />
-						  		
-						  		<p:commandButton value="#{messages.save}" action="#{invoiceEditController.saveLineItem}" update=":formPanel" />
+						  		<pe:inputNumber id="vat" value="#{invoiceEditController.lineItemBean.vatPercentage}" converter="#{bigDecimalConverter}"
+                            		decimalSeparator="#{messages.decimal_separator}" thousandSeparator="#{thousand_separator}" decimalPlaces="2"
+                            		symbol=" %" symbolPosition="s">
+                            		<p:ajax update="vatamount, sumPrice" partialSubmit="false"/>    
+					            </pe:inputNumber> 
+					            
+					            <h:outputLabel for="vatamount" value="#{messages.editinvoice_lineitem_vatamount}:" />
+					            <h:outputText id="vatamount" value="#{invoiceEditController.lineItemBean.vatAmount} #{invoiceEditController.currency}" />
+					            
+					            <h:outputLabel for="sumPrice" value="#{messages.editinvoice_lineitem_sumPrice}:" />
+					            <h:outputText id="sumPrice" value="#{invoiceEditController.lineItemBean.sumPriceGross} #{invoiceEditController.currency}" />
+					            
+						  		<p:commandButton id="saveLineItem" value="#{messages.save}" action="#{invoiceEditController.saveLineItem}" update=":formPanel" />
 						  		<p:commandLink value="#{messages.cancel}" actionListener="#{invoiceEditController.closeLineItemDialog}" immediate="true" update=":formPanel" styleClass="marginButton"/>
 						  	</p:panelGrid>
 						</h:form>

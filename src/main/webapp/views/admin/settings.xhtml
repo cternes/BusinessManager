@@ -6,6 +6,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
 	template="/WEB-INF/templates/template.xhtml">
 
 	<ui:define name="content">
@@ -56,6 +57,42 @@
 								</p:column>
 								<p:column>
 									<h:message for="country" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column colspan="4">
+									<h:outputLabel value="#{messages.settings_invoices}"
+										styleClass="boldText" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:15px" />
+								<p:column>
+									<h:outputLabel for="vat"
+										value="#{messages.settings_invoices_vatpercentage}:" />
+								</p:column>
+								<p:column>
+									<pe:inputNumber id="vat" value="#{settingsController.vatPercentage}" converter="#{bigDecimalConverter}"
+                            		decimalSeparator="#{messages.decimal_separator}" thousandSeparator="#{thousand_separator}" decimalPlaces="2"
+                            		symbol=" %" symbolPosition="s">
+					            	</pe:inputNumber>
+								</p:column>
+								<p:column>
+									<h:message for="vat" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:15px" />
+								<p:column>
+									<h:outputLabel for="currency"
+										value="#{messages.settings_invoices_currency}:" />
+								</p:column>
+								<p:column>
+									<!-- TODO: show list of currencies here-->
+									<p:inputText id="currency" value="#{settingsController.settingsMap['invoices.currency']}" />
+								</p:column>
+								<p:column>
+									<h:message for="currency" />
 								</p:column>
 							</p:row>
 						</p:panelGrid>

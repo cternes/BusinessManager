@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -59,7 +60,7 @@ public class Invoice extends AbstractEntity {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "invoice")
 	private List<InvoicePayment> payments = new ArrayList<InvoicePayment>();
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "invoice")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "invoice")
 	private List<InvoiceLineItem> lineItems = new ArrayList<InvoiceLineItem>();
 
 	@ManyToOne(targetEntity=Contact.class)

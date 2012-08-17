@@ -16,6 +16,9 @@
 package org.businessmanager.web.bean;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+import org.businessmanager.domain.InvoiceLineItem;
 
 public class LineItemBean {
 
@@ -27,12 +30,11 @@ public class LineItemBean {
 	
 	private BigDecimal quantity = BigDecimal.ONE;
 	
-	private BigDecimal sumPrice;
-	
 	private BigDecimal vatPercentage;
 	
-	public LineItemBean(int posNo) {
+	public LineItemBean(int posNo, BigDecimal vatPercentage) {
 		this.posNo = posNo;
+		this.vatPercentage = vatPercentage;
 	}
 
 	public Integer getPosNo() {
@@ -66,13 +68,20 @@ public class LineItemBean {
 	public void setQuantity(BigDecimal quantity) {
 		this.quantity = quantity;
 	}
-
-	public BigDecimal getSumPrice() {
-		return sumPrice;
+	
+	public BigDecimal getSumPriceNet() {
+		if(unitPrice != null) {
+			return quantity.multiply(unitPrice);
+		}
+		return BigDecimal.ZERO;
 	}
 
-	public void setSumPrice(BigDecimal sumPrice) {
-		this.sumPrice = sumPrice;
+	public BigDecimal getSumPriceGross() {
+		if(unitPrice != null) {
+			BigDecimal sumNet = quantity.multiply(unitPrice);
+			return sumNet.add(getVatAmount());
+		}
+		return BigDecimal.ZERO;
 	}
 
 	public BigDecimal getVatPercentage() {
@@ -81,6 +90,27 @@ public class LineItemBean {
 
 	public void setVatPercentage(BigDecimal vatPercentage) {
 		this.vatPercentage = vatPercentage;
+	}
+
+	public BigDecimal getVatAmount() {
+		if(unitPrice != null) {
+			BigDecimal vatAmountUnit = unitPrice.multiply(vatPercentage.divide(new BigDecimal("100"))).setScale(2, RoundingMode.HALF_UP);
+			return vatAmountUnit.multiply(quantity);
+		}
+		return BigDecimal.ZERO;
+	}
+	
+	public InvoiceLineItem getInvoiceLineItem() {
+		InvoiceLineItem lineItem = new InvoiceLineItem();
+		lineItem.setDescription(getDescription());
+		lineItem.setPosNo(getPosNo());
+		lineItem.setQuantity(getQuantity());
+		lineItem.setSumPriceGross(getSumPriceGross());
+		lineItem.setSumPriceNet(getSumPriceNet());
+		lineItem.setUnitPrice(getUnitPrice());
+		lineItem.setVatPercentage(getVatPercentage());
+		
+		return lineItem;
 	}
 	
 }
