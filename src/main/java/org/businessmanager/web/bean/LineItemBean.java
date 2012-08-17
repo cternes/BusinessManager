@@ -24,6 +24,8 @@ public class LineItemBean {
 
 	private Integer posNo;
 	
+	private Long id;
+	
 	private String description;
 	
 	private BigDecimal unitPrice;
@@ -31,6 +33,9 @@ public class LineItemBean {
 	private BigDecimal quantity = BigDecimal.ONE;
 	
 	private BigDecimal vatPercentage;
+	
+	LineItemBean() {
+	}
 	
 	public LineItemBean(int posNo, BigDecimal vatPercentage) {
 		this.posNo = posNo;
@@ -71,7 +76,7 @@ public class LineItemBean {
 	
 	public BigDecimal getSumPriceNet() {
 		if(unitPrice != null) {
-			return quantity.multiply(unitPrice);
+			return quantity.multiply(unitPrice).setScale(2, RoundingMode.HALF_UP);
 		}
 		return BigDecimal.ZERO;
 	}
@@ -79,7 +84,7 @@ public class LineItemBean {
 	public BigDecimal getSumPriceGross() {
 		if(unitPrice != null) {
 			BigDecimal sumNet = quantity.multiply(unitPrice);
-			return sumNet.add(getVatAmount());
+			return sumNet.add(getVatAmount()).setScale(2, RoundingMode.HALF_UP);
 		}
 		return BigDecimal.ZERO;
 	}
@@ -95,13 +100,14 @@ public class LineItemBean {
 	public BigDecimal getVatAmount() {
 		if(unitPrice != null) {
 			BigDecimal vatAmountUnit = unitPrice.multiply(vatPercentage.divide(new BigDecimal("100"))).setScale(2, RoundingMode.HALF_UP);
-			return vatAmountUnit.multiply(quantity);
+			return vatAmountUnit.multiply(quantity).setScale(2, RoundingMode.HALF_UP);
 		}
 		return BigDecimal.ZERO;
 	}
 	
 	public InvoiceLineItem getInvoiceLineItem() {
 		InvoiceLineItem lineItem = new InvoiceLineItem();
+		lineItem.setId(getId());
 		lineItem.setDescription(getDescription());
 		lineItem.setPosNo(getPosNo());
 		lineItem.setQuantity(getQuantity());
@@ -112,5 +118,23 @@ public class LineItemBean {
 		
 		return lineItem;
 	}
+
+	public void copyDataFromLineItem(InvoiceLineItem lineItem) {
+		if(lineItem != null) {
+			setId(lineItem.getId());
+			setDescription(lineItem.getDescription());
+			setPosNo(lineItem.getPosNo());
+			setQuantity(lineItem.getQuantity());
+			setUnitPrice(lineItem.getUnitPrice());
+			setVatPercentage(lineItem.getVatPercentage());
+		}
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 	
+	public Long getId() {
+		return id;
+	}
 }

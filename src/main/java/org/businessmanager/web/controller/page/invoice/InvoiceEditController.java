@@ -16,6 +16,7 @@
 package org.businessmanager.web.controller.page.invoice;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -23,9 +24,11 @@ import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 
+import org.businessmanager.domain.Contact;
 import org.businessmanager.domain.Invoice;
 import org.businessmanager.domain.InvoiceLineItem;
 import org.businessmanager.domain.settings.ApplicationSetting.Group;
+import org.businessmanager.service.ContactService;
 import org.businessmanager.service.InvoiceService;
 import org.businessmanager.service.settings.ApplicationSettingsService;
 import org.businessmanager.util.DateUtil;
@@ -50,16 +53,50 @@ public class InvoiceEditController extends AbstractController {
 	@Autowired
 	private ApplicationSettingsService settingsService;
 	
+	@Autowired
+	private ContactService contactService;
+	
 	private InvoiceBean bean = new InvoiceBean();
 	private LineItemBean lineItemBean;
 	private boolean showLineItemDialog;
 	private String currency;
+	private LineItemBean selectedLineItemBean;
+	private boolean isLineItemEditMode = false;
+	private boolean showSearchContactDialog;
+	private List<Contact> contactSearchResults = new ArrayList<Contact>();
+	private String contactSearchString;
 	
 	@PostConstruct
 	public void init() {
-		lineItemBean = new LineItemBean(1, getDefaultVatPercentage());
-		
+		reattachInvoice();
+		initInvoice();
+		initLineItemBean();
 		initDefaultCurrency();
+	}
+
+	private void initLineItemBean() {
+		if(model.getSelectedEntity() == null) {
+			lineItemBean = new LineItemBean(1, getDefaultVatPercentage());
+		}
+		else {
+			lineItemBean = new LineItemBean(getNextLineItemPosition(), getDefaultVatPercentage());
+		}
+		
+	}
+
+	private void reattachInvoice() {
+		// reattaching invoice to avoid LazyInitializationException
+		if(model.getSelectedEntity() != null) {
+			model.setSelectedEntity(invoiceService.getInvoiceById(model.getSelectedEntity().getId()));
+		}
+	}
+
+	private void initInvoice() {
+		Invoice selectedInvoice = model.getSelectedEntity();
+		
+		if (selectedInvoice != null) {
+			bean.copyDataFromInvoice(selectedInvoice);
+		}
 	}
 
 	private void initDefaultCurrency() {
@@ -74,11 +111,16 @@ public class InvoiceEditController extends AbstractController {
 		return lineItemBean;
 	}
 
-	public void addLineItem() {
-		bean.getLineItems().add(lineItemBean);
+	public void addLineItemToList() {
+		if(!isLineItemEditMode) { //add new bean
+			bean.getLineItems().add(lineItemBean);
+		}
 		
-		int pos = bean.getLineItems().size()+1;
-		lineItemBean = new LineItemBean(pos, getDefaultVatPercentage());
+		lineItemBean = new LineItemBean(getNextLineItemPosition(), getDefaultVatPercentage());
+	}
+	
+	private int getNextLineItemPosition() {
+		return bean.getLineItems().size()+1;
 	}
 	
 	/**
@@ -109,10 +151,15 @@ public class InvoiceEditController extends AbstractController {
 	public String saveInvoice() {
 		if (validateInvoice()) {
 			Invoice invoice = createInvoice();
+			if(model.getSelectedEntity() != null) {
+				invoice = model.getSelectedEntity();
+			}
+			
+			fillInvoice(invoice);
 			updateLineItemsInInvoice(invoice);
 			invoiceService.saveInvoice(invoice);
 			
-			addMessage(FacesMessage.SEVERITY_INFO, "editcontact_success_contact_saved");
+			addMessage(FacesMessage.SEVERITY_INFO, "editinvoice_success_invoice_saved");
 			
 			model.refresh();
 			return navigateBack();
@@ -120,6 +167,12 @@ public class InvoiceEditController extends AbstractController {
 		return "#";
 	}
 	
+	private void fillInvoice(Invoice invoice) {
+		invoice.setInvoiceDate(DateUtil.convertDateToCalendar(bean.getInvoiceDate()));
+		invoice.setInvoiceAmountGross(getTotalGrossPrice());
+		invoice.setInvoiceAmountNet(getTotalNetPrice());
+	}
+
 	private boolean validateInvoice() {
 		// TODO validate invoice here
 		return true;
@@ -130,7 +183,6 @@ public class InvoiceEditController extends AbstractController {
 		Long invoiceNumber = Long.valueOf(UUID.randomUUID().hashCode());
 		Invoice invoice = new Invoice(invoiceNumber, DateUtil.convertDateToCalendar(bean.getInvoiceDate()));
 		
-		//TODO: map fields from bean to invoice
 		return invoice;
 	}
 	
@@ -157,7 +209,7 @@ public class InvoiceEditController extends AbstractController {
 
 	public void saveLineItem() {
 		if(validateLineItem()) {
-			addLineItem();
+			addLineItemToList();
 			
 			//hide dialog
 			closeLineItemDialog();
@@ -165,8 +217,22 @@ public class InvoiceEditController extends AbstractController {
 	}
 
 	private boolean validateLineItem() {
-		// TODO add line item validation here
-		return true;
+		// TODO fix issue with validation messages here
+		boolean isValid = true;
+		
+		if(lineItemBean.getDescription() == null || lineItemBean.getDescription().isEmpty()) {
+			addErrorMessage("desc", "editinvoice_error_no_description");
+			isValid = false;
+		}
+		
+		if(lineItemBean.getVatPercentage() != null) {
+			if(lineItemBean.getVatPercentage().compareTo(new BigDecimal(100)) == 1) {
+				addErrorMessage("vat", "editinvoice_error_too_high_vat");
+				isValid = false;
+			}
+		}
+		
+		return isValid;
 	}
 	
 	public String navigateBack() {
@@ -189,6 +255,87 @@ public class InvoiceEditController extends AbstractController {
 			totalGrossPrice = totalGrossPrice.add(sumPrice);
 		}
 		
-		return totalGrossPrice;
+		return totalGrossPrice.setScale(2, RoundingMode.HALF_UP);
 	}
+	
+	public BigDecimal getTotalNetPrice() {
+		BigDecimal totalNetPrice = BigDecimal.ZERO; 
+		for (LineItemBean lineItem : bean.getLineItems()) {
+			BigDecimal sumPrice = lineItem.getSumPriceNet();
+			totalNetPrice = totalNetPrice.add(sumPrice);
+		}
+		
+		return totalNetPrice.setScale(2, RoundingMode.HALF_UP);
+	}
+	
+	public BigDecimal getTotalVatAmount() {
+		BigDecimal totalVatAmount = BigDecimal.ZERO; 
+		for (LineItemBean lineItem : bean.getLineItems()) {
+			BigDecimal amount = lineItem.getVatAmount();
+			totalVatAmount = totalVatAmount.add(amount);
+		}
+		
+		return totalVatAmount.setScale(2, RoundingMode.HALF_UP);
+	}
+
+	public LineItemBean getSelectedLineItemBean() {
+		return selectedLineItemBean;
+	}
+
+	public void setSelectedLineItemBean(LineItemBean selectedLineItemBean) {
+		this.selectedLineItemBean = selectedLineItemBean;
+	}
+	
+	public void editLineItem() {
+		lineItemBean = selectedLineItemBean;
+		
+		displayLineItemDialog();
+		
+		isLineItemEditMode = true;
+	}
+
+	public void removeLineItem() {
+		if(selectedLineItemBean != null) {
+			bean.getLineItems().remove(selectedLineItemBean);
+		}
+	}
+	
+	public void addLineItem() {
+		isLineItemEditMode = false;
+		
+		initLineItemBean();
+		
+		displayLineItemDialog();
+	}
+
+	public boolean getShowSearchContactDialog() {
+		return showSearchContactDialog;
+	}
+
+	public void displaySearchContactDialog() {
+		showSearchContactDialog = true;
+	}
+	
+	public void closeSearchContactDialog() {
+		showSearchContactDialog = false;
+	}
+	
+	public void searchContact() {
+		System.out.println("---------------SEARCH----------------------");
+		//FIXME: method never gets called, WHY??
+		contactSearchResults = contactService.fullTextSearchContact(contactSearchString);
+	}
+
+	public List<Contact> getContactSearchResults() {
+		return contactSearchResults;
+	}
+
+	public String getContactSearchString() {
+		return contactSearchString;
+	}
+
+	public void setContactSearchString(String contactSearchString) {
+		this.contactSearchString = contactSearchString;
+	}
+
 }

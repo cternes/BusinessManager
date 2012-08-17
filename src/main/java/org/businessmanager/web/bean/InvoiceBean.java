@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.businessmanager.domain.Invoice;
+import org.businessmanager.domain.InvoiceLineItem;
+
 public class InvoiceBean {
 
 	private Long invoiceNumber;
@@ -32,5 +35,24 @@ public class InvoiceBean {
 
 	public void setLineItems(List<LineItemBean> lineItems) {
 		this.lineItems = lineItems;
+	}
+
+	public void copyDataFromInvoice(Invoice invoice) {
+		if(invoice != null) {
+			if(invoice.getInvoiceDate() != null) {
+				setInvoiceDate(invoice.getInvoiceDate().getTime());
+			}
+			
+			setInvoiceNumber(invoice.getInvoiceNumber());
+			
+			if(invoice.getLineItems() != null) {
+				for (InvoiceLineItem lineItem : invoice.getLineItems()) {
+					LineItemBean lineItemBean = new LineItemBean();
+					lineItemBean.copyDataFromLineItem(lineItem);
+					
+					getLineItems().add(lineItemBean);
+				}
+			}
+		}
 	}
 }

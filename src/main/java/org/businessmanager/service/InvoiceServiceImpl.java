@@ -75,5 +75,10 @@ public class InvoiceServiceImpl implements InvoiceService {
 		activity.setData(activityData.toJson());
 		activityService.saveActivity(activity);
 	}
+
+	@Override
+	public Invoice getInvoiceById(Long id) {
+		return invoiceDao.findById(id);
+	}
 	
 }

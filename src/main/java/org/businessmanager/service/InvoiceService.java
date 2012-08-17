@@ -20,6 +20,14 @@ import java.util.List;
 import org.businessmanager.domain.Invoice;
 
 public interface InvoiceService {
+
+	/**
+	 * Retrieves an {@link Invoice} by its id.
+	 * 
+	 * @param id the id of the {@link Invoice}
+	 * @return the {@link Invoice} if found
+	 */
+	public Invoice getInvoiceById(Long id);
 	
 	/**
 	 * Retrieves all available {@link Invoice}s from the database.

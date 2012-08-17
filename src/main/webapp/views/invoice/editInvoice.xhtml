@@ -54,7 +54,7 @@
 								</p:column>
 								<p:column>
 									<h:outputText value="" />
-									<p:commandButton value="#{messages.editinvoice_invoice_search_contact}" />
+									<p:commandButton value="#{messages.editinvoice_invoice_search_contact}" action="#{invoiceEditController.displaySearchContactDialog}" update=":formPanel"/>
 								</p:column>
 							</p:row>
 						</p:panelGrid>
@@ -63,7 +63,7 @@
 					<div class="verticalSpacingSmall" />
 					
 					<p:panel header="#{messages.editinvoice_invoice_lineitems}">
-						<p:commandLink value="#{messages.editinvoice_invoice_add_lineitem}" onclick="addLineItem.show();"/>
+						<p:commandLink value="#{messages.editinvoice_invoice_add_lineitem}" action="#{invoiceEditController.addLineItem}" update=":formPanel"/>
 						
 						<div class="verticalSpacingSmall" />
 						
@@ -89,12 +89,40 @@
 								<h:outputText value="#{lineItem.vatPercentage} %" />
 							</p:column>
 							
-							<p:column headerText="#{messages.editinvoice_lineitem_sumPrice}" footerText="Total: #{invoiceEditController.totalGrossPrice} #{invoiceEditController.currency}">
-								<h:outputText value="#{lineItem.sumPriceGross} #{invoiceEditController.currency}" />
+							<p:column headerText="#{messages.editinvoice_lineitem_sumPriceNet}" footerText="Total: #{invoiceEditController.totalNetPrice} #{invoiceEditController.currency}">
+								<h:outputText value="#{lineItem.sumPriceNet} #{invoiceEditController.currency}" />
+							</p:column>
+							
+							<p:column>
+								<div class="center">
+									<p:commandButton title="#{messages.editinvoice_edit_lineitem}" icon="ui-icon-pencil" action="#{invoiceEditController.editLineItem}" update=":formPanel">
+										<f:setPropertyActionListener target="#{invoiceEditController.selectedLineItemBean}" value="#{lineItem}" />
+									</p:commandButton>
+									
+									<p:commandButton title="#{messages.editinvoice_delete_lineitem}" action="#{invoiceEditController.removeLineItem}" update=":formPanel" icon="ui-icon-closethick" styleClass="marginButton">
+										<f:setPropertyActionListener target="#{invoiceEditController.selectedLineItemBean}" value="#{lineItem}" />
+									</p:commandButton>
+								</div>
 							</p:column>
 						</p:dataTable>
-					</p:panel>
+						
+						
+						<div class="verticalSpacingSmall" />
+						
+						<div>
+							<p:panelGrid columns="2">
+								<h:outputLabel value="Betrag der Positionen (netto):"/>
+								<h:outputText value="#{invoiceEditController.totalNetPrice} #{invoiceEditController.currency}"/>
+								
+								<h:outputText value="Umsatzsteuerbetrag:" />
+								<h:outputText value="#{invoiceEditController.totalVatAmount} #{invoiceEditController.currency}"/>
 
+								<h:outputText value="Gesamtbetrag (brutto):" styleClass="boldText" />
+								<h:outputText value="#{invoiceEditController.totalGrossPrice} #{invoiceEditController.currency}" styleClass="boldText"/>
+							</p:panelGrid>
+						</div>
+					</p:panel>
+					
 					<div class="verticalSpacingSmall" />
 
 					<p:commandButton value="#{messages.save}"
@@ -103,47 +131,72 @@
 						action="#{invoiceEditController.navigateBack}"
 						styleClass="marginButton" />
 						
-					<p:dialog widgetVar="addLineItem" header="#{messages.editinvoice_invoice_add_lineitem}" 
+					<p:dialog id="lineItemDialog" widgetVar="addLineItem" header="#{messages.editinvoice_invoice_add_lineitem}" 
 						modal="true" visible="#{invoiceEditController.showLineItemDialog}"
 						width="500">
 						<h:form id="lineItemForm">
-							<p:messages id="messages" />
-						  	<p:panelGrid columns="2">
+							<p:messages id="dialogMessages" />
+						  	<p:panelGrid columns="3">
 						  		<h:outputLabel for="posNo" value="#{messages.editinvoice_lineitem_position}:"/>
 						  		<h:outputText id="posNo" value="#{invoiceEditController.lineItemBean.posNo}" />
+						  		<h:message for="posNo" />
 						  		
 						  		<h:outputLabel for="desc" value="#{messages.editinvoice_lineitem_desc}:" />
 						  		<p:inputTextarea id="desc" value="#{invoiceEditController.lineItemBean.description}" cols="50"/>
+						  		<h:message for="desc" />
 						  		
 						  		<h:outputLabel for="unitPriceNet" value="#{messages.editinvoice_lineitem_unitPriceNet}:" />
 						  		<pe:inputNumber id="unitPriceNet" value="#{invoiceEditController.lineItemBean.unitPrice}" converter="#{bigDecimalConverter}"
                             		decimalSeparator="#{messages.decimal_separator}" thousandSeparator="#{thousand_separator}" decimalPlaces="2"
                             		symbol=" #{invoiceEditController.currency}" symbolPosition="s">
-                            		<p:ajax update="vatamount, sumPrice" partialSubmit="false"/>
+                            		<p:ajax update="vatamount, sumPriceNet, sumPriceGross" partialSubmit="false"/>
 					            </pe:inputNumber> 
+					            <h:message for="unitPriceNet" />
 						  		
 						  		<h:outputLabel for="quantity" value="#{messages.editinvoice_lineitem_quantity}:" />
 						  		<p:spinner id="quantity" value="#{invoiceEditController.lineItemBean.quantity}" min="1">
-						  			<p:ajax update="vatamount, sumPrice" partialSubmit="false"/>    
+						  			<p:ajax update="vatamount, sumPriceNet, sumPriceGross" partialSubmit="false"/>    
 						  		</p:spinner>
+						  		<h:message for="quantity" />
 						  		
 						  		<h:outputLabel for="vat" value="#{messages.editinvoice_lineitem_vat}:" />
 						  		<pe:inputNumber id="vat" value="#{invoiceEditController.lineItemBean.vatPercentage}" converter="#{bigDecimalConverter}"
                             		decimalSeparator="#{messages.decimal_separator}" thousandSeparator="#{thousand_separator}" decimalPlaces="2"
                             		symbol=" %" symbolPosition="s">
-                            		<p:ajax update="vatamount, sumPrice" partialSubmit="false"/>    
+                            		<p:ajax update="vatamount, sumPriceNet, sumPriceGross" partialSubmit="false"/>    
 					            </pe:inputNumber> 
+					            <h:message for="vat" />
 					            
 					            <h:outputLabel for="vatamount" value="#{messages.editinvoice_lineitem_vatamount}:" />
 					            <h:outputText id="vatamount" value="#{invoiceEditController.lineItemBean.vatAmount} #{invoiceEditController.currency}" />
+					            <h:message for="vatamount" />
 					            
-					            <h:outputLabel for="sumPrice" value="#{messages.editinvoice_lineitem_sumPrice}:" />
-					            <h:outputText id="sumPrice" value="#{invoiceEditController.lineItemBean.sumPriceGross} #{invoiceEditController.currency}" />
+					            <h:outputLabel for="sumPriceNet" value="#{messages.editinvoice_lineitem_sumPriceNet}:" />
+					            <h:outputText id="sumPriceNet" value="#{invoiceEditController.lineItemBean.sumPriceNet} #{invoiceEditController.currency}" />
+					            <h:message for="sumPriceNet" />
+
+					            <h:outputLabel for="sumPriceGross" value="#{messages.editinvoice_lineitem_sumPriceGross}:" />
+					            <h:outputText id="sumPriceGross" value="#{invoiceEditController.lineItemBean.sumPriceGross} #{invoiceEditController.currency}" />
+					            <h:message for="sumPriceGross" />
 					            
 						  		<p:commandButton id="saveLineItem" value="#{messages.save}" action="#{invoiceEditController.saveLineItem}" update=":formPanel" />
 						  		<p:commandLink value="#{messages.cancel}" actionListener="#{invoiceEditController.closeLineItemDialog}" immediate="true" update=":formPanel" styleClass="marginButton"/>
 						  	</p:panelGrid>
 						</h:form>
+					</p:dialog>
+					
+					<p:dialog header="#{messages.editinvoice_searchcontact_title}" visible="#{invoiceEditController.showSearchContactDialog}" modal="true">
+						<p:panelGrid columns="3">
+							<h:outputLabel for="searchInput" value="#{messages.editinvoice_searchcontact_name}:" />
+							<p:inputText id="searchInput" value="#{invoiceEditController.contactSearchString}"/>
+							<p:commandButton value="#{messages.search}" action="#{invoiceEditController.searchContact}" update="contactTable"/>
+							
+							<p:dataTable id="contactTable" var="contact" value="#{invoiceEditController.contactSearchResults}">
+								<p:column>
+									<h:outputText value="#{contact.fullName}" />
+								</p:column>
+							</p:dataTable>
+						</p:panelGrid>
 					</p:dialog>
 				</h:form>
 			</div>

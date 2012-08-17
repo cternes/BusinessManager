@@ -45,7 +45,7 @@
 							filterBy="#{invoice.invoiceNumber}" filterMatchMode="contains"
 							headerText="#{messages.invoicemanagement_invoice_number}">
 							<p:commandLink value="#{invoice.invoiceNumber}"
-								action="#">
+								action="#{invoiceManagementController.navigateToEditInvoice}">
 								<f:setPropertyActionListener
 									target="#{invoiceManagementController.model.selectedEntity}"
 									value="#{invoice}" />
@@ -66,13 +66,13 @@
 						<p:column sortBy="#{invoice.invoiceAmountNet}"
 							filterBy="#{invoice.invoiceAmountNet}" filterMatchMode="contains"
 							headerText="#{messages.invoicemanagement_invoice_amount_net}">
-							<h:outputText value="#{invoice.invoiceAmountNet}" />
+							<h:outputText value="#{invoice.invoiceAmountNet} #{invoiceManagementController.currency}" />
 						</p:column>
 						<p:column sortBy="#{invoice.invoiceAmountGross}"
 							filterBy="#{invoice.invoiceAmountGross}"
 							filterMatchMode="contains"
 							headerText="#{messages.invoicemanagement_invoice_amount_gross}">
-							<h:outputText value="#{invoice.invoiceAmountGross}" />
+							<h:outputText value="#{invoice.invoiceAmountGross} #{invoiceManagementController.currency}" />
 						</p:column>
 						<p:column sortBy="#{invoice.paid}"
 							filterBy="#{invoice.paid}"

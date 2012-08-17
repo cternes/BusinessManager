@@ -60,7 +60,7 @@ public class Invoice extends AbstractEntity {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "invoice")
 	private List<InvoicePayment> payments = new ArrayList<InvoicePayment>();
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "invoice")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "invoice", orphanRemoval=true)
 	private List<InvoiceLineItem> lineItems = new ArrayList<InvoiceLineItem>();
 
 	@ManyToOne(targetEntity=Contact.class)
