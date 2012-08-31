@@ -104,6 +104,11 @@
 									</p:commandButton>
 								</div>
 							</p:column>
+							
+							 <f:facet name="footer">  
+					            <p:commandButton value="#{messages.editinvoice_invoice_add_lineitem}" icon="ui-icon-plus"  
+					                        update=":formPanel" action="#{invoiceEditController.addLineItem}"/>  
+					        </f:facet>  
 						</p:dataTable>
 						
 						
@@ -148,7 +153,7 @@
 						  		<h:outputLabel for="unitPriceNet" value="#{messages.editinvoice_lineitem_unitPriceNet}:" />
 						  		<pe:inputNumber id="unitPriceNet" value="#{invoiceEditController.lineItemBean.unitPrice}" converter="#{bigDecimalConverter}"
                             		decimalSeparator="#{messages.decimal_separator}" thousandSeparator="#{thousand_separator}" decimalPlaces="2"
-                            		symbol=" #{invoiceEditController.currency}" symbolPosition="s">
+                            		symbol=" #{invoiceEditController.currency}" symbolPosition="s" minValue="-9999999999999999999">
                             		<p:ajax update="vatamount, sumPriceNet, sumPriceGross" partialSubmit="false"/>
 					            </pe:inputNumber> 
 					            <h:message for="unitPriceNet" />
