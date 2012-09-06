@@ -15,16 +15,32 @@
 				<h:form id="contactManagementFormPanel">
 					<p:messages />
 					
-					<div style="width: 800px; float:left;">
+					<div class="quickLinks">
 						<p:panel header="#{messages.dashboard_what_do_you_like_to_do}">
-							<div class="dashboard-box">
-							  	<h:commandLink value="" action="#{dashboardController.navigateToAddContact}">
-									<div class="ui-image-adduser"></div>
-									<div class="dashboard-box-desc">
-										<h2>#{messages.contactmanagement_sidebar_add_contact}</h2>
+							<ul>
+								<li>
+									<div class="dashboard-box">
+									  	<h:commandLink value="" action="#{dashboardController.navigateToAddContact}">
+											<div class="ui-image-adduser"></div>
+											<div class="dashboard-box-desc">
+												<h2>#{messages.contactmanagement_sidebar_add_contact}</h2>
+											</div>
+										</h:commandLink>
 									</div>
-								</h:commandLink>
-							</div>
+								</li>
+								<li>
+									<div class="dashboard-box">
+									  	<h:commandLink value="" action="#{dashboardController.navigateToAddInvoice}">
+											<div class="ui-image-addinvoice"></div>
+											<div class="dashboard-box-desc">
+												<h2>#{messages.contactmanagement_sidebar_add_invoice}</h2>
+											</div>
+										</h:commandLink>
+									</div>
+								</li>
+							</ul>
+							
+							<div style="clear: both;"></div>
 						</p:panel>
 					</div>
 					

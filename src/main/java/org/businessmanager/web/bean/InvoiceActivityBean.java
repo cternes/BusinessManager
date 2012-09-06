@@ -30,16 +30,21 @@ public class InvoiceActivityBean extends AbstractActivityBean {
 	}
 
 	@Override
-	public AbstractActivityBean fromJson(String json) {
+	public InvoiceActivityBean fromJson(String json) {
 		if(json != null) {
 			Map<String, String> dataMap = JsonUtil.getInstance().readJson(json);
 			if(dataMap != null) {
 				username = dataMap.get("username");
 				activity = ModificationType.valueOf(dataMap.get("activity"));
-				invoiceNumber = Long.valueOf(dataMap.get("contactname"));
+				invoiceNumber = Long.valueOf(dataMap.get("invoicenumber"));
 			}
 		}
 		
 		return this;
 	}
+
+	public Long getInvoiceNumber() {
+		return invoiceNumber;
+	}
+
 }

@@ -37,9 +37,6 @@ public class ContactActivityBean extends AbstractActivityBean {
 	public String getContactName() {
 		return contactName;
 	}
-	public void setContactName(String contactName) {
-		this.contactName = contactName;
-	}
 
 	public String toJson() {
 		Map<String, String> dataMap = new HashMap<String, String>();

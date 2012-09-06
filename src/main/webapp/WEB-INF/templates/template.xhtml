@@ -98,6 +98,8 @@
 					<h:form id="menubarForm">
 						<p:menubar autoSubmenuDisplay="true" effect="fade"
 							effectDuration="1">
+							<p:menuitem value="#{messages.menu_home_dashboard}"
+								action="#{navigationHelper.getDashboard}" />
 							<p:submenu label="#{messages.menu_contact}">
 								<p:menuitem value="#{messages.menu_contact_contactmanagement}"
 									action="#{navigationHelper.getContactmanagement}" />

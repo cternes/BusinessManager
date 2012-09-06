@@ -19,11 +19,14 @@ import java.util.List;
 
 import org.businessmanager.domain.Activity.ActivityType;
 import org.businessmanager.domain.Contact;
+import org.businessmanager.domain.Invoice;
 import org.businessmanager.dto.ActivityDto;
 import org.businessmanager.service.ActivityService;
 import org.businessmanager.service.ContactService;
+import org.businessmanager.service.InvoiceService;
 import org.businessmanager.web.controller.AbstractController;
 import org.businessmanager.web.controller.model.ContactModel;
+import org.businessmanager.web.controller.model.InvoiceModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -39,7 +42,13 @@ public class DashboardController extends AbstractController {
 	private ContactModel contactModel;
 	
 	@Autowired
+	private InvoiceModel invoiceModel;
+	
+	@Autowired
 	private ContactService contactService;
+	
+	@Autowired
+	private InvoiceService invoiceService;
 	
 	private List<ActivityDto> recentActivityList;
 	
@@ -63,6 +72,11 @@ public class DashboardController extends AbstractController {
 				contactModel.setSelectedEntity(contact);
 				return navigationManager.getContactView();
 			}
+			else if(selectedActivity.getActivityType().equals(ActivityType.INVOICE)) {
+				Invoice invoice = invoiceService.getInvoiceById(selectedActivity.getObjectId());
+				invoiceModel.setSelectedEntity(invoice);
+				return navigationManager.getInvoiceEdit();
+			}
 		}
 		return "#";
 	}
@@ -78,6 +92,11 @@ public class DashboardController extends AbstractController {
 	public String navigateToAddContact() {
 		contactModel.setSelectedEntity(null);
 		return navigationManager.getEditContact();
+	}
+	
+	public String navigateToAddInvoice() {
+		invoiceModel.setSelectedEntity(null);
+		return navigationManager.getInvoiceEdit();
 	}
 	
 }

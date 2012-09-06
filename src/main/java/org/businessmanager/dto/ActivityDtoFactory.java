@@ -18,6 +18,7 @@ package org.businessmanager.dto;
 import org.businessmanager.domain.Activity;
 import org.businessmanager.domain.Activity.ActivityType;
 import org.businessmanager.web.bean.ContactActivityBean;
+import org.businessmanager.web.bean.InvoiceActivityBean;
 
 public final class ActivityDtoFactory {
 
@@ -31,6 +32,15 @@ public final class ActivityDtoFactory {
 		if(ActivityType.CONTACT.equals(activity.getType())) {
 			ContactActivityBean bean = new ContactActivityBean().fromJson(activity.getData());
 			dto.setObjectName(bean.getContactName());
+			dto.setUsername(bean.getUsername());
+
+			if(bean.getActivity() != null) {
+				dto.setActivity(bean.getActivity());
+			}
+		}
+		else if(ActivityType.INVOICE.equals(activity.getType())) {
+			InvoiceActivityBean bean = new InvoiceActivityBean().fromJson(activity.getData());
+			dto.setObjectName(String.valueOf(bean.getInvoiceNumber()));
 			dto.setUsername(bean.getUsername());
 
 			if(bean.getActivity() != null) {

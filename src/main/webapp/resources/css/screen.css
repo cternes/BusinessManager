@@ -162,6 +162,17 @@ a:focus,a:hover,a:active,#main a:focus,#main a:hover,#main a:active {
 	clear: both;
 }
 
+.quickLinks {
+	width: 800px; 
+	float:left;
+}
+
+.quickLinks ul li {
+	list-style: none;
+	float: left;
+	margin-right: 20px;
+}
+
 .dashboard-box {
 	width: 215px; 
 	height: 175px;
@@ -250,6 +261,13 @@ a:focus,a:hover,a:active,#main a:focus,#main a:hover,#main a:active {
 
 .ui-image-adduser {
 	background-image: url("#{resource['images/dash_add_user.png']}");
+	background-repeat: no-repeat;
+	background-position: center center;
+	height: 133px;
+}
+
+.ui-image-addinvoice {
+	background-image: url("#{resource['images/dash_add_invoice.png']}");
 	background-repeat: no-repeat;
 	background-position: center center;
 	height: 133px;
