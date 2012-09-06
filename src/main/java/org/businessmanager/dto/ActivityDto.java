@@ -16,6 +16,9 @@
 package org.businessmanager.dto;
 
 import java.util.Calendar;
+import java.util.Locale;
+
+import javax.faces.context.FacesContext;
 
 import org.businessmanager.domain.Activity.ActivityType;
 import org.businessmanager.domain.ModificationType;
@@ -90,6 +93,11 @@ public class ActivityDto {
 
 	public void setTime(Calendar time) {
 		this.time = time;
+	}
+	
+	public String getDisplayMonth() {
+		Locale locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
+		return getTime().getDisplayName(Calendar.MONTH, Calendar.SHORT, locale);
 	}
 	
 }

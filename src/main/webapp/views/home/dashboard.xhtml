@@ -44,15 +44,19 @@
 						</p:panel>
 					</div>
 					
-					<div style="width: 400px; float:right;">
+					<div class="recentActivity">
 						<p:panel header="#{messages.dashboard_recentActivity}">
 							<h:dataTable var="activity" value="#{dashboardController.recentActivityList}">
 								<h:column>
-									#{activity.username} #{activity.activity.label} #{activity.activityType.label}
-									
-									<p:commandLink value="#{activity.objectName}" action="#{dashboardController.navigateToObject}" >
-										<f:setPropertyActionListener target="#{dashboardController.selectedActivity}" value="#{activity}" />
-									</p:commandLink>
+									<div class="dateBox" title="#{activity.time.time}">#{activity.displayMonth}<br/>#{activity.time.time.day}</div>
+								</h:column>
+								<h:column>
+									<div>
+										#{activity.username} #{activity.activity.label} #{activity.activityType.label}
+										<p:commandLink value="#{activity.objectName}" action="#{dashboardController.navigateToObject}" >
+											<f:setPropertyActionListener target="#{dashboardController.selectedActivity}" value="#{activity}" />
+										</p:commandLink>
+									</div>
 								</h:column>
 							</h:dataTable>
 						</p:panel>
