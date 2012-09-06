@@ -42,6 +42,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 	
 	@Autowired
 	private ActivityService activityService;
+	
+	@Autowired
+	private InvoiceNumberGenerator invoiceNumberGenerator;
 
 	@Override
 	public List<Invoice> getInvoices() {
@@ -53,6 +56,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 		Validate.notNull(invoice, "Parameter invoice must not be null!");
 		
 		if (invoice.getId() == null) {
+			invoice.setInvoiceNumber(invoiceNumberGenerator.getNextInvoiceNumber());
 			invoice = invoiceDao.save(invoice);
 			saveActivity(invoice.getId(), ModificationType.CREATE, invoice.getInvoiceNumber());
 			
@@ -67,18 +71,21 @@ public class InvoiceServiceImpl implements InvoiceService {
 	
 	private void saveActivity(Long sourceId, ModificationType modType, Long invoiceNumber) {
 		User currentUser = securityService.getLoggedInUser();
-		InvoiceActivityBean activityData = new InvoiceActivityBean(currentUser.getUsername(), modType, invoiceNumber);
 		
-		Activity activity = new Activity(currentUser.getId(), ActivityType.INVOICE);
-		activity.setSourceId(sourceId);
-		
-		activity.setData(activityData.toJson());
-		activityService.saveActivity(activity);
+		if(currentUser != null) {
+			InvoiceActivityBean activityData = new InvoiceActivityBean(currentUser.getUsername(), modType, invoiceNumber);
+			
+			Activity activity = new Activity(currentUser.getId(), ActivityType.INVOICE);
+			activity.setSourceId(sourceId);
+			
+			activity.setData(activityData.toJson());
+			activityService.saveActivity(activity);
+		}
 	}
 
 	@Override
 	public Invoice getInvoiceById(Long id) {
 		return invoiceDao.findById(id);
 	}
-	
+
 }

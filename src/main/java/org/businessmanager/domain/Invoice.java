@@ -36,7 +36,7 @@ public class Invoice extends AbstractEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column
+	@Column(unique=true)
 	private Long invoiceNumber;
 
 	@Column
@@ -69,8 +69,7 @@ public class Invoice extends AbstractEntity {
 	Invoice() {
 	}
 	
-	public Invoice(Long invoiceNumber, Calendar invoiceDate) {
-		this.invoiceNumber = invoiceNumber;
+	public Invoice(Calendar invoiceDate) {
 		this.invoiceDate = invoiceDate;
 	}
 	

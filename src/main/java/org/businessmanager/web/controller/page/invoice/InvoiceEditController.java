@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -179,9 +178,7 @@ public class InvoiceEditController extends AbstractController {
 	}
 
 	private Invoice createInvoice() {
-		//TODO: create unique invoice number
-		Long invoiceNumber = Long.valueOf(UUID.randomUUID().hashCode());
-		Invoice invoice = new Invoice(invoiceNumber, DateUtil.convertDateToCalendar(bean.getInvoiceDate()));
+		Invoice invoice = new Invoice(DateUtil.convertDateToCalendar(bean.getInvoiceDate()));
 		
 		return invoice;
 	}
