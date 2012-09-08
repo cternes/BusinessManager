@@ -33,10 +33,10 @@ public class InvoiceNumberGeneratorTest {
 	
 	@Test
 	public void testNumberGenerator() {
-		Invoice invoice = new Invoice(10L, Calendar.getInstance());
+		Invoice invoice = new Invoice(Calendar.getInstance());
 		invoiceService.saveInvoice(invoice);
 		
 		Long nextInvoiceNumber = generator.getNextInvoiceNumber();
-		Assert.assertEquals(Long.valueOf(11), nextInvoiceNumber);
+		Assert.assertEquals(Long.valueOf(100001), nextInvoiceNumber);
 	}
 }
