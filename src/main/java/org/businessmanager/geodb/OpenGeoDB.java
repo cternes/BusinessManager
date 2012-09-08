@@ -15,6 +15,7 @@
  ******************************************************************************/
 package org.businessmanager.geodb;
 
+import java.util.Currency;
 import java.util.List;
 
 public interface OpenGeoDB {
@@ -26,6 +27,14 @@ public interface OpenGeoDB {
 			String areaCode);
 
 	public List<Country> getListOfCountries(String language);
+	
+	/**
+	 * Retrieves a list of ISO currencies.
+	 * 
+	 * @param language
+	 * @return a list of currencies
+	 */
+	public List<Currency> getListOfCurrencies(String language);
 	
 	/**
 	 * Builds a new list of countries.

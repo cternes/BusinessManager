@@ -21,19 +21,22 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.businessmanager.domain.settings.ApplicationSetting;
+import org.businessmanager.service.security.SpringSecurityService;
 import org.businessmanager.service.settings.ApplicationSettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 
@@ -42,9 +45,13 @@ public class OpenGeoDBImpl implements OpenGeoDB {
 
 	private Map<String, OpenGeoDBMapper> mappers = new HashMap<String, OpenGeoDBMapper>();
 	private Map<String, List<Country>> countryMap = new HashMap<String, List<Country>>();
+	private Map<String, List<Currency>> currencyMap = new HashMap<String, List<Currency>>();
 
 	@Autowired
 	private ApplicationSettingsService settingsService;
+	
+	@Autowired
+	private SpringSecurityService securityService;
 
 	public OpenGeoDBImpl() {
 		init();
@@ -197,8 +204,7 @@ public class OpenGeoDBImpl implements OpenGeoDB {
 	}
 
 	private Country findDefaultCountry(List<Country> countries) {
-		String username = SecurityContextHolder.getContext()
-				.getAuthentication().getName();
+		String username = securityService.getLoggedInUser().getUsername();
 		String defaultCountry = settingsService.getApplicationSettingValue(
 				ApplicationSetting.Group.USER_PREFERENCS,
 				ApplicationSettingsService.GENERAL_COUNTRY, username);
@@ -228,6 +234,66 @@ public class OpenGeoDBImpl implements OpenGeoDB {
 			}
 		}
 
+		return null;
+	}
+
+	@Override
+	public List<Currency> getListOfCurrencies(String language) {
+		List<Currency> currencies = null;
+		//return cached list if possible
+		if (language == null) {
+			currencies = currencyMap.get(Locale.getDefault().getLanguage());
+		} else {
+			currencies = currencyMap.get(language);
+		}
+
+		if (currencies != null) {
+			return currencies;
+		}
+		
+		Set<Currency> availableCurrencies = Currency.getAvailableCurrencies();
+		currencies = new ArrayList<Currency>();
+		currencies.addAll(availableCurrencies);
+		
+		sortByCurrencyCode(currencies);
+		
+		Currency defaultCurrency = findDefaultCurrency(currencies);
+		if (defaultCurrency != null) {
+			currencies.add(0, defaultCurrency);
+		}
+
+		if (language == null) {
+			currencyMap.put(Locale.getDefault().getLanguage(), currencies);
+		} else {
+			currencyMap.put(language, currencies);
+		}
+		
+		return currencies;
+	}
+
+	private void sortByCurrencyCode(List<Currency> currencies) {
+		//sort by code
+		Collections.sort(currencies, new Comparator<Currency>() {
+			@Override
+			public int compare(Currency o1, Currency o2) {
+				return o1.getCurrencyCode().compareTo(o2.getCurrencyCode());
+			}
+		});
+	}
+	
+	private Currency findDefaultCurrency(List<Currency> currencies) {
+		String username = securityService.getLoggedInUser().getUsername();
+		String defaultCurrency = settingsService.getApplicationSettingValue(
+				ApplicationSetting.Group.USER_PREFERENCS,
+				ApplicationSettingsService.GENERAL_CURRENCY, username);
+		
+		if (!StringUtils.isEmpty(defaultCurrency)) {
+			for (Currency currency : currencies) {
+				if (defaultCurrency.equals(currency.getCurrencyCode())) {
+					return currency;
+				}
+			}
+		}
 		return null;
 	}
 }
