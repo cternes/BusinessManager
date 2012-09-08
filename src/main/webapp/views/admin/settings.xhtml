@@ -88,8 +88,9 @@
 										value="#{messages.settings_invoices_currency}:" />
 								</p:column>
 								<p:column>
-									<!-- TODO: show list of currencies here-->
-									<p:inputText id="currency" value="#{settingsController.settingsMap['invoices.currency']}" />
+									<p:selectOneMenu id="currency" value="#{settingsController.settingsMap['invoices.currency']}">
+										<f:selectItems value="#{settingsController.availableCurrencies}" var="currency" itemLabel="#{currency.currencyCode}" itemValue="#{currency.currencyCode}"/> 
+									</p:selectOneMenu>
 								</p:column>
 								<p:column>
 									<h:message for="currency" />

@@ -31,7 +31,6 @@ public interface ApplicationSettingsService {
 
 	public static final String GENERAL_LANGUAGE = "general.language";
 	public static final String GENERAL_COUNTRY = "general.country";
-	public static final String GENERAL_CURRENCY = "general.currency";
 	public static final String GENERAL_FIRST_STARTUP = "general.firststartup";
 	public static final String INVOICES_VATPERCENTAGE = "invoices.vatpercentage";
 	public static final String INVOICES_CURRENCY = "invoices.currency";

@@ -17,6 +17,7 @@ package org.businessmanager.web.controller.page.admin;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -93,8 +94,7 @@ public class SettingsController extends AbstractController {
 	}
 
 	public List<SelectItem> getAvailableLanguages() {
-		Locale language = FacesContext.getCurrentInstance().getViewRoot()
-				.getLocale();
+		Locale language = getCurrentLocale();
 
 		String german = Locale.GERMAN.getDisplayLanguage(language);
 		String english = Locale.ENGLISH.getDisplayLanguage(language);
@@ -108,9 +108,17 @@ public class SettingsController extends AbstractController {
 	}
 
 	public List<Country> getAvailableCountries() {
-		String language = FacesContext.getCurrentInstance().getViewRoot()
-				.getLocale().getLanguage();
+		String language = getCurrentLocale().getLanguage();
 		return openGeoService.getListOfCountries(language);
+	}
+	
+	public List<Currency> getAvailableCurrencies() {
+		String language = getCurrentLocale().getLanguage();
+		return openGeoService.getListOfCurrencies(language);
+	}
+
+	private Locale getCurrentLocale() {
+		return FacesContext.getCurrentInstance().getViewRoot().getLocale();
 	}
 
 	public void setVatPercentage(BigDecimal vatPercentage) {

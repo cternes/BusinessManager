@@ -285,7 +285,7 @@ public class OpenGeoDBImpl implements OpenGeoDB {
 		String username = securityService.getLoggedInUser().getUsername();
 		String defaultCurrency = settingsService.getApplicationSettingValue(
 				ApplicationSetting.Group.USER_PREFERENCS,
-				ApplicationSettingsService.GENERAL_CURRENCY, username);
+				ApplicationSettingsService.INVOICES_CURRENCY, username);
 		
 		if (!StringUtils.isEmpty(defaultCurrency)) {
 			for (Currency currency : currencies) {
