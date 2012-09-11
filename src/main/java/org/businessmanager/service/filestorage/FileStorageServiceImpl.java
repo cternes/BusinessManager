@@ -1,11 +1,17 @@
 package org.businessmanager.service.filestorage;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.solr.common.util.FileUtils;
 import org.businessmanager.beans.BMConfiguration;
+import org.businessmanager.dao.StorageFileDao;
 import org.businessmanager.domain.StorageFile;
 import org.businessmanager.service.security.SpringSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,24 +21,61 @@ public class FileStorageServiceImpl implements FileStorageService {
 
 	@Autowired
 	private SpringSecurityService securityService;
-	
+
 	@Autowired
 	private BMConfiguration configuration;
-	
+
+	@Autowired
+	private StorageFileDao storageFileDao;
+
 	@Override
 	public void saveFile(StorageFile storageFile) {
-		// TODO Auto-generated method stub
+
+		if (storageFile == null) {
+			throw new IllegalArgumentException(
+					"The parameter storageFile MUST NOT be null!");
+		}
+
 		Long userid = securityService.getLoggedInUserId();
 		String fileStoragePath = configuration.getFileStoragePath();
+
+		String filePath = fileStoragePath + userid
+				+ storageFile.getContentType().getPath();
+		ensurePathExists(filePath);
+
+		StorageFile latestStorageFile = storageFileDao
+				.getLatestStorageFile(storageFile.getFileId());
+		Integer newVersion = latestStorageFile.getVersion() + 1;
+		storageFile.setVersion(newVersion);
+
+		String filename = storageFile.getFileId() + "_"
+				+ System.currentTimeMillis() + "_" + newVersion;
+
+		if (MediaType.parseMediaType("application/pdf").equals(
+				storageFile.getMediaType())) {
+			filename += ".pdf";
+		} else if (MediaType
+				.parseMediaType(
+						"application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+				.equals(storageFile.getMediaType())) {
+			filename += ".docx";
+		}
 		
+		File newFile = new File(filename);
 		
-		
-		// 1. Verzeichnis aus Config lesen
-		// 2. Überprüfung ob Insert oder Update (Versionierung)
-		// 3. Falls Verzeichnis für User und Content-Type noch nicht angelegt -> mkdir
-		// 4. Copy storageFile.file -> file in target dir
-		// 5. Delete storageFile.file, update storageFile.file -> tempdir
-		// 6. insert into database
+		try {
+			FileUtils.copyFile(storageFile.getFile(), newFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
+
+		storageFile.getFile().delete();
+		storageFile.setFile(newFile);
+		storageFile.setCreated(new Date());
+
+		storageFileDao.save(storageFile);
 	}
 
 	@Override
@@ -47,4 +90,10 @@ public class FileStorageServiceImpl implements FileStorageService {
 		return null;
 	}
 
+	private void ensurePathExists(String path) {
+		File file = new File(path);
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+	}
 }
