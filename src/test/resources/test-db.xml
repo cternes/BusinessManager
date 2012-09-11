@@ -31,6 +31,7 @@
 			<list>
 				<value>classpath:db.properties</value>
 				<value>classpath:version.properties</value>
+				<value>classpath:application.properties</value>
 			</list>
 		</property> 
 	</bean>
@@ -63,4 +64,7 @@
 	
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 	
+	<bean id="bmConfiguration" class="org.businessmanager.beans.BMConfiguration">
+		<property name="fileStoragePath" value="${filestorage.path}" />
+	</bean>
 </beans>

@@ -54,6 +54,7 @@ public final class JsonUtil {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Map<String, String> readJson(String json) {
 		try {
 			return mapper.readValue(json, Map.class);
