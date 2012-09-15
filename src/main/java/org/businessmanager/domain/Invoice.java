@@ -23,6 +23,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -65,6 +67,10 @@ public class Invoice extends AbstractEntity {
 
 	@ManyToOne(targetEntity=Contact.class)
 	private Contact contact;
+	
+	@Column
+	@Enumerated(EnumType.STRING)
+	private InvoiceState invoiceState;
 	
 	Invoice() {
 	}
@@ -159,6 +165,14 @@ public class Invoice extends AbstractEntity {
 
 	public void setContact(Contact contact) {
 		this.contact = contact;
+	}
+	
+	public InvoiceState getInvoiceState() {
+		return invoiceState;
+	}
+
+	public void setInvoiceState(InvoiceState invoiceState) {
+		this.invoiceState = invoiceState;
 	}
 
 	@Override

@@ -6,6 +6,8 @@ import javax.persistence.TypedQuery;
 
 import org.businessmanager.domain.StorageFile;
 import org.businessmanager.domain.StorageFile_;
+import org.businessmanager.domain.security.User;
+import org.businessmanager.service.filestorage.FileContentType;
 
 public class StorageFileDaoImpl extends GenericDaoImpl<StorageFile> implements
 		StorageFileDao {
@@ -21,11 +23,12 @@ public class StorageFileDaoImpl extends GenericDaoImpl<StorageFile> implements
 	}
 
 	@Override
-	public StorageFile getLatestStorageFile(String fileId) {
+	public StorageFile getLatestStorageFile(User user, String fileId) {
 		TypedQuery<StorageFile> query = getEntityManager()
 				.createQuery(
-						"FROM StorageFile s WHERE s.fileId = :fileId ORDER BY s.version DESC",
-						StorageFile.class).setParameter("fileId", fileId);
+						"FROM StorageFile s WHERE s.fileId = :fileId AND s.user = :user ORDER BY s.version DESC",
+						StorageFile.class).setParameter("fileId", fileId)
+				.setParameter("user", user);
 
 		List<StorageFile> resultList = query.getResultList();
 
@@ -37,14 +40,27 @@ public class StorageFileDaoImpl extends GenericDaoImpl<StorageFile> implements
 	}
 
 	@Override
-	public StorageFile getStorageFile(String fileId, Integer version) {
+	public StorageFile getStorageFile(User user, String fileId, Integer version) {
 		TypedQuery<StorageFile> query = getEntityManager()
 				.createQuery(
-						"FROM StorageFile s WHERE s.fileId = :fileId AND s.version = :version",
+						"FROM StorageFile s WHERE s.fileId = :fileId AND s.version = :version AND s.user = :user",
 						StorageFile.class).setParameter("fileId", fileId)
-				.setParameter("version", version);
+				.setParameter("version", version).setParameter("user", user);
 
 		return query.getSingleResult();
 	}
 
+	@Override
+	public List<StorageFile> getStorageFilesOfContentType(User user,
+			FileContentType contentType) {
+
+		TypedQuery<StorageFile> query = getEntityManager()
+				.createQuery(
+						"FROM StorageFile s WHERE s.contentType = :contentType AND s.user = :user",
+						StorageFile.class)
+				.setParameter("contentType", contentType)
+				.setParameter("user", user);
+
+		return query.getResultList();
+	}
 }

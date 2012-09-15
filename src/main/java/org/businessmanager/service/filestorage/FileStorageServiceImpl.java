@@ -9,6 +9,7 @@ import org.apache.solr.common.util.FileUtils;
 import org.businessmanager.beans.BMConfiguration;
 import org.businessmanager.dao.StorageFileDao;
 import org.businessmanager.domain.StorageFile;
+import org.businessmanager.domain.security.User;
 import org.businessmanager.service.security.SpringSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -36,15 +37,15 @@ public class FileStorageServiceImpl implements FileStorageService {
 					"The parameter storageFile MUST NOT be null!");
 		}
 
-		Long userid = securityService.getLoggedInUserId();
+		User user = securityService.getLoggedInUser();
 		String fileStoragePath = configuration.getFileStoragePath();
 
-		String filePath = fileStoragePath + userid
+		String filePath = fileStoragePath + user.getId()
 				+ storageFile.getContentType().getPath();
 		ensurePathExists(filePath);
 
-		StorageFile latestStorageFile = storageFileDao
-				.getLatestStorageFile(storageFile.getFileId());
+		StorageFile latestStorageFile = storageFileDao.getLatestStorageFile(
+				user, storageFile.getFileId());
 		Integer newVersion = latestStorageFile.getVersion() + 1;
 		storageFile.setVersion(newVersion);
 
@@ -60,9 +61,9 @@ public class FileStorageServiceImpl implements FileStorageService {
 				.equals(storageFile.getMediaType())) {
 			filename += ".docx";
 		}
-		
+
 		File newFile = new File(filename);
-		
+
 		try {
 			FileUtils.copyFile(storageFile.getFile(), newFile);
 		} catch (IOException e) {
@@ -73,21 +74,31 @@ public class FileStorageServiceImpl implements FileStorageService {
 
 		storageFile.getFile().delete();
 		storageFile.setFile(newFile);
+		storageFile.setFilepath(newFile.getAbsolutePath());
 		storageFile.setCreated(new Date());
+		storageFile.setUser(user);
 
 		storageFileDao.save(storageFile);
 	}
 
 	@Override
 	public List<StorageFile> getFilesOfContentType(FileContentType contentType) {
-		// TODO Auto-generated method stub
-		return null;
+		User user = securityService.getLoggedInUser();
+
+		List<StorageFile> storageFiles = storageFileDao
+				.getStorageFilesOfContentType(user, contentType);
+
+		return storageFiles;
 	}
 
 	@Override
 	public StorageFile getFile(String fileId, FileContentType contentType) {
-		// TODO Auto-generated method stub
-		return null;
+		User user = securityService.getLoggedInUser();
+
+		StorageFile storageFile = storageFileDao.getLatestStorageFile(user,
+				fileId);
+
+		return storageFile;
 	}
 
 	private void ensurePathExists(String path) {

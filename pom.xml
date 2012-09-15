@@ -29,6 +29,7 @@
 		<querydsl.version>2.5.0</querydsl.version>
 		<slf4j.version>1.5.10</slf4j.version>
 		<jackson.version>1.9.8</jackson.version>
+		<docx4j.version>2.8.0</docx4j.version>
 	</properties>
 
 	<dependencies>
@@ -112,12 +113,12 @@
 			<artifactId>primefaces</artifactId>
 			<version>${primefaces.version}</version>
 		</dependency>
-		
+
 		<dependency>
-	        <groupId>org.primefaces.extensions</groupId>
-	        <artifactId>primefaces-extensions</artifactId>
-	        <version>${primefacesext.version}</version>
-    	</dependency>
+			<groupId>org.primefaces.extensions</groupId>
+			<artifactId>primefaces-extensions</artifactId>
+			<version>${primefacesext.version}</version>
+		</dependency>
 
 		<!-- Apache Orchestra -->
 		<dependency>
@@ -437,6 +438,13 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.docx4j</groupId>
+			<artifactId>docx4j</artifactId>
+			<version>${docx4j.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<repositories>

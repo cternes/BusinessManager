@@ -4,13 +4,17 @@ import java.io.File;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.businessmanager.domain.security.User;
 import org.businessmanager.service.filestorage.FileContentType;
 import org.hibernate.annotations.Type;
 import org.springframework.http.MediaType;
@@ -24,16 +28,22 @@ public class StorageFile extends AbstractEntity {
 
 	private String fileId;
 
+	@Enumerated(EnumType.STRING)
 	private FileContentType contentType;
 
 	@Type(type = "org.businessmanager.domain.usertypes.MediaUserType")
 	private MediaType mediaType;
 	private String filepath;
 	private Integer version;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date deleted;
+	
+	@ManyToOne(targetEntity=User.class)
+	private User user;
 
 	@Transient
 	private File file;
@@ -90,6 +100,9 @@ public class StorageFile extends AbstractEntity {
 	}
 
 	public File getFile() {
+		if(file == null && filepath != null) {
+			file = new File(filepath);
+		}
 		return file;
 	}
 
@@ -111,5 +124,13 @@ public class StorageFile extends AbstractEntity {
 
 	public void setDeleted(Date deleted) {
 		this.deleted = deleted;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }
