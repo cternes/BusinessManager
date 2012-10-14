@@ -8,3 +8,4 @@ jetty.log
 /org.businessmanager.domain.Address
 /org.businessmanager.domain.Contact
 /org.businessmanager.domain.ContactItem
+.springBeans
