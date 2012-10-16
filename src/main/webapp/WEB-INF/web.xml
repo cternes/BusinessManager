@@ -94,17 +94,6 @@
 		<servlet-name>Faces Servlet</servlet-name>
 	</filter-mapping>
 
-	<!-- Enable JPA session in view -->
-	<filter>
-		<filter-name>oemInViewFilter</filter-name>
-		<filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
-	</filter>
-
-	<filter-mapping>
-		<filter-name>oemInViewFilter</filter-name>
-		<url-pattern>*.jsf</url-pattern>
-	</filter-mapping>
-
 	<!-- Image servlet -->
 	<servlet>
 		<servlet-name>imageServlet</servlet-name>

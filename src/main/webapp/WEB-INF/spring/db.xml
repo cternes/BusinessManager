@@ -37,6 +37,11 @@
 				<property name="databasePlatform" value="${db.dialect}" />
 			</bean>
 		</property>
+		<property name="jpaProperties">
+	        <props>
+	            <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
+	        </props>
+	    </property>
 		<property name="jpaPropertyMap" ref="jpaPropertyMap" />		
 	</bean>
 
