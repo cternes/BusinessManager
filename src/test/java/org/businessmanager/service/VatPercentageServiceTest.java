@@ -26,7 +26,7 @@ public class VatPercentageServiceTest {
 	public void testSave() {
 		Assert.assertEquals(0, service.getVatPercentages().size());
 		
-		service.saveInvoice(new VatPercentage(BigDecimal.TEN));
+		service.saveVatPercentage(new VatPercentage(BigDecimal.TEN));
 		
 		Assert.assertEquals(1, service.getVatPercentages().size());
 	}

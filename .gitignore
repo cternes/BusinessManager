@@ -9,3 +9,4 @@ jetty.log
 /org.businessmanager.domain.Contact
 /org.businessmanager.domain.ContactItem
 .springBeans
+start.bat

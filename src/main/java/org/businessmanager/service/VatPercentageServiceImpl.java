@@ -22,8 +22,10 @@ import org.businessmanager.dao.VatPercentageDao;
 import org.businessmanager.domain.VatPercentage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class VatPercentageServiceImpl implements VatPercentageService {
 
 	@Autowired
@@ -35,7 +37,7 @@ public class VatPercentageServiceImpl implements VatPercentageService {
 	}
 
 	@Override
-	public VatPercentage saveInvoice(VatPercentage vatPercentage) {
+	public VatPercentage saveVatPercentage(VatPercentage vatPercentage) {
 		Validate.notNull(vatPercentage, "Parameter vatPercentage must not be null!");
 		
 		if(vatPercentage.getId() == null) {
@@ -44,6 +46,13 @@ public class VatPercentageServiceImpl implements VatPercentageService {
 		else {
 			return dao.update(vatPercentage);
 		}
+	}
+
+	@Override
+	public void deleteVatPercentage(VatPercentage vatPercentage) {
+		Validate.notNull(vatPercentage, "Parameter vatPercentage must not be null!");
+		
+		dao.remove(vatPercentage);
 	}
 
 }

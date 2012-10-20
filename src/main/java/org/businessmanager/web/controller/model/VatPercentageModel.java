@@ -13,33 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.businessmanager.service;
-
-import java.util.List;
+package org.businessmanager.web.controller.model;
 
 import org.businessmanager.domain.VatPercentage;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-public interface VatPercentageService {
+/**
+ * @author Christian Ternes
+ *
+ */
+@Component
+@Scope("conversation.access")
+public class VatPercentageModel extends AbstractModel<VatPercentage> {
 
-	/**
-	 * Retrieves all available {@link VatPercentage}s from the database.
-	 * 
-	 * @return a list of {@link VatPercentage}s
-	 */
-	public List<VatPercentage> getVatPercentages();
-	
-	/**
-	 * Save a {@link VatPercentage} in the database.
-	 * 
-	 * @param vatPercentage the {@link VatPercentage} which should be saved
-	 * @return the {@link VatPercentage} with set id
-	 */
-	public VatPercentage saveVatPercentage(VatPercentage vatPercentage);
-
-	/**
-	 * Removes a {@link VatPercentage} from the database.
-	 * 
-	 * @param selectedEntity the {@link VatPercentage} which should be removed
-	 */
-	public void deleteVatPercentage(VatPercentage selectedEntity);
 }

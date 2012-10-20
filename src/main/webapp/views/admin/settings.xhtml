@@ -72,10 +72,28 @@
 										value="#{messages.settings_invoices_vatpercentage}:" />
 								</p:column>
 								<p:column>
-									<pe:inputNumber id="vat" value="#{settingsController.vatPercentage}" converter="#{bigDecimalConverter}"
-                            		decimalSeparator="#{messages.decimal_separator}" thousandSeparator="#{thousand_separator}" decimalPlaces="2"
-                            		symbol=" %" symbolPosition="s">
-					            	</pe:inputNumber>
+					            	<p:commandLink value="#{messages.settings_add_vatpercentage}" action="#{vatController.showAddDialog}" update=":formPanel:vatDialog" />
+					            	<p:dataTable id="vatDatatable" value="#{vatController.model.entityList}"
+										var="vat" rowKey="#{vat.id}" emptyMessage="#{messages.empty_table_message}">
+										<p:column headerText="#{messages.settings_vatpercentage_value}">
+											<h:outputText value="#{vat.percentage} %" />
+										</p:column>
+										<p:column headerText="">
+											<div class="center">
+												<p:commandButton title="#{messages.settings_edit_vatpercentage}" icon="ui-icon-pencil" action="#{vatController.showUpdateDialog}" update=":formPanel">
+													<f:setPropertyActionListener
+														target="#{vatController.model.selectedEntity}"
+														value="#{vat}" />
+												</p:commandButton>
+												
+												<p:commandButton title="#{messages.settings_delete_vatpercentage}" icon="ui-icon-minusthick" action="#{vatController.deleteVat}" update=":formPanel" styleClass="marginButton">
+													<f:setPropertyActionListener
+														target="#{vatController.model.selectedEntity}"
+														value="#{vat}" />
+												</p:commandButton>
+											</div>
+										</p:column>
+									</p:dataTable>
 								</p:column>
 								<p:column>
 									<h:message for="vat" />
@@ -102,7 +120,20 @@
 					<div class="verticalSpacingSmall" />
 					
 					<p:commandButton value="#{messages.save}" action="#{settingsController.save}" update="formPanel"/>
-				</h:form>
+				
+					<p:dialog id="vatDialog" header="#{messages.settings_edit_vatpercentage}" modal="true" visible="#{vatController.isDialogVisible}">
+							<p:messages id="messages" />
+							<p:panelGrid columns="2">
+								<pe:inputNumber id="vat" value="#{vatController.vatPercentage}" converter="#{bigDecimalConverter}"
+	                            		decimalSeparator="#{messages.decimal_separator}" thousandSeparator="#{thousand_separator}" decimalPlaces="2"
+	                            		symbol=" %" symbolPosition="s">
+						        </pe:inputNumber>
+							 </p:panelGrid>
+							<div class="verticalSpacingSmall" />
+							<p:commandButton value="#{messages.save}" action="#{vatController.save}" update=":formPanel" styleClass="marginButton, defaultButtonSize" />
+							<p:commandLink value="#{messages.cancel}" actionListener="#{vatController.closeDialog}" immediate="true" update=":formPanel" styleClass="marginButton"/>
+					</p:dialog>
+				</h:form> 
 			</div>
 		</h:body>
 	</ui:define>
