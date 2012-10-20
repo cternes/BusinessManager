@@ -165,11 +165,11 @@
 						  		<h:message for="quantity" />
 						  		
 						  		<h:outputLabel for="vat" value="#{messages.editinvoice_lineitem_vat}:" />
-						  		<pe:inputNumber id="vat" value="#{invoiceEditController.lineItemBean.vatPercentage}" converter="#{bigDecimalConverter}"
-                            		decimalSeparator="#{messages.decimal_separator}" thousandSeparator="#{thousand_separator}" decimalPlaces="2"
-                            		symbol=" %" symbolPosition="s">
-                            		<p:ajax update="vatamount, sumPriceNet, sumPriceGross" partialSubmit="false"/>    
-					            </pe:inputNumber> 
+							  		<p:selectOneMenu id="addVat" value="#{invoiceEditController.lineItemBean.vatPercentage}"
+									effect="fade" converter="#{bigDecimalConverter}">
+									<f:selectItems value="#{invoiceEditController.availableVatPercentages}" var="percentage" />
+									<p:ajax update="vatamount, sumPriceNet, sumPriceGross" partialSubmit="false"/>
+								</p:selectOneMenu>
 					            <h:message for="vat" />
 					            
 					            <h:outputLabel for="vatamount" value="#{messages.editinvoice_lineitem_vatamount}:" />

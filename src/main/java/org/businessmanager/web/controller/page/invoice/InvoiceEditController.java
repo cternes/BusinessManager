@@ -26,9 +26,11 @@ import javax.faces.application.FacesMessage;
 import org.businessmanager.domain.Contact;
 import org.businessmanager.domain.Invoice;
 import org.businessmanager.domain.InvoiceLineItem;
+import org.businessmanager.domain.VatPercentage;
 import org.businessmanager.domain.settings.ApplicationSetting.Group;
 import org.businessmanager.service.ContactService;
 import org.businessmanager.service.InvoiceService;
+import org.businessmanager.service.VatPercentageService;
 import org.businessmanager.service.settings.ApplicationSettingsService;
 import org.businessmanager.util.DateUtil;
 import org.businessmanager.web.bean.InvoiceBean;
@@ -54,6 +56,9 @@ public class InvoiceEditController extends AbstractController {
 	
 	@Autowired
 	private ContactService contactService;
+	
+	@Autowired
+	private VatPercentageService vatService;
 	
 	private InvoiceBean bean = new InvoiceBean();
 	private LineItemBean lineItemBean;
@@ -333,6 +338,15 @@ public class InvoiceEditController extends AbstractController {
 
 	public void setContactSearchString(String contactSearchString) {
 		this.contactSearchString = contactSearchString;
+	}
+	
+	public List<BigDecimal> getAvailableVatPercentages() {
+		List<VatPercentage> vatPercentages = vatService.getVatPercentages();
+		List<BigDecimal> resultList = new ArrayList<BigDecimal>();
+		for (VatPercentage vatPercentage : vatPercentages) {
+			resultList.add(vatPercentage.getPercentage());
+		}
+		return resultList;
 	}
 
 }
