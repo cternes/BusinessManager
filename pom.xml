@@ -21,7 +21,7 @@
 		<java.version>1.7</java.version>
 		<junit.version>4.10</junit.version>
 		<jsf.version>2.1.11</jsf.version>
-		<primefaces.version>3.4.RC1</primefaces.version>
+		<primefaces.version>3.4.1</primefaces.version>
 		<primefacesext.version>0.5.1</primefacesext.version>
 		<spring.version>3.1.0.RELEASE</spring.version>
 		<spring-security.version>3.0.7.RELEASE</spring-security.version>
@@ -29,7 +29,7 @@
 		<querydsl.version>2.5.0</querydsl.version>
 		<slf4j.version>1.5.10</slf4j.version>
 		<jackson.version>1.9.8</jackson.version>
-		<docx4j.version>2.8.0</docx4j.version>
+		<docx4j.version>2.8.1</docx4j.version>
 	</properties>
 
 	<dependencies>

@@ -15,7 +15,10 @@
  ******************************************************************************/
 package org.businessmanager.service;
 
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.Validate;
 import org.businessmanager.dao.InvoiceDao;
@@ -88,4 +91,39 @@ public class InvoiceServiceImpl implements InvoiceService {
 		return invoiceDao.findById(id);
 	}
 
+	private Map<String, Object> createReplacementsForDocGen(Invoice invoice) {
+		// TODO: Validate invoice (required fields)
+		
+		Map<String, Object> invoiceData = new HashMap<String, Object>();
+		invoiceData.put("is_company", "BM");
+		invoiceData.put("is_name", "Doe");
+		invoiceData.put("is_fname", "John");
+		invoiceData.put("is_street", "Frankfurter Straße 9");
+		invoiceData.put("is_zip", "62147");
+		invoiceData.put("is_city", "Frankfurt");
+		invoiceData.put("is_phone", "01234567890");
+		invoiceData.put("is_fax", "01478523698");
+		invoiceData.put("is_email", "bm@bm.org");
+		invoiceData.put("is_url", "www.bm.org");
+
+		invoiceData.put("ie_company", invoice.getContact().getCompany());
+		invoiceData.put("ie_name", invoice.getContact().getLastname());
+		invoiceData.put("ie_fname", invoice.getContact().getFirstname());
+		// TODO: allow different representations of street/house number (e.g. Frankfurter Allee 5 und 302 Smith Ave.)
+		invoiceData.put("ie_street", invoice.getContact().getDefaultBillingAddress().getStreet() + " " + invoice.getContact().getDefaultBillingAddress().getHousenumber());
+		invoiceData.put("ie_zip", invoice.getContact().getDefaultBillingAddress().getZipCode());
+		invoiceData.put("ie_city", invoice.getContact().getDefaultBillingAddress().getCity());
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+		
+		// TODO: invoice vat value
+		invoiceData.put("i_date", sdf.format(invoice.getInvoiceDate()));
+		invoiceData.put("i_number", invoice.getInvoiceNumber().toString());
+		invoiceData.put("i_net_amount", invoice.getInvoiceAmountNet().toPlainString());
+		invoiceData.put("i_vat_amount_1", "0000");
+		invoiceData.put("i_gross_amount", invoice.getInvoiceAmountGross().toPlainString());
+		
+		// TODO: invoice positions
+		return invoiceData;
+	}
 }
