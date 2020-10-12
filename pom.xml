@@ -19,7 +19,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.7</java.version>
-		<junit.version>4.10</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<jsf.version>2.1.11</jsf.version>
 		<primefaces.version>3.4.1</primefaces.version>
 		<primefacesext.version>0.5.1</primefacesext.version>
