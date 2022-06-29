@@ -390,7 +390,7 @@
 		<dependency>
 			<groupId>net.bull.javamelody</groupId>
 			<artifactId>javamelody-core</artifactId>
-			<version>1.33.0</version>
+			<version>1.74.0</version>
 		</dependency>
 
 		<!-- Fake Mail Server for Testing -->
